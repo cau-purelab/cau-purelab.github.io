@@ -1,4 +1,3 @@
-
 import { NewsItem, ResearchArea, Member, Publication } from './types';
 
 export const LAB_NAME = "SVIL";
@@ -47,7 +46,7 @@ export const CONTENT: LabContent = {
       id: 'pi',
       name: 'Seungmin Rho',
       role: 'PI',
-      image: '/assets/input_file_2.png',
+      image: 'assets/input_file_2.png',
       specialization: 'Principal Investigator',
       links: { web: 'smrho@cau.ac.kr', scholar: '#' }
     },
@@ -63,7 +62,7 @@ export const CONTENT: LabContent = {
       id: 'm2',
       name: 'Sangmin Kim',
       role: 'PhD',
-      image: '/assets/input_file_1.png', // Suit, Grey background
+      image: 'assets/input_file_1.png',
       specialization: 'Machine Unlearning, LLM Privacy',
       links: { github: '#', linkedin: '#' }
     },
@@ -71,7 +70,7 @@ export const CONTENT: LabContent = {
       id: 'm3',
       name: 'Byeongcheon Lee',
       role: 'PhD',
-      image: '/assets/input_file_0.png', // Suit, Blue background
+      image: 'assets/input_file_0.png',
       specialization: 'Machine Unlearning (Discriminator-Guided), AI Watermarking',
       links: { github: '#', linkedin: '#' }
     },
@@ -120,7 +119,8 @@ export const PUBLICATIONS: Publication[] = [
     title: "Deep Learning-Based Natural Language Processing Model and Optical Character Recognition for Detection of Online Grooming on Social Networking Services",
     authors: ["Sangmin Kim", "Byeongcheon Lee", "M. Maqsood", "Jongseo Moon", "Seungmin Rho"],
     venue: "Computer Modeling in Engineering & Sciences (CMES), 143(2)",
-    bibtex: `@article{kim2025deep,\n  title={Deep Learning-Based Natural Language Processing Model and Optical Character Recognition for Detection of Online Grooming on Social Networking Services},\n  author={Kim, Sangmin writing,\n  author={Kim, Sangmin and Lee, Byeongcheon and Maqsood, M and Moon, Jongseo and Rho, Seungmin},\n  journal={Computer Modeling in Engineering \\& Sciences},\n  volume={143},\n  number={2},\n  year={2025}\n}`,
+    // Fixed: Corrected malformed author field in bibtex (removed redundant/invalid "writing," text)
+    bibtex: `@article{kim2025deep,\n  title={Deep Learning-Based Natural Language Processing Model and Optical Character Recognition for Detection of Online Grooming on Social Networking Services},\n  author={Kim, Sangmin and Lee, Byeongcheon and Maqsood, M and Moon, Jongseo and Rho, Seungmin},\n  journal={Computer Modeling in Engineering \\& Sciences},\n  volume={143},\n  number={2},\n  year={2025}\n}`,
     links: { pdf: "#" },
     isSelected: true
   },
@@ -160,6 +160,7 @@ export const PUBLICATIONS: Publication[] = [
     title: "Discriminator-Guided Unlearning: A Framework for Selective Forgetting in Conditional GANs",
     authors: ["Byeongcheon Lee", "Sangmin Kim", "Sungwoo Park", "Seungmin Rho", "Mi Young Lee"],
     venue: "Preprint",
+    // Fixed: Removed duplicate properties (venue, bibtex) and corrected unclosed template literal in the first corrupted bibtex assignment
     bibtex: `@article{lee2025discriminator,\n  title={Discriminator-Guided Unlearning: A Framework for Selective Forgetting in Conditional GANs},\n  author={Lee, Byeongcheon and Kim, Sangmin and Park, Sungwoo and Rho, Seungmin and Lee, Mi Young},\n  journal={Preprint},\n  year={2025}\n}`,
     links: { pdf: "#" },
     isSelected: true
