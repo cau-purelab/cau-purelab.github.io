@@ -1,0 +1,7 @@
+{
+  "name": "Security Visual Intelligence Lab (SVIL) Webpage",
+  "description": "A sophisticated, high-performance research lab homepage demo with minimalist aesthetics, interactive publication lists, and an AI-powered lab assistant.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
