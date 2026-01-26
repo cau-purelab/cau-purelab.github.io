@@ -79,7 +79,8 @@ export const MEMBERS: Member[] = [
     role: "Ph.D. Student",
     image: "/assets/Sangmin Kim.jpg",
     email: "kimddol98@cau.ac.kr",
-    specialization: 'Machine Unlearning for LLMs'
+    specialization: 'Machine Unlearning for LLMs',
+    github: "https://github.com/Sang-T" // [추가됨] 깃허브 주소 업데이트
   },
   // Masters
   {
@@ -99,14 +100,14 @@ export const MEMBERS: Member[] = [
     email: "", // 정보 없음
     specialization: "" // 정보 없음
   },
-  // Alumni (임시 데이터 N/A)
+  // Alumni
   {
     id: 'a1',
-    name: "N/A", // 이름 N/A로 변경
+    name: "N/A",
     role: "Master",
     isAlumni: true,
-    currentAffiliation: "N/A", // 소속 N/A로 변경
-    image: "", // 이미지 없음
+    currentAffiliation: "N/A",
+    image: "",
     specialization: ""
   }
 ];
