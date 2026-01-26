@@ -3,10 +3,10 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://cheonbung.github.io/SVIL-Homepage/",
+  "homepage": "https://cheonbung.github.io/security-visual-intelligence-lab-home/",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist"
   },
