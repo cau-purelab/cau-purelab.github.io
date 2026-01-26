@@ -2,6 +2,7 @@ import React from 'react';
 import { MEMBERS } from '../constants';
 import { Mail, Globe, Github } from 'lucide-react';
 import { Member } from '../types';
+import SEO from '../components/SEO';
 
 const People = () => {
   const getMembersByRole = (role: string) => MEMBERS.filter(m => m.role === role && !m.isAlumni);
@@ -17,7 +18,6 @@ const People = () => {
 
   const MemberCard = ({ member }: { member: Member }) => (
     <div className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 w-56 flex flex-col h-full">
-      {/* 이미지 영역 */}
       <div className="aspect-square overflow-hidden bg-gray-100 relative">
         {member.image ? (
           <img
@@ -32,11 +32,8 @@ const People = () => {
         )}
       </div>
 
-      {/* 정보 영역 */}
       <div className="p-4 text-center flex flex-col flex-grow">
         <h3 className="font-playfair text-lg font-bold text-blue-900 mb-0.5">{member.name}</h3>
-
-        {/* 관심분야: 값이 있을 때만 표시, 없으면 공간 유지 또는 숨김 */}
         <p className="text-xs font-medium text-blue-600 mb-3 min-h-[1.5rem]">
           {member.specialization || " "}
         </p>
@@ -48,9 +45,7 @@ const People = () => {
           </div>
         )}
 
-        {/* 링크 영역 (텍스트 표시) - 값이 있는 경우에만 렌더링 */}
         <div className="mt-auto space-y-1.5 pt-2 border-t border-gray-50 w-full">
-          {/* Email: 값이 있을 때만 표시 */}
           {member.email && (
             <a
               href={`mailto:${member.email}`}
@@ -61,7 +56,6 @@ const People = () => {
             </a>
           )}
 
-          {/* Website */}
           {member.website && (
             <a
               href={member.website}
@@ -74,7 +68,6 @@ const People = () => {
             </a>
           )}
 
-          {/* GitHub */}
           {member.github && (
             <a
               href={member.github}
@@ -93,6 +86,8 @@ const People = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <SEO title="People" description="Meet the researchers at SVIL: PI, PostDocs, and Students." />
+
       <div className="text-center mb-16">
         <h1 className="font-playfair text-4xl font-bold text-blue-900 mb-4">Our Team</h1>
         <p className="text-gray-600">Meet the researchers behind our innovations</p>

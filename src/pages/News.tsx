@@ -1,21 +1,22 @@
 import React from 'react';
 import { NEWS } from '../constants';
 import { Calendar, ArrowRight } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const News = () => {
-    // 연도별로 뉴스 그룹화
     const newsByYear = NEWS.reduce((acc, item) => {
-        const year = item.date.split('.')[0]; // "2025.11.29" -> "2025"
+        const year = item.date.split('.')[0];
         if (!acc[year]) acc[year] = [];
         acc[year].push(item);
         return acc;
     }, {} as Record<string, typeof NEWS>);
 
-    // 연도 내림차순 정렬 (최신 연도가 위로)
     const sortedYears = Object.keys(newsByYear).sort((a, b) => Number(b) - Number(a));
 
     return (
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <SEO title="News" description="Latest news and announcements from Security Visual Intelligence Lab." />
+
             <div className="mb-16">
                 <h1 className="font-playfair text-4xl font-bold text-blue-900 mb-4">Lab News</h1>
                 <p className="text-gray-600">Recent activities, achievements, and announcements</p>

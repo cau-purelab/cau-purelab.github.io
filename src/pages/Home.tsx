@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight, Calendar, Users, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LAB_NAME, LAB_DESCRIPTION, RESEARCH_AREAS, NEWS, PUBLICATIONS, MEMBERS } from '../constants';
+import SEO from '../components/SEO';
 
 const Home = () => {
   const pubCount = PUBLICATIONS.length;
@@ -9,6 +10,8 @@ const Home = () => {
 
   return (
     <div className="pb-20 overflow-hidden">
+      <SEO title="Home" description="Security Visual Intelligence Lab at Chung-Ang University." />
+
       {/* 1. Hero Section */}
       <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-black/80 z-10" />
@@ -121,19 +124,17 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 5. News Section (최신 4개만 표시) */}
+      {/* 5. News Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="flex items-center gap-4 mb-12">
           <h2 className="font-playfair text-3xl font-bold text-blue-900">Latest News</h2>
           <div className="h-px bg-gray-200 flex-grow"></div>
-          {/* View All 버튼을 News 페이지로 연결 */}
           <Link to="/news" className="text-sm font-semibold text-blue-900 hover:text-blue-700 flex items-center gap-1">
             View All <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
         <div className="space-y-4">
-          {/* 최근 4개만 슬라이스 */}
           {NEWS.slice(0, 4).map((item) => (
             <div key={item.id} className="group flex flex-col md:flex-row md:items-center gap-6 p-6 bg-white rounded-2xl border border-gray-100 hover:border-blue-100 hover:shadow-lg transition-all">
               <div className="flex items-center text-blue-600 font-bold min-w-[140px] tracking-wide text-sm">

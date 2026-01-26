@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
 import { PUBLICATIONS } from '../constants';
 import { FileText, Quote, Check } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const Publications = () => {
-  // 필터 상태: 'all' 또는 특정 연도(number)
   const [currentFilter, setCurrentFilter] = useState<'all' | number>('all');
-
-  // BibTeX 열림 상태 및 복사 상태
   const [activeBibtex, setActiveBibtex] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  // 데이터에 존재하는 모든 연도 추출 (내림차순 정렬)
   const allYears = Array.from(new Set(PUBLICATIONS.map(p => p.year))).sort((a, b) => b - a);
-
-  // 현재 필터에 따라 보여줄 연도 목록 결정
-  // 'all'이면 모든 연도를, 아니면 선택된 연도 하나만 배열에 담음
   const yearsToShow = currentFilter === 'all' ? allYears : [currentFilter];
 
   const handleCopyBibtex = (bib: string, id: string) => {
@@ -25,12 +19,13 @@ const Publications = () => {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <SEO title="Publications" description="List of publications and conference proceedings by SVIL." />
+
       <div className="mb-10">
         <h1 className="font-playfair text-4xl font-bold text-blue-900 mb-2">Publications</h1>
         <p className="text-gray-600">Research papers and conference proceedings</p>
       </div>
 
-      {/* 1. 탭 버튼 영역 (All + 연도별) */}
       <div className="flex flex-wrap gap-3 mb-12">
         <button
           onClick={() => setCurrentFilter('all')}
@@ -56,23 +51,19 @@ const Publications = () => {
         ))}
       </div>
 
-      {/* 2. 논문 리스트 영역 */}
       <div className="space-y-16">
         {yearsToShow.map(year => {
-          // 해당 연도의 논문만 필터링
           const yearPubs = PUBLICATIONS.filter(p => p.year === year);
           if (yearPubs.length === 0) return null;
 
           return (
             <div key={year} className="flex flex-col md:flex-row gap-8 animate-fade-in-up">
-              {/* 연도 표시 (왼쪽 고정) */}
               <div className="md:w-24 flex-shrink-0">
                 <span className="text-3xl font-playfair font-bold text-blue-900/20 sticky top-24">
                   {year}
                 </span>
               </div>
 
-              {/* 해당 연도의 논문들 */}
               <div className="flex-grow space-y-8">
                 {yearPubs.map((pub) => (
                   <div key={pub.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 group">
@@ -105,7 +96,6 @@ const Publications = () => {
                       )}
                     </div>
 
-                    {/* BibTeX 버튼 */}
                     <div className="mt-4 pt-4 border-t border-gray-50 flex justify-end">
                       {pub.bibtex && (
                         <button
@@ -119,7 +109,6 @@ const Publications = () => {
                       )}
                     </div>
 
-                    {/* BibTeX 뷰어 */}
                     {activeBibtex === pub.id && pub.bibtex && (
                       <div className="mt-4 relative bg-slate-800 rounded-xl p-5 shadow-inner animate-fade-in-up">
                         <pre className="text-xs text-slate-300 font-mono whitespace-pre-wrap overflow-x-auto leading-relaxed">

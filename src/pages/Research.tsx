@@ -1,10 +1,13 @@
 import React from 'react';
 import { RESEARCH_AREAS } from '../constants';
 import { Github, Database } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const Research = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <SEO title="Research" description="Machine Unlearning, Secure Computer Vision, and Trustworthy AI research." />
+
       <div className="mb-20">
         <h2 className="text-xs font-bold text-blue-900 uppercase tracking-[0.5em] mb-4">Core Competencies</h2>
         <h1 className="font-playfair text-5xl font-bold text-gray-900 mb-8 tracking-tight">Research Areas</h1>
@@ -45,7 +48,6 @@ const Research = () => {
                 {area.description}
               </p>
 
-              {/* Links Section (누락되었던 부분 복구) */}
               <div className="flex flex-wrap gap-6 pt-6">
                 {area.github && (
                   <a href={area.github} target="_blank" rel="noreferrer" className="flex items-center gap-3 text-sm font-bold text-gray-900 hover:text-blue-900 transition-colors group">
