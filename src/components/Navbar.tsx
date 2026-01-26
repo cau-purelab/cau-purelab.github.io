@@ -6,11 +6,13 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
+  // 'News' 링크 추가됨
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Research', path: '/research' },
     { name: 'People', path: '/people' },
     { name: 'Publications', path: '/publications' },
+    { name: 'News', path: '/news' },
   ];
 
   return (

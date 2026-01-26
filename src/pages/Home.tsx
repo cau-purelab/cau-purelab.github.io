@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 import { LAB_NAME, LAB_DESCRIPTION, RESEARCH_AREAS, NEWS, PUBLICATIONS, MEMBERS } from '../constants';
 
 const Home = () => {
-  // 통계 계산
   const pubCount = PUBLICATIONS.length;
-  // 졸업생(Alumni)을 제외한 현재 멤버 수 계산
   const memberCount = MEMBERS.filter(m => !m.isAlumni).length;
 
   return (
@@ -42,7 +40,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 2. Stats Section (누락되었던 부분 복구) */}
+      {/* 2. Stats Section */}
       <section className="py-16 border-b border-gray-100 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 gap-12 text-center">
@@ -104,7 +102,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 4. Join Us Section (누락되었던 부분 복구) */}
+      {/* 4. Join Us Section */}
       <section className="py-24 bg-blue-900 text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none">
           <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -123,16 +121,20 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 5. News Section */}
+      {/* 5. News Section (최신 4개만 표시) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="flex items-center gap-4 mb-12">
           <h2 className="font-playfair text-3xl font-bold text-blue-900">Latest News</h2>
           <div className="h-px bg-gray-200 flex-grow"></div>
-          <Link to="/news" className="text-sm text-gray-400 hover:text-blue-900">View All</Link>
+          {/* View All 버튼을 News 페이지로 연결 */}
+          <Link to="/news" className="text-sm font-semibold text-blue-900 hover:text-blue-700 flex items-center gap-1">
+            View All <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
 
         <div className="space-y-4">
-          {NEWS.slice(0, 5).map((item) => (
+          {/* 최근 4개만 슬라이스 */}
+          {NEWS.slice(0, 4).map((item) => (
             <div key={item.id} className="group flex flex-col md:flex-row md:items-center gap-6 p-6 bg-white rounded-2xl border border-gray-100 hover:border-blue-100 hover:shadow-lg transition-all">
               <div className="flex items-center text-blue-600 font-bold min-w-[140px] tracking-wide text-sm">
                 <Calendar className="h-4 w-4 mr-2" />

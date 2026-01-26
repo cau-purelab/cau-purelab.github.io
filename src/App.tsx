@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Research from './pages/Research';
 import People from './pages/People';
 import Publications from './pages/Publications';
+import News from './pages/News'; // [추가]
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/research" element={<Research />} />
             <Route path="/people" element={<People />} />
             <Route path="/publications" element={<Publications />} />
+            <Route path="/news" element={<News />} /> {/* [추가] */}
           </Routes>
         </main>
         <Footer />
