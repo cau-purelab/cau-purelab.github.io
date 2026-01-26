@@ -42,7 +42,7 @@ export const RESEARCH_AREAS: ResearchArea[] = [
   }
 ];
 
-// 3. 멤버 데이터 (수정됨)
+// 3. 멤버 데이터
 export const MEMBERS: Member[] = [
   // PI
   {
@@ -60,8 +60,8 @@ export const MEMBERS: Member[] = [
     name: "Sungwoo Park",
     role: "PostDoc",
     image: "https://ui-avatars.com/api/?name=Sungwoo+Park&background=random",
-    email: "sungwoo@cau.ac.kr",
-    specialization: 'Generative Model Robustness'
+    email: "", // 정보 없음
+    specialization: "" // 정보 없음
   },
   // PhD Students
   {
@@ -69,16 +69,16 @@ export const MEMBERS: Member[] = [
     name: "Byeongcheon Lee",
     role: "Ph.D. Student",
     image: "/assets/Byeongcheon Lee.jpg",
-    email: "qudcjs0208@cau.ac.kr", // 이메일 수정됨
+    email: "qudcjs0208@cau.ac.kr",
     specialization: 'Discriminator-Guided Unlearning',
-    github: "https://github.com/cheonbung" // 깃허브 주소 수정됨
+    github: "https://github.com/cheonbung"
   },
   {
     id: 'm3',
     name: "Sangmin Kim",
     role: "Ph.D. Student",
     image: "/assets/Sangmin Kim.jpg",
-    email: "kimddol98@cau.ac.kr", // 이메일 수정됨
+    email: "kimddol98@cau.ac.kr",
     specialization: 'Machine Unlearning for LLMs'
   },
   // Masters
@@ -87,8 +87,8 @@ export const MEMBERS: Member[] = [
     name: "Hyungjun Park",
     role: "Master Student",
     image: "https://ui-avatars.com/api/?name=Hyungjun+Park&background=random",
-    email: "hpark@cau.ac.kr",
-    specialization: 'Privacy in Diffusion Models'
+    email: "", // 정보 없음
+    specialization: "" // 정보 없음
   },
   // Undergraduates
   {
@@ -96,18 +96,18 @@ export const MEMBERS: Member[] = [
     name: "Hyunok Kim",
     role: "Undergraduate Intern",
     image: "https://ui-avatars.com/api/?name=Hyunok+Kim&background=random",
-    email: "hkim@cau.ac.kr",
-    specialization: 'AI Watermarking'
+    email: "", // 정보 없음
+    specialization: "" // 정보 없음
   },
-  // Alumni
+  // Alumni (임시 데이터 N/A)
   {
     id: 'a1',
-    name: "Donghwi Lee",
+    name: "N/A", // 이름 N/A로 변경
     role: "Master",
     isAlumni: true,
-    currentAffiliation: 'Samsung Electronics (AI Research)',
-    image: "https://ui-avatars.com/api/?name=Donghwi+Lee&background=random",
-    specialization: 'Visual Intelligence'
+    currentAffiliation: "N/A", // 소속 N/A로 변경
+    image: "", // 이미지 없음
+    specialization: ""
   }
 ];
 

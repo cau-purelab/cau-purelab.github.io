@@ -35,27 +35,33 @@ const People = () => {
       {/* 정보 영역 */}
       <div className="p-4 text-center flex flex-col flex-grow">
         <h3 className="font-playfair text-lg font-bold text-blue-900 mb-0.5">{member.name}</h3>
-        <p className="text-xs font-medium text-blue-600 mb-3 min-h-[1.5rem]">{member.specialization}</p>
 
-        {member.currentAffiliation && (
+        {/* 관심분야: 값이 있을 때만 표시, 없으면 공간 유지 또는 숨김 */}
+        <p className="text-xs font-medium text-blue-600 mb-3 min-h-[1.5rem]">
+          {member.specialization || " "}
+        </p>
+
+        {member.currentAffiliation && member.currentAffiliation !== "N/A" && (
           <div className="mb-3 pt-2 border-t border-gray-100">
             <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">Current</p>
             <p className="text-xs text-gray-600 font-medium leading-tight">{member.currentAffiliation}</p>
           </div>
         )}
 
-        {/* 링크 영역 (텍스트 표시) */}
+        {/* 링크 영역 (텍스트 표시) - 값이 있는 경우에만 렌더링 */}
         <div className="mt-auto space-y-1.5 pt-2 border-t border-gray-50 w-full">
-          {/* Email: 실제 주소 표시 */}
-          <a
-            href={`mailto:${member.email}`}
-            className="flex items-center justify-center gap-1.5 text-xs text-gray-500 hover:text-blue-900 transition-colors py-0.5 group/link"
-          >
-            <Mail className="w-3 h-3 flex-shrink-0 group-hover/link:scale-110 transition-transform" />
-            <span className="truncate max-w-[160px]">{member.email}</span>
-          </a>
+          {/* Email: 값이 있을 때만 표시 */}
+          {member.email && (
+            <a
+              href={`mailto:${member.email}`}
+              className="flex items-center justify-center gap-1.5 text-xs text-gray-500 hover:text-blue-900 transition-colors py-0.5 group/link"
+            >
+              <Mail className="w-3 h-3 flex-shrink-0 group-hover/link:scale-110 transition-transform" />
+              <span className="truncate max-w-[160px]">{member.email}</span>
+            </a>
+          )}
 
-          {/* Website: 텍스트 링크 */}
+          {/* Website */}
           {member.website && (
             <a
               href={member.website}
@@ -68,7 +74,7 @@ const People = () => {
             </a>
           )}
 
-          {/* GitHub: 텍스트 링크 */}
+          {/* GitHub */}
           {member.github && (
             <a
               href={member.github}
