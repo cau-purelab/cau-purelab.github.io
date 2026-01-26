@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // [추가] Link 컴포넌트 임포트
 import { LAB_NAME } from '../constants';
 
 const Footer = () => {
@@ -14,14 +15,15 @@ const Footer = () => {
                         </p>
                     </div>
 
-                    {/* Links */}
+                    {/* Links - [수정됨] a 태그 -> Link 컴포넌트 */}
                     <div>
                         <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Navigation</h3>
                         <ul className="space-y-2 text-sm">
-                            <li><a href="#/" className="hover:text-white transition-colors">Home</a></li>
-                            <li><a href="#/research" className="hover:text-white transition-colors">Research</a></li>
-                            <li><a href="#/people" className="hover:text-white transition-colors">People</a></li>
-                            <li><a href="#/publications" className="hover:text-white transition-colors">Publications</a></li>
+                            <li><Link to="/" className="hover:text-white transition-colors">Home</Link></li>
+                            <li><Link to="/research" className="hover:text-white transition-colors">Research</Link></li>
+                            <li><Link to="/people" className="hover:text-white transition-colors">People</Link></li>
+                            <li><Link to="/publications" className="hover:text-white transition-colors">Publications</Link></li>
+                            <li><Link to="/news" className="hover:text-white transition-colors">News</Link></li>
                         </ul>
                     </div>
 
