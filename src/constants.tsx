@@ -1,3 +1,7 @@
+// ==================================================
+// FILE: \src\constants.tsx
+// ==================================================
+
 import { Member, Publication, ResearchArea, NewsItem } from './types';
 
 export const LAB_NAME = "Security Visual Intelligence Lab";
@@ -15,13 +19,13 @@ export const NEWS: NewsItem[] = [
   { id: 'n1', date: '2024.03.04', title: 'Security Visual Intelligence Lab (SVIL) founded by Prof. Seungmin Rho at CAU.' },
 ];
 
-// 2. 연구 분야 데이터
+// 2. 연구 분야 데이터 (이미지 경로 수정됨)
 export const RESEARCH_AREAS: ResearchArea[] = [
   {
     id: "machine-unlearning",
     title: "Machine Unlearning",
     description: "Developing algorithms that allow AI models to 'forget' specific data points without full retraining. We focus on removing privacy-sensitive data from LLMs and copyrighted content from Diffusion models while maintaining model performance.",
-    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800",
+    image: "/assets/machine-unlearning.png", // [수정됨] 로컬 이미지 경로
     tags: ['Generative Models', 'LLM Privacy', 'Copyright Removal'],
     github: 'https://github.com/svil-lab/unlearning-lib'
   },
@@ -29,7 +33,7 @@ export const RESEARCH_AREAS: ResearchArea[] = [
     id: "secure-cv",
     title: "Secure Computer Vision",
     description: "Ensuring the reliability of computer vision systems against adversarial attacks and data poisoning. Our research bridges the gap between high-performance visual recognition and real-world security requirements.",
-    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&q=80&w=800",
+    image: "/assets/secure-cv.png", // [수정됨] 로컬 이미지 경로
     tags: ['Model Robustness', 'AI Safety', 'Adversarial Defense'],
     github: 'https://github.com/svil-lab/secure-cv'
   },
@@ -37,7 +41,7 @@ export const RESEARCH_AREAS: ResearchArea[] = [
     id: "trustworthy-ai",
     title: "Trustworthy AI",
     description: "Investigating the security vulnerabilities of large-scale generative models. We develop watermarking techniques for AI-generated content and defense mechanisms against prompt injection in multi-modal models.",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800",
+    image: "/assets/trustworthy-ai.png", // [수정됨] 로컬 이미지 경로
     tags: ['Diffusion Security', 'Watermarking', 'Prompt Security']
   }
 ];
@@ -80,7 +84,7 @@ export const MEMBERS: Member[] = [
     image: "/assets/Sangmin Kim.jpg",
     email: "kimddol98@cau.ac.kr",
     specialization: 'Machine Unlearning for LLMs',
-    github: "https://github.com/Sang-T" // [추가됨] 깃허브 주소 업데이트
+    github: "https://github.com/Sang-T"
   },
   // Masters
   {
