@@ -6,7 +6,6 @@ import Home from './pages/Home';
 import Research from './pages/Research';
 import People from './pages/People';
 import Publications from './pages/Publications';
-import LabAssistant from './components/LabAssistant';
 
 function App() {
   return (
@@ -21,7 +20,6 @@ function App() {
             <Route path="/publications" element={<Publications />} />
           </Routes>
         </main>
-        <LabAssistant />
         <Footer />
       </div>
     </Router>
