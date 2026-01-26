@@ -1,11 +1,9 @@
-// src/constants.tsx
-
 import { Member, Publication, ResearchArea, NewsItem } from './types';
 
 export const LAB_NAME = "Security Visual Intelligence Lab";
 export const LAB_DESCRIPTION = "Pioneering Trustworthy AI, Machine Unlearning, and Secure Computer Vision.";
 
-// 1. 뉴스 데이터 (복구됨)
+// 1. 뉴스 데이터
 export const NEWS: NewsItem[] = [
   { id: 'n8', date: '2025.11.29', title: 'Society for e-Business Studies 2025 Fall Academic Conference at AICT.' },
   { id: 'n7', date: '2025.10.25', title: 'Attending ECAI 2025 in Bologna, Italy (Workshop paper: TRUST-AI).' },
@@ -17,7 +15,7 @@ export const NEWS: NewsItem[] = [
   { id: 'n1', date: '2024.03.04', title: 'Security Visual Intelligence Lab (SVIL) founded by Prof. Seungmin Rho at CAU.' },
 ];
 
-// 2. 연구 분야 데이터 (상세 정보 추가됨)
+// 2. 연구 분야 데이터
 export const RESEARCH_AREAS: ResearchArea[] = [
   {
     id: "machine-unlearning",
@@ -44,14 +42,14 @@ export const RESEARCH_AREAS: ResearchArea[] = [
   }
 ];
 
-// 3. 멤버 데이터 (7명 전체 복구)
+// 3. 멤버 데이터 (수정됨)
 export const MEMBERS: Member[] = [
   // PI
   {
     id: 'pi',
     name: "Seungmin Rho",
     role: "Principal Investigator",
-    image: "/assets/Seungmin Rho.jpg", // 업로드한 파일 사용
+    image: "/assets/Seungmin Rho.jpg",
     email: "smrho@cau.ac.kr",
     specialization: 'AI Security & Privacy',
     website: "https://sites.google.com/view/seungminrho"
@@ -61,7 +59,7 @@ export const MEMBERS: Member[] = [
     id: 'm1',
     name: "Sungwoo Park",
     role: "PostDoc",
-    image: "https://ui-avatars.com/api/?name=Sungwoo+Park&background=random", // 사진 없음 (임시)
+    image: "https://ui-avatars.com/api/?name=Sungwoo+Park&background=random",
     email: "sungwoo@cau.ac.kr",
     specialization: 'Generative Model Robustness'
   },
@@ -70,16 +68,17 @@ export const MEMBERS: Member[] = [
     id: 'm2',
     name: "Byeongcheon Lee",
     role: "Ph.D. Student",
-    image: "/assets/Byeongcheon Lee.jpg", // 업로드한 파일 사용
-    email: "qudcjs159@cau.ac.kr",
-    specialization: 'Discriminator-Guided Unlearning'
+    image: "/assets/Byeongcheon Lee.jpg",
+    email: "qudcjs0208@cau.ac.kr", // 이메일 수정됨
+    specialization: 'Discriminator-Guided Unlearning',
+    github: "https://github.com/cheonbung" // 깃허브 주소 수정됨
   },
   {
     id: 'm3',
     name: "Sangmin Kim",
     role: "Ph.D. Student",
-    image: "/assets/Sangmin Kim.jpg", // 업로드한 파일 사용
-    email: "sangmin0826@cau.ac.kr",
+    image: "/assets/Sangmin Kim.jpg",
+    email: "kimddol98@cau.ac.kr", // 이메일 수정됨
     specialization: 'Machine Unlearning for LLMs'
   },
   // Masters
@@ -87,7 +86,7 @@ export const MEMBERS: Member[] = [
     id: 'm4',
     name: "Hyungjun Park",
     role: "Master Student",
-    image: "https://ui-avatars.com/api/?name=Hyungjun+Park&background=random", // 사진 없음 (임시)
+    image: "https://ui-avatars.com/api/?name=Hyungjun+Park&background=random",
     email: "hpark@cau.ac.kr",
     specialization: 'Privacy in Diffusion Models'
   },
@@ -96,7 +95,7 @@ export const MEMBERS: Member[] = [
     id: 'm5',
     name: "Hyunok Kim",
     role: "Undergraduate Intern",
-    image: "https://ui-avatars.com/api/?name=Hyunok+Kim&background=random", // 사진 없음 (임시)
+    image: "https://ui-avatars.com/api/?name=Hyunok+Kim&background=random",
     email: "hkim@cau.ac.kr",
     specialization: 'AI Watermarking'
   },
@@ -107,12 +106,12 @@ export const MEMBERS: Member[] = [
     role: "Master",
     isAlumni: true,
     currentAffiliation: 'Samsung Electronics (AI Research)',
-    image: "https://ui-avatars.com/api/?name=Donghwi+Lee&background=random", // 사진 없음 (임시)
+    image: "https://ui-avatars.com/api/?name=Donghwi+Lee&background=random",
     specialization: 'Visual Intelligence'
   }
 ];
 
-// 4. 논문 데이터 (8편 전체 복구)
+// 4. 논문 데이터
 export const PUBLICATIONS: Publication[] = [
   {
     id: 'p1',
@@ -120,7 +119,6 @@ export const PUBLICATIONS: Publication[] = [
     title: "Advancing Autoencoder Architectures for Enhanced Anomaly Detection in Multivariate Industrial Time Series",
     authors: ["Byeongcheon Lee", "Sangmin Kim", "Jongseo Moon", "Seungmin Rho"],
     venue: "Computers, Materials & Continua, 81(1)",
-    bibtex: "@article{lee2024advancing, ...}", // 생략
     tags: ["Anomaly Detection", "Time Series"],
     isSelected: true
   },

@@ -1,7 +1,7 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { LAB_NAME, LAB_DESCRIPTION, RESEARCH_AREAS } from '../constants';
+import { LAB_NAME, LAB_DESCRIPTION, RESEARCH_AREAS, NEWS } from '../constants';
 
 const Home = () => {
   return (
@@ -48,11 +48,33 @@ const Home = () => {
           </div>
           <div className="grid grid-cols-2 gap-4">
             {RESEARCH_AREAS.slice(0, 4).map((area, idx) => (
-              <div key={idx} className="bg-gray-50 p-6 rounded-xl hover:shadow-lg transition-all duration-300">
+              <div key={idx} className="bg-gray-50 p-6 rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-100">
                 <div className="text-blue-900 font-semibold mb-2">{area.title}</div>
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* News Section (새로 추가됨) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-gray-50 rounded-3xl p-8 md:p-12">
+        <div className="flex items-center gap-4 mb-10 justify-center md:justify-start">
+          <h2 className="font-playfair text-3xl font-bold text-blue-900">Latest News</h2>
+          <div className="h-px bg-gray-300 flex-grow max-w-xs hidden md:block"></div>
+        </div>
+
+        <div className="space-y-6">
+          {NEWS.slice(0, 5).map((item) => (
+            <div key={item.id} className="group flex flex-col md:flex-row md:items-center gap-4 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-all">
+              <div className="flex items-center text-blue-600 font-semibold min-w-[120px]">
+                <Calendar className="h-4 w-4 mr-2" />
+                <span className="text-sm">{item.date}</span>
+              </div>
+              <div className="text-gray-800 font-medium group-hover:text-blue-900 transition-colors">
+                {item.title}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>
