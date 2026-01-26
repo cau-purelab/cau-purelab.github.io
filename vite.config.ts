@@ -1,19 +1,21 @@
-
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// Vercel은 보통 '/'를 사용하고, GitHub Pages는 '/repo-name/'을 사용합니다.
-// Vercel 환경인지 확인하여 base 경로를 결정합니다.
-const isVercel = process.env.VERCEL === 'true';
+// Vercel 환경에서는 process.env.VERCEL이 '1'로 설정됨
+const isVercel = process.env.VERCEL === '1' || process.env.VERCEL === 'true';
 
 export default defineConfig({
   plugins: [react()],
-  base: isVercel ? '/' : '/SVIL-Homepage/',
+  // Vercel 배포 시에는 루트(/) 경로, GitHub Pages는 레포지토리 이름 경로 사용
+  // GitHub URL: https://github.com/cheonbung/security-visual-intelligence-lab-home
+  base: isVercel ? '/' : '/security-visual-intelligence-lab-home/',
   define: {
-    // 필요한 특정 환경 변수만 주입하여 보안 경고를 해결합니다.
+    // 클라이언트 사이드에서 process.env.API_KEY 접근 허용
     'process.env.API_KEY': JSON.stringify(process.env.API_KEY)
   },
   build: {
-    chunkSizeWarningLimit: 1000, // 대형 라이브러리 사용 시 경고 수치 완화
+    outDir: 'dist',
+    assetsDir: 'assets',
+    chunkSizeWarningLimit: 1000,
   }
 });
