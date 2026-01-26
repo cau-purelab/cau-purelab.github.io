@@ -11,8 +11,12 @@ interface SEOProps {
 const SEO: React.FC<SEOProps> = ({ title, description, image }) => {
     const siteTitle = `${title} | ${LAB_NAME}`;
     const metaDescription = description || LAB_DESCRIPTION;
-    const metaImage = image || '/assets/og-image.jpg'; // 기본 이미지 (public/assets/og-image.jpg)
-    const siteUrl = window.location.origin;
+
+    // [수정됨] 확장자를 .png로 통일 (index.html과 일치시킴)
+    const metaImage = image || '/assets/og-image.png';
+
+    // [수정됨] 카카오톡/슬랙 봇을 위해 고정 도메인 사용 권장
+    const siteUrl = 'https://security-visual-intelligence-lab-ho.vercel.app';
 
     return (
         <Helmet>
