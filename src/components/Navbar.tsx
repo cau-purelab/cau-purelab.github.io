@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Shield } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
-  // 'News' 링크 추가됨
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Research', path: '/research' },
@@ -16,16 +15,17 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed w-full bg-white/90 backdrop-blur-sm z-50 border-b border-gray-100">
+    <nav className="fixed w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+        <div className="flex justify-between h-20">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
-              <Shield className="h-8 w-8 text-blue-900" />
-              <div className="flex flex-col">
-                <span className="font-playfair font-bold text-xl text-blue-900 leading-none">SVIL</span>
-                <span className="text-xs text-gray-500 tracking-wider">Security Visual Intelligence Lab</span>
-              </div>
+            <Link to="/" className="flex items-center">
+              {/* [수정됨] 텍스트 로고 (첫 번째 이미지) 적용 */}
+              <img
+                src="/assets/logo-full.png"
+                alt="SVIL Logo"
+                className="h-10 w-auto object-contain" // 높이 조절
+              />
             </Link>
           </div>
 
@@ -35,9 +35,9 @@ const Navbar = () => {
                 key={link.name}
                 to={link.path}
                 className={`${location.pathname === link.path
-                    ? 'text-blue-900 font-semibold border-b-2 border-blue-900'
-                    : 'text-gray-600 hover:text-blue-900 transition-colors'
-                  } px-1 py-1 text-sm uppercase tracking-wide`}
+                  ? 'text-blue-900 font-bold border-b-2 border-blue-900'
+                  : 'text-gray-600 hover:text-blue-900 transition-colors'
+                  } px-1 py-1 text-sm uppercase tracking-wide font-medium`}
               >
                 {link.name}
               </Link>
@@ -63,8 +63,8 @@ const Navbar = () => {
                 key={link.name}
                 to={link.path}
                 className={`${location.pathname === link.path
-                    ? 'bg-blue-50 text-blue-900 font-semibold'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-blue-900'
+                  ? 'bg-blue-50 text-blue-900 font-bold'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-blue-900'
                   } block px-3 py-2 rounded-md text-base font-medium`}
                 onClick={() => setIsOpen(false)}
               >

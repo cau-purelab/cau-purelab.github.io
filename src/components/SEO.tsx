@@ -12,10 +12,10 @@ const SEO: React.FC<SEOProps> = ({ title, description, image }) => {
     const siteTitle = `${title} | ${LAB_NAME}`;
     const metaDescription = description || LAB_DESCRIPTION;
 
-    // [수정됨] 확장자를 .png로 통일 (index.html과 일치시킴)
+    // [수정됨] 기본 공유 이미지는 og-image.png (텍스트 로고) 사용
     const metaImage = image || '/assets/og-image.png';
 
-    // [수정됨] 카카오톡/슬랙 봇을 위해 고정 도메인 사용 권장
+    // [수정됨] 도메인 절대 경로 (카카오톡 미리보기용)
     const siteUrl = 'https://security-visual-intelligence-lab-ho.vercel.app';
 
     return (
