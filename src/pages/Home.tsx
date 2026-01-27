@@ -12,7 +12,7 @@ const Home = () => {
     <div className="pb-20 overflow-hidden">
       <SEO title="Home" description="Security Visual Intelligence Lab at Chung-Ang University." />
 
-      {/* 1. Hero Section [수정됨: 높이 축소 600px -> 450px] */}
+      {/* 1. Hero Section */}
       <section className="relative h-[450px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/95 to-black/80 z-10" />
         <img
@@ -32,11 +32,12 @@ const Home = () => {
             {LAB_DESCRIPTION}
           </p>
           <div className="pt-6 animate-fade-in-up delay-200 flex justify-center gap-4">
+            {/* [수정됨] Research 버튼 중복 제거 -> People 페이지로 연결 변경 */}
             <Link
-              to="/research"
+              to="/people"
               className="inline-flex items-center px-6 py-2.5 border border-white/30 text-sm font-medium rounded-full text-white hover:bg-white hover:text-blue-900 transition-all duration-300 backdrop-blur-sm"
             >
-              Explore Research
+              Meet Our Team
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </div>
@@ -83,9 +84,7 @@ const Home = () => {
             <p className="text-gray-600 leading-relaxed text-base font-light">
               We focus on fundamental and applied research in computer vision, machine learning security, and trustworthy AI. Our goal is to build visual intelligence systems that are not only high-performing but also secure, private, and explainable.
             </p>
-            <Link to="/research" className="inline-flex items-center text-blue-900 font-bold uppercase tracking-widest text-xs hover:underline underline-offset-4 mt-2">
-              View Research Areas <ArrowRight className="ml-2 h-3 w-3" />
-            </Link>
+            {/* [삭제됨] 중복된 'View Research Areas' 텍스트 링크 제거하여 깔끔하게 만듦 */}
           </div>
           <div className="grid grid-cols-1 gap-4">
             {RESEARCH_AREAS.slice(0, 3).map((area, idx) => (
@@ -105,7 +104,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 4. Join Us Section [수정됨: 크기 대폭 축소 및 디자인 심플화] */}
+      {/* 4. Join Us Section */}
       <section className="py-12 bg-blue-900 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 text-blue-200">Opportunities</h2>

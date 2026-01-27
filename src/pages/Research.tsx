@@ -1,6 +1,6 @@
 import React from 'react';
 import { RESEARCH_AREAS } from '../constants';
-import { Github, Database, ArrowUpRight } from 'lucide-react';
+import { Database, ArrowUpRight } from 'lucide-react';
 import SEO from '../components/SEO';
 
 const Research = () => {
@@ -60,14 +60,8 @@ const Research = () => {
                 {area.description}
               </p>
 
+              {/* [수정됨] GitHub 버튼 제거, Dataset 버튼만 유지 */}
               <div className="flex flex-wrap gap-4 pt-6">
-                {area.github && (
-                  <a href={area.github} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm font-bold text-gray-700 hover:text-blue-900 transition-colors group px-4 py-2 bg-white border border-gray-200 rounded-full hover:border-blue-900 hover:shadow-sm">
-                    <Github className="h-4 w-4" />
-                    <span>Code Repository</span>
-                    <ArrowUpRight className="h-3 w-3 opacity-50 group-hover:opacity-100 transition-opacity" />
-                  </a>
-                )}
                 {area.dataset && (
                   <a href={area.dataset} className="flex items-center gap-2 text-sm font-bold text-gray-700 hover:text-blue-900 transition-colors group px-4 py-2 bg-white border border-gray-200 rounded-full hover:border-blue-900 hover:shadow-sm">
                     <Database className="h-4 w-4" />
