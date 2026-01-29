@@ -42,7 +42,7 @@ export const RESEARCH_AREAS: ResearchArea[] = [
   }
 ];
 
-// 3. 멤버 데이터 (업데이트됨)
+// 3. 멤버 데이터
 export const MEMBERS: Member[] = [
   // PI
   {
@@ -54,14 +54,15 @@ export const MEMBERS: Member[] = [
     specialization: '#AI Security & Privacy',
     website: "https://sites.google.com/view/seungminrho"
   },
-  // Co-PI (신규 추가)
+  // Co-PI (정보 업데이트됨)
   {
     id: 'co-pi',
-    name: "Miyoung Lee",
+    name: "Mi Young Lee",
     role: "Co-Principal Investigator",
-    image: "/assets/Miyoung Lee.jpg", // 사진 파일을 public/assets에 추가해주세요
+    image: "/assets/Mi young Lee.jpg", // 업로드하신 파일명 적용
     email: "miylee@cau.ac.kr",
-    specialization: '#Machine Unlearning'
+    specialization: '#AI Security & Data Privacy #Machine Unlearning #Synthetic Data #Computer Vision',
+    website: "https://sites.google.com/view/ntblue/about-me"
   },
   // PostDoc
   {
@@ -79,9 +80,9 @@ export const MEMBERS: Member[] = [
     role: "Ph.D. Student",
     image: "/assets/Byeongcheon Lee.jpg",
     email: "qudcjs0208@cau.ac.kr",
-    // [수정됨] 개인 웹사이트 추가 및 상세 태그 변경
     website: "https://cheonbung.github.io/",
-    specialization: '#Machine Unlearning #Trustworthy AI #Anomaly Detection #Time Series Analysis #Generative Model Security',
+    // [수정됨] 태그 업데이트
+    specialization: '#Machine Unlearning #Trustworthy AI #Time Series Anomaly Detection #Generative Model Security',
     github: "https://github.com/cheonbung"
   },
   {
@@ -90,7 +91,6 @@ export const MEMBERS: Member[] = [
     role: "Ph.D. Student",
     image: "/assets/Sangmin Kim.jpg",
     email: "kimddol98@cau.ac.kr",
-    // [수정됨] 상세 태그 변경
     specialization: '#Machine Unlearning #Trustworthy AI #Natural Language Processing #LLM',
     github: "https://github.com/Sang-T"
   },
