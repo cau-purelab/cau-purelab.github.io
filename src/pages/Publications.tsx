@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PUBLICATIONS } from '../constants';
+import { PUBLICATIONS, MEMBERS } from '../constants';
 import { FileText, Quote, Check } from 'lucide-react';
 import SEO from '../components/SEO';
 
@@ -10,6 +10,9 @@ const Publications = () => {
 
   const allYears = Array.from(new Set(PUBLICATIONS.map(p => p.year))).sort((a, b) => b - a);
   const yearsToShow = currentFilter === 'all' ? allYears : [currentFilter];
+
+  // [핵심 로직] 연구실 멤버 이름 목록 추출 (공백 제거하여 정확도 향상)
+  const memberNames = MEMBERS.map(m => m.name.trim());
 
   const handleCopyBibtex = (bib: string, id: string) => {
     navigator.clipboard.writeText(bib);
@@ -72,11 +75,15 @@ const Publications = () => {
                     </h3>
 
                     <div className="text-gray-600 text-sm mb-3 leading-relaxed">
-                      {pub.authors.map((author, i) => (
-                        <span key={i} className={author.includes("Seungmin Rho") ? "font-bold text-gray-900" : ""}>
-                          {author}{i < pub.authors.length - 1 ? ", " : ""}
-                        </span>
-                      ))}
+                      {pub.authors.map((author, i) => {
+                        // [Bold 처리 로직] 멤버 이름 목록에 포함되면 Bold 클래스 적용
+                        const isMember = memberNames.includes(author.trim());
+                        return (
+                          <span key={i} className={isMember ? "font-bold text-gray-900" : ""}>
+                            {author}{i < pub.authors.length - 1 ? ", " : ""}
+                          </span>
+                        );
+                      })}
                     </div>
 
                     <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500">
