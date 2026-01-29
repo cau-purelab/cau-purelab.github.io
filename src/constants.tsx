@@ -54,15 +54,15 @@ export const MEMBERS: Member[] = [
     specialization: '#AI Security & Privacy',
     website: "https://sites.google.com/view/seungminrho"
   },
-  // Co-PI (정보 업데이트됨)
+  // Co-PI [수정됨: 웹사이트 링크 변경]
   {
     id: 'co-pi',
     name: "Mi Young Lee",
     role: "Co-Principal Investigator",
-    image: "/assets/Mi young Lee.jpg", // 업로드하신 파일명 적용
+    image: "/assets/Mi young Lee.jpg",
     email: "miylee@cau.ac.kr",
     specialization: '#AI Security & Data Privacy #Machine Unlearning #Synthetic Data #Computer Vision',
-    website: "https://sites.google.com/view/ntblue/about-me"
+    website: "https://sites.google.com/view/ntblue/home"
   },
   // PostDoc
   {
@@ -81,7 +81,6 @@ export const MEMBERS: Member[] = [
     image: "/assets/Byeongcheon Lee.jpg",
     email: "qudcjs0208@cau.ac.kr",
     website: "https://cheonbung.github.io/",
-    // [수정됨] 태그 업데이트
     specialization: '#Machine Unlearning #Trustworthy AI #Time Series Anomaly Detection #Generative Model Security',
     github: "https://github.com/cheonbung"
   },
@@ -130,7 +129,8 @@ export const PUBLICATIONS: Publication[] = [
     id: 'p1',
     year: 2024,
     title: "Advancing Autoencoder Architectures for Enhanced Anomaly Detection in Multivariate Industrial Time Series",
-    authors: ["Byeongcheon Lee", "Sangmin Kim", "Jongseo Moon", "Seungmin Rho"],
+    // [수정] Muazzam Maqsood 추가, Jongseo Moon -> Jihoon Moon 수정
+    authors: ["Byeongcheon Lee", "Sangmin Kim", "Muazzam Maqsood", "Jihoon Moon", "Seungmin Rho"],
     venue: "Computers, Materials & Continua, 81(1)",
     tags: ["Anomaly Detection", "Time Series"],
     isSelected: true
@@ -139,7 +139,8 @@ export const PUBLICATIONS: Publication[] = [
     id: 'p2',
     year: 2025,
     title: "Deep Learning-Based Natural Language Processing Model and Optical Character Recognition for Detection of Online Grooming on Social Networking Services",
-    authors: ["Sangmin Kim", "Byeongcheon Lee", "M. Maqsood", "Jongseo Moon", "Seungmin Rho"],
+    // [수정] M. Maqsood 제거, Jongseo Moon -> Jihoon Moon 수정
+    authors: ["Sangmin Kim", "Byeongcheon Lee", "Jihoon Moon", "Seungmin Rho"],
     venue: "Computer Modeling in Engineering & Sciences (CMES), 143(2)",
     tags: ["NLP", "Social Security"],
     isSelected: true
@@ -167,7 +168,8 @@ export const PUBLICATIONS: Publication[] = [
     year: 2025,
     title: "Discriminator-Guided Unlearning: A Framework for Selective Forgetting in Conditional GANs",
     authors: ["Byeongcheon Lee", "Sangmin Kim", "Sungwoo Park", "Seungmin Rho", "Mi Young Lee"],
-    venue: "Preprint",
+    // [수정] Preprint -> ECAI 2025 Workshop 업데이트
+    venue: "ECAI 2025 Workshop (TRUST-AI)",
     tags: ["GANs", "Unlearning"],
     isSelected: true
   },
@@ -175,7 +177,8 @@ export const PUBLICATIONS: Publication[] = [
     id: 'p7',
     year: 2024,
     title: "Voice Phishing Detection Using Deep Learning-based NLP and Knowledge Distillation Techniques",
-    authors: ["Sangmin Kim", "Seungmin Rho"],
+    // [수정] Byeongcheon Lee, Hyeonwoo Kim 저자 추가
+    authors: ["Sangmin Kim", "Byeongcheon Lee", "Hyeonwoo Kim", "Seungmin Rho"],
     venue: "The Journal of Society for e-Business Studies, 29(4), 139-148",
     tags: ["Voice Phishing", "NLP"]
   },
