@@ -1,7 +1,3 @@
-// ==================================================
-// FILE: \src\constants.tsx
-// ==================================================
-
 import { Member, Publication, ResearchArea, NewsItem } from './types';
 
 export const LAB_NAME = "Security Visual Intelligence Lab";
@@ -19,13 +15,13 @@ export const NEWS: NewsItem[] = [
   { id: 'n1', date: '2024.03.04', title: 'Security Visual Intelligence Lab (SVIL) founded by Prof. Seungmin Rho at CAU.' },
 ];
 
-// 2. 연구 분야 데이터 (이미지 경로 수정됨)
+// 2. 연구 분야 데이터
 export const RESEARCH_AREAS: ResearchArea[] = [
   {
     id: "machine-unlearning",
     title: "Machine Unlearning",
     description: "Developing algorithms that allow AI models to 'forget' specific data points without full retraining. We focus on removing privacy-sensitive data from LLMs and copyrighted content from Diffusion models while maintaining model performance.",
-    image: "/assets/machine-unlearning.png", // [수정됨] 로컬 이미지 경로
+    image: "/assets/machine-unlearning.png",
     tags: ['Generative Models', 'LLM Privacy', 'Copyright Removal'],
     github: 'https://github.com/svil-lab/unlearning-lib'
   },
@@ -33,7 +29,7 @@ export const RESEARCH_AREAS: ResearchArea[] = [
     id: "secure-cv",
     title: "Secure Computer Vision",
     description: "Ensuring the reliability of computer vision systems against adversarial attacks and data poisoning. Our research bridges the gap between high-performance visual recognition and real-world security requirements.",
-    image: "/assets/secure-cv.png", // [수정됨] 로컬 이미지 경로
+    image: "/assets/secure-cv.png",
     tags: ['Model Robustness', 'AI Safety', 'Adversarial Defense'],
     github: 'https://github.com/svil-lab/secure-cv'
   },
@@ -41,12 +37,12 @@ export const RESEARCH_AREAS: ResearchArea[] = [
     id: "trustworthy-ai",
     title: "Trustworthy AI",
     description: "Investigating the security vulnerabilities of large-scale generative models. We develop watermarking techniques for AI-generated content and defense mechanisms against prompt injection in multi-modal models.",
-    image: "/assets/trustworthy-ai.png", // [수정됨] 로컬 이미지 경로
+    image: "/assets/trustworthy-ai.png",
     tags: ['Diffusion Security', 'Watermarking', 'Prompt Security']
   }
 ];
 
-// 3. 멤버 데이터
+// 3. 멤버 데이터 (업데이트됨)
 export const MEMBERS: Member[] = [
   // PI
   {
@@ -55,8 +51,17 @@ export const MEMBERS: Member[] = [
     role: "Principal Investigator",
     image: "/assets/Seungmin Rho.jpg",
     email: "smrho@cau.ac.kr",
-    specialization: 'AI Security & Privacy',
+    specialization: '#AI Security & Privacy',
     website: "https://sites.google.com/view/seungminrho"
+  },
+  // Co-PI (신규 추가)
+  {
+    id: 'co-pi',
+    name: "Miyoung Lee",
+    role: "Co-Principal Investigator",
+    image: "/assets/Miyoung Lee.jpg", // 사진 파일을 public/assets에 추가해주세요
+    email: "miylee@cau.ac.kr",
+    specialization: '#Machine Unlearning'
   },
   // PostDoc
   {
@@ -64,8 +69,8 @@ export const MEMBERS: Member[] = [
     name: "Sungwoo Park",
     role: "PostDoc",
     image: "https://ui-avatars.com/api/?name=Sungwoo+Park&background=random",
-    email: "", // 정보 없음
-    specialization: "" // 정보 없음
+    email: "",
+    specialization: ""
   },
   // PhD Students
   {
@@ -74,7 +79,9 @@ export const MEMBERS: Member[] = [
     role: "Ph.D. Student",
     image: "/assets/Byeongcheon Lee.jpg",
     email: "qudcjs0208@cau.ac.kr",
-    specialization: 'Discriminator-Guided Unlearning',
+    // [수정됨] 개인 웹사이트 추가 및 상세 태그 변경
+    website: "https://cheonbung.github.io/",
+    specialization: '#Machine Unlearning #Trustworthy AI #Anomaly Detection #Time Series Analysis #Generative Model Security',
     github: "https://github.com/cheonbung"
   },
   {
@@ -83,7 +90,8 @@ export const MEMBERS: Member[] = [
     role: "Ph.D. Student",
     image: "/assets/Sangmin Kim.jpg",
     email: "kimddol98@cau.ac.kr",
-    specialization: 'Machine Unlearning for LLMs',
+    // [수정됨] 상세 태그 변경
+    specialization: '#Machine Unlearning #Trustworthy AI #Natural Language Processing #LLM',
     github: "https://github.com/Sang-T"
   },
   // Masters
@@ -92,8 +100,8 @@ export const MEMBERS: Member[] = [
     name: "Hyungjun Park",
     role: "Master Student",
     image: "https://ui-avatars.com/api/?name=Hyungjun+Park&background=random",
-    email: "", // 정보 없음
-    specialization: "" // 정보 없음
+    email: "",
+    specialization: ""
   },
   // Undergraduates
   {
@@ -101,8 +109,8 @@ export const MEMBERS: Member[] = [
     name: "Hyunok Kim",
     role: "Undergraduate Intern",
     image: "https://ui-avatars.com/api/?name=Hyunok+Kim&background=random",
-    email: "", // 정보 없음
-    specialization: "" // 정보 없음
+    email: "",
+    specialization: ""
   },
   // Alumni
   {
