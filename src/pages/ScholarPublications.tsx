@@ -27,7 +27,11 @@ const ScholarPublications = () => {
   const [activeBibtex, setActiveBibtex] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const PI_NAMES = ["Seungmin Rho", "Mi Young Lee", "S. Rho", "M. Y. Lee", "M. Lee"];
+  const PI_NAMES = [
+    "Seungmin Rho", "Mi Young Lee",
+    "S. Rho", "S Rho",
+    "M. Y. Lee", "M.Y. Lee", "MY Lee", "M. Lee",
+  ];
 
   // --- [BibTeX 파싱] ---
   const parseBibtex = (bib: string) => {
@@ -85,14 +89,19 @@ const ScholarPublications = () => {
   }, [activeTab, searchTerm, selectedFunding, sortBy]);
 
   const renderAuthors = (authorStr: string, isSmall: boolean = false) => {
-    const authors = authorStr.split(/\s+and\s+/i);
+    if (!authorStr) return null;
+    // BibTeX uses " and " as separator; manual/abbreviated entries use ","
+    const isBibtex = /\s+and\s+/i.test(authorStr);
+    const authors = isBibtex ? authorStr.split(/\s+and\s+/i) : authorStr.split(',');
     return authors.map((author, i) => {
       let name = author.trim();
-      if (name.includes(',')) {
+      if (!name) return null;
+      // Reverse "Last, First" only for BibTeX-format strings
+      if (isBibtex && name.includes(',')) {
         const [last, first] = name.split(',').map(s => s.trim());
-        name = `${first} ${last}`;
+        name = first ? `${first} ${last}` : last;
       }
-      const isPI = PI_NAMES.some(pi => name.includes(pi));
+      const isPI = PI_NAMES.some(pi => name.toLowerCase().includes(pi.toLowerCase()));
       return (
         <span key={i} className={`${isPI ? "font-bold text-blue-700 underline decoration-blue-200 underline-offset-2" : ""} ${isSmall ? "text-xs" : "text-sm"}`}>
           {name}{i < authors.length - 1 ? ", " : ""}

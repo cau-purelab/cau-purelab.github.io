@@ -18,7 +18,7 @@ from selenium.webdriver.common.by import By
 IN_PROGRESS_PAPERS = [
     {
         "title": "SHAP-Guided Leaf-Value Adjustment for Efficient Unlearning in LightGBM",
-        "author": "S.W. Park, S. Kim, B, Lee, M. Maqsood, MY Lee, S Rho",
+        "author": "S.W. Park, S. Kim, B. Lee, M. Maqsood, MY Lee, S Rho",
         "journal": "Communications in Nonlinear Science and Numerical Simulation",
         "status": "Submitted, Feb. 2026",
         "funding_tags": ["NRF-SM-25", "Prof. MYLee"],
