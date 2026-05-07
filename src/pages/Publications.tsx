@@ -1,141 +1,86 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { PUBLICATIONS, MEMBERS } from '../constants';
-import { FileText, Quote, Check } from 'lucide-react';
+import { Award, BookOpen, Library } from 'lucide-react';
 import SEO from '../components/SEO';
 
 const Publications = () => {
-  const [currentFilter, setCurrentFilter] = useState<'all' | number>('all');
-  const [activeBibtex, setActiveBibtex] = useState<string | null>(null);
-  const [copiedId, setCopiedId] = useState<string | null>(null);
-
-  const allYears = Array.from(new Set(PUBLICATIONS.map(p => p.year))).sort((a, b) => b - a);
-  const yearsToShow = currentFilter === 'all' ? allYears : [currentFilter];
-
-  // [핵심 로직] 연구실 멤버 이름 목록 추출 (공백 제거하여 정확도 향상)
+  // 연구실 멤버 강조용 이름 리스트
   const memberNames = MEMBERS.map(m => m.name.trim());
-
-  const handleCopyBibtex = (bib: string, id: string) => {
-    navigator.clipboard.writeText(bib);
-    setCopiedId(id);
-    setTimeout(() => setCopiedId(null), 2000);
-  };
+  const additionalPINames = ["S. Rho", "M. Y. Lee", "M. Lee", "S. Rho"];
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <SEO title="Publications" description="List of publications and conference proceedings by SVIL." />
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <SEO title="Selected Publications" description="Major research contributions of SVIL." />
 
-      <div className="mb-10">
-        <h1 className="font-playfair text-4xl font-bold text-blue-900 mb-2">Publications</h1>
-        <p className="text-gray-600">Research papers and conference proceedings</p>
-      </div>
-
-      <div className="flex flex-wrap gap-3 mb-12">
-        <button
-          onClick={() => setCurrentFilter('all')}
-          className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${currentFilter === 'all'
-              ? 'bg-blue-900 text-white shadow-md'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900'
-            }`}
+      {/* 1. 상단 헤더 */}
+      <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="max-w-2xl">
+          <h2 className="text-xs font-bold text-blue-600 uppercase tracking-[0.5em] mb-3">Research Highlights</h2>
+          <h1 className="font-playfair text-5xl font-extrabold text-slate-900 mb-4">Major Publications</h1>
+          <p className="text-slate-500 leading-relaxed">
+            A curated list of our most impactful research in Trustworthy AI, Machine Unlearning, and Secure Computer Vision.
+          </p>
+        </div>
+        
+        {/* 전체 아카이브로 유도하는 상단 버튼 */}
+        <Link 
+          to="/scholar" 
+          className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-2xl text-sm font-bold hover:bg-blue-700 transition-all shadow-lg hover:scale-105 shrink-0"
         >
-          All Papers
-        </button>
-
-        {allYears.map((year) => (
-          <button
-            key={year}
-            onClick={() => setCurrentFilter(year)}
-            className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${currentFilter === year
-                ? 'bg-blue-900 text-white shadow-md'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900'
-              }`}
-          >
-            {year}
-          </button>
-        ))}
+          <Library size={18} />
+          Full Research Archive
+        </Link>
       </div>
 
-      <div className="space-y-16">
-        {yearsToShow.map(year => {
-          const yearPubs = PUBLICATIONS.filter(p => p.year === year);
-          if (yearPubs.length === 0) return null;
-
-          return (
-            <div key={year} className="flex flex-col md:flex-row gap-8 animate-fade-in-up">
-              <div className="md:w-24 flex-shrink-0">
-                <span className="text-3xl font-playfair font-bold text-blue-900/20 sticky top-24">
-                  {year}
+      {/* 2. 주요 논문 리스트 */}
+      <div className="space-y-8">
+        {PUBLICATIONS.sort((a, b) => b.year - a.year).map((pub) => (
+          <div key={pub.id} className="group relative bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500">
+            <div className="space-y-4">
+              {/* 태그 영역 */}
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="px-2.5 py-1 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-black border border-blue-100 uppercase">
+                  {pub.year}
                 </span>
+                {pub.tags?.map(tag => (
+                  <span key={tag} className="px-2.5 py-1 bg-slate-50 text-slate-400 rounded-lg text-[10px] font-bold border border-slate-100 uppercase">
+                    #{tag}
+                  </span>
+                ))}
+                {pub.isSelected && (
+                  <span className="flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-600 rounded-lg text-[10px] font-black border border-amber-100">
+                    <Award size={10} /> Highlighted
+                  </span>
+                )}
               </div>
 
-              <div className="flex-grow space-y-8">
-                {yearPubs.map((pub) => (
-                  <div key={pub.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 group">
-                    <h3 className="text-lg font-bold text-gray-900 leading-snug mb-2 group-hover:text-blue-900 transition-colors">
-                      {pub.title}
-                    </h3>
+              {/* 제목 */}
+              <h3 className="text-xl md:text-2xl font-bold text-slate-900 leading-tight group-hover:text-blue-600 transition-colors">
+                {pub.title}
+              </h3>
 
-                    <div className="text-gray-600 text-sm mb-3 leading-relaxed">
-                      {pub.authors.map((author, i) => {
-                        // [Bold 처리 로직] 멤버 이름 목록에 포함되면 Bold 클래스 적용
-                        const isMember = memberNames.includes(author.trim());
-                        return (
-                          <span key={i} className={isMember ? "font-bold text-gray-900" : ""}>
-                            {author}{i < pub.authors.length - 1 ? ", " : ""}
-                          </span>
-                        );
-                      })}
-                    </div>
+              {/* 저자 */}
+              <div className="text-slate-600 text-sm md:text-base leading-relaxed">
+                {pub.authors.map((author, i) => {
+                  const isMember = memberNames.some(m => author.includes(m)) || 
+                                   additionalPINames.some(pi => author.includes(pi));
+                  return (
+                    <span key={i} className={isMember ? "font-bold text-slate-900 underline decoration-blue-200 underline-offset-4" : ""}>
+                      {author}{i < pub.authors.length - 1 ? ", " : ""}
+                    </span>
+                  );
+                })}
+              </div>
 
-                    <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500">
-                      <div className="flex items-center text-blue-900 font-bold bg-blue-50 px-2 py-1 rounded">
-                        <FileText className="h-3.5 w-3.5 mr-1.5" />
-                        {pub.venue}
-                      </div>
-
-                      {pub.tags && (
-                        <div className="flex gap-2">
-                          {pub.tags.map(tag => (
-                            <span key={tag} className="text-gray-500 border border-gray-200 px-2 py-0.5 rounded-full">
-                              #{tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="mt-4 pt-4 border-t border-gray-50 flex justify-end">
-                      {pub.bibtex && (
-                        <button
-                          onClick={() => setActiveBibtex(activeBibtex === pub.id ? null : pub.id)}
-                          className={`flex items-center text-xs font-bold transition-colors uppercase tracking-wider ${activeBibtex === pub.id ? 'text-blue-900' : 'text-gray-400 hover:text-blue-900'
-                            }`}
-                        >
-                          <Quote className="h-3 w-3 mr-1" />
-                          {activeBibtex === pub.id ? 'Hide BibTeX' : 'Cite'}
-                        </button>
-                      )}
-                    </div>
-
-                    {activeBibtex === pub.id && pub.bibtex && (
-                      <div className="mt-4 relative bg-slate-800 rounded-xl p-5 shadow-inner animate-fade-in-up">
-                        <pre className="text-xs text-slate-300 font-mono whitespace-pre-wrap overflow-x-auto leading-relaxed">
-                          {pub.bibtex}
-                        </pre>
-                        <button
-                          onClick={() => handleCopyBibtex(pub.bibtex!, pub.id)}
-                          className="absolute top-3 right-3 p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors border border-white/10"
-                          title="Copy to clipboard"
-                        >
-                          {copiedId === pub.id ? <Check className="h-3.5 w-3.5 text-green-400" /> : <FileText className="h-3.5 w-3.5" />}
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                ))}
+              {/* 학술지 정보 */}
+              <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
+                <BookOpen size={16} className="text-blue-400" />
+                <span className="text-slate-800 font-bold">{pub.venue}</span>
               </div>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
     </div>
   );

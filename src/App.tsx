@@ -5,8 +5,9 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Research from './pages/Research';
 import People from './pages/People';
-import Publications from './pages/Publications';
-import News from './pages/News'; // [추가]
+import Publications from './pages/Publications';       // 주요 논문 페이지
+import News from './pages/News';
+import ScholarPublications from './pages/ScholarPublications'; // 전체 논문 페이지
 
 function App() {
   return (
@@ -18,8 +19,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/research" element={<Research />} />
             <Route path="/people" element={<People />} />
-            <Route path="/publications" element={<Publications />} />
-            <Route path="/news" element={<News />} /> {/* [추가] */}
+            <Route path="/publications" element={<Publications />} /> {/* 하이라이트 */}
+            <Route path="/news" element={<News />} />
+            <Route path="/scholar" element={<ScholarPublications />} /> {/* 전체 목록 */}
           </Routes>
         </main>
         <Footer />

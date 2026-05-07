@@ -11,6 +11,7 @@ const Navbar = () => {
     { name: 'Research', path: '/research' },
     { name: 'People', path: '/people' },
     { name: 'Publications', path: '/publications' },
+    { name: 'Scholar', path: '/scholar' }, // [추가]
     { name: 'News', path: '/news' },
   ];
 
@@ -20,11 +21,10 @@ const Navbar = () => {
         <div className="flex justify-between h-20">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              {/* [수정됨] 텍스트 로고 (첫 번째 이미지) 적용 */}
               <img
                 src="/assets/logo-full.png"
                 alt="SVIL Logo"
-                className="h-10 w-auto object-contain" // 높이 조절
+                className="h-10 w-auto object-contain"
               />
             </Link>
           </div>

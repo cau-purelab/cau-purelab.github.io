@@ -39,7 +39,7 @@ const Footer = () => {
                             <p>Chung-Ang University</p>
                             <p>84 Heukseok-ro, Dongjak-gu</p>
                             <p>Seoul, 06974, Rep. of Korea</p>
-                            <a href="mailto:smrho@cau.ac.kr" className="block mt-4 text-blue-400 hover:text-blue-300 transition-colors font-medium">smrho@cau.ac.kr</a>
+                            <a href="mailto:svil2024.official@gmail.com" className="block mt-4 text-blue-400 hover:text-blue-300 transition-colors font-medium">svil2024.official@gmail.com</a>
                         </div>
                     </div>
                 </div>

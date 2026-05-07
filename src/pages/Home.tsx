@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Calendar, Users, FileText } from 'lucide-react';
+import { ArrowRight, Calendar, Users, FileText, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LAB_NAME, LAB_DESCRIPTION, RESEARCH_AREAS, NEWS, PUBLICATIONS, MEMBERS } from '../constants';
 import SEO from '../components/SEO';
@@ -32,7 +32,6 @@ const Home = () => {
             {LAB_DESCRIPTION}
           </p>
           <div className="pt-6 animate-fade-in-up delay-200 flex justify-center gap-4">
-            {/* [수정됨] Research 버튼 중복 제거 -> People 페이지로 연결 변경 */}
             <Link
               to="/people"
               className="inline-flex items-center px-6 py-2.5 border border-white/30 text-sm font-medium rounded-full text-white hover:bg-white hover:text-blue-900 transition-all duration-300 backdrop-blur-sm"
@@ -84,7 +83,6 @@ const Home = () => {
             <p className="text-gray-600 leading-relaxed text-base font-light">
               We focus on fundamental and applied research in computer vision, machine learning security, and trustworthy AI. Our goal is to build visual intelligence systems that are not only high-performing but also secure, private, and explainable.
             </p>
-            {/* [삭제됨] 중복된 'View Research Areas' 텍스트 링크 제거하여 깔끔하게 만듦 */}
           </div>
           <div className="grid grid-cols-1 gap-4">
             {RESEARCH_AREAS.slice(0, 3).map((area, idx) => (
@@ -104,20 +102,25 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 4. Join Us Section */}
+      {/* 4. Join Us Section (수정됨) */}
       <section className="py-12 bg-blue-900 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 text-blue-200">Opportunities</h2>
-          <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12">
-            <div className="text-center md:text-left">
-              <h3 className="text-2xl md:text-3xl font-playfair font-bold mb-2">Join Our Mission</h3>
-              <p className="text-sm text-blue-100 font-light max-w-md">
-                Recruiting motivated undergraduate interns, master's students, and Ph.D. candidates.
-              </p>
+          <div className="flex flex-col items-center justify-center gap-5">
+            <h3 className="text-2xl md:text-3xl font-playfair font-bold mb-1">Join Our Mission</h3>
+            <p className="text-sm text-blue-100 font-light max-w-lg mx-auto">
+              Recruiting motivated undergraduate interns, master's students, and Ph.D. candidates. If you are interested in joining our lab, please feel free to contact us.
+            </p>
+            <div className="mt-2 inline-flex items-center gap-3 px-6 py-3 bg-white/10 rounded-full border border-white/20 backdrop-blur-sm">
+              <Mail className="w-4 h-4 text-blue-200" />
+              <span className="text-sm text-blue-100">Contact us at:</span>
+              <a 
+                href="mailto:svil2024.official@gmail.com" 
+                className="text-sm font-bold text-white hover:text-blue-200 transition-colors underline decoration-blue-400/50 underline-offset-4"
+              >
+                svil2024.official@gmail.com
+              </a>
             </div>
-            <a href="mailto:smrho@cau.ac.kr" className="flex-shrink-0 bg-white text-blue-900 px-6 py-2.5 rounded-full text-sm font-bold hover:bg-blue-50 transition-all shadow-lg border border-transparent hover:border-blue-200">
-              Apply Now
-            </a>
           </div>
         </div>
       </section>

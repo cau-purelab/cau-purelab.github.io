@@ -9,12 +9,12 @@ export interface NewsItem {
 export interface Member {
   id: string;
   name: string;
-  role: string; // 'PI' | 'PostDoc' | 'PhD' | 'Master' | 'Undergraduate' | 'Alumni'
+  role: string;
   image: string;
   email?: string;
   specialization?: string;
   isAlumni?: boolean;
-  currentAffiliation?: string; // 졸업생의 현재 직장
+  currentAffiliation?: string;
   website?: string;
   googleScholar?: string;
   github?: string;
@@ -24,14 +24,14 @@ export interface Member {
 export interface Publication {
   id: string;
   title: string;
-  authors: string[];
-  venue: string;
+  authors: string[];   // 주요 논문용 (배열)
+  venue: string;       // 학술지/컨퍼런스 명
   year: number;
   tags?: string[];
-  link?: string;      // 대표 링크
-  pdf?: string;       // PDF 다운로드 링크
-  bibtex?: string;    // BibTeX 인용구
-  isSelected?: boolean; // 주요 논문 여부
+  link?: string;
+  pdf?: string;
+  bibtex?: string;
+  isSelected?: boolean;
 }
 
 export interface ResearchArea {
