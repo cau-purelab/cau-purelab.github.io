@@ -88,6 +88,16 @@ const ScholarPublications = () => {
     return result;
   }, [activeTab, searchTerm, selectedFunding, sortBy]);
 
+  const getProgressLabel = (status?: string) => {
+    if (!status) return 'In Progress';
+    const s = status.toLowerCase();
+    if (s.includes('submitted')) return 'Submitted';
+    if (s.includes('revision')) return 'In Revision';
+    if (s.includes('press') || s.includes('accepted')) return 'In Press';
+    if (s.includes('review')) return 'In Review';
+    return 'In Progress';
+  };
+
   const renderAuthors = (authorStr: string, isSmall: boolean = false) => {
     if (!authorStr) return null;
     // BibTeX uses " and " as separator; manual/abbreviated entries use ","
@@ -183,7 +193,7 @@ const ScholarPublications = () => {
                   {/* 배지 라인 */}
                   <div className="flex flex-wrap items-center gap-2">
                     {isProg ? (
-                      <span className="px-2 py-0.5 bg-blue-600 text-white rounded text-[8px] font-black uppercase flex items-center gap-1"><RefreshCw size={8} className="animate-spin-slow"/> Working</span>
+                      <span className="px-2 py-0.5 bg-blue-600 text-white rounded text-[8px] font-black uppercase flex items-center gap-1"><RefreshCw size={8} className="animate-spin-slow"/> {getProgressLabel(pub.status)}</span>
                     ) : (
                       <span className="px-2 py-0.5 bg-slate-700 text-white rounded text-[8px] font-black uppercase">{bib.type || 'paper'}</span>
                     )}
