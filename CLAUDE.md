@@ -51,6 +51,7 @@
 - 값: 논문 배열. 두 가지 형태가 공존함:
   - **출판된 논문** : `{ title, url, bibtex, funding_tags }` — Google Scholar에서 자동 수집
   - **진행 중 논문** : `{ title, author, journal, status, funding_tags, year, is_progress: true }` — 수동 입력
+  - **성과 지표** : `{ citations, jcr, jcr_source }` — Google Scholar citation 수와 공개 Google Sites JCR 라벨
 
 ### 3. `scripts/fetch_scholar.py` — 데이터 수집 스크립트
 - `scholarly` 라이브러리로 Google Scholar에서 논문 수집
@@ -86,6 +87,7 @@
 - **탭**: 교수별 전환 (Seungmin Rho / Mi Young Lee)
 - **펀딩 대시보드**: funding_tags 기반 필터링 (연도순 정렬)
 - **검색**: 제목/펀딩 태그 텍스트 검색
+- **성과 지표**: Google Scholar citation 수와 공개 JCR 라벨 표시
 - **정렬**: 연도순 / 제목순 / 펀딩순
 - **BibTeX**: 펼치기/복사 기능
 - **is_progress: true** 항목: 점선 테두리 + "Working" 배지로 구분
@@ -133,7 +135,8 @@
    또는
    python scripts/fetch_scholar.py        # 전체 재수집 (scholarly 필요)
 4. 주요 논문이면 src/constants.tsx의 PUBLICATIONS 배열에도 수동 추가
-5. git commit & push → Vercel 자동 재배포
+5. node scripts/update_scholar_metrics.cjs  # citation/JCR 라벨 갱신
+6. git commit & push → Vercel 자동 재배포
 ```
 
 **주의**: fetch_scholar.py 실행 시 scholarly 패키지 필요

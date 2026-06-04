@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MEMBERS } from '../constants';
-import { Mail, Globe, Github, BookOpen, X, ExternalLink, Copy, Check, FileText } from 'lucide-react';
+import { Mail, Globe, Github, BookOpen, X, ExternalLink, Copy, Check, FileText, Award, Quote } from 'lucide-react';
 import { Member } from '../types';
 import SEO from '../components/SEO';
 import publicationsData from '../data/publications.json';
@@ -71,6 +71,16 @@ const PublicationItem = ({ pub }: { pub: any }) => {
           <span className="text-xs font-bold bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-100">
             {pub.is_progress ? 'Working' : displayYear}
           </span>
+          {typeof pub.citations === 'number' && (
+            <span className="inline-flex items-center gap-1 text-xs font-bold bg-emerald-50 text-emerald-700 px-2 py-1 rounded border border-emerald-100">
+              <Quote className="w-3 h-3" /> Cited {pub.citations}
+            </span>
+          )}
+          {pub.jcr && (
+            <span className="inline-flex items-center gap-1 text-xs font-bold bg-violet-50 text-violet-700 px-2 py-1 rounded border border-violet-100">
+              <Award className="w-3 h-3" /> {pub.jcr}
+            </span>
+          )}
           <span className="text-xs text-gray-600 font-serif italic px-1">
             {displayVenue !== 'N/A' ? displayVenue : "Publication details unavailable"}
             {pub.status && <span className="ml-2 font-sans not-italic font-bold text-blue-600">[{pub.status}]</span>}

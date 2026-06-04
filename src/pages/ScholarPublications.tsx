@@ -11,7 +11,13 @@ interface ScholarPub {
   title: string;
   url?: string;
   bibtex?: string;
+  author?: string;
+  journal?: string;
+  year?: string;
   funding_tags?: string[];
+  citations?: number;
+  jcr?: string;
+  jcr_source?: string;
   status?: string;
   is_progress?: boolean;
 }
@@ -70,7 +76,9 @@ const ScholarPublications = () => {
       const low = searchTerm.toLowerCase();
       result = result.filter(p => 
         p.title.toLowerCase().includes(low) || 
-        p.funding_tags?.some(t => t.toLowerCase().includes(low))
+        p.funding_tags?.some(t => t.toLowerCase().includes(low)) ||
+        p.jcr?.toLowerCase().includes(low) ||
+        String(p.citations ?? '').includes(low)
       );
     }
 
@@ -198,6 +206,16 @@ const ScholarPublications = () => {
                       <span className="px-2 py-0.5 bg-slate-700 text-white rounded text-[8px] font-black uppercase">{bib.type || 'paper'}</span>
                     )}
                     <span className="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-[8px] font-black border border-blue-100">{isProg ? pub.year : bib.year}</span>
+                    {typeof pub.citations === 'number' && (
+                      <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded text-[8px] font-black border border-emerald-100 flex items-center gap-1">
+                        <Quote size={9} /> Cited {pub.citations}
+                      </span>
+                    )}
+                    {pub.jcr && (
+                      <span className="px-2 py-0.5 bg-violet-50 text-violet-700 rounded text-[8px] font-black border border-violet-100 flex items-center gap-1">
+                        <Award size={9} /> {pub.jcr}
+                      </span>
+                    )}
                     {pub.funding_tags?.map(tag => (
                       <button key={tag} onClick={() => setSelectedFunding(tag)} className="px-2 py-0.5 bg-amber-50 text-amber-600 rounded text-[8px] font-black border border-amber-100 hover:bg-amber-100 transition-colors">{tag}</button>
                     ))}
