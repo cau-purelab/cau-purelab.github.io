@@ -34,18 +34,6 @@
       "is_progress": true
     },
     {
-      "title": "Regime-Aware Static and Dynamic Graph Structure Learning for Stock Price Forecasting",
-      "author": "S Rho",
-      "journal": "Humanities and Social Sciences Communications",
-      "status": "1st Revision, Feb. 2026",
-      "funding_tags": [
-        "Convg_Security-26",
-        "KNU-26"
-      ],
-      "year": "2026",
-      "is_progress": true
-    },
-    {
       "title": "Stock Price Forecasting Modelling Cross-Sector and Within-Sector Relationships with Sector-Specific Macroeconomic Signals",
       "author": "Asma Sattar, M. Maqsood, S Rho",
       "journal": "Computational Economics",
@@ -3474,6 +3462,24 @@
       "bibtex": "@article{rho사용자,\n  title={사용자 질의 기반의 빠른 오디오 검색 기법},\n  author={Rho, Seungmin and Hwang, Eenjun}\n}",
       "funding": "",
       "funding_tags": []
+    },
+    {
+      "title": "An Image Generation Framework Integrating Invisible Watermarking and Selective Class Unlearning",
+      "url": "",
+      "bibtex": "@article{Park2025ImageGen,\n  title={An Image Generation Framework Integrating Invisible Watermarking and Selective Class Unlearning},\n  author={Park, Sungwoo and Lee, Byeongcheon and Kim, Sangmin and Chae, Seungyeob and Lee, Mi Young and Rho, Seungmin},\n  journal={Journal of Platform Technology},\n  volume={13},\n  number={6},\n  pages={21--32},\n  year={2025}\n}",
+      "funding_tags": [
+        "NRF-SM-25",
+        "Prof. MYLee"
+      ]
+    },
+    {
+      "title": "Regime-aware static and dynamic graph structure learning for stock price forecasting",
+      "url": "",
+      "bibtex": "@article{Bukhari2026Regime,\n  title={Regime-aware static and dynamic graph structure learning for stock price forecasting},\n  author={Bukhari, F and Sarwar, A and Sattar, A and Park, S and Rho, Seungmin},\n  journal={Humanities and Social Sciences Communications},\n  year={2026}\n}",
+      "funding_tags": [
+        "Convg_Security-26",
+        "KNU-26"
+      ]
     }
   ],
   "Mi Young Lee": [
@@ -3635,6 +3641,126 @@
       "title": "Efficient visual attention driven framework for key frames extraction from hysteroscopy videos",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=bxWgGnoAAAAJ:yD5IFk8b50cC",
       "bibtex": "",
+      "funding_tags": []
+    },
+    {
+      "title": "BoXFire: Geometry-aware box-supervised fusion for accurate fire and smoke segmentation",
+      "url": "",
+      "bibtex": "@article{Ayaz2026BoXFire,\n  title={BoXFire: Geometry-aware box-supervised fusion for accurate fire and smoke segmentation},\n  author={Ayaz, M and Amin, SU and Khan, S and Jung, Y and Shin, W and Lee, Mi Young and Seo, S},\n  journal={Advanced Engineering Informatics},\n  year={2026}\n}",
+      "funding_tags": []
+    },
+    {
+      "title": "A texture-guided adversarial defense framework against deepfake generation",
+      "url": "",
+      "bibtex": "@article{Bukhari2026Texture,\n  title={A texture-guided adversarial defense framework against deepfake generation},\n  author={Bukhari, M and Maqsood, M and Sattar, A and Lee, Mi Young},\n  journal={IEEE Access},\n  year={2026}\n}",
+      "funding_tags": []
+    },
+    {
+      "title": "Neuro-Symbolic Graph Learning for Causal Inference and Continual Learning in Mental-Health Risk Assessment",
+      "url": "",
+      "bibtex": "@article{Jena2026NeuroSymbolic,\n  title={Neuro-Symbolic Graph Learning for Causal Inference and Continual Learning in Mental-Health Risk Assessment},\n  author={Jena, M and Khan, N and Lee, Mi Young and Rho, Seungmin},\n  journal={Computer Modeling in Engineering and Sciences},\n  volume={146},\n  number={1},\n  year={2026}\n}",
+      "funding_tags": []
+    },
+    {
+      "title": "Bilateral collaborative streams with multi-modal attention network for accurate polyp segmentation",
+      "url": "",
+      "bibtex": "@article{Khan2025Polyp,\n  title={Bilateral collaborative streams with multi-modal attention network for accurate polyp segmentation},\n  author={Khan, R and Alzaben, N and Daradkeh, YI and Lee, Mi Young and Ullah, I},\n  journal={Scientific Reports},\n  year={2025}\n}",
+      "funding_tags": []
+    },
+    {
+      "title": "Optimal features assisted multi-attention fusion for robust fire recognition in adverse conditions",
+      "url": "",
+      "bibtex": "@article{Ullah2025Fire,\n  title={Optimal features assisted multi-attention fusion for robust fire recognition in adverse conditions},\n  author={Ullah, I and Alzaben, N and Daradkeh, YI and Lee, Mi Young},\n  journal={Scientific Reports},\n  year={2025}\n}",
+      "funding_tags": []
+    },
+    {
+      "title": "An Image Generation Framework Integrating Invisible Watermarking and Selective Class Unlearning",
+      "url": "",
+      "bibtex": "@article{Park2025ImageGenLee,\n  title={An Image Generation Framework Integrating Invisible Watermarking and Selective Class Unlearning},\n  author={Park, Sungwoo and Lee, Byeongcheon and Kim, Sangmin and Chae, Seungyeob and Lee, Mi Young and Rho, Seungmin},\n  journal={Journal of Platform Technology},\n  volume={13},\n  number={6},\n  pages={21--32},\n  year={2025}\n}",
+      "funding_tags": [
+        "NRF-SM-25"
+      ]
+    },
+    {
+      "title": "Discriminator-Guided Unlearning: A Framework for Selective Forgetting in Conditional GANs",
+      "url": "",
+      "bibtex": "@inproceedings{Lee2025Discriminator,\n  title={Discriminator-Guided Unlearning: A Framework for Selective Forgetting in Conditional GANs},\n  author={Lee, Byeongcheon and Kim, Sangmin and Park, Sungwoo and Rho, Seungmin and Lee, Mi Young},\n  booktitle={ECAI 2025 Workshop (TRUST-AI)},\n  year={2025}\n}",
+      "funding_tags": [
+        "NRF-SM-25"
+      ]
+    },
+    {
+      "title": "A Framework for Machine Unlearning Using Selective Knowledge Distillation into Soft Decision Tree",
+      "url": "",
+      "bibtex": "@article{Kim2025Unlearning,\n  title={A Framework for Machine Unlearning Using Selective Knowledge Distillation into Soft Decision Tree},\n  author={Kim, Sangmin and Lee, Byeongcheon and Park, Sungwoo and Lee, Mi Young and Rho, Seungmin},\n  journal={Annals of Computer Science and Information Systems},\n  volume={45},\n  pages={95--101},\n  year={2025}\n}",
+      "funding_tags": [
+        "NRF-SM-25"
+      ]
+    },
+    {
+      "title": "Head-Body Guided Deep Learning Framework for Dog Breed Recognition",
+      "url": "",
+      "bibtex": "@article{Khan2025DogBreed,\n  title={Head-Body Guided Deep Learning Framework for Dog Breed Recognition},\n  author={Khan, N and Lee, Mi Young and Min, J},\n  journal={Computers, Materials and Continua},\n  year={2025}\n}",
+      "funding_tags": []
+    },
+    {
+      "title": "Fake news detection in large-scale social network with generalized Bayesian classification",
+      "url": "",
+      "bibtex": "@article{Zhang2024FakeNews,\n  title={Fake news detection in large-scale social network with generalized Bayesian classification},\n  author={Zhang, W and Alzahrani, AI and Lee, Mi Young},\n  journal={Mobile Networks and Applications},\n  year={2024}\n}",
+      "funding_tags": []
+    },
+    {
+      "title": "A comprehensive systematic literature review of ML in nanotechnology for sustainable development",
+      "url": "",
+      "bibtex": "@article{Rehman2024NanoML,\n  title={A comprehensive systematic literature review of ML in nanotechnology for sustainable development},\n  author={Ur Rehman, I and Ullah, I and Khan, H and Guellil, MS and Koo, JK and Min, J and Habib, S and Islam, M and Lee, Mi Young},\n  journal={Nanotechnology Reviews},\n  year={2024}\n}",
+      "funding_tags": []
+    },
+    {
+      "title": "A deep dive into AI integration and advanced nanobiosensor technologies for enhanced bacterial infection monitoring",
+      "url": "",
+      "bibtex": "@article{Khan2024NanoBiosensor,\n  title={A deep dive into AI integration and advanced nanobiosensor technologies for enhanced bacterial infection monitoring},\n  author={Khan, H and Jan, Z and Ullah, I and Alwabli, A and Alharbi, F and Habib, S and Islam, M and Shin, BJ and Lee, Mi Young},\n  journal={Nanotechnology Reviews},\n  year={2024}\n}",
+      "funding_tags": []
+    },
+    {
+      "title": "Towards real-world violence recognition via efficient deep features and sequential patterns analysis",
+      "url": "",
+      "bibtex": "@article{Mumtaz2024Violence,\n  title={Towards real-world violence recognition via efficient deep features and sequential patterns analysis},\n  author={Mumtaz, N and Ejaz, N and Rida, I and Khan, MA and Lee, Mi Young},\n  journal={Mobile Networks and Applications},\n  year={2024}\n}",
+      "funding_tags": []
+    },
+    {
+      "title": "Predictive Modeling for Ubiquitin Proteins through Advanced Machine Learning Technique",
+      "url": "",
+      "bibtex": "@article{Shazia2024Ubiquitin,\n  title={Predictive Modeling for Ubiquitin Proteins through Advanced Machine Learning Technique},\n  author={Shazia and Ullah, FUM and Rho, Seungmin and Lee, Mi Young},\n  journal={Heliyon},\n  year={2024}\n}",
+      "funding_tags": []
+    },
+    {
+      "title": "Industrial defective chips detection using deep convolutional neural network with inverse feature matching mechanism",
+      "url": "",
+      "bibtex": "@article{Ullah2024Chips,\n  title={Industrial defective chips detection using deep convolutional neural network with inverse feature matching mechanism},\n  author={Ullah, W and Khan, SU and Kim, MJ and Hussain, A and Munsif, M and Lee, Mi Young and Seo, D},\n  journal={Journal of Computational Design and Engineering},\n  year={2024}\n}",
+      "funding_tags": []
+    },
+    {
+      "title": "Machine Learning Based missing data Imputation in Categorical Datasets",
+      "url": "",
+      "bibtex": "@article{Ishaq2024MissingData,\n  title={Machine Learning Based missing data Imputation in Categorical Datasets},\n  author={Ishaq, M and Zahir, S and Iftikhar, L and Bulbul, MF and Rho, Seungmin and Lee, Mi Young},\n  journal={IEEE Access},\n  year={2024}\n}",
+      "funding_tags": []
+    },
+    {
+      "title": "BiGTA-Net: A hybrid deep learning-based electrical energy forecasting model for building energy management systems",
+      "url": "",
+      "bibtex": "@article{So2023BiGTA,\n  title={BiGTA-Net: A hybrid deep learning-based electrical energy forecasting model for building energy management systems},\n  author={So, D and Oh, J and Jeon, I and Moon, J and Lee, Mi Young and Rho, Seungmin},\n  journal={Systems},\n  volume={11},\n  number={9},\n  year={2023}\n}",
+      "funding_tags": []
+    },
+    {
+      "title": "eCubeLand: An Intelligent Multiview Video Data Modeling",
+      "url": "",
+      "bibtex": "@article{Hussain2023eCubeLand,\n  title={eCubeLand: An Intelligent Multiview Video Data Modeling},\n  author={Hussain, T and Khan, SU and Ullah, W and Haq, IU and Kim, MJ and Lee, Mi Young and Baik, SW},\n  journal={IEEE MultiMedia},\n  year={2023}\n}",
+      "funding_tags": []
+    },
+    {
+      "title": "AI-assisted hybrid approach for energy management in IoT-based smart microgrid",
+      "url": "",
+      "bibtex": "@article{Khan2023IoTMicrogrid,\n  title={AI-assisted hybrid approach for energy management in IoT-based smart microgrid},\n  author={Khan, N and Khan, SU and Ullah, FUM and Lee, Mi Young and Baik, SW},\n  journal={IEEE Internet of Things Journal},\n  year={2023}\n}",
       "funding_tags": []
     }
   ]
