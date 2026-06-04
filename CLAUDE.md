@@ -59,6 +59,12 @@
 - `IN_PROGRESS_PAPERS` 배열: 진행 중 논문 **하드코딩**
 - 출력: `src/data/publications.json` 덮어쓰기
 
+### 4. `scripts/update_scholar_metrics.cjs` — 성과 지표 갱신 스크립트
+- Google Scholar 교수 프로필에서 논문별 citation 수를 수집해 `citations` 필드 갱신
+- 공개 Google Sites에 표시된 `[SCIE/SSCI ... Top ...%]` 라벨을 `jcr` 필드로 반영
+- JCR 라벨 원천 URL을 `jcr_source` 필드로 저장
+- Clarivate JCR 원자료를 직접 조회하지 않음. 공개 페이지에 표시된 라벨만 반영함.
+
 ---
 
 ## 구성원 사진 경로
@@ -74,7 +80,7 @@
 멤버 카드 "Publications" 버튼 클릭
 → handleOpenPublications(member)
 → loadedPublications[member.name] (publications.json에서 이름으로 조회)
-→ PublicationsModal 팝업 (BibTeX 파싱해서 연도/저자/학술지 추출)
+→ PublicationsModal 팝업 (BibTeX 파싱해서 연도/저자/학술지 추출 + citation/JCR 배지 표시)
 ```
 
 **주의**: 멤버 이름이 `publications.json`의 키와 정확히 일치해야 함.  
@@ -105,7 +111,10 @@
    → IN_PROGRESS_PAPERS 병합
    → src/data/publications.json 갱신
 4. 주요 논문이면 constants.tsx의 PUBLICATIONS 배열에도 수동 추가
-5. git commit & push → Vercel 자동 재배포
+5. node scripts/update_scholar_metrics.cjs
+   → Google Scholar citation 수 갱신
+   → 공개 Google Sites JCR 라벨 갱신
+6. git commit & push → Vercel 자동 재배포
 ```
 
 ---
@@ -154,6 +163,8 @@ pip install scholarly tqdm
 | 2026-05-07 | `scripts/patch_publications.py` 작성 및 실행 — 6건 수정/추가 완료 |
 | 2026-05-07 | `scripts/fetch_scholar.py` 전면 재작성 — scholarly 수집 + is_progress 자동 전환 로직 추가 |
 | 2026-05-07 | `src/constants.tsx` SHAP 논문 학술지명 수정 (CNNM → FGCS) |
+| 2026-06-04 | Scholar 최신 논문 반영 — 2026년 진행 중/게재 논문 및 DOI/BibTeX 보강 |
+| 2026-06-04 | `scripts/update_scholar_metrics.cjs` 추가 — Google Scholar citation 및 공개 JCR 라벨 표시 |
 
 ---
 
@@ -164,4 +175,5 @@ npm install --legacy-peer-deps   # React 19 호환성 이슈로 --legacy-peer-de
 npm run dev                       # http://localhost:5173
 npm run build                     # 배포용 빌드
 python scripts/fetch_scholar.py  # 논문 데이터 갱신
+node scripts/update_scholar_metrics.cjs  # citation/JCR 라벨 갱신
 ```

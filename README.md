@@ -12,7 +12,7 @@
 - **Framework**: React 19 (TypeScript)
 - **Build Tool**: Vite
 - **Styling**: Tailwind CSS
-- **Routing**: React Router v6
+- **Routing**: React Router v7
 - **SEO**: React Helmet Async
 - **Icons**: Lucide React
 - **Deployment**: Vercel
@@ -33,12 +33,18 @@
 │   │   ├── Home.tsx         # 메인 (통계, 최신 뉴스 4건, 채용 공고)
 │   │   ├── Research.tsx     # 연구 분야 소개 및 저장소 링크
 │   │   ├── People.tsx       # 구성원 소개 (직급별 분류, 졸업생 분리)
-│   │   ├── Publications.tsx # 논문 실적 (연도별 탭 필터링)
+│   │   ├── Publications.tsx # 주요 논문 하이라이트
+│   │   ├── ScholarPublications.tsx # 전체 논문 아카이브, citation/JCR 표시
 │   │   └── News.tsx         # 전체 뉴스 아카이브 (연도별 그룹화)
+│   ├── data/
+│   │   └── publications.json # 교수별 전체 논문, 진행 중 논문, citation/JCR 지표
 │   ├── constants.tsx    # ⚡ 핵심 데이터 파일 (멤버, 논문, 뉴스 등 데이터 관리)
 │   ├── types.ts         # TypeScript 인터페이스 정의
 │   ├── App.tsx          # 라우팅 설정
 │   └── main.tsx         # 진입점 (HelmetProvider 설정)
+├── scripts/
+│   ├── patch_publications.py      # 논문 데이터 일회성 수정/보강
+│   └── update_scholar_metrics.cjs # Google Scholar citation 및 공개 JCR 라벨 갱신
 └── tailwind.config.js   # 스타일링 설정
 ```
 
@@ -59,26 +65,41 @@
     *   직급별 멤버 분류 (PI, PostDoc, PhD, Master, Undergraduate)
     *   졸업생(Alumni) 섹션 별도 분리
     *   이메일, 웹사이트, GitHub 링크를 텍스트 형태로 깔끔하게 제공
+    *   PI/Co-PI 카드의 Publications 모달에서 논문, BibTeX, citation, JCR 라벨 표시
 
 4.  **Publications (`/publications`)**
-    *   **연도별 탭(Tabs)**을 통한 논문 필터링 (All Papers / 2025 / 2024 ...)
-    *   BibTeX 인용구 보기 및 원클릭 복사 기능
-    *   Top-tier 학회 및 저널 구분 태그
+    *   `src/constants.tsx`의 `PUBLICATIONS` 배열 기반 주요 논문 하이라이트
+    *   연구실 멤버 저자 강조 표시
+    *   전체 아카이브(`/scholar`)로 이동하는 링크 제공
 
-5.  **News (`/news`)**
+5.  **Scholar (`/scholar`)**
+    *   `src/data/publications.json` 기반 전체 논문 아카이브
+    *   교수별 탭(Seungmin Rho / Mi Young Lee)
+    *   펀딩 태그 필터, 검색, 연도/제목/펀딩 정렬
+    *   Google Scholar citation 수와 공개 Google Sites JCR 라벨 표시
+    *   BibTeX 인용구 보기 및 원클릭 복사 기능
+    *   진행 중 논문은 `is_progress: true`로 구분
+
+6.  **News (`/news`)**
     *   연구실의 모든 소식을 연도별로 정리하여 제공
 
-6.  **SEO & Sharing**
+7.  **SEO & Sharing**
     *   Open Graph 적용: 카카오톡, 슬랙 등 링크 공유 시 연구실 미리보기 카드(이미지/설명) 표시
 
 ---
 
 ## ⚙️ Data Management (데이터 수정 방법)
 
-이 프로젝트는 별도의 백엔드 없이 **`src/constants.tsx`** 파일에서 모든 데이터를 관리합니다.
+이 프로젝트는 별도의 백엔드 없이 정적 데이터 파일을 직접 관리합니다.
 
 *   **멤버 추가/수정**: `MEMBERS` 배열 수정. (이미지는 `public/assets`에 넣고 경로 지정)
-*   **논문 업데이트**: `PUBLICATIONS` 배열에 객체 추가.
+*   **주요 논문 업데이트**: `src/constants.tsx`의 `PUBLICATIONS` 배열에 객체 추가.
+*   **전체 Scholar 아카이브 업데이트**: `src/data/publications.json`의 교수별 배열 수정.
+*   **진행 중 논문**: `{ title, author, journal, status, funding_tags, year, is_progress: true }` 형태로 추가.
+*   **성과 지표 업데이트**: `node scripts/update_scholar_metrics.cjs` 실행.
+    *   `citations`: Google Scholar 프로필의 citation 수
+    *   `jcr`: 공개 Google Sites에 표시된 `SCIE/SSCI ... Top ...%` 라벨
+    *   `jcr_source`: JCR 라벨을 가져온 공개 페이지 URL
 *   **뉴스 업데이트**: `NEWS` 배열에 소식 추가 (자동으로 최신순 정렬됨).
 *   **연구 분야 수정**: `RESEARCH_AREAS` 배열 수정.
 
@@ -110,6 +131,12 @@
     ```bash
     npm run build
     ```
+
+5.  **Scholar 성과 지표 갱신**
+    ```bash
+    node scripts/update_scholar_metrics.cjs
+    ```
+    Google Scholar citation 수와 공개 Google Sites JCR 라벨을 `src/data/publications.json`에 반영합니다.
 
 ---
 
