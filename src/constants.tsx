@@ -10,6 +10,7 @@ export const LAB_AFFILIATION = "Chung-Ang University";
 
 // 1. 뉴스 데이터
 export const NEWS: NewsItem[] =[
+  { id: 'n10', date: '2026.06.28', title: 'Attended IEEE ISIT 2026 in Guangzhou, China.' },
   { id: 'n9', date: '2026.02.24', title: 'Attended ICAIIC 2026 in Tokyo, Japan.' },
   { id: 'n8', date: '2025.11.29', title: 'Attended the Society for e-Business Studies 2025 Fall Academic Conference at AICT.' },
   { id: 'n7', date: '2025.10.25', title: 'Attended ECAI 2025 in Bologna, Italy (Workshop paper: TRUST-AI).' },
