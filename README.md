@@ -3,7 +3,7 @@
 중앙대학교 **PURE(Privacy, Unlearning, and Robust Engineering Lab)**의 공식 홈페이지 프로젝트입니다.
 노승민 교수님 지도하에 **Privacy-Preserving AI, Machine Unlearning, Robust AI Engineering** 분야를 연구하는 연구실의 정보를 제공합니다.
 
-🔗 **Live Site:** [https://cheonbung.github.io/pure-homepage/](https://cheonbung.github.io/pure-homepage/)
+🔗 **Live Site:** [https://cau-purelab.github.io/](https://cau-purelab.github.io/)
 
 ---
 
@@ -111,8 +111,8 @@
 
 1.  **저장소 클론**
     ```bash
-    git clone https://github.com/cheonbung/pure-homepage.git
-    cd pure-homepage
+    git clone https://github.com/cau-purelab/cau-purelab.github.io.git
+    cd cau-purelab.github.io
     ```
 
 2.  **패키지 설치**
@@ -142,7 +142,7 @@
 
 ## ☁️ Deployment (배포)
 
-이 프로젝트는 **GitHub Pages**에 맞춰 배포됩니다. 기본 공개 URL은 `https://cheonbung.github.io/pure-homepage/`입니다.
+이 프로젝트는 **GitHub Pages** user/organization site로 배포됩니다. 기본 공개 URL은 `https://cau-purelab.github.io/`입니다.
 
 1.  GitHub의 `main` 브랜치에 코드를 푸시(Push)합니다.
 2.  GitHub 저장소의 **Settings > Pages**로 이동합니다.

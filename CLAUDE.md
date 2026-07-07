@@ -5,8 +5,8 @@
 **PURE(Privacy, Unlearning, and Robust Engineering Lab)** 공식 홈페이지.
 중앙대학교 노승민 교수 연구실 (Privacy-Preserving AI, Machine Unlearning, Robust AI Engineering).
 
-- **Live**: https://cheonbung.github.io/pure-homepage/
-- **Repo**: https://github.com/cheonbung/pure-homepage
+- **Live**: https://cau-purelab.github.io/
+- **Repo**: https://github.com/cau-purelab/cau-purelab.github.io
 - **Deployment**: GitHub Pages (main 브랜치 push → GitHub Actions 자동 재배포)
 
 ---

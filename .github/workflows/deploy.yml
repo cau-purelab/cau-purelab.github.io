@@ -34,7 +34,7 @@ jobs:
       - name: Build
         run: npm run build:pages
         env:
-          VITE_BASE_PATH: /pure-homepage/
+          VITE_BASE_PATH: /
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

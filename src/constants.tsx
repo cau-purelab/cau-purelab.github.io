@@ -4,7 +4,7 @@ export const LAB_SHORT_NAME = "PURE";
 export const LAB_FULL_NAME = "Privacy, Unlearning, and Robust Engineering Lab";
 export const LAB_NAME = `${LAB_SHORT_NAME}(${LAB_FULL_NAME})`;
 export const LAB_DESCRIPTION = "Advancing privacy-preserving AI, machine unlearning, and robust engineering for trustworthy systems.";
-export const LAB_URL = "https://cheonbung.github.io/pure-homepage";
+export const LAB_URL = "https://cau-purelab.github.io";
 export const LAB_EMAIL = "purelab.cau@gmail.com";
 export const LAB_AFFILIATION = "Chung-Ang University";
 
