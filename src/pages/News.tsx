@@ -15,7 +15,7 @@ const News = () => {
 
     return (
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <SEO title="News" description="Latest news and announcements from Security Visual Intelligence Lab." />
+            <SEO title="News" description="Latest news and announcements from PURE." />
 
             <div className="mb-16">
                 <h1 className="font-playfair text-4xl font-bold text-blue-900 mb-4">Lab News</h1>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRight, Calendar, Users, FileText, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { LAB_NAME, LAB_DESCRIPTION, RESEARCH_AREAS, NEWS, PUBLICATIONS, MEMBERS } from '../constants';
+import { LAB_DESCRIPTION, LAB_EMAIL, LAB_NAME, RESEARCH_AREAS, NEWS, PUBLICATIONS, MEMBERS } from '../constants';
 import SEO from '../components/SEO';
 
 const Home = () => {
@@ -10,7 +10,7 @@ const Home = () => {
 
   return (
     <div className="pb-20 overflow-hidden">
-      <SEO title="Home" description="Security Visual Intelligence Lab at Chung-Ang University." />
+      <SEO title="Home" description="PURE lab at Chung-Ang University." />
 
       {/* 1. Hero Section */}
       <section className="relative h-[450px] flex items-center justify-center overflow-hidden">
@@ -78,10 +78,10 @@ const Home = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <h2 className="font-playfair text-3xl font-bold text-blue-900 leading-tight">
-              Pursuing Excellence in <br />Secure Visual Intelligence
+              Pursuing Excellence in <br />Privacy, Unlearning, and Robust Engineering
             </h2>
             <p className="text-gray-600 leading-relaxed text-base font-light">
-              We focus on fundamental and applied research in computer vision, machine learning security, and trustworthy AI. Our goal is to build visual intelligence systems that are not only high-performing but also secure, private, and explainable.
+              We focus on fundamental and applied research in privacy-preserving AI, machine unlearning, and robust engineering. Our goal is to build AI systems that are high-performing, private, reliable, and explainable.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-4">
@@ -115,10 +115,10 @@ const Home = () => {
               <Mail className="w-4 h-4 text-blue-200" />
               <span className="text-sm text-blue-100">Contact us at:</span>
               <a 
-                href="mailto:svil2024.official@gmail.com" 
+                href={`mailto:${LAB_EMAIL}`}
                 className="text-sm font-bold text-white hover:text-blue-200 transition-colors underline decoration-blue-400/50 underline-offset-4"
               >
-                svil2024.official@gmail.com
+                {LAB_EMAIL}
               </a>
             </div>
           </div>

@@ -1,7 +1,12 @@
 import { Member, Publication, ResearchArea, NewsItem } from './types';
 
-export const LAB_NAME = "Security Visual Intelligence Lab";
-export const LAB_DESCRIPTION = "Pioneering Trustworthy AI, Machine Unlearning, and Secure Computer Vision.";
+export const LAB_SHORT_NAME = "PURE";
+export const LAB_FULL_NAME = "Privacy, Unlearning, and Robust Engineering Lab";
+export const LAB_NAME = `${LAB_SHORT_NAME}(${LAB_FULL_NAME})`;
+export const LAB_DESCRIPTION = "Advancing privacy-preserving AI, machine unlearning, and robust engineering for trustworthy systems.";
+export const LAB_URL = "https://cheonbung.github.io/pure-homepage";
+export const LAB_EMAIL = "purelab.cau@gmail.com";
+export const LAB_AFFILIATION = "Chung-Ang University";
 
 // 1. 뉴스 데이터
 export const NEWS: NewsItem[] =[
@@ -13,33 +18,31 @@ export const NEWS: NewsItem[] =[
   { id: 'n4', date: '2025.05.01', title: 'Hosted the Society for e-Business Studies Spring Conference at CAU Bldg 310.' },
   { id: 'n3', date: '2025.01.15', title: 'Attended ICOIN 2025 in Chiang Mai, Thailand.' },
   { id: 'n2', date: '2024.08.26', title: 'Attended PlatCon-24 in Jeju, Korea.' },
-  { id: 'n1', date: '2024.03.04', title: 'Security Visual Intelligence Lab (SVIL) founded by Prof. Seungmin Rho at CAU.' },
+  { id: 'n1', date: '2024.03.04', title: 'PURE(Privacy, Unlearning, and Robust Engineering Lab) founded by Prof. Seungmin Rho at CAU.' },
 ];
 
 // 2. 연구 분야 데이터
 export const RESEARCH_AREAS: ResearchArea[] =[
   {
+    id: "privacy-preserving-ai",
+    title: "Privacy-Preserving AI",
+    description: "Designing learning pipelines that reduce sensitive-data exposure while preserving model utility. We study privacy-aware training, evaluation, and deployment practices for modern AI systems.",
+    image: "/assets/machine-unlearning.png",
+    tags:['Data Privacy', 'LLM Privacy', 'Responsible AI']
+  },
+  {
     id: "machine-unlearning",
     title: "Machine Unlearning",
-    description: "Developing algorithms that allow AI models to 'forget' specific data points without full retraining. We focus on removing privacy-sensitive data from LLMs and copyrighted content from Diffusion models while maintaining model performance.",
-    image: "/assets/machine-unlearning.png",
-    tags:['Generative Models', 'LLM Privacy', 'Copyright Removal'],
-    github: 'https://github.com/svil-lab/unlearning-lib'
-  },
-  {
-    id: "secure-cv",
-    title: "Secure Computer Vision",
-    description: "Ensuring the reliability of computer vision systems against adversarial attacks and data poisoning. Our research bridges the gap between high-performance visual recognition and real-world security requirements.",
-    image: "/assets/secure-cv.png",
-    tags:['Model Robustness', 'AI Safety', 'Adversarial Defense'],
-    github: 'https://github.com/svil-lab/secure-cv'
-  },
-  {
-    id: "trustworthy-ai",
-    title: "Trustworthy AI",
-    description: "Investigating the security vulnerabilities of large-scale generative models. We develop watermarking techniques for AI-generated content and defense mechanisms against prompt injection in multi-modal models.",
+    description: "Developing algorithms that allow AI models to forget specific data points without full retraining. We focus on removing privacy-sensitive data from LLMs and copyrighted content from generative models while maintaining performance.",
     image: "/assets/trustworthy-ai.png",
-    tags:['Diffusion Security', 'Watermarking', 'Prompt Security']
+    tags:['Generative Models', 'Selective Forgetting', 'Copyright Removal']
+  },
+  {
+    id: "robust-ai-engineering",
+    title: "Robust AI Engineering",
+    description: "Engineering reliable AI systems against distribution shift, adversarial behavior, and data poisoning. Our work connects model robustness with practical deployment requirements for trustworthy applications.",
+    image: "/assets/secure-cv.png",
+    tags:['Model Robustness', 'AI Safety', 'Adversarial Defense']
   }
 ];
 
@@ -51,7 +54,7 @@ export const MEMBERS: Member[] =[
     role: "Principal Investigator",
     image: "/assets/Seungmin Rho.jpg",
     email: "smrho@cau.ac.kr",
-    specialization: '#AI Security & Privacy',
+    specialization: '#AI Privacy #Robust AI #Trustworthy Systems',
     website: "https://sites.google.com/view/seungminrho"
   },
   {
@@ -60,7 +63,7 @@ export const MEMBERS: Member[] =[
     role: "Co-Principal Investigator",
     image: "/assets/Mi young Lee.jpg",
     email: "miylee@cau.ac.kr",
-    specialization: '#AI Security & Data Privacy #Machine Unlearning #Synthetic Data #Computer Vision',
+    specialization: '#Data Privacy #Machine Unlearning #Synthetic Data #Computer Vision',
     website: "https://sites.google.com/view/ntblue/home"
   },
   {
@@ -70,7 +73,7 @@ export const MEMBERS: Member[] =[
     image: "/assets/Byeongcheon Lee.jpg",
     email: "qudcjs0208@cau.ac.kr",
     website: "https://cheonbung.github.io/",
-    specialization: '#Machine Unlearning #Trustworthy AI #Time Series Anomaly Detection #Generative Model Security',
+    specialization: '#Machine Unlearning #Robust AI #Time Series Anomaly Detection #Generative Model Security',
     github: "https://github.com/cheonbung"
   },
   {
@@ -79,7 +82,7 @@ export const MEMBERS: Member[] =[
     role: "Ph.D. Student",
     image: "/assets/Sangmin Kim.jpg",
     email: "kimddol98@cau.ac.kr",
-    specialization: '#Machine Unlearning #Trustworthy AI #Natural Language Processing #LLM',
+    specialization: '#Machine Unlearning #Robust AI #Natural Language Processing #LLM',
     github: "https://github.com/Sang-T"
   },
   {

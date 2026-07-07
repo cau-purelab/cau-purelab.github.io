@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { LAB_NAME } from '../constants';
+import { LAB_EMAIL, LAB_FULL_NAME, LAB_NAME, LAB_SHORT_NAME } from '../constants';
 
 const Footer = () => {
     return (
@@ -10,12 +10,15 @@ const Footer = () => {
                     {/* Brand Section */}
                     <div className="col-span-1 lg:col-span-2">
                         <div className="flex items-center gap-3 mb-4">
-                            {/* [수정됨] 방패 심볼 (세 번째 이미지) 사용 */}
-                            <img src="/assets/favicon.png" alt="SVIL Shield" className="h-10 w-10 opacity-90" />
-                            <h2 className="text-2xl font-playfair font-bold text-white tracking-wide">{LAB_NAME}</h2>
+                            {/* [수정됨] PURE 마크 사용 */}
+                            <img src="/assets/favicon.png" alt={`${LAB_SHORT_NAME} Mark`} className="h-10 w-10 opacity-90" />
+                            <h2 className="text-2xl font-playfair font-bold text-white tracking-wide">
+                                {LAB_SHORT_NAME}
+                                <span className="block text-xs font-sans font-semibold tracking-[0.18em] text-slate-400 uppercase mt-1">{LAB_FULL_NAME}</span>
+                            </h2>
                         </div>
                         <p className="text-sm text-slate-400 max-w-sm leading-relaxed pl-1">
-                            We focus on fundamental and applied research in computer vision, machine learning security, and trustworthy AI systems.
+                            We focus on privacy-preserving AI, machine unlearning, and robust engineering for trustworthy systems.
                         </p>
                     </div>
 
@@ -39,7 +42,7 @@ const Footer = () => {
                             <p>Chung-Ang University</p>
                             <p>84 Heukseok-ro, Dongjak-gu</p>
                             <p>Seoul, 06974, Rep. of Korea</p>
-                            <a href="mailto:svil2024.official@gmail.com" className="block mt-4 text-blue-400 hover:text-blue-300 transition-colors font-medium">svil2024.official@gmail.com</a>
+                            <a href={`mailto:${LAB_EMAIL}`} className="block mt-4 text-blue-400 hover:text-blue-300 transition-colors font-medium">{LAB_EMAIL}</a>
                         </div>
                     </div>
                 </div>

@@ -1,9 +1,9 @@
-# Security Visual Intelligence Lab (SVIL) Website
+# PURE(Privacy, Unlearning, and Robust Engineering Lab) Website
 
-중앙대학교 **Security Visual Intelligence Lab (SVIL)**의 공식 홈페이지 프로젝트입니다.
-노승민 교수님 지도하에 **AI Security, Machine Unlearning, Trustworthy AI** 분야를 연구하는 연구실의 정보를 제공합니다.
+중앙대학교 **PURE(Privacy, Unlearning, and Robust Engineering Lab)**의 공식 홈페이지 프로젝트입니다.
+노승민 교수님 지도하에 **Privacy-Preserving AI, Machine Unlearning, Robust AI Engineering** 분야를 연구하는 연구실의 정보를 제공합니다.
 
-🔗 **Live Demo:** [https://security-visual-intelligence-lab-ho.vercel.app/](https://security-visual-intelligence-lab-ho.vercel.app/)
+🔗 **Live Site:** [https://cheonbung.github.io/pure-homepage/](https://cheonbung.github.io/pure-homepage/)
 
 ---
 
@@ -15,7 +15,7 @@
 - **Routing**: React Router v7
 - **SEO**: React Helmet Async
 - **Icons**: Lucide React
-- **Deployment**: Vercel
+- **Deployment**: GitHub Pages
 
 ---
 
@@ -58,8 +58,8 @@
     *   최신 뉴스 (최근 4건) 및 채용 공고(Join Us) 섹션
 
 2.  **Research (`/research`)**
-    *   주요 연구 분야 소개 (Machine Unlearning, Secure CV, Trustworthy AI)
-    *   GitHub 코드 저장소 및 데이터셋 미러 링크 제공
+    *   주요 연구 분야 소개 (Privacy-Preserving AI, Machine Unlearning, Robust AI Engineering)
+    *   연구 분야별 설명 및 관련 리소스 링크 제공
 
 3.  **People (`/people`)**
     *   직급별 멤버 분류 (PI, PostDoc, PhD, Master, Undergraduate)
@@ -111,8 +111,8 @@
 
 1.  **저장소 클론**
     ```bash
-    git clone https://github.com/cheonbung/security-visual-intelligence-lab-home.git
-    cd security-visual-intelligence-lab-home
+    git clone https://github.com/cheonbung/pure-homepage.git
+    cd pure-homepage
     ```
 
 2.  **패키지 설치**
@@ -142,19 +142,18 @@
 
 ## ☁️ Deployment (배포)
 
-이 프로젝트는 **Vercel**에 최적화되어 있습니다.
+이 프로젝트는 **GitHub Pages**에 맞춰 배포됩니다. 기본 공개 URL은 `https://cheonbung.github.io/pure-homepage/`입니다.
 
 1.  GitHub의 `main` 브랜치에 코드를 푸시(Push)합니다.
-2.  Vercel 대시보드에서 해당 리포지토리를 연결합니다.
-3.  **Settings > Build & Development**에서 Install Command를 아래와 같이 설정합니다 (React 19 호환성 이슈 해결):
-    *   Override: `On`
-    *   Command: `npm install --legacy-peer-deps`
-4.  이후 `git push`를 할 때마다 자동으로 재배포됩니다.
+2.  GitHub 저장소의 **Settings > Pages**로 이동합니다.
+3.  **Build and deployment > Source**를 `GitHub Actions`로 설정합니다.
+4.  `.github/workflows/deploy.yml` 워크플로우가 자동으로 빌드하고 Pages에 배포합니다.
+5.  이후 `git push`를 할 때마다 자동으로 재배포됩니다.
 
 ---
 
 ## 📞 Contact
 
 *   **Principal Investigator**: Prof. Seungmin Rho
-*   **Email**: smrho@cau.ac.kr
+*   **Email**: purelab.cau@gmail.com
 *   **Location**: Room B105-1, Bldg. 310, Chung-Ang University, Seoul, Korea

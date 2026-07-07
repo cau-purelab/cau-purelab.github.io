@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { LAB_NAME } from '../constants';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +24,7 @@ const Navbar = () => {
             <Link to="/" className="flex items-center">
               <img
                 src="/assets/logo-full.png"
-                alt="SVIL Logo"
+                alt={`${LAB_NAME} Logo`}
                 className="h-10 w-auto object-contain"
               />
             </Link>

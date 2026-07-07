@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { LAB_NAME, LAB_DESCRIPTION } from '../constants';
+import { LAB_NAME, LAB_DESCRIPTION, LAB_URL } from '../constants';
 
 interface SEOProps {
     title: string;
@@ -16,7 +16,7 @@ const SEO: React.FC<SEOProps> = ({ title, description, image }) => {
     const metaImage = image || '/assets/og-image.png';
 
     // [수정됨] 도메인 절대 경로 (카카오톡 미리보기용)
-    const siteUrl = 'https://security-visual-intelligence-lab-ho.vercel.app';
+    const siteUrl = LAB_URL;
 
     return (
         <Helmet>

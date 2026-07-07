@@ -6,14 +6,14 @@ import SEO from '../components/SEO';
 const Research = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <SEO title="Research" description="Machine Unlearning, Secure Computer Vision, and Trustworthy AI research." />
+      <SEO title="Research" description="Privacy-preserving AI, machine unlearning, and robust AI engineering research." />
 
       <div className="mb-24 text-center">
         <h2 className="text-xs font-bold text-blue-900 uppercase tracking-[0.6em] mb-4">Core Competencies</h2>
         <h1 className="font-playfair text-5xl font-bold text-gray-900 mb-6 tracking-tight">Research Areas</h1>
         <div className="w-16 h-1 bg-blue-900 mx-auto mb-8"></div>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed font-light">
-          We focus on building reliable systems that reason about <span className="text-blue-900 font-medium">safety and privacy</span>. Our research is open-sourced to promote transparency in AI development.
+          We focus on building reliable systems that reason about <span className="text-blue-900 font-medium">privacy, unlearning, and robustness</span>. Our research promotes transparent and responsible AI development.
         </p>
       </div>
 

@@ -9,9 +9,11 @@ import Publications from './pages/Publications';       // 주요 논문 페이�
 import News from './pages/News';
 import ScholarPublications from './pages/ScholarPublications'; // 전체 논문 페이지
 
+const routerBasename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
+
 function App() {
   return (
-    <Router>
+    <Router basename={routerBasename}>
       <div className="min-h-screen bg-white flex flex-col font-sans text-gray-900">
         <Navbar />
         <main className="flex-grow pt-16">

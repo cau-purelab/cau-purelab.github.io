@@ -1,13 +1,13 @@
-# CLAUDE.md — SVIL Homepage 작업 가이드
+# CLAUDE.md — PURE Homepage 작업 가이드
 
 ## 프로젝트 개요
 
-**Security Visual Intelligence Lab (SVIL)** 공식 홈페이지.  
-중앙대학교 노승민 교수 연구실 (AI Security, Machine Unlearning, Trustworthy AI).
+**PURE(Privacy, Unlearning, and Robust Engineering Lab)** 공식 홈페이지.
+중앙대학교 노승민 교수 연구실 (Privacy-Preserving AI, Machine Unlearning, Robust AI Engineering).
 
-- **Live**: https://security-visual-intelligence-lab-ho.vercel.app/
-- **Repo**: https://github.com/cheonbung/security-visual-intelligence-lab-home
-- **Deployment**: Vercel (main 브랜치 push → 자동 재배포)
+- **Live**: https://cheonbung.github.io/pure-homepage/
+- **Repo**: https://github.com/cheonbung/pure-homepage
+- **Deployment**: GitHub Pages (main 브랜치 push → GitHub Actions 자동 재배포)
 
 ---
 
@@ -114,7 +114,7 @@
 5. node scripts/update_scholar_metrics.cjs
    → Google Scholar citation 수 갱신
    → 공개 Google Sites JCR 라벨 갱신
-6. git commit & push → Vercel 자동 재배포
+6. git commit & push → GitHub Pages 자동 재배포
 ```
 
 ---
@@ -145,7 +145,7 @@
    python scripts/fetch_scholar.py        # 전체 재수집 (scholarly 필요)
 4. 주요 논문이면 src/constants.tsx의 PUBLICATIONS 배열에도 수동 추가
 5. node scripts/update_scholar_metrics.cjs  # citation/JCR 라벨 갱신
-6. git commit & push → Vercel 자동 재배포
+6. git commit & push → GitHub Pages 자동 재배포
 ```
 
 **주의**: fetch_scholar.py 실행 시 scholarly 패키지 필요

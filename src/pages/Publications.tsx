@@ -11,7 +11,7 @@ const Publications = () => {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <SEO title="Selected Publications" description="Major research contributions of SVIL." />
+      <SEO title="Selected Publications" description="Major research contributions of PURE." />
 
       {/* 1. 상단 헤더 */}
       <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -19,7 +19,7 @@ const Publications = () => {
           <h2 className="text-xs font-bold text-blue-600 uppercase tracking-[0.5em] mb-3">Research Highlights</h2>
           <h1 className="font-playfair text-5xl font-extrabold text-slate-900 mb-4">Major Publications</h1>
           <p className="text-slate-500 leading-relaxed">
-            A curated list of our most impactful research in Trustworthy AI, Machine Unlearning, and Secure Computer Vision.
+            A curated list of our most impactful research in privacy-preserving AI, machine unlearning, and robust AI engineering.
           </p>
         </div>
         
