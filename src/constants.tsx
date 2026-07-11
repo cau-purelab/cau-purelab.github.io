@@ -116,6 +116,7 @@ export const PUBLICATIONS: Publication[] =[
     venue: "Future Generation Computer Systems",
     tags: ["Machine Unlearning", "LightGBM"],
     isSelected: true,
+    status: "Under Review",
     bibtex: "@article{Park2026SHAP,\n title={SHAP-Guided Leaf-Value Adjustment for Efficient Unlearning in LightGBM},\n author={Park, Sungwoo and Kim, Sangmin and Lee, Byeongcheon and Maqsood, Muazzam and Lee, Mi Young and Rho, Seungmin},\n journal={Future Generation Computer Systems},\n year={2026}\n}"
   },
   {

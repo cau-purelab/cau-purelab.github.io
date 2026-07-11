@@ -15,69 +15,87 @@ from selenium.webdriver.common.by import By
 # ---------------------------------------------------------
 # [데이터] 교수님 페이지의 '진행 중인 논문' 직접 입력
 # ---------------------------------------------------------
+# Google Sites (https://sites.google.com/view/seungminrho) "In Press, Proofing, or In Review" 섹션 기준
+# 마지막 동기화: 2026-07-11
 IN_PROGRESS_PAPERS = [
+    {
+        "title": "A Novel Hybrid Multi-Scale Temporal Relations-based Graph Neural Networks for Stock Price Forecasting Using Commodity Indices and Events",
+        "author": "A. Sattar, Y. Ansari, A. Mustaqeem, M. Bukhari, M.Y. Lee, S Rho",
+        "journal": "Science Progress",
+        "status": "Submitted, June 2026",
+        "funding_tags": ["Convg_Security-26", "Prof. MYLee"],
+        "year": "2026"
+    },
+    {
+        "title": "An improved deepfake detection exploiting temporal and contextual inconsistencies with segmentation-guided feature fusion",
+        "author": "W. Ibrahim, M. Bukhari, A. Mustaqeem, A. Sattar, M. Maqsood, MY Lee, S Rho",
+        "journal": "ICT Express",
+        "status": "Submitted, June 2026",
+        "funding_tags": ["ITRC-26", "Prof. MYLee"],
+        "year": "2026"
+    },
+    {
+        "title": "TRUST-SDT: A Transparent and Reliable Framework for Selective Machine Unlearning via Soft Decision Tree Distillation",
+        "author": "SM Kim, BC Lee, SW Park, M. Maqsood, MY Lee, S Rho",
+        "journal": "Applied Soft Computing",
+        "status": "Submitted, June 2026",
+        "funding_tags": ["Convg_Security-26", "Prof. MYLee"],
+        "year": "2026"
+    },
+    {
+        "title": "TRUST: Toward TRUstworthy Selective unlearning through Two-stage optimization",
+        "author": "BC Lee, SM Kim, SW Park, M. Maqsood, MY Lee, S Rho",
+        "journal": "Information Sciences",
+        "status": "Submitted, June 2026",
+        "funding_tags": ["Convg_Security-26", "Prof. MYLee"],
+        "year": "2026"
+    },
+    {
+        "title": "Domain Knowledge-Aware Photovoltaic Power Forecasting via LLM-Driven Semantic Feature Extraction and Graph Neural Networks",
+        "author": "SW Park, MY Lee, S Rho, Hyeonwoo Kim",
+        "journal": "ICT Express",
+        "status": "Submitted, April 2026",
+        "funding_tags": ["Prof. HWKim"],
+        "year": "2026"
+    },
     {
         "title": "SHAP-Guided Leaf-Value Adjustment for Efficient Unlearning in LightGBM",
         "author": "S.W. Park, S. Kim, B. Lee, M. Maqsood, MY Lee, S Rho",
-        "journal": "Communications in Nonlinear Science and Numerical Simulation",
-        "status": "Submitted, Feb. 2026",
+        "journal": "Future Generation Computer Systems",
+        "status": "Submitted, April 2026",
         "funding_tags": ["NRF-SM-25", "Prof. MYLee"],
         "year": "2026"
     },
     {
         "title": "Novel Glow Adversarial Attack–based Proactive Defense against Deepfake Generation with Photometric Specular Highlights",
-        "author": "Maryam Bukharia, M. Maqsood, S Rho",
-        "journal": "Alexandria Engineering Journal",
-        "status": "Submitted, Feb. 2026",
-        "funding_tags": ["ITRC-26", "NRF-SM-25"],
+        "author": "Maryam Bukhari, M. Maqsood, M.Y. Lee, S Rho",
+        "journal": "IEEE Access",
+        "status": "Submitted, April 2026",
+        "funding_tags": ["Convg_Security-26", "Prof. MYLee"],
         "year": "2026"
     },
     {
         "title": "An improved deep learning-based MSA-Net model for small liver tumor segmentation",
-        "author": "Beenish Hina, Muazzam Maqsood, Asma Sattar, Zahoor ur Rehman, S Rho, Hyungjoon Kim",
+        "author": "Beenish Hina, Muazzam Maqsood, Asma Sattar, Zahoor ur Rehman, M. Saud Khan, S Rho, Hyungjoon Kim",
         "journal": "Science Progress",
-        "status": "Submitted, Dec. 2025",
-        "funding_tags": ["Prof. KIM"],
-        "year": "2025"
-    },
-    {
-        "title": "Adversarial AI Through Frequency-Domain Imperceptible Attack on Person Re-Identification",
-        "author": "Asma Sattar, Maryam Bukhari, M. Saud Khan, Anam Mustaqeem, M.Y. Lee, S Rho",
-        "journal": "CMC-Computers, Materials & Continua",
-        "status": "2nd Revision, Feb. 2026",
-        "funding_tags": ["Convg_Security-26", "NRF-SM-25", "Prof. MYLee"],
+        "status": "1st Revision, April 2026",
+        "funding_tags": ["Prof. HJKim"],
         "year": "2026"
     },
     {
-        "title": "Stock Price Forecasting Modelling Cross-Sector and Within-Sector Relationships with Sector-Specific Macroeconomic Signals",
-        "author": "Asma Sattar, M. Maqsood, S Rho",
-        "journal": "Applied Artificial Intelligence",
-        "status": "Submitted, Dec. 2025",
-        "funding_tags": ["Convg_Security-26", "KNU-26"],
-        "year": "2025"
-    },
-    {
-        "title": "Regime-Aware Static and Dynamic Graph Structure Learning for Stock Price Forecasting",
-        "author": "S Rho",
-        "journal": "Humanities and Social Sciences Communications",
-        "status": "1st Revision, Feb. 2026",
-        "funding_tags": ["Convg_Security-26", "KNU-26"],
+        "title": "Stock Price Forecasting Using Graph Neural Networks Modelling Cross-Sector and Within-Sector Relationships with Sector-Specific Macroeconomic Signals",
+        "author": "Asma Sattar, M. Maqsood, M.Y. Lee, S Rho",
+        "journal": "Alexandria Engineering Journal",
+        "status": "Submitted, July 2026",
+        "funding_tags": ["Convg_Security-26"],
         "year": "2026"
-    },
-    {
-        "title": "A Novel Hybrid Multi-Scale Temporal Relations-based Graph Neural Networks for Stock Price Forecasting Using Commodity Indices and Events",
-        "author": "M.C. Kim, S Rho",
-        "journal": "Neural Processing Letters",
-        "status": "Submitted, Dec. 2025",
-        "funding_tags": ["Convg_Security-26", "KNU-26"],
-        "year": "2025"
     },
     {
         "title": "MSTCA Framework: Advancing Medical Deepfake Detection with Multiscale Spatial Transformers and Convolutional Attention",
-        "author": "Fizza Bukhari, Maryam Bukhari, Amna Sarwar, M. Maqsood, S Rho",
+        "author": "Fizza Bukhari, Maryam Bukhari, Amna Sarwar, M. Maqsood, Mehr Yahya Durrani, Hyungjoon Kim, S Rho",
         "journal": "Scientific Reports",
         "status": "Submitted, Feb. 2026",
-        "funding_tags": ["ITRC-26", "NRF-SM-25"],
+        "funding_tags": ["ITRC-26", "Prof. HJKim"],
         "year": "2026"
     }
 ]
@@ -99,12 +117,15 @@ def fetch_publications():
 
     # 3. 진행 중인 논문(IN_PROGRESS_PAPERS) 병합
     rho_pubs = all_data.get("Seungmin Rho", [])
-    
-    # 중복 방지를 위한 제목 리스트
-    existing_titles = [p['title'].lower() for p in rho_pubs]
-    
+
+    # 중복 방지: 구두점/공백 차이와 부분 개정된 제목에도 견디도록 정규화 비교
+    def normalize(title):
+        return re.sub(r'[^a-z0-9]', '', title.lower())
+
+    existing_norms = {normalize(p['title']) for p in rho_pubs}
+
     for prog_pub in IN_PROGRESS_PAPERS:
-        if prog_pub['title'].lower() not in existing_titles:
+        if normalize(prog_pub['title']) not in existing_norms:
             # 진행 중 배지를 위해 bibtex에 특수 마킹 추가 또는 status 필드 추가
             prog_pub['is_progress'] = True
             rho_pubs.insert(0, prog_pub) # 최상단에 추가

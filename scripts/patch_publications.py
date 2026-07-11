@@ -20,90 +20,26 @@ def normalize(title: str) -> str:
 
 
 # ──────────────────────────────────────────────────────────────
-# 1. 기존 is_progress 항목 필드 수정
-#    (Google Sites 기준으로 학술지명/상태 정정)
+# 아래 4개 배열에 패치를 추가한 뒤 실행하면 publications.json에 반영된다.
+# 이전 패치(2026-05-07, 2026-06-04)는 모두 적용 완료되어 비워둠 —
+# 적용 이력은 git log로 확인할 것. 적용이 끝난 패치는 다시 비워둘 것.
 # ──────────────────────────────────────────────────────────────
-FIELD_PATCHES = [
-    {
-        "match": "SHAP-Guided Leaf-Value Adjustment",
-        "updates": {
-            "journal": "Future Generation Computer Systems",
-        },
-        "reason": "Google Sites에서 학술지명이 FGCS로 확인됨 (재투고)"
-    },
-    {
-        "match": "Novel Glow Adversarial Attack",
-        "updates": {
-            "journal": "IEEE Access",
-        },
-        "reason": "Google Sites에서 학술지명이 IEEE Access로 확인됨"
-    },
-    {
-        "match": "Stock Price Forecasting Modelling Cross-Sector",
-        "updates": {
-            "journal": "Computational Economics",
-        },
-        "reason": "Google Sites에서 학술지명이 Computational Economics로 확인됨"
-    },
-]
 
-# ──────────────────────────────────────────────────────────────
-# 2. is_progress → 출판 완료로 전환
-#    (Google Sites published 섹션에 등장, DOI 없어도 Accepted)
-# ──────────────────────────────────────────────────────────────
-CONVERT_TO_PUBLISHED = [
-    {
-        "match": "Adversarial AI Through Frequency-Domain Imperceptible Attack",
-        "bibtex": (
-            "@article{sattar2026adversarial,\n"
-            "  title={Adversarial AI Through Frequency-Domain Imperceptible Attack on Person Re-Identification},\n"
-            "  author={Sattar, Asma and Bukhari, Maryam and Khan, M. Saud and Mustaqeem, Anam"
-            " and Lee, Mi Young and Rho, Seungmin},\n"
-            "  journal={CMC-Computers, Materials & Continua},\n"
-            "  year={2026}\n"
-            "}"
-        ),
-        "url": "",
-        "reason": "Google Sites published 섹션(2026)에서 확인됨"
-    },
-]
+# 1. 기존 is_progress 항목 필드 수정 (Google Sites 기준으로 학술지명/상태 정정)
+#    예: {"match": "제목 일부", "updates": {"journal": "새 학술지명"}, "reason": "근거"}
+FIELD_PATCHES = []
 
-# ──────────────────────────────────────────────────────────────
+# 2. is_progress → 출판 완료로 전환 (Google Sites published 섹션에 등장)
+#    예: {"match": "제목 일부", "bibtex": "@article{...}", "url": "https://doi.org/...", "reason": "근거"}
+CONVERT_TO_PUBLISHED = []
+
 # 3. 신규 is_progress 논문 추가
-# ──────────────────────────────────────────────────────────────
-NEW_PROGRESS_PAPERS = [
-    {
-        "title": "Domain Knowledge-Aware Photovoltaic Power Forecasting via LLM-Driven Semantic Feature Extraction and Graph Neural Networks",
-        "author": "SW Park, MY Lee, S Rho, Hyeonwoo Kim",
-        "journal": "ICT Express",
-        "status": "Submitted, 2026",
-        "funding_tags": [],
-        "year": "2026",
-        "is_progress": True
-    },
-]
+#    예: {"title": ..., "author": ..., "journal": ..., "status": ..., "funding_tags": [...], "year": ..., "is_progress": True}
+NEW_PROGRESS_PAPERS = []
 
-# ──────────────────────────────────────────────────────────────
 # 4. 신규 출판 완료 논문 추가 (DOI 확인)
-# ──────────────────────────────────────────────────────────────
-NEW_PUBLISHED_PAPERS = [
-    {
-        "title": "Driving Investor Success: Novel Macro Momentum Accelerated Reinforcement Learning Framework for Stock Trading",
-        "url": "https://doi.org/10.1109/ACCESS.2026.3682019",
-        "bibtex": (
-            "@article{sattar2026driving,\n"
-            "  title={Driving Investor Success: Novel Macro Momentum Accelerated Reinforcement"
-            " Learning Framework for Stock Trading},\n"
-            "  author={Sattar, Asma and Maqsood, Muazzam and Rho, Seungmin},\n"
-            "  journal={IEEE Access},\n"
-            "  year={2026},\n"
-            "  doi={10.1109/ACCESS.2026.3682019},\n"
-            "  publisher={IEEE}\n"
-            "}"
-        ),
-        "funding_tags": []
-    },
-]
+#    예: {"title": ..., "url": "https://doi.org/...", "bibtex": "@article{...}", "funding_tags": [...]}
+NEW_PUBLISHED_PAPERS = []
 
 
 # ──────────────────────────────────────────────────────────────

@@ -53,6 +53,11 @@ const Publications = () => {
                     <Award size={10} /> Highlighted
                   </span>
                 )}
+                {pub.status && (
+                  <span className="px-2.5 py-1 bg-orange-50 text-orange-600 rounded-lg text-[10px] font-black border border-orange-200 border-dashed uppercase">
+                    {pub.status}
+                  </span>
+                )}
               </div>
 
               {/* 제목 */}

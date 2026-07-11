@@ -32,6 +32,7 @@ export interface Publication {
   pdf?: string;
   bibtex?: string;
   isSelected?: boolean;
+  status?: string;     // 미게재 논문 상태 표기 (예: "Under Review")
 }
 
 export interface ResearchArea {
