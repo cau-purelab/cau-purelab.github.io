@@ -7,6 +7,8 @@ export const LAB_DESCRIPTION = "Advancing privacy-preserving AI, machine unlearn
 export const LAB_URL = "https://cau-purelab.github.io";
 export const LAB_EMAIL = "purelab.cau@gmail.com";
 export const LAB_AFFILIATION = "Chung-Ang University";
+// publications.json 갱신 시(fetch_scholar.py / patch_publications.py / update_scholar_metrics.cjs 실행 후) 함께 수정할 것
+export const PUBLICATIONS_UPDATED_AT = "2026-07-11";
 
 // 1. 뉴스 데이터
 export const NEWS: NewsItem[] =[

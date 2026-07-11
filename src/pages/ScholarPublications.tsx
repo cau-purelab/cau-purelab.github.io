@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import publicationsData from '../data/publications.json';
 import SEO from '../components/SEO';
+import { PUBLICATIONS_UPDATED_AT } from '../constants';
 import { 
   ExternalLink, GraduationCap, Calendar, BookOpen, Search, 
   Quote, Check, FileText, ChevronDown, ChevronUp, Layers, Bookmark, Award,
@@ -135,6 +136,10 @@ const ScholarPublications = () => {
       <div className="mb-10 text-center">
         <h1 className="font-playfair text-4xl font-extrabold text-slate-900 mb-2">Research Archives</h1>
         <p className="text-slate-500 text-sm font-light">Academic contributions & project funding records.</p>
+        <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 bg-slate-50 border border-slate-200 rounded-full text-[11px] text-slate-500">
+          <Calendar size={12} />
+          <span>Data last updated: {PUBLICATIONS_UPDATED_AT}</span>
+        </div>
       </div>
 
       {/* --- [펀딩 대시보드: 연도순 정렬됨] --- */}

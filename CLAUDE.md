@@ -45,6 +45,7 @@
 - `NEWS[]` : 뉴스 항목
 - `RESEARCH_AREAS[]` : 연구 분야 3개 (Privacy-Preserving AI / Machine Unlearning / Robust AI Engineering)
 - `LAB_SHORT_NAME`, `LAB_FULL_NAME`, `LAB_NAME`, `LAB_DESCRIPTION`, `LAB_URL`, `LAB_EMAIL`, `LAB_AFFILIATION` : 전역 상수
+- `PUBLICATIONS_UPDATED_AT` : Scholar 페이지 "Data last updated" 배지에 쓰이는 수동 갱신 날짜 (publications.json 갱신 시 함께 수정)
 
 ### 2. `src/data/publications.json` — 자동+수동 혼합 관리
 - 키: 교수 이름 (`"Seungmin Rho"`, `"Mi Young Lee"`)
@@ -145,7 +146,8 @@
    python scripts/fetch_scholar.py        # 전체 재수집 (scholarly 필요)
 4. 주요 논문이면 src/constants.tsx의 PUBLICATIONS 배열에도 수동 추가
 5. node scripts/update_scholar_metrics.cjs  # citation/JCR 라벨 갱신
-6. git commit & push → GitHub Pages 자동 재배포
+6. src/constants.tsx의 `PUBLICATIONS_UPDATED_AT`을 오늘 날짜로 갱신 (Scholar 페이지 "Data last updated" 배지에 반영됨)
+7. git commit & push → GitHub Pages 자동 재배포 (Footer의 "Site last updated"는 빌드 시점 날짜가 자동으로 반영됨)
 ```
 
 **주의**: fetch_scholar.py 실행 시 scholarly 패키지 필요
@@ -170,6 +172,7 @@ pip install scholarly tqdm
 | 2026-07-07 | GitHub Pages를 개인 저장소(`cheonbung/pure-homepage`)에서 랩 공식 조직 저장소(`cau-purelab/cau-purelab.github.io`)로 이전 — base path `/pure-homepage/` → `/` 변경 |
 | 2026-07-07 | News에 IEEE ISIT 2026 (Guangzhou, China) 참석 항목 추가 |
 | 2026-07-11 | Rho 교수 Google Sites 대조 후 `publications.json` 갱신 — "Stock Price Forecasting ... Cross-Sector..." 논문이 재투고되어 학술지(Computational Economics → Alexandria Engineering Journal), 제목("Using Graph Neural Networks" 추가), JCR(SSCI-Q2 Top 30.4% → SCIE-Q1 Top 7%), 상태(Submitted March → July 2026) 갱신 |
+| 2026-07-11 | 업데이트 날짜 표시 추가 — Footer에 사이트 빌드일(`__BUILD_DATE__`, `vite.config.ts` `define`으로 빌드 시점 자동 주입) 표시, Scholar 페이지에 `PUBLICATIONS_UPDATED_AT`(constants.tsx 수동 상수) 기반 "Data last updated" 배지 표시 |
 
 ---
 
