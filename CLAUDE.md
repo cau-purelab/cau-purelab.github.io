@@ -7,7 +7,7 @@
 
 - **Live**: https://cau-purelab.github.io/
 - **Repo**: https://github.com/cau-purelab/cau-purelab.github.io
-- **Deployment**: GitHub Pages (main 브랜치 push → GitHub Actions 자동 재배포)
+- **Deployment**: GitHub Pages, organization user site (main 브랜치 push → `.github/workflows/deploy.yml`이 빌드 후 자동 배포)
 
 ---
 
@@ -43,8 +43,8 @@
 - `MEMBERS[]` : 구성원 정보 (이름, 역할, 이메일, 사진 경로, specialization 해시태그)
 - `PUBLICATIONS[]` : Publications 페이지에 표시되는 **주요 논문** (수동 선별)
 - `NEWS[]` : 뉴스 항목
-- `RESEARCH_AREAS[]` : 연구 분야 3개
-- `LAB_NAME`, `LAB_DESCRIPTION` : 전역 상수
+- `RESEARCH_AREAS[]` : 연구 분야 3개 (Privacy-Preserving AI / Machine Unlearning / Robust AI Engineering)
+- `LAB_SHORT_NAME`, `LAB_FULL_NAME`, `LAB_NAME`, `LAB_DESCRIPTION`, `LAB_URL`, `LAB_EMAIL`, `LAB_AFFILIATION` : 전역 상수
 
 ### 2. `src/data/publications.json` — 자동+수동 혼합 관리
 - 키: 교수 이름 (`"Seungmin Rho"`, `"Mi Young Lee"`)
@@ -165,6 +165,11 @@ pip install scholarly tqdm
 | 2026-05-07 | `src/constants.tsx` SHAP 논문 학술지명 수정 (CNNM → FGCS) |
 | 2026-06-04 | Scholar 최신 논문 반영 — 2026년 진행 중/게재 논문 및 DOI/BibTeX 보강 |
 | 2026-06-04 | `scripts/update_scholar_metrics.cjs` 추가 — Google Scholar citation 및 공개 JCR 라벨 표시 |
+| 2026-07-07 | 랩 리브랜딩: SVIL(Security Visual Intelligence Lab) → PURE(Privacy, Unlearning, and Robust Engineering Lab), 연구 분야 재정의(Privacy-Preserving AI / Machine Unlearning / Robust AI Engineering), 연락처 이메일을 `purelab.cau@gmail.com`으로 통합 |
+| 2026-07-07 | 배포 플랫폼을 Vercel → GitHub Pages로 전환 — `.github/workflows/deploy.yml`·`scripts/create-pages-404.cjs`(SPA 404 폴백) 추가, `vercel.json`·`api/check-ip.ts` 제거, `App.tsx`에 `basename` 라우팅 적용 |
+| 2026-07-07 | GitHub Pages를 개인 저장소(`cheonbung/pure-homepage`)에서 랩 공식 조직 저장소(`cau-purelab/cau-purelab.github.io`)로 이전 — base path `/pure-homepage/` → `/` 변경 |
+| 2026-07-07 | News에 IEEE ISIT 2026 (Guangzhou, China) 참석 항목 추가 |
+| 2026-07-11 | Rho 교수 Google Sites 대조 후 `publications.json` 갱신 — "Stock Price Forecasting ... Cross-Sector..." 논문이 재투고되어 학술지(Computational Economics → Alexandria Engineering Journal), 제목("Using Graph Neural Networks" 추가), JCR(SSCI-Q2 Top 30.4% → SCIE-Q1 Top 7%), 상태(Submitted March → July 2026) 갱신 |
 
 ---
 
@@ -173,7 +178,8 @@ pip install scholarly tqdm
 ```bash
 npm install --legacy-peer-deps   # React 19 호환성 이슈로 --legacy-peer-deps 필수
 npm run dev                       # http://localhost:5173
-npm run build                     # 배포용 빌드
+npm run build                     # 일반 빌드 (dist/)
+npm run build:pages               # GitHub Pages 배포용 빌드 (dist/404.html SPA 폴백 포함, CI가 사용)
 python scripts/fetch_scholar.py  # 논문 데이터 갱신
 node scripts/update_scholar_metrics.cjs  # citation/JCR 라벨 갱신
 ```
