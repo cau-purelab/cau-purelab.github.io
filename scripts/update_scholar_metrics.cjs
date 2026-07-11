@@ -1,63 +1,19 @@
 const fs = require('fs');
 const path = require('path');
+const {
+  PROFILES,
+  SITES_URL,
+  decodeHtml,
+  stripTags,
+  normalize,
+  compactTextFromHtml,
+  fetchText,
+  sleep,
+} = require('./lib.cjs');
 
 const OUTPUT_PATH = path.join(__dirname, '..', 'src', 'data', 'publications.json');
-const PROFILES = {
-  'Seungmin Rho': 'k5aAQxUAAAAJ',
-  'Mi Young Lee': 'bxWgGnoAAAAJ',
-};
 
-const JCR_SOURCES = [
-  'https://sites.google.com/view/seungminrho/home',
-];
-
-const USER_AGENT =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36';
-
-function decodeHtml(value) {
-  return String(value || '')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&#39;/g, "'")
-    .replace(/&#x27;/g, "'")
-    .replace(/&quot;/g, '"')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/\u00a0/g, ' ');
-}
-
-function stripTags(value) {
-  return String(value || '').replace(/<[^>]*>/g, '');
-}
-
-function normalize(value) {
-  return decodeHtml(stripTags(value))
-    .toLowerCase()
-    .replace(/[^\p{L}\p{N}]+/gu, '')
-    .trim();
-}
-
-function compactTextFromHtml(html) {
-  return decodeHtml(
-    html
-      .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-      .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-      .replace(/<br\s*\/?\s*>/gi, '\n')
-      .replace(/<\/p>|<\/li>|<\/h\d>/gi, '\n')
-      .replace(/<[^>]+>/g, '')
-  )
-    .replace(/[ \t]+/g, ' ')
-    .replace(/\n\s+/g, '\n')
-    .replace(/\s+\n/g, '\n');
-}
-
-async function fetchText(url) {
-  const response = await fetch(url, { headers: { 'user-agent': USER_AGENT } });
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${url}: ${response.status}`);
-  }
-  return response.text();
-}
+const JCR_SOURCES = [SITES_URL];
 
 async function fetchScholarRows(userId) {
   const rows = [];
@@ -80,7 +36,7 @@ async function fetchScholarRows(userId) {
       }
     }
 
-    await new Promise(resolve => setTimeout(resolve, 250));
+    await sleep(250);
   }
 
   return rows;
