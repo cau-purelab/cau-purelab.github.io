@@ -2,9 +2,8 @@ import React, { useState, useMemo } from 'react';
 import publicationsData from '../data/publications.json';
 import SEO from '../components/SEO';
 import { PUBLICATIONS_UPDATED_AT, PI_NAME_VARIANTS } from '../constants';
-import { 
-  ExternalLink, GraduationCap, Calendar, BookOpen, Search, 
-  Quote, Check, FileText, ChevronDown, ChevronUp, Layers, Bookmark, Award,
+import {
+  ExternalLink, Calendar, BookOpen, Search, Quote, Award,
   BarChart3, SortAsc, Clock, Tags, XCircle, RefreshCw
 } from 'lucide-react';
 

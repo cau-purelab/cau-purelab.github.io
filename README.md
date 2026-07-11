@@ -32,7 +32,7 @@
 │   ├── pages/           # 각 라우트별 페이지
 │   │   ├── Home.tsx         # 메인 (통계, 최신 뉴스 4건, 채용 공고)
 │   │   ├── Research.tsx     # 연구 분야 소개 및 저장소 링크
-│   │   ├── People.tsx       # 구성원 소개 (직급별 분류, 졸업생 분리)
+│   │   ├── People.tsx       # 구성원 소개 (직급별 분류)
 │   │   ├── Publications.tsx # 주요 논문 하이라이트
 │   │   ├── ScholarPublications.tsx # 전체 논문 아카이브, citation/JCR 표시
 │   │   └── News.tsx         # 전체 뉴스 아카이브 (연도별 그룹화)
@@ -43,8 +43,10 @@
 │   ├── App.tsx          # 라우팅 설정
 │   └── main.tsx         # 진입점 (HelmetProvider 설정)
 ├── scripts/
+│   ├── fetch_scholar.py           # Google Scholar 논문 수집 + 진행 중 논문 병합
 │   ├── patch_publications.py      # 논문 데이터 일회성 수정/보강
-│   └── update_scholar_metrics.cjs # Google Scholar citation 및 공개 JCR 라벨 갱신
+│   ├── update_scholar_metrics.cjs # Google Scholar citation 및 공개 JCR 라벨 갱신
+│   └── create-pages-404.cjs       # GitHub Pages SPA 폴백(404.html) 생성
 └── tailwind.config.js   # 스타일링 설정
 ```
 
@@ -62,8 +64,7 @@
     *   연구 분야별 설명 및 관련 리소스 링크 제공
 
 3.  **People (`/people`)**
-    *   직급별 멤버 분류 (PI, PostDoc, PhD, Master, Undergraduate)
-    *   졸업생(Alumni) 섹션 별도 분리
+    *   직급별 멤버 분류 (PI, Co-PI, PhD, Master, Undergraduate)
     *   이메일, 웹사이트, GitHub 링크를 텍스트 형태로 깔끔하게 제공
     *   PI/Co-PI 카드의 Publications 모달에서 논문, BibTeX, citation, JCR 라벨 표시
 

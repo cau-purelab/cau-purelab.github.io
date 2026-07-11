@@ -173,6 +173,7 @@ pip install scholarly tqdm
 | 2026-07-07 | News에 IEEE ISIT 2026 (Guangzhou, China) 참석 항목 추가 |
 | 2026-07-11 | Rho 교수 Google Sites 대조 후 `publications.json` 갱신 — "Stock Price Forecasting ... Cross-Sector..." 논문이 재투고되어 학술지(Computational Economics → Alexandria Engineering Journal), 제목("Using Graph Neural Networks" 추가), JCR(SSCI-Q2 Top 30.4% → SCIE-Q1 Top 7%), 상태(Submitted March → July 2026) 갱신 |
 | 2026-07-11 | 업데이트 날짜 표시 추가 — Footer에 사이트 빌드일(`__BUILD_DATE__`, `vite.config.ts` `define`으로 빌드 시점 자동 주입) 표시, Scholar 페이지에 `PUBLICATIONS_UPDATED_AT`(constants.tsx 수동 상수) 기반 "Data last updated" 배지 표시 |
+| 2026-07-11 | 사이트 전면 감사 후 6개 커밋으로 일괄 개선: ①데이터 정합성(SHAP 논문 "Under Review" 배지, json 완전 중복 1건 제거, fetch_scholar.py IN_PROGRESS_PAPERS 동기화+정규화 dedup, patch_publications.py 소진 배열 비움) ②UI 버그(Footer에 Scholar 링크, 연구분야 이미지 매핑 교정, BibTeX 유형 배지, "2027" 정렬 핵 제거, PI_NAME_VARIANTS 통합) ③성능(연구 이미지 3장 23MB→WebP 228KB, 멤버 사진 압축, 라우트 lazy 분리로 초기 번들 633KB→270KB) ④SEO(robots.txt/sitemap.xml/canonical/Twitter card/JSON-LD/폰트 비블로킹) ⑤접근성(아이콘 버튼 aria-label, 모달 dialog+Escape) ⑥데드코드 삭제(context/LanguageContext.tsx, metadata.json, 미사용 아이콘/필드) |
 
 ---
 

@@ -14,11 +14,8 @@ export interface Member {
   email?: string;
   specialization?: string;
   isAlumni?: boolean;
-  currentAffiliation?: string;
   website?: string;
-  googleScholar?: string;
   github?: string;
-  linkedin?: string;
 }
 
 export interface Publication {
@@ -28,8 +25,6 @@ export interface Publication {
   venue: string;       // 학술지/컨퍼런스 명
   year: number;
   tags?: string[];
-  link?: string;
-  pdf?: string;
   bibtex?: string;
   isSelected?: boolean;
   status?: string;     // 미게재 논문 상태 표기 (예: "Under Review")
@@ -41,6 +36,5 @@ export interface ResearchArea {
   description: string;
   image: string;
   tags?: string[];
-  github?: string;
   dataset?: string;
 }

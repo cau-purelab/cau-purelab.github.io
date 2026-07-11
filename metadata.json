@@ -1,7 +1,0 @@
-{
-  "name": "PURE(Privacy, Unlearning, and Robust Engineering Lab) Webpage",
-  "description": "A sophisticated, high-performance research lab homepage with minimalist aesthetics, interactive publication lists, and an AI-powered lab assistant.",
-  "requestFramePermissions": [
-    "microphone"
-  ]
-}

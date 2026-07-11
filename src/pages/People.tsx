@@ -164,7 +164,6 @@ const People = () => {
   const[modalPubs, setModalPubs] = useState<any[]>([]);
 
   const getMembersByRole = (role: string) => MEMBERS.filter(m => m.role === role && !m.isAlumni);
-  const getAlumni = () => MEMBERS.filter(m => m.isAlumni);
 
   const handleOpenPublications = (member: Member) => {
     const pubs = loadedPublications[member.name];
