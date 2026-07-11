@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MEMBERS } from '../constants';
 import { Mail, Globe, Github, BookOpen, X, ExternalLink, Copy, Check, FileText, Award, Quote } from 'lucide-react';
 import { Member } from '../types';
@@ -115,10 +115,18 @@ const PublicationItem = ({ pub }: { pub: any }) => {
 //[컴포넌트] 논문 목록 모달
 // ----------------------------------------------------------------------
 const PublicationsModal = ({ isOpen, onClose, member, publications }: { isOpen: boolean; onClose: () => void; member: Member | null; publications: any[] }) => {
+  // Escape 키로 모달 닫기
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen || !member) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-label={`Publications by ${member.name}`}>
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onClick={onClose}></div>
       <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden animate-fade-in-up z-10">
         <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-20">
@@ -126,7 +134,7 @@ const PublicationsModal = ({ isOpen, onClose, member, publications }: { isOpen: 
             <h3 className="text-xl font-bold text-blue-900 font-playfair">Selected Publications</h3>
             <p className="text-sm text-gray-500">by {member.name}</p>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-gray-600">
+          <button onClick={onClose} aria-label="Close publications dialog" className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-gray-600">
             <X className="w-6 h-6" />
           </button>
         </div>

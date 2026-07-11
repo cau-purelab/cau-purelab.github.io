@@ -192,14 +192,14 @@ const ScholarPublications = () => {
         <div className="flex items-center gap-3 w-full md:w-auto">
           <div className="flex bg-slate-100 p-1 rounded-xl items-center shadow-inner scale-90">
             <div className="flex bg-white rounded-lg p-0.5 gap-0.5">
-              <button onClick={() => setSortBy('year')} className={`p-1.5 rounded-md ${sortBy === 'year' ? 'bg-slate-900 text-white' : 'text-slate-400'}`}><Clock size={14}/></button>
-              <button onClick={() => setSortBy('title')} className={`p-1.5 rounded-md ${sortBy === 'title' ? 'bg-slate-900 text-white' : 'text-slate-400'}`}><SortAsc size={14}/></button>
-              <button onClick={() => setSortBy('funding')} className={`p-1.5 rounded-md ${sortBy === 'funding' ? 'bg-slate-900 text-white' : 'text-slate-400'}`}><Tags size={14}/></button>
+              <button onClick={() => setSortBy('year')} aria-label="Sort by year" title="Sort by year" className={`p-1.5 rounded-md ${sortBy === 'year' ? 'bg-slate-900 text-white' : 'text-slate-400'}`}><Clock size={14}/></button>
+              <button onClick={() => setSortBy('title')} aria-label="Sort by title" title="Sort by title" className={`p-1.5 rounded-md ${sortBy === 'title' ? 'bg-slate-900 text-white' : 'text-slate-400'}`}><SortAsc size={14}/></button>
+              <button onClick={() => setSortBy('funding')} aria-label="Sort by funding" title="Sort by funding" className={`p-1.5 rounded-md ${sortBy === 'funding' ? 'bg-slate-900 text-white' : 'text-slate-400'}`}><Tags size={14}/></button>
             </div>
           </div>
           <div className="relative flex-grow md:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300" size={14} />
-            <input type="text" placeholder="Search archives..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+            <input type="text" placeholder="Search archives..." aria-label="Search publications" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-50 outline-none" />
           </div>
         </div>
@@ -255,7 +255,7 @@ const ScholarPublications = () => {
                     </div>
                     
                     <div className="flex gap-2">
-                      {pub.url && <a href={pub.url} target="_blank" rel="noreferrer" className="p-1.5 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-900 hover:text-white transition-all shadow-sm"><ExternalLink size={14}/></a>}
+                      {pub.url && <a href={pub.url} target="_blank" rel="noreferrer" aria-label={`Open "${pub.title}" in a new tab`} className="p-1.5 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-900 hover:text-white transition-all shadow-sm"><ExternalLink size={14}/></a>}
                       {!isProg && (
                         <button onClick={() => setActiveBibtex(activeBibtex === pubId ? null : pubId)}
                           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all border ${activeBibtex === pubId ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-500 border-slate-200 hover:bg-slate-50'}`}>
