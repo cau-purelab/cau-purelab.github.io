@@ -38,21 +38,21 @@ export const RESEARCH_AREAS: ResearchArea[] =[
     id: "privacy-preserving-ai",
     title: "Privacy-Preserving AI",
     description: "Designing learning pipelines that reduce sensitive-data exposure while preserving model utility. We study privacy-aware training, evaluation, and deployment practices for modern AI systems.",
-    image: "/assets/trustworthy-ai.png",
+    image: "/assets/trustworthy-ai.webp",
     tags:['Data Privacy', 'LLM Privacy', 'Responsible AI']
   },
   {
     id: "machine-unlearning",
     title: "Machine Unlearning",
     description: "Developing algorithms that allow AI models to forget specific data points without full retraining. We focus on removing privacy-sensitive data from LLMs and copyrighted content from generative models while maintaining performance.",
-    image: "/assets/machine-unlearning.png",
+    image: "/assets/machine-unlearning.webp",
     tags:['Generative Models', 'Selective Forgetting', 'Copyright Removal']
   },
   {
     id: "robust-ai-engineering",
     title: "Robust AI Engineering",
     description: "Engineering reliable AI systems against distribution shift, adversarial behavior, and data poisoning. Our work connects model robustness with practical deployment requirements for trustworthy applications.",
-    image: "/assets/secure-cv.png",
+    image: "/assets/secure-cv.webp",
     tags:['Model Robustness', 'AI Safety', 'Adversarial Defense']
   }
 ];
