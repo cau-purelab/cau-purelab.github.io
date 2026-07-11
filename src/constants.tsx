@@ -7,8 +7,16 @@ export const LAB_DESCRIPTION = "Advancing privacy-preserving AI, machine unlearn
 export const LAB_URL = "https://cau-purelab.github.io";
 export const LAB_EMAIL = "purelab.cau@gmail.com";
 export const LAB_AFFILIATION = "Chung-Ang University";
+export const LAB_ESTABLISHED_YEAR = 2024;
 // publications.json 갱신 시(fetch_scholar.py / patch_publications.py / update_scholar_metrics.cjs 실행 후) 함께 수정할 것
 export const PUBLICATIONS_UPDATED_AT = "2026-07-11";
+
+// 논문 저자 강조에 쓰이는 PI 이름 표기 변형 (Publications/Scholar 페이지 공용)
+export const PI_NAME_VARIANTS = [
+  "Seungmin Rho", "Mi Young Lee",
+  "S. Rho", "S Rho",
+  "M. Y. Lee", "M.Y. Lee", "MY Lee", "M. Lee",
+];
 
 // 1. 뉴스 데이터
 export const NEWS: NewsItem[] =[
@@ -30,14 +38,14 @@ export const RESEARCH_AREAS: ResearchArea[] =[
     id: "privacy-preserving-ai",
     title: "Privacy-Preserving AI",
     description: "Designing learning pipelines that reduce sensitive-data exposure while preserving model utility. We study privacy-aware training, evaluation, and deployment practices for modern AI systems.",
-    image: "/assets/machine-unlearning.png",
+    image: "/assets/trustworthy-ai.png",
     tags:['Data Privacy', 'LLM Privacy', 'Responsible AI']
   },
   {
     id: "machine-unlearning",
     title: "Machine Unlearning",
     description: "Developing algorithms that allow AI models to forget specific data points without full retraining. We focus on removing privacy-sensitive data from LLMs and copyrighted content from generative models while maintaining performance.",
-    image: "/assets/trustworthy-ai.png",
+    image: "/assets/machine-unlearning.png",
     tags:['Generative Models', 'Selective Forgetting', 'Copyright Removal']
   },
   {

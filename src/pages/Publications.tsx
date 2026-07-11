@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { PUBLICATIONS, MEMBERS } from '../constants';
+import { PUBLICATIONS, MEMBERS, PI_NAME_VARIANTS } from '../constants';
 import { Award, BookOpen, Library } from 'lucide-react';
 import SEO from '../components/SEO';
 
 const Publications = () => {
   // 연구실 멤버 강조용 이름 리스트
   const memberNames = MEMBERS.map(m => m.name.trim());
-  const additionalPINames = ["S. Rho", "M. Y. Lee", "M. Lee", "S. Rho"];
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -35,7 +34,7 @@ const Publications = () => {
 
       {/* 2. 주요 논문 리스트 */}
       <div className="space-y-8">
-        {PUBLICATIONS.sort((a, b) => b.year - a.year).map((pub) => (
+        {[...PUBLICATIONS].sort((a, b) => b.year - a.year).map((pub) => (
           <div key={pub.id} className="group relative bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500">
             <div className="space-y-4">
               {/* 태그 영역 */}
@@ -68,8 +67,8 @@ const Publications = () => {
               {/* 저자 */}
               <div className="text-slate-600 text-sm md:text-base leading-relaxed">
                 {pub.authors.map((author, i) => {
-                  const isMember = memberNames.some(m => author.includes(m)) || 
-                                   additionalPINames.some(pi => author.includes(pi));
+                  const isMember = memberNames.some(m => author.includes(m)) ||
+                                   PI_NAME_VARIANTS.some(pi => author.includes(pi));
                   return (
                     <span key={i} className={isMember ? "font-bold text-slate-900 underline decoration-blue-200 underline-offset-4" : ""}>
                       {author}{i < pub.authors.length - 1 ? ", " : ""}

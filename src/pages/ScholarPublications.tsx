@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import publicationsData from '../data/publications.json';
 import SEO from '../components/SEO';
-import { PUBLICATIONS_UPDATED_AT } from '../constants';
+import { PUBLICATIONS_UPDATED_AT, PI_NAME_VARIANTS } from '../constants';
 import { 
   ExternalLink, GraduationCap, Calendar, BookOpen, Search, 
   Quote, Check, FileText, ChevronDown, ChevronUp, Layers, Bookmark, Award,
@@ -34,16 +34,13 @@ const ScholarPublications = () => {
   const [activeBibtex, setActiveBibtex] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const PI_NAMES = [
-    "Seungmin Rho", "Mi Young Lee",
-    "S. Rho", "S Rho",
-    "M. Y. Lee", "M.Y. Lee", "MY Lee", "M. Lee",
-  ];
-
   // --- [BibTeX 파싱] ---
   const parseBibtex = (bib: string) => {
     const info: Record<string, string> = { year: '0', author: 'N/A', venue: 'N/A' };
     if (!bib || !bib.includes('{')) return info;
+    // 엔트리 유형 추출 (@article, @inproceedings 등)
+    const typeMatch = bib.match(/^\s*@(\w+)\s*\{/);
+    if (typeMatch) info.type = typeMatch[1].toLowerCase();
     const fields = ["journal", "booktitle", "volume", "number", "pages", "publisher", "doi", "author", "year"];
     fields.forEach(field => {
       const regex = new RegExp(`${field}\\s*=\\s*[\\{"]([\\s\\S]*?)[\\}"]`, "i");
@@ -87,8 +84,9 @@ const ScholarPublications = () => {
       if (a.is_progress && !b.is_progress) return -1;
       if (!a.is_progress && b.is_progress) return 1;
       if (sortBy === 'year') {
-        const yearA = a.is_progress ? "2027" : parseBibtex(a.bibtex || "").year;
-        const yearB = b.is_progress ? "2027" : parseBibtex(b.bibtex || "").year;
+        // is_progress 우선 정렬은 위에서 이미 처리됨 — 실제 연도로 비교
+        const yearA = a.is_progress ? (a.year || "0") : parseBibtex(a.bibtex || "").year;
+        const yearB = b.is_progress ? (b.year || "0") : parseBibtex(b.bibtex || "").year;
         return yearB.localeCompare(yearA);
       }
       if (sortBy === 'title') return a.title.localeCompare(b.title);
@@ -96,6 +94,21 @@ const ScholarPublications = () => {
     });
     return result;
   }, [activeTab, searchTerm, selectedFunding, sortBy]);
+
+  // BibTeX 엔트리 유형 → 표시용 라벨
+  const getTypeLabel = (type?: string) => {
+    switch (type) {
+      case 'article': return 'Journal';
+      case 'inproceedings':
+      case 'conference': return 'Conference';
+      case 'book':
+      case 'incollection':
+      case 'inbook': return 'Book';
+      case 'phdthesis':
+      case 'mastersthesis': return 'Thesis';
+      default: return 'Paper';
+    }
+  };
 
   const getProgressLabel = (status?: string) => {
     if (!status) return 'In Progress';
@@ -120,7 +133,7 @@ const ScholarPublications = () => {
         const [last, first] = name.split(',').map(s => s.trim());
         name = first ? `${first} ${last}` : last;
       }
-      const isPI = PI_NAMES.some(pi => name.toLowerCase().includes(pi.toLowerCase()));
+      const isPI = PI_NAME_VARIANTS.some(pi => name.toLowerCase().includes(pi.toLowerCase()));
       return (
         <span key={i} className={`${isPI ? "font-bold text-blue-700 underline decoration-blue-200 underline-offset-2" : ""} ${isSmall ? "text-xs" : "text-sm"}`}>
           {name}{i < authors.length - 1 ? ", " : ""}
@@ -208,7 +221,7 @@ const ScholarPublications = () => {
                     {isProg ? (
                       <span className="px-2 py-0.5 bg-blue-600 text-white rounded text-[8px] font-black uppercase flex items-center gap-1"><RefreshCw size={8} className="animate-spin-slow"/> {getProgressLabel(pub.status)}</span>
                     ) : (
-                      <span className="px-2 py-0.5 bg-slate-700 text-white rounded text-[8px] font-black uppercase">{bib.type || 'paper'}</span>
+                      <span className="px-2 py-0.5 bg-slate-700 text-white rounded text-[8px] font-black uppercase">{getTypeLabel(bib.type)}</span>
                     )}
                     <span className="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-[8px] font-black border border-blue-100">{isProg ? pub.year : bib.year}</span>
                     {typeof pub.citations === 'number' && (

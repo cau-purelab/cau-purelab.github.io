@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRight, Calendar, Users, FileText, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { LAB_DESCRIPTION, LAB_EMAIL, LAB_NAME, RESEARCH_AREAS, NEWS, PUBLICATIONS, MEMBERS } from '../constants';
+import { LAB_DESCRIPTION, LAB_EMAIL, LAB_ESTABLISHED_YEAR, LAB_NAME, RESEARCH_AREAS, NEWS, PUBLICATIONS, MEMBERS } from '../constants';
 import SEO from '../components/SEO';
 
 const Home = () => {
@@ -23,7 +23,7 @@ const Home = () => {
 
         <div className="relative z-20 max-w-5xl mx-auto px-4 text-center text-white space-y-5">
           <div className="inline-block px-3 py-1 bg-red-600/90 text-white text-[10px] font-bold uppercase tracking-[0.3em] mb-2 rounded shadow-lg backdrop-blur-sm">
-            Established 2024
+            Established {LAB_ESTABLISHED_YEAR}
           </div>
           <h1 className="font-playfair text-4xl md:text-6xl font-bold tracking-tight animate-fade-in-up leading-tight">
             {LAB_NAME}
