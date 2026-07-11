@@ -6,8 +6,10 @@
 
   <!-- [파비콘] PURE 마크 -->
   <link rel="icon" type="image/png" href="/assets/favicon.png" />
+  <link rel="apple-touch-icon" href="/assets/favicon.png" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1e3a8a" />
 
   <!-- 기본 Title -->
   <title>PURE(Privacy, Unlearning, and Robust Engineering Lab)</title>
@@ -15,20 +17,60 @@
   <!-- SEO & Open Graph -->
   <meta name="description"
     content="Advancing privacy-preserving AI, machine unlearning, and robust engineering at Chung-Ang University." />
+  <link rel="canonical" href="https://cau-purelab.github.io/" />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="PURE Lab" />
   <meta property="og:title" content="PURE(Privacy, Unlearning, and Robust Engineering Lab)" />
   <meta property="og:description"
     content="Advancing privacy-preserving AI, machine unlearning, and robust engineering at Chung-Ang University." />
+  <meta property="og:url" content="https://cau-purelab.github.io/" />
 
   <!-- [공유 이미지] PURE Open Graph 이미지 - 절대경로 필수 -->
   <meta property="og:image" content="https://cau-purelab.github.io/assets/og-image.png" />
 
-  <!-- Google Fonts -->
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="PURE(Privacy, Unlearning, and Robust Engineering Lab)" />
+  <meta name="twitter:description"
+    content="Advancing privacy-preserving AI, machine unlearning, and robust engineering at Chung-Ang University." />
+  <meta name="twitter:image" content="https://cau-purelab.github.io/assets/og-image.png" />
+
+  <!-- 구조화 데이터: 연구 조직 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ResearchOrganization",
+    "name": "PURE(Privacy, Unlearning, and Robust Engineering Lab)",
+    "alternateName": "PURE Lab",
+    "url": "https://cau-purelab.github.io/",
+    "logo": "https://cau-purelab.github.io/assets/favicon.png",
+    "email": "purelab.cau@gmail.com",
+    "foundingDate": "2024-03-04",
+    "parentOrganization": {
+      "@type": "CollegeOrUniversity",
+      "name": "Chung-Ang University"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Room B105-1, Bldg. 310, 84 Heukseok-ro, Dongjak-gu",
+      "addressLocality": "Seoul",
+      "postalCode": "06974",
+      "addressCountry": "KR"
+    }
+  }
+  </script>
+
+  <!-- Google Fonts (렌더 블로킹 방지: 로드 후 적용) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap"
-    rel="stylesheet">
+    rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap"
+      rel="stylesheet">
+  </noscript>
 </head>
 
 <body>
