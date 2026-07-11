@@ -9,7 +9,7 @@ export const LAB_EMAIL = "purelab.cau@gmail.com";
 export const LAB_AFFILIATION = "Chung-Ang University";
 export const LAB_ESTABLISHED_YEAR = 2024;
 // publications.json 갱신 시(fetch_scholar.py / patch_publications.py / update_scholar_metrics.cjs 실행 후) 함께 수정할 것
-export const PUBLICATIONS_UPDATED_AT = "2026-07-11";
+export const PUBLICATIONS_UPDATED_AT = "2026-07-12";
 
 // 논문 저자 강조에 쓰이는 PI 이름 표기 변형 (Publications/Scholar 페이지 공용)
 export const PI_NAME_VARIANTS = [
