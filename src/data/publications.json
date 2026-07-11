@@ -2803,14 +2803,6 @@
       "citations": 3
     },
     {
-      "title": "Erratum to: Large-scale image colorization based on divide-and-conquer support vector machines",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:7T2F9Uy0os0C",
-      "bibtex": "@article{chen2016large,\n  title={Large-scale image colorization based on divide-and-conquer support vector machines},\n  author={Chen, Bo-Wei and He, Xinyu and Ji, Wen and Rho, Seungmin and Kung, Sun-Yuan},\n  journal={The Journal of Supercomputing},\n  volume={72},\n  number={8},\n  pages={2942--2961},\n  year={2016},\n  publisher={Springer}\n}",
-      "funding": "",
-      "funding_tags": [],
-      "citations": 3
-    },
-    {
       "title": "New technologies and research trends for smartphone sensing in intelligent multimedia systems",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:nb7KW1ujOQ8C",
       "bibtex": "@article{rho2015new,\n  title={New technologies and research trends for smartphone sensing in intelligent multimedia systems},\n  author={Rho, Seungmin and Rahayu, Wenny and Nguyen, Uyen Trang},\n  journal={Multimedia Systems},\n  volume={21},\n  number={1},\n  pages={1--3},\n  year={2015},\n  publisher={Springer}\n}",
@@ -3183,30 +3175,12 @@
       "citations": 1
     },
     {
-      "title": "Research Article EEG Channel Selection Using Multiobjective Cuckoo Search for Person Identification as Protection System in Healthcare Applications",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:VN7nJs4JPk0C",
-      "bibtex": "@article{abdi2022eeg,\n  title={EEG channel selection using multiobjective cuckoo search for person identification as protection system in healthcare applications},\n  author={Abdi Alkareem Alyasseri, Zaid and Alomari, Osama Ahmad and Al-Betar, Mohammed Azmi and Awadallah, Mohammed A and Hameed Abdulkareem, Karrar and Abed Mohammed, Mazin and Kadry, Seifedine and Rajinikanth, V and Rho, Seungmin},\n  journal={Computational Intelligence and Neuroscience},\n  volume={2022},\n  number={1},\n  pages={5974634},\n  year={2022},\n  publisher={Wiley Online Library}\n}",
-      "funding": "",
-      "funding_tags": [
-        "IITP-21",
-        "KIAT-21"
-      ],
-      "citations": 1
-    },
-    {
       "title": "Variational AutoEncoder-based anomaly",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:-yGd096yOn8C",
       "bibtex": "@article{an2015variational,\n  title={Variational autoencoder based anomaly detection using reconstruction probability},\n  author={An, Jinwon and Cho, Sungzoon},\n  journal={Special lecture on IE},\n  volume={2},\n  number={1},\n  pages={1--18},\n  year={2015}\n}",
       "funding": "",
       "funding_tags": [],
       "citations": 1
-    },
-    {
-      "title": "Correction to: High-speed tracking based on multi-CF filters and attention mechanism",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:PVgj2kMGcgYC",
-      "bibtex": "@article{fan2021high,\n  title={High-speed tracking based on multi-CF filters and attention mechanism},\n  author={Fan, Songyuan and Wang, Rui and Wu, Zhihao and Rho, Seungmin and Liu, Shaohui and Xiong, Jiaxin and Fu, Sen and Jiang, Feng},\n  journal={Signal, Image and Video Processing},\n  volume={15},\n  number={4},\n  pages={663--671},\n  year={2021},\n  publisher={Springer}\n}",
-      "funding": "ITRC",
-      "funding_tags": []
     },
     {
       "title": "Energy Efficient Congestion Control in Wireless Sensor Networks",
@@ -3395,22 +3369,6 @@
       "citations": 2
     },
     {
-      "title": "Big data analytics and knowledge discovery for urban computing and intelligence (Apr, 10.1007/s40747-023-01050-2, 2023)",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:zwpXiJ37cpgC",
-      "bibtex": "@article{singh2024big,\n  title={Big data analytics and knowledge discovery for urban computing and intelligence},\n  author={Singh, Krishna Kant and Rho, Seungmin and Singh, Akansha and Sergei, Chernyi},\n  journal={Complex \\& Intelligent Systems},\n  volume={10},\n  number={1},\n  pages={1--2},\n  year={2024},\n  publisher={Springer}\n}",
-      "funding": "",
-      "funding_tags": [],
-      "citations": 0
-    },
-    {
-      "title": "Research Article A Hybrid Deep Learning-Based Network for Photovoltaic Power Forecasting",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:z6xuaG2dYH0C",
-      "bibtex": "@article{hussain2022hybrid,\n  title={A hybrid deep learning-based network for photovoltaic power forecasting},\n  author={Hussain, Altaf and Khan, Zulfiqar Ahmad and Hussain, Tanveer and Ullah, Fath U Min and Rho, Seungmin and Baik, Sung Wook},\n  journal={Complexity},\n  volume={2022},\n  number={1},\n  pages={7040601},\n  year={2022},\n  publisher={Wiley Online Library}\n}",
-      "funding": "",
-      "funding_tags": [],
-      "citations": 0
-    },
-    {
       "title": "t-SNE-Based K-NN: A New Approach for MNIST",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:Br1UauaknNIC",
       "bibtex": "@article{meyer2022global,\n  title={Global and local structure preserving GPU t-SNE methods for large-scale applications},\n  author={Meyer, Bruno Henrique and Pozo, Aurora Trinidad Ramirez and Zola, Wagner M Nunan},\n  journal={Expert Systems with Applications},\n  volume={201},\n  pages={116918},\n  year={2022},\n  publisher={Elsevier}\n}",
@@ -3454,25 +3412,9 @@
       "citations": 0
     },
     {
-      "title": "Diabetic Retinopathy Diagnostics from Retinal Images based on Deep Convolutional Networks",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:43bX7VzcjpAC",
-      "bibtex": "@article{thomas2020diabetic,\n  title={Diabetic retinopathy diagnostics from retinal images based on deep convolutional networks},\n  author={Thomas, G Arun Sampaul and Robinson, Y Harold and Julie, E Golden and Shanmuganathan, Vimal and Nam, Yunyoung and Rho, Seungmin},\n  year={2020},\n  publisher={Preprints}\n}",
-      "funding": "",
-      "funding_tags": [],
-      "citations": 18
-    },
-    {
       "title": "Detection Approach Using Hybrid Image",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:eGYfIraVYiQC",
       "bibtex": "@article{venkatraman2019hybrid,\n  title={A hybrid deep learning image-based analysis for effective malware detection},\n  author={Venkatraman, Sitalakshmi and Alazab, Mamoun and Vinayakumar, R},\n  journal={Journal of Information Security and Applications},\n  volume={47},\n  pages={377--389},\n  year={2019},\n  publisher={Elsevier}\n}",
-      "funding": "",
-      "funding_tags": [],
-      "citations": 0
-    },
-    {
-      "title": "Robust facial landmark extraction scheme using multiple convolutional neural networks (vol 78, pg 3221, 2018)",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:NxmKEeNBbOMC",
-      "bibtex": "@article{kim2019robust,\n  title={Robust facial landmark extraction scheme using multiple convolutional neural networks},\n  author={Kim, Hyungjoon and Park, Jisoo and Kim, HyeonWoo and Hwang, Eenjun and Rho, Seungmin},\n  journal={Multimedia Tools and Applications},\n  volume={78},\n  number={3},\n  pages={3221--3238},\n  year={2019},\n  publisher={Springer}\n}",
       "funding": "",
       "funding_tags": [],
       "citations": 0
@@ -3550,14 +3492,6 @@
       "citations": 0
     },
     {
-      "title": "Large-scale image colorization based on divide-and-conquer support vector machines (vol 72, pg 2942, 2016)",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:OP4eGU-M3BUC",
-      "bibtex": "@article{chen2016large,\n  title={Large-scale image colorization based on divide-and-conquer support vector machines},\n  author={Chen, Bo-Wei and He, Xinyu and Ji, Wen and Rho, Seungmin and Kung, Sun-Yuan},\n  journal={The Journal of Supercomputing},\n  volume={72},\n  number={8},\n  pages={2942--2961},\n  year={2016},\n  publisher={Springer}\n}",
-      "funding": "",
-      "funding_tags": [],
-      "citations": 0
-    },
-    {
       "title": "Preface of the 2016 IAENG international conference on electrical engineering special session: Design, analysis and tools for integrated circuits and systems",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:QsaTk4IG4EwC",
       "bibtex": "@inproceedings{mercaldi2010preface,\n  title={Preface of the 2010 IAENG International Conference on Electrical Engineering special session: Design, analysis and tools for integrated circuits and systems},\n  author={Mercaldi, Michele and Prinetto, Paolo and Poncino, Massimo and Macii, Alberto and Choi, Joongho and Li, Wei and Schellekens, Michel and Popovici, Emanuel and Rossi, Umberto and Fummi, Franco and others},\n  booktitle={Proceedings of the International MultiConference of Engineers and Computer Scientists},\n  volume={2},\n  year={2010}\n}",
@@ -3630,25 +3564,9 @@
       "citations": 0
     },
     {
-      "title": "Research Article E-MCDA: Extended-Multilayer Cluster Designing Algorithm for Network Lifetime Improvement of Homogenous Wireless Sensor Networks",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:eAlLMO4JVmQC",
-      "bibtex": "@article{jabbar2015mcda,\n  title={E-MCDA: extended-multilayer cluster designing algorithm for network lifetime improvement of homogenous wireless sensor networks},\n  author={Jabbar, Sohail and Minhas, Abid Ali and Gohar, Moneeb and Paul, Anand and Rho, Seungmin},\n  journal={International Journal of Distributed Sensor Networks},\n  volume={11},\n  number={9},\n  pages={902581},\n  year={2015},\n  publisher={SAGE Publications Sage UK: London, England}\n}",
-      "funding": "",
-      "funding_tags": [],
-      "citations": 0
-    },
-    {
       "title": "Preface of the 2015 IAENG international conference on electrical engineering special session: Design, analysis and tools for integrated circuits and systems",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:LXmCCkuhhTsC",
       "bibtex": "@book{yang2015iaeng,\n  title={IAENG transactions on engineering technologies},\n  author={Yang, Gi-Chul and Ao, Sio-long and An, L},\n  year={2015},\n  publisher={Springer}\n}",
-      "funding": "",
-      "funding_tags": [],
-      "citations": 0
-    },
-    {
-      "title": "Research Article Impact of Dynamic Path Loss Models in an Urban Obstacle Aware Ad Hoc Network Environment",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:69ZgNCALVd0C",
-      "bibtex": "@article{amjad2015impact,\n  title={Impact of dynamic path loss models in an urban obstacle aware ad hoc network environment},\n  author={Amjad, Kashif and Ali, Muhammad and Jabbar, Sohail and Hussain, Majid and Rho, Seungmin and Kim, Mucheol},\n  journal={Journal of Sensors},\n  volume={2015},\n  number={1},\n  pages={286270},\n  year={2015},\n  publisher={Wiley Online Library}\n}",
       "funding": "",
       "funding_tags": [],
       "citations": 0
@@ -3806,36 +3724,6 @@
       "citations": 0
     },
     {
-      "title": "XCRAB: A Content and Annotation-based Multimedia Indexing and Retrieval System",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:Mojj43d5GZwC",
-      "bibtex": "@inproceedings{rho2004xcrab,\n  title={XCRAB: A content and annotation-based multimedia indexing and retrieval system},\n  author={Rho, SeungMin and Lee, SooCheol and Hwang, EenJun and Lee, YangKyoo},\n  booktitle={International Conference on Computational Science and Its Applications},\n  pages={859--868},\n  year={2004},\n  organization={Springer}\n}",
-      "funding": "",
-      "funding_tags": [],
-      "citations": 0
-    },
-    {
-      "title": "Message from the Workshop Chairs",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:qE4H1tSSYIIC",
-      "bibtex": "@inproceedings{indulska2008message,\n  title={Message from the Workshops Chairs},\n  author={Indulska, Jadwiga and Wang, Cho-Li},\n  booktitle={6th Annual IEEE International Conference on Pervasive Computing and Communications, PerCom 2008},\n  year={2008}\n}",
-      "funding": "",
-      "funding_tags": [],
-      "citations": 0
-    },
-    {
-      "title": "Research Article Mobility Aware Energy Efficient Congestion Control in Mobile Wireless Sensor Network",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:HhcuHIWmDEUC",
-      "bibtex": "@article{ahmad2014mobility,\n  title={Mobility aware energy efficient congestion control in mobile wireless sensor network},\n  author={Ahmad, Awais and Jabbar, Sohail and Paul, Anand and Rho, Seungmin},\n  journal={International Journal of Distributed Sensor Networks},\n  volume={10},\n  number={3},\n  pages={530416},\n  year={2014},\n  publisher={SAGE Publications Sage UK: London, England}\n}",
-      "funding": "",
-      "funding_tags": []
-    },
-    {
-      "title": "Research Article Robust Framework to Combine Diverse Classifiers Assigning Distributed Confidence to Individual Classifiers at Class Level",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:ce2CqMG-AY4C",
-      "bibtex": "@article{khalid2014robust,\n  title={Robust framework to combine diverse classifiers assigning distributed confidence to individual classifiers at class level},\n  author={Khalid, Shehzad and Arshad, Sannia and Jabbar, Sohail and Rho, Seungmin},\n  journal={The Scientific World Journal},\n  volume={2014},\n  number={1},\n  pages={492387},\n  year={2014},\n  publisher={Wiley Online Library}\n}",
-      "funding": "",
-      "funding_tags": []
-    },
-    {
       "title": "BWCCA 2015",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:nRpfm8aw39MC",
       "bibtex": "@book{barolli2019advances,\n  title={Advances on Broad-Band Wireless Computing, Communication and Applications: Proceedings of the 14th International Conference on Broad-Band Wireless Computing, Communication and Applications (BWCCA-2019)},\n  author={Barolli, Leonard and Hellinckx, Peter and Enokido, Tomoya},\n  year={2019},\n  publisher={Springer Nature}\n}",
@@ -3928,13 +3816,6 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:NMxIlDl6LWMC",
       "bibtex": "@article{rhowelcome,\n  title={Welcome Message from SMPE-2012 Symposium Chairs},\n  author={Rho, Seungmin and Vaidya, Binod and Hsu, Robert CH}\n}",
       "funding": "",
-      "funding_tags": [],
-      "citations": 0
-    },
-    {
-      "title": "Welcome to the Third International Conference on Mobile, Ubiquitous, and Intelligent Computing (MUSIC 2012) will be held in Vancouver, Canada, 26-28 June 2012.. The MUSIC 2012 …",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:hMod-77fHWUC",
-      "bibtex": "",
       "funding_tags": [],
       "citations": 0
     },
@@ -4260,9 +4141,9 @@
     {
       "title": "Efficient visual attention driven framework for key frames extraction from hysteroscopy videos",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=bxWgGnoAAAAJ:yD5IFk8b50cC",
-      "bibtex": "",
+      "bibtex": "@article{muhammad2017efficient,\n  title={Efficient visual attention driven framework for key frames extraction from hysteroscopy videos},\n  author={Muhammad, Khan and Sajjad, Muhammad and Lee, Mi Young and Baik, Sung Wook},\n  journal={Biomedical Signal Processing and Control},\n  volume={33},\n  pages={161--168},\n  year={2017},\n  publisher={Elsevier}\n}",
       "funding_tags": [],
-      "citations": 66
+      "citations": 67
     },
     {
       "title": "Bilateral collaborative streams with multi-modal attention network for accurate polyp segmentation",

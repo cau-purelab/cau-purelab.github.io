@@ -222,7 +222,7 @@ const ScholarPublications = () => {
                     ) : (
                       <span className="px-2 py-0.5 bg-slate-700 text-white rounded text-[8px] font-black uppercase">{getTypeLabel(bib.type)}</span>
                     )}
-                    <span className="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-[8px] font-black border border-blue-100">{isProg ? pub.year : bib.year}</span>
+                    <span className="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-[8px] font-black border border-blue-100">{isProg ? pub.year : (bib.year !== '0' ? bib.year : 'N/A')}</span>
                     {typeof pub.citations === 'number' && (
                       <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded text-[8px] font-black border border-emerald-100 flex items-center gap-1">
                         <Quote size={9} /> Cited {pub.citations}
