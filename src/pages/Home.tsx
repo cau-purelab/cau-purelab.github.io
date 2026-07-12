@@ -16,7 +16,7 @@ const Home = () => {
       <section className="relative h-[450px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/95 to-black/80 z-10" />
         <img
-          src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2000"
+          src="/assets/hero.webp"
           alt="Lab Background"
           className="absolute inset-0 w-full h-full object-cover"
         />
