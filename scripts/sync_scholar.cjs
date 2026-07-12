@@ -189,7 +189,7 @@ function checkConstants(constantsSrc, data) {
 async function main() {
   const data = JSON.parse(fs.readFileSync(JSON_PATH, 'utf8'));
   const constantsSrc = fs.readFileSync(CONSTANTS_PATH, 'utf8');
-  const report = { updates: [], authorDiffs: [], conversions: [], additionsProgress: [], additionsPublished: [], warnings: [], constants: [] };
+  const report = { updates: [], authorDiffs: [], conversions: [], additionsProgress: [], additionsPublished: [], urlBackfills: [], warnings: [], constants: [] };
   let changed = false;
 
   // ── A. Sites in-review ↔ json is_progress 대조
@@ -277,6 +277,18 @@ async function main() {
       pubs.forEach(p => delete p.__missing);
     }
 
+    // url이 비어 있는 기존 출판 항목 → Scholar 링크로 보강 (모든 교수 대상)
+    for (const pub of pubs) {
+      if (pub.is_progress || (pub.url && pub.url.trim())) continue;
+      const row = scholarRows.find(r => r.href && titlesMatch(normalize(r.title), normalize(pub.title)));
+      if (!row) continue;
+      report.urlBackfills.push(`[${name}] ${pub.title.slice(0, 65)}`);
+      if (APPLY) {
+        pub.url = 'https://scholar.google.com' + row.href;
+        changed = true;
+      }
+    }
+
     // Scholar에만 있는 신규 논문 → published 추가 (AUTO_ADD_PROFILES만; 그 외는 보고만)
     const autoAdd = AUTO_ADD_PROFILES.includes(name);
     const newRows = scholarRows.filter(r => {
@@ -317,6 +329,7 @@ async function main() {
   section('신규 투고 (is_progress 추가)', report.additionsProgress);
   section('출판 전환 (is_progress → published)', report.conversions);
   section('신규 출판 논문 추가', report.additionsPublished);
+  section('빈 URL 보강 (Scholar 링크)', report.urlBackfills);
   section('경고', report.warnings);
   section('constants.tsx 불일치 (수동 반영 필요)', report.constants);
 
