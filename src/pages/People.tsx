@@ -189,7 +189,7 @@ const People = () => {
         <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 w-full max-w-5xl flex flex-col md:flex-row">
           <div className="w-full md:w-56 lg:w-64 flex-shrink-0 overflow-hidden bg-gray-100 relative min-h-[250px] md:min-h-0">
             {member.image ? (
-              <img src={member.image} alt={member.name} className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" />
+              <img src={member.image} alt={member.name} loading="lazy" className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gray-50 text-xs">No Image</div>
             )}
@@ -220,7 +220,7 @@ const People = () => {
     return (
       <div className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 w-64 flex flex-col h-full">
         <div className="aspect-square overflow-hidden bg-gray-100 relative">
-          {member.image ? <img src={member.image} alt={member.name} className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" /> : <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gray-50 text-xs">No Image</div>}
+          {member.image ? <img src={member.image} alt={member.name} loading="lazy" className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" /> : <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gray-50 text-xs">No Image</div>}
         </div>
         <div className="p-5 text-center flex flex-col flex-grow">
           <h3 className="font-playfair text-xl font-bold text-blue-900 mb-2">{member.name}</h3>

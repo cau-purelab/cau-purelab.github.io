@@ -34,6 +34,7 @@ const Research = () => {
                   <img
                     src={area.image}
                     alt={area.title}
+                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   {/* Overlay for hover effect */}

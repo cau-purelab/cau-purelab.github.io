@@ -11,7 +11,7 @@ const Footer = () => {
                     <div className="col-span-1 lg:col-span-2">
                         <div className="flex items-center gap-3 mb-4">
                             {/* [수정됨] PURE 마크 사용 */}
-                            <img src="/assets/favicon.png" alt={`${LAB_SHORT_NAME} Mark`} className="h-10 w-10 opacity-90" />
+                            <img src="/assets/favicon.png" alt={`${LAB_SHORT_NAME} Mark`} loading="lazy" className="h-10 w-10 opacity-90" />
                             <h2 className="text-2xl font-playfair font-bold text-white tracking-wide">
                                 {LAB_SHORT_NAME}
                                 <span className="block text-xs font-sans font-semibold tracking-[0.18em] text-slate-400 uppercase mt-1">{LAB_FULL_NAME}</span>

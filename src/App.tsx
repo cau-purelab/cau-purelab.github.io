@@ -10,6 +10,7 @@ const People = lazy(() => import('./pages/People'));
 const Publications = lazy(() => import('./pages/Publications'));       // 주요 논문 페이지
 const News = lazy(() => import('./pages/News'));
 const ScholarPublications = lazy(() => import('./pages/ScholarPublications')); // 전체 논문 페이지
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 const routerBasename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
 
@@ -33,6 +34,7 @@ function App() {
               <Route path="/publications" element={<Publications />} /> {/* 하이라이트 */}
               <Route path="/news" element={<News />} />
               <Route path="/scholar" element={<ScholarPublications />} /> {/* 전체 목록 */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </main>
