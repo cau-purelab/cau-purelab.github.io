@@ -135,7 +135,8 @@ export const PUBLICATIONS: Publication[] =[
     authors:["Asma Sattar", "Maryam Bukhari", "Zahoor ur Rehman", "Saman Khalid", "Yangsun Lee", "Seungmin Rho"],
     venue: "Scientific Reports, Vol. 16, 1-23",
     tags:["Federated Learning", "Supply Chain"],
-    isSelected: true
+    isSelected: true,
+    link: "https://doi.org/10.1038/s41598-025-34578-z"
   },
   {
     id: 'p3',
@@ -144,7 +145,8 @@ export const PUBLICATIONS: Publication[] =[
     authors:["Byeongcheon Lee", "Sangmin Kim", "Muazzam Maqsood", "Jihoon Moon", "Seungmin Rho"],
     venue: "CMC-Computers, Materials & Continua, 81(1)",
     tags:["Anomaly Detection", "Time Series"],
-    isSelected: true
+    isSelected: true,
+    link: "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:27LrP4qxOz0C"
   },
   {
     id: 'p4',
@@ -153,7 +155,8 @@ export const PUBLICATIONS: Publication[] =[
     authors:["Sangmin Kim", "Byeongcheon Lee", "Jihoon Moon", "Seungmin Rho"],
     venue: "Computer Modeling in Engineering & Sciences (CMES), 143(2)",
     tags:["NLP", "Social Security"],
-    isSelected: true
+    isSelected: true,
+    link: "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:Wq2b2clWBLsC"
   },
   {
     id: 'p5',
@@ -162,7 +165,8 @@ export const PUBLICATIONS: Publication[] =[
     authors:["Sangmin Kim", "Byeongcheon Lee", "Sungwoo Park", "Mi Young Lee", "Seungmin Rho"],
     venue: "Annals of Computer Science and Information Systems, 45, 95-101",
     tags:["Machine Unlearning", "Knowledge Distillation"],
-    isSelected: true
+    isSelected: true,
+    link: "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:-6RzNnnwWf8C"
   },
   {
     id: 'p6',
@@ -180,7 +184,8 @@ export const PUBLICATIONS: Publication[] =[
     authors:["Byeongcheon Lee", "Sangmin Kim", "Sungwoo Park", "Seungmin Rho", "Mi Young Lee"],
     venue: "ECAI 2025 Workshop (TRUST-AI)",
     tags:["GANs", "Unlearning"],
-    isSelected: true
+    isSelected: true,
+    link: "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:__bU50VfleQC"
   },
   {
     id: 'p8',

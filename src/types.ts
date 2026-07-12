@@ -25,6 +25,7 @@ export interface Publication {
   venue: string;       // 학술지/컨퍼런스 명
   year: number;
   tags?: string[];
+  link?: string;       // DOI 또는 Scholar 링크 (publications.json과 대응)
   bibtex?: string;
   isSelected?: boolean;
   status?: string;     // 미게재 논문 상태 표기 (예: "Under Review")

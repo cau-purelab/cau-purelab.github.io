@@ -4,7 +4,7 @@ import SEO from '../components/SEO';
 import { PUBLICATIONS_UPDATED_AT, PI_NAME_VARIANTS } from '../constants';
 import {
   ExternalLink, Calendar, BookOpen, Search, Quote, Award,
-  BarChart3, SortAsc, Clock, Tags, XCircle, RefreshCw
+  BarChart3, SortAsc, Clock, Tags, XCircle, RefreshCw, TrendingUp
 } from 'lucide-react';
 
 interface ScholarPub {
@@ -63,6 +63,17 @@ const ScholarPublications = () => {
       if (yearA !== yearB) return yearB - yearA; // 연도 내림차순
       return a[0].localeCompare(b[0]); // 연도 같으면 이름순
     });
+  }, [activeTab]);
+
+  // --- [연구 지표: 탭별 총 논문 수 / 총 인용수 / h-index] ---
+  const scholarStats = useMemo(() => {
+    const pubs = loadedPublications[activeTab] || [];
+    const published = pubs.filter(p => !p.is_progress);
+    const totalCitations = published.reduce((sum, p) => sum + (p.citations || 0), 0);
+    const sorted = published.map(p => p.citations || 0).sort((a, b) => b - a);
+    let hIndex = 0;
+    while (hIndex < sorted.length && sorted[hIndex] >= hIndex + 1) hIndex += 1;
+    return { papers: published.length, inProgress: pubs.length - published.length, totalCitations, hIndex };
   }, [activeTab]);
 
   // --- [필터 및 정렬] ---
@@ -152,6 +163,24 @@ const ScholarPublications = () => {
           <Calendar size={12} />
           <span>Data last updated: {PUBLICATIONS_UPDATED_AT}</span>
         </div>
+      </div>
+
+      {/* --- [연구 지표 카드] --- */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+        {[
+          { label: 'Publications', value: scholarStats.papers, icon: BookOpen },
+          { label: 'In Progress', value: scholarStats.inProgress, icon: RefreshCw },
+          { label: 'Total Citations', value: scholarStats.totalCitations.toLocaleString(), icon: Quote },
+          { label: 'h-index', value: scholarStats.hIndex, icon: TrendingUp },
+        ].map(({ label, value, icon: Icon }) => (
+          <div key={label} className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 flex items-center gap-3">
+            <div className="p-2 bg-blue-50 text-blue-600 rounded-xl"><Icon size={16} /></div>
+            <div>
+              <p className="text-lg font-black text-slate-900 leading-tight">{value}</p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{label}</p>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* --- [펀딩 대시보드: 연도순 정렬됨] --- */}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { PUBLICATIONS, MEMBERS, PI_NAME_VARIANTS } from '../constants';
-import { Award, BookOpen, Library } from 'lucide-react';
+import { Award, BookOpen, ExternalLink, Library } from 'lucide-react';
 import SEO from '../components/SEO';
 
 const Publications = () => {
@@ -78,9 +78,20 @@ const Publications = () => {
               </div>
 
               {/* 학술지 정보 */}
-              <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
+              <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500 font-medium">
                 <BookOpen size={16} className="text-blue-400" />
                 <span className="text-slate-800 font-bold">{pub.venue}</span>
+                {pub.link && (
+                  <a
+                    href={pub.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`Open "${pub.title}" in a new tab`}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 text-blue-600 rounded-lg text-xs font-bold border border-blue-100 hover:bg-blue-600 hover:text-white transition-colors"
+                  >
+                    <ExternalLink size={12} /> {pub.link.includes('doi.org') ? 'DOI' : 'Link'}
+                  </a>
+                )}
               </div>
             </div>
           </div>
