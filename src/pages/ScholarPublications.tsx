@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import publicationsData from '../data/publications.json';
 import SEO from '../components/SEO';
 import { PUBLICATIONS_UPDATED_AT, PI_NAME_VARIANTS } from '../constants';
@@ -30,8 +30,12 @@ const ScholarPublications = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFunding, setSelectedFunding] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<'year' | 'title' | 'funding'>('year');
+  const [selectedYear, setSelectedYear] = useState<string>('all');
+  const [visibleCount, setVisibleCount] = useState(50);
   const [activeBibtex, setActiveBibtex] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const PAGE_SIZE = 50;
 
   // --- [BibTeX 파싱] ---
   const parseBibtex = (bib: string) => {
@@ -76,10 +80,24 @@ const ScholarPublications = () => {
     return { papers: published.length, inProgress: pubs.length - published.length, totalCitations, hIndex };
   }, [activeTab]);
 
+  // 논문의 표시 연도 (진행 중이면 year 필드, 출판이면 bibtex에서 추출)
+  const getPubYear = (p: ScholarPub) => (p.is_progress ? (p.year || '0') : parseBibtex(p.bibtex || '').year);
+
+  // --- [연도 필터 옵션: 해당 탭에 존재하는 연도 내림차순] ---
+  const availableYears = useMemo(() => {
+    const years = new Set<string>();
+    (loadedPublications[activeTab] || []).forEach(p => {
+      const y = getPubYear(p);
+      if (/^\d{4}$/.test(y)) years.add(y);
+    });
+    return [...years].sort((a, b) => b.localeCompare(a));
+  }, [activeTab]);
+
   // --- [필터 및 정렬] ---
   const processedPubs = useMemo(() => {
     let result = [...(loadedPublications[activeTab] || [])];
     if (selectedFunding) result = result.filter(p => p.funding_tags?.includes(selectedFunding));
+    if (selectedYear !== 'all') result = result.filter(p => getPubYear(p) === selectedYear);
     if (searchTerm) {
       const low = searchTerm.toLowerCase();
       result = result.filter(p => 
@@ -103,7 +121,14 @@ const ScholarPublications = () => {
       return (a.funding_tags?.[0] || "zzz").localeCompare(b.funding_tags?.[0] || "zzz");
     });
     return result;
-  }, [activeTab, searchTerm, selectedFunding, sortBy]);
+  }, [activeTab, searchTerm, selectedFunding, selectedYear, sortBy]);
+
+  // 필터/탭 변경 시 페이지네이션 초기화
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [activeTab, searchTerm, selectedFunding, selectedYear, sortBy]);
+
+  const visiblePubs = processedPubs.slice(0, visibleCount);
 
   // BibTeX 엔트리 유형 → 표시용 라벨
   const getTypeLabel = (type?: string) => {
@@ -213,11 +238,20 @@ const ScholarPublications = () => {
       <div className="sticky top-20 z-30 bg-white/95 backdrop-blur-md py-4 mb-8 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex bg-slate-100 p-1 rounded-xl w-full md:w-auto">
           {professors.map(name => (
-            <button key={name} onClick={() => { setActiveTab(name); setSelectedFunding(null); }}
+            <button key={name} onClick={() => { setActiveTab(name); setSelectedFunding(null); setSelectedYear('all'); }}
               className={`flex-1 md:flex-none px-6 py-1.5 rounded-lg font-bold text-xs transition-all ${activeTab === name ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500'}`}>{name}</button>
           ))}
         </div>
         <div className="flex items-center gap-3 w-full md:w-auto">
+          <select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+            aria-label="Filter by year"
+            className="px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 outline-none focus:ring-2 focus:ring-blue-50 cursor-pointer"
+          >
+            <option value="all">All Years</option>
+            {availableYears.map(y => <option key={y} value={y}>{y}</option>)}
+          </select>
           <div className="flex bg-slate-100 p-1 rounded-xl items-center shadow-inner scale-90">
             <div className="flex bg-white rounded-lg p-0.5 gap-0.5">
               <button onClick={() => setSortBy('year')} aria-label="Sort by year" title="Sort by year" className={`p-1.5 rounded-md ${sortBy === 'year' ? 'bg-slate-900 text-white' : 'text-slate-400'}`}><Clock size={14}/></button>
@@ -234,8 +268,9 @@ const ScholarPublications = () => {
       </div>
 
       {/* --- [콤팩트 논문 리스트] --- */}
+      <p className="text-xs text-slate-400 font-bold mb-4">{processedPubs.length} results</p>
       <div className="space-y-4">
-        {processedPubs.map((pub, idx) => {
+        {visiblePubs.map((pub, idx) => {
           const bib = parseBibtex(pub.bibtex || "");
           const pubId = `${activeTab}-${idx}`;
           const isProg = pub.is_progress;
@@ -308,6 +343,18 @@ const ScholarPublications = () => {
           );
         })}
       </div>
+
+      {/* --- [Load More 페이지네이션] --- */}
+      {processedPubs.length > visibleCount && (
+        <div className="text-center mt-10">
+          <button
+            onClick={() => setVisibleCount(c => c + PAGE_SIZE)}
+            className="px-8 py-3 bg-slate-900 text-white rounded-2xl text-sm font-bold hover:bg-blue-700 transition-all shadow-lg"
+          >
+            Load More ({processedPubs.length - visibleCount} remaining)
+          </button>
+        </div>
+      )}
     </div>
   );
 };
