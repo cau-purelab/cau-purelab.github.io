@@ -3,12 +3,14 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://cau-purelab.github.io/",
+  "homepage": "https://pure.cau.ac.kr/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "build:pages": "vite build && node scripts/create-pages-404.cjs && node scripts/create-rss.cjs",
     "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "validate": "node scripts/site.cjs && node scripts/validate_data.cjs",
     "deploy": "npm run build:pages"
   },
   "dependencies": {

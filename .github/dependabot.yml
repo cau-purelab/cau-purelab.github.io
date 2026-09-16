@@ -1,0 +1,40 @@
+# 의존성·액션 버전 자동 갱신.
+# - github-actions: 러너의 Node 런타임 지원 종료로 배포가 통째로 깨지는 사고를 막는 쪽이 우선이다.
+# - npm: major는 제외한다(React 19 peer 충돌, Tailwind 3→4·Vite major 마이그레이션은 손으로 할 일).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: weekly
+      day: monday
+      time: '09:00'
+      timezone: Asia/Seoul
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: ci
+    groups:
+      actions:
+        patterns:
+          - '*'
+
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: weekly
+      day: monday
+      time: '09:00'
+      timezone: Asia/Seoul
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: chore
+    groups:
+      npm-minor-patch:
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # major 업그레이드는 Dependabot에 맡기지 않는다 (호환성 검토가 필요하다).
+      - dependency-name: '*'
+        update-types:
+          - version-update:semver-major

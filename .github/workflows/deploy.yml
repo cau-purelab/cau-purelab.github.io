@@ -28,11 +28,20 @@ jobs:
           node-version: 22
           cache: npm
 
+      # scripts/site.cjs의 SITE_URL과 src/constants.tsx의 LAB_URL이 어긋나면 여기서 멈춘다
+      # (canonical·og:url·sitemap·RSS가 서로 다른 도메인을 가리키는 사고 방지)
+      - name: Validate site configuration
+        run: node scripts/site.cjs
+
       - name: Validate publication data
         run: node scripts/validate_data.cjs
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
+
+      # Vite는 타입을 검사하지 않는다. 타입 오류가 그대로 배포되지 않도록 별도 게이트를 둔다.
+      - name: Type check
+        run: npm run typecheck
 
       - name: Build
         run: npm run build:pages
@@ -57,3 +66,33 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+
+      # 배포 직후 회귀 감시: 홈·딥링크 5개·feed.xml·sitemap.xml이 200인지 확인한다.
+      # 딥링크 200은 scripts/create-pages-404.cjs가 만드는 dist/<route>.html에 달려 있으므로,
+      # 그 생성이 깨지면 여기서 즉시 잡힌다(과거에는 5개 경로가 전부 404였다).
+      - name: Smoke test deployed routes
+        shell: bash
+        run: |
+          base="${{ steps.deployment.outputs.page_url }}"
+          base="${base%/}"
+          echo "base=$base"
+          failed=0
+          for route in "/" /research /people /publications /scholar /news /feed.xml /sitemap.xml /robots.txt; do
+            url="$base$route"
+            code=000
+            for attempt in 1 2 3; do
+              # -L: 커스텀 도메인 리다이렉트(github.io → pure.cau.ac.kr)를 따라가 최종 상태만 본다
+              code=$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 20 "$url" || echo 000)
+              if [ "$code" = "200" ]; then
+                break
+              fi
+              sleep 10
+            done
+            if [ "$code" = "200" ]; then
+              echo "ok   $code $url"
+            else
+              echo "FAIL $code $url"
+              failed=1
+            fi
+          done
+          exit $failed
