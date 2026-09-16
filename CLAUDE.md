@@ -65,7 +65,8 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 1. **이미지**: `public/assets/`는 Vite가 최적화하지 않고 그대로 배포됨. 추가 전 반드시 압축 — 인물 사진은 JPEG ≤800px, 래스터는 WebP ≤1600px, 파일당 200KB 이하 목표. MB급 원본 커밋 금지.
    - **연구 분야 일러스트는 직접 그린 SVG**(`privacy-preserving-ai.svg` 등, 파일명 = `RESEARCH_AREAS`의 `id`). 생성기는 `scripts/`가 아니라 작업 시점의 일회성 스크립트였고, 결과물인 SVG가 원본이다. 수정은 SVG를 직접 편집한다. 팔레트는 네이비 램프(#1E3A8A / #2563EB / #60A5FA)만 쓰고, 크림슨(#B91C1C)은 "제거·공격" 의미에만 절제해 쓴다.
    - **생성형 이미지 금지**: 예전 일러스트 3장에 이미지 생성기 워터마크(우하단 4각 sparkle)가 남아 배포돼 있었다. 스톡·생성 이미지를 쓸 경우 반드시 워터마크 유무를 확인할 것.
-   - **로고는 이미지가 아니라 컴포넌트**: `src/components/Logo.tsx`의 `LogoMark`·`LogoLockup`을 쓴다. 내비와 푸터가 같은 마크를 공유하고 페이지 폰트(Inter)를 상속한다. `favicon-16/32/512.png`와 `og-image.png`만 래스터로 유지한다.
+   - **표시 크기 기준으로 그릴 것**: 연구 분야 이미지는 Research 페이지에서 **568×320px**로 렌더된다(1600px 캔버스의 0.355배). 텍스트 56px↑, 선 8px↑, 의미를 가진 도형 90px↑, 핵심 요소 7개↓를 지키고, **반드시 568×320으로 렌더해 눈으로 확인**한 뒤 커밋한다. 1600px 원본만 보고 판단하면 화면에서 아무것도 안 보인다(2026-09-17에 한 번 그렇게 실패했다).
+   - **로고는 이미지가 아니라 컴포넌트**: `src/components/Logo.tsx`의 `LogoMark`·`LogoLockup`을 쓴다. 내비와 푸터가 같은 마크를 공유하고 페이지 폰트(Inter)를 상속한다. 마크는 글자가 없는 도형 3개(방패=경계, 노치=제거, 코어=보존된 모델)이고 16px에서도 같은 실루엣이다. `favicon-16/32/512.png`와 `og-image.png`만 래스터로 유지하며, 이들은 마크와 같은 좌표를 쓰므로 한쪽만 고치면 어긋난다.
 2. **멤버 사진**: 파일명은 `MEMBERS.name`과 동일한 `{이름}.jpg`. 사진 없으면 `https://ui-avatars.com/api/?name={이름}&background=random`.
 3. **People 논문 모달**: `member.name`이 publications.json의 키와 정확히 일치해야 논문이 표시됨 (현재 `"Seungmin Rho"`, `"Mi Young Lee"`만 해당).
 4. **publications.json 수정**: node 스크립트로 수행하고, 저장 후 ①`JSON.parse` 유효성 ②제목·bibtex 중복 여부 ③항목 수 변화를 검증할 것. UTF-8, 2-space indent 유지.
