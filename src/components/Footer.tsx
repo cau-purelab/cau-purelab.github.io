@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { LAB_ADDRESS_QUERY, LAB_EMAIL, LAB_FULL_NAME, LAB_NAME, LAB_SHORT_NAME } from '../constants';
+import { LogoMark } from './Logo';
 
 const Footer = () => {
     return (
@@ -10,8 +11,8 @@ const Footer = () => {
                     {/* Brand Section */}
                     <div className="col-span-1 lg:col-span-2">
                         <div className="flex items-center gap-3 mb-4">
-                            {/* [수정됨] PURE 마크 사용 */}
-                            <img src="/assets/favicon.png" alt="" width={40} height={40} loading="lazy" className="h-10 w-10 opacity-90" />
+                            {/* 내비와 같은 마크를 쓴다 — 예전에는 여기만 원형 PNG였다 */}
+                            <LogoMark size={40} />
                             {/* 브랜드 표기는 제목이 아니라 서명이다 — 페이지 아웃라인에 섞이지 않도록 <p>로 둔다 */}
                             <p className="text-2xl font-playfair font-bold text-white tracking-wide">
                                 {LAB_SHORT_NAME}

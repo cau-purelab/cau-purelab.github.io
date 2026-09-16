@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { LogoLockup } from './Logo';
 import { LAB_BRAND_NAME } from '../constants';
 
 const Navbar = () => {
@@ -32,13 +33,7 @@ const Navbar = () => {
         <div className="flex justify-between h-20">
           <div className="flex items-center">
             <Link to="/" className="flex items-center" aria-label={`${LAB_BRAND_NAME} — home`}>
-              <img
-                src="/assets/logo-full.png"
-                alt={`${LAB_BRAND_NAME} logo`}
-                width={164}
-                height={40}
-                className="h-10 w-auto object-contain"
-              />
+              <LogoLockup />
             </Link>
           </div>
 

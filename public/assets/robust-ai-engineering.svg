@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-labelledby="t d">
+  <title id="t">Robust AI Engineering</title><desc id="d">적대적 교란과 분포 변화가 입력을 흔들어도, 충분한 결정 여유(margin)를 확보한 모델의 출력은 표적 안에 머문다.</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#EAF0F7"/>
+    </linearGradient>
+    <pattern id="dots" width="44" height="44" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.6" fill="#CBD5E1" opacity=".55"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#g)"/>
+  <rect width="1600" height="900" fill="url(#dots)"/><line x1="132" y1="424" x2="580" y2="424" stroke="#CBD5E1" stroke-width="2.5"/><path d="M132 424 L132.0 502.6 L143.2 519.6 L154.4 515.7 L165.6 495.1 L176.8 467.8 L188.0 444.4 L199.2 430.0 L210.4 422.8 L221.6 415.7 L232.8 401.6 L244.0 378.7 L255.2 352.2 L266.4 332.4 L277.6 329.2 L288.8 347.0 L300.0 381.5 L311.2 421.8 L322.4 455.6 L333.6 475.2 L344.8 480.2 L356.0 477.4 L367.2 475.1 L378.4 478.4 L389.6 485.7 L400.8 489.5 L412.0 481.1 L423.2 456.0 L434.4 417.7 L445.6 376.5 L456.8 345.1 L468.0 332.3 L479.2 339.2 L490.4 359.0 L501.6 381.4 L512.8 398.0 L524.0 406.7 L535.2 412.3 L546.4 422.7 L557.6 443.1 L568.8 472.2 L580.0 501.9" fill="none" stroke="#CBD5E1" stroke-width="4"
+              stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="12 9"/><path d="M132 424 L132.0 424.0 L143.2 457.5 L154.4 481.1 L165.6 489.8 L176.8 484.9 L188.0 473.1 L199.2 462.2 L210.4 456.4 L221.6 454.4 L232.8 450.5 L244.0 438.4 L255.2 415.8 L266.4 386.5 L277.6 359.4 L288.8 343.9 L300.0 345.5 L311.2 363.1 L322.4 389.2 L333.6 414.6 L344.8 432.1 L356.0 440.7 L367.2 444.7 L378.4 450.5 L389.6 462.1 L400.8 478.1 L412.0 492.0 L423.2 495.5 L434.4 483.3 L445.6 456.4 L456.8 422.2 L468.0 391.0 L479.2 371.2 L490.4 365.7 L501.6 370.7 L512.8 378.9 L524.0 384.0 L535.2 384.3 L546.4 383.7 L557.6 389.0 L568.8 405.3 L580.0 432.5" fill="none" stroke="#1E3A8A" stroke-width="5"
+              stroke-linecap="round" stroke-linejoin="round" /><path d="M246 284 L260 346" stroke="#B91C1C" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M260 346 l-12 -12 l16 -3 z" fill="#B91C1C"/><path d="M382 300 L396 362" stroke="#B91C1C" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M396 362 l-12 -12 l16 -3 z" fill="#B91C1C"/><path d="M502 272 L516 334" stroke="#B91C1C" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M516 334 l-12 -12 l16 -3 z" fill="#B91C1C"/><path d="M700 168 C 762 320, 700 540, 762 712 L 900 712 C 838 540, 900 320, 838 168 Z"
+          fill="#DBEAFE" opacity=".75"/><path d="M700 168 C 762 320, 700 540, 762 712" fill="none" stroke="#60A5FA" stroke-width="3.5" stroke-dasharray="13 9"/><path d="M838 168 C 900 320, 838 540, 900 712" fill="none" stroke="#60A5FA" stroke-width="3.5" stroke-dasharray="13 9"/><path d="M769 168 C 831 320, 769 540, 831 712" fill="none" stroke="#1E3A8A" stroke-width="5" stroke-linecap="round"/><circle cx="742" cy="268" r="11" fill="#1E3A8A"/><circle cx="812" cy="386" r="11" fill="#1E3A8A"/><circle cx="748" cy="498" r="11" fill="#1E3A8A"/><circle cx="822" cy="596" r="11" fill="#1E3A8A"/><path d="M602 424 L672 424" fill="none" stroke="#2563EB" stroke-width="4"/>
+        <path d="M672 424 l-17 -9 v18 z" fill="#2563EB"/><circle cx="1268" cy="430" r="188" fill="none" stroke="#CBD5E1" stroke-width="3.5"/><circle cx="1268" cy="430" r="134" fill="none" stroke="#CBD5E1" stroke-width="3.5"/><circle cx="1268" cy="430" r="80" fill="none" stroke="#60A5FA" stroke-width="3.5"/><circle cx="1268" cy="430" r="26" fill="#1E3A8A"/><path d="M932 430 L1062 430" fill="none" stroke="#2563EB" stroke-width="4"/>
+        <path d="M1062 430 l-17 -9 v18 z" fill="#2563EB"/><circle cx="1444" cy="278" r="15" fill="none" stroke="#FCA5A5" stroke-width="4" stroke-dasharray="6 6"/><path d="M1288 414 L1428 290" fill="none"
+          stroke="#FCA5A5" stroke-width="3" stroke-dasharray="9 8"/><text x="376" y="800" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="30"
+     font-weight="600" letter-spacing="3.4" fill="#94A3B8">PERTURBED INPUT</text><text x="800" y="800" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="30"
+     font-weight="600" letter-spacing="3.4" fill="#1E3A8A">DECISION MARGIN</text><text x="1268" y="800" text-anchor="middle" font-family="system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif" font-size="30"
+     font-weight="600" letter-spacing="3.4" fill="#94A3B8">STABLE OUTPUT</text>
+</svg>

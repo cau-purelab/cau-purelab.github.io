@@ -62,7 +62,10 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 
 ## 작업 규칙
 
-1. **이미지**: `public/assets/`는 Vite가 최적화하지 않고 그대로 배포됨. 추가 전 반드시 압축 — 일러스트는 WebP ≤1600px, 인물 사진은 JPEG ≤800px, 파일당 200KB 이하 목표. MB급 원본 커밋 금지.
+1. **이미지**: `public/assets/`는 Vite가 최적화하지 않고 그대로 배포됨. 추가 전 반드시 압축 — 인물 사진은 JPEG ≤800px, 래스터는 WebP ≤1600px, 파일당 200KB 이하 목표. MB급 원본 커밋 금지.
+   - **연구 분야 일러스트는 직접 그린 SVG**(`privacy-preserving-ai.svg` 등, 파일명 = `RESEARCH_AREAS`의 `id`). 생성기는 `scripts/`가 아니라 작업 시점의 일회성 스크립트였고, 결과물인 SVG가 원본이다. 수정은 SVG를 직접 편집한다. 팔레트는 네이비 램프(#1E3A8A / #2563EB / #60A5FA)만 쓰고, 크림슨(#B91C1C)은 "제거·공격" 의미에만 절제해 쓴다.
+   - **생성형 이미지 금지**: 예전 일러스트 3장에 이미지 생성기 워터마크(우하단 4각 sparkle)가 남아 배포돼 있었다. 스톡·생성 이미지를 쓸 경우 반드시 워터마크 유무를 확인할 것.
+   - **로고는 이미지가 아니라 컴포넌트**: `src/components/Logo.tsx`의 `LogoMark`·`LogoLockup`을 쓴다. 내비와 푸터가 같은 마크를 공유하고 페이지 폰트(Inter)를 상속한다. `favicon-16/32/512.png`와 `og-image.png`만 래스터로 유지한다.
 2. **멤버 사진**: 파일명은 `MEMBERS.name`과 동일한 `{이름}.jpg`. 사진 없으면 `https://ui-avatars.com/api/?name={이름}&background=random`.
 3. **People 논문 모달**: `member.name`이 publications.json의 키와 정확히 일치해야 논문이 표시됨 (현재 `"Seungmin Rho"`, `"Mi Young Lee"`만 해당).
 4. **publications.json 수정**: node 스크립트로 수행하고, 저장 후 ①`JSON.parse` 유효성 ②제목·bibtex 중복 여부 ③항목 수 변화를 검증할 것. UTF-8, 2-space indent 유지.
@@ -112,4 +115,6 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 | 2026-07-12 | 남은 과제 3건 해결 — `sync_scholar.cjs` 신규(Sites/Scholar 자동 대조·출판 전환·constants 정합성 검사·날짜 상수 자동 갱신), `lib.cjs` 공용 유틸 추출, stub이던 `fetch_scholar.py` 삭제. 첫 --apply로 funding_tags 2건 교정(TRUST-SDT→ITRC-26 등), citation 501건 갱신 |
 | 2026-07-12 | 2차 개선 — 404 NotFound 라우트 신설, 이미지 lazy loading, Major Publications에 DOI/Scholar 링크 5건, Scholar 페이지 연구 지표 카드(논문 수·인용수·h-index), sync에 빈 URL 보강 기능(MYL 15건 적용), 주간 자동 sync PR 워크플로우(`sync-scholar.yml`)와 배포 전 데이터 검증 게이트(`validate_data.cjs`) 추가 |
 | 2026-07-12 | 3차 개선 — Scholar 페이지 연도 필터·Load More 페이지네이션(50건 단위), 뉴스 RSS 피드(`create-rss.cjs`, 빌드 시 feed.xml 생성), Home 히어로 Unsplash 외부 이미지 → 로컬 `hero.webp`(185KB) 교체, MIT LICENSE 추가 |
+| 2026-09-17 | 감사 27개 문제군 + UI/UX 검토 반영(커밋 13건), 커스텀 도메인 HTTPS 전환, 라우트별 프리렌더, 아카이브 정리(470→427건), PR CI 신설, 의존성·데이터 PR 3건 머지 |
+| 2026-09-17 | 브랜드 자산 재제작 — 연구 분야 일러스트 3장을 직접 그린 SVG로 교체(생성기 워터마크 제거), 내비·푸터로 갈라져 있던 두 마크를 `Logo.tsx` 하나로 통합, 파비콘 크기별 3종과 OG 카드 재생성 |
 | 2026-09-17 | 빌드·배포 정비 — 라우트별 정적 HTML 생성(딥링크 404 해소)과 라우트별 SEO 메타 주입, `site.cjs`로 정본 URL·라우트 단일화(sitemap/robots/feed 빌드 생성), `public/CNAME` 추가, CI에 타입체크 게이트·설정 검증·배포 후 스모크 테스트 추가, 주간 sync 워크플로 pipefail + 실패 시 이슈 생성, Dependabot·.gitattributes·.gitignore 정비, 폰트 웨이트 범위 교정(Inter 300~900 / Playfair 400~800), 문서 최신화 |
