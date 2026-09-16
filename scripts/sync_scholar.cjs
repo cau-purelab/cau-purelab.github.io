@@ -402,9 +402,11 @@ async function main() {
           ? '한글 제목 (국문 중복 등재 가능성)'
           : PREPRINT_VENUE.test(rowTitle)
             ? '프리프린트/학술발표'
-            : row.year && Number(row.year) < MIN_AUTO_ADD_YEAR
-              ? `${MIN_AUTO_ADD_YEAR}년 이전 (${row.year})`
-              : null;
+            : !/^\d{4}$/.test(String(row.year || ''))
+              ? '연도 미상 (Scholar에 출판연도 없음)'
+              : Number(row.year) < MIN_AUTO_ADD_YEAR
+                ? `${MIN_AUTO_ADD_YEAR}년 이전 (${row.year})`
+                : null;
 
       if (skipReason) {
         report.skipped.push(`[${name}] ${rowTitle.slice(0, 60)} — ${skipReason}`);

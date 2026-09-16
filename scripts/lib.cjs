@@ -15,8 +15,10 @@ const PI_NAME_VARIANTS = {
 };
 
 // 논문이 아닌 Scholar 레코드(환영사·위원회 명단·특집호 서문 등) 제목 패턴
+// 주의: 2026-09-17 실행에서 'CUTE 2010 Organization'·'Future Information Technology (24 Papers)' 계열이
+// 통과해 PR에 섞였다. 학회 조직 명단과 논문집 묶음 레코드를 추가로 막는다.
 const FRONT_MATTER_TITLE =
-  /^welcome to|welcome message|program committee|organizing committee|^message from|reviewers?$|committees?(\s*\(|$)|guest editorial|special (issue|section)|^preface|^foreword/i;
+  /^welcome to|welcome message|program committee|organizing committee|^message from|reviewers?$|committees?(\s*\(|$)|guest editorial|special (issue|section)|^preface|^foreword|\borganization$|\(\d+\s*papers?\)|^(front|back)\s*matter|table of contents|author index|^proceedings of/i;
 
 // 철회 논문 제목 패턴 (Scholar가 'RETRACTED ARTICLE:' 접두를 붙인다)
 const RETRACTED_TITLE = /^\[?\s*retracted/i;
