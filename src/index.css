@@ -33,6 +33,20 @@
     perspective: 1000px;
   }
 
+  /* 진입 애니메이션 스태거 — animate-fade-in-up과 함께 써서 순서대로 나타나게 한다.
+     Tailwind의 delay-*는 transition-delay로 컴파일되므로 CSS animation에는 아무 효과가 없다.
+     (짝이 되는 animation-fill-mode: both는 tailwind.config.js에 있다.)
+     '동작 줄이기'에서는 아래 미디어 쿼리가 animation-delay를 0으로 되돌려 동시에 나타난다. */
+  .anim-delay-1 {
+    animation-delay: 90ms;
+  }
+  .anim-delay-2 {
+    animation-delay: 180ms;
+  }
+  .anim-delay-3 {
+    animation-delay: 270ms;
+  }
+
   /* 모달·긴 목록의 스크롤바. Firefox는 표준 속성, Chromium/WebKit은 의사 요소를 쓴다. */
   .custom-scrollbar {
     scrollbar-width: thin;

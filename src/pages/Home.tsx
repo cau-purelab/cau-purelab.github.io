@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Calendar, Users, FileText, Mail } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Calendar, Users, FileText, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { LAB_DESCRIPTION, LAB_EMAIL, LAB_ESTABLISHED_YEAR, LAB_FULL_NAME, LAB_SHORT_NAME, RESEARCH_AREAS, NEWS, PUBLICATIONS, MEMBERS } from '../constants';
 import SEO from '../components/SEO';
@@ -31,41 +31,52 @@ const Home = () => {
           className="absolute inset-0 w-full h-full object-cover"
         />
 
+        {/* 히어로 4단 스태거. anim-delay-*는 src/index.css에 정의돼 있다 —
+            Tailwind의 delay-*는 transition-delay라 CSS animation에는 듣지 않는다.
+            '동작 줄이기' 설정에서는 index.css가 지연과 재생 시간을 모두 0으로 만든다. */}
         <div className="relative z-20 max-w-5xl mx-auto px-4 text-center text-white space-y-5">
-          <p className="inline-block px-3 py-1 bg-red-600/90 text-white text-xs font-bold uppercase tracking-[0.3em] mb-2 rounded shadow-lg backdrop-blur-sm">
+          <p className="inline-block px-3 py-1 bg-red-600/90 text-white text-xs font-bold uppercase tracking-[0.3em] mb-2 rounded shadow-lg backdrop-blur-sm animate-fade-in-up">
             Established {LAB_ESTABLISHED_YEAR}
           </p>
-          <h1 className="font-playfair font-bold tracking-tight animate-fade-in-up leading-tight">
+          <h1 className="font-playfair font-bold tracking-tight animate-fade-in-up anim-delay-1 leading-tight">
             <span className="block text-6xl md:text-8xl">{LAB_SHORT_NAME}</span>
             <span className="block text-lg md:text-2xl font-normal tracking-wide mt-3 text-blue-100">{LAB_FULL_NAME}</span>
           </h1>
-          <p className="text-lg md:text-xl font-light max-w-2xl mx-auto opacity-90 animate-fade-in-up text-gray-200">
+          <p className="text-lg md:text-xl font-light max-w-2xl mx-auto opacity-90 animate-fade-in-up anim-delay-2 text-slate-200">
             {LAB_DESCRIPTION}
           </p>
-          <div className="pt-6 animate-fade-in-up flex justify-center gap-4">
+          {/* 1차 행동은 연구 소개, 2차는 구성원 — 홈에서 다음으로 갈 곳을 둘 다 연다 */}
+          <div className="pt-6 animate-fade-in-up anim-delay-3 flex flex-wrap justify-center gap-4">
+            <Link
+              to="/research"
+              className="inline-flex items-center px-6 py-2.5 bg-white text-sm font-bold rounded-full text-blue-900 hover:bg-blue-50 transition-all duration-300 shadow-lg"
+            >
+              Explore Research
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+            </Link>
             <Link
               to="/people"
-              className="inline-flex items-center px-6 py-2.5 border border-white/30 text-sm font-medium rounded-full text-white hover:bg-white hover:text-blue-900 transition-all duration-300 backdrop-blur-sm"
+              className="inline-flex items-center px-6 py-2.5 border border-white/30 text-sm font-medium rounded-full text-white hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
             >
               Meet Our Team
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
         </div>
       </section>
 
       {/* 2. Stats Section */}
-      <section className="py-12 border-b border-gray-100 bg-white">
+      <section className="py-12 border-b border-slate-100 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 gap-12 text-center">
             <div>
               <div className="flex items-center justify-center gap-2 mb-2">
                 <FileText className="h-5 w-5 text-blue-900/60" />
-                <p className="text-4xl md:text-5xl font-playfair font-bold text-gray-900">
+                <p className="text-4xl md:text-5xl font-playfair font-bold text-slate-900">
                   {selectedPubCount}
                 </p>
               </div>
-              <p className="text-xs text-gray-600 uppercase tracking-[0.2em] font-bold">
+              <p className="text-xs text-slate-600 uppercase tracking-[0.2em] font-bold">
                 Selected Publications
               </p>
               {/* 이 숫자는 수동 선별 목록이다 — 전체 아카이브 건수와 다르다는 점을 링크로 드러낸다 */}
@@ -76,11 +87,11 @@ const Home = () => {
             <div>
               <div className="flex items-center justify-center gap-2 mb-2">
                 <Users className="h-5 w-5 text-blue-900/60" />
-                <p className="text-4xl md:text-5xl font-playfair font-bold text-gray-900">
+                <p className="text-4xl md:text-5xl font-playfair font-bold text-slate-900">
                   {memberCount}
                 </p>
               </div>
-              <p className="text-xs text-gray-600 uppercase tracking-[0.2em] font-bold">
+              <p className="text-xs text-slate-600 uppercase tracking-[0.2em] font-bold">
                 Researchers
               </p>
               <Link to="/people" className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-blue-700 hover:text-blue-900 underline underline-offset-4">
@@ -92,24 +103,26 @@ const Home = () => {
       </section>
 
       {/* 3. Research Intro Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-gray-50/50 rounded-3xl my-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-slate-50/50 rounded-3xl my-8">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <h2 className="font-playfair text-3xl font-bold text-blue-900 leading-tight">
               Pursuing Excellence in <br />Privacy, Unlearning, and Robust Engineering
             </h2>
-            <p className="text-gray-600 leading-relaxed text-base font-light">
+            <p className="text-slate-600 leading-relaxed text-base font-light">
               We focus on fundamental and applied research in privacy-preserving AI, machine unlearning, and robust engineering. Our goal is to build AI systems that are high-performing, private, reliable, and explainable.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-4">
-            {RESEARCH_AREAS.slice(0, 3).map((area, idx) => (
-              <Link key={idx} to="/research" className="group bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 flex items-center justify-between">
+            {/* 카드는 /research 최상단이 아니라 해당 영역 앵커로 간다 — 목적지 id는 constants.tsx의
+                RESEARCH_AREAS[].id이고 Research.tsx가 같은 값을 DOM id로 단다 */}
+            {RESEARCH_AREAS.slice(0, 3).map((area) => (
+              <Link key={area.id} to={`/research#${area.id}`} className="group bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-slate-100 flex items-center justify-between">
                 <div>
                   <div className="text-blue-900 font-bold font-playfair text-base mb-1">{area.title}</div>
                   <div className="flex gap-2">
                     {area.tags?.slice(0, 2).map(tag => (
-                      <span key={tag} className="text-[10px] uppercase tracking-wider bg-gray-100 px-2 py-0.5 rounded text-gray-700">{tag}</span>
+                      <span key={tag} className="text-[10px] uppercase tracking-wider bg-slate-100 px-2 py-0.5 rounded text-slate-700">{tag}</span>
                     ))}
                   </div>
                 </div>
@@ -121,8 +134,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 4. Join Us Section (수정됨) */}
-      <section className="py-12 bg-blue-900 text-white">
+      {/* 4. Join Us Section
+           id는 공유·딥링크용 앵커다(/#join). 지원 안내를 가리킬 주소가 사이트에 하나는 있어야 한다. */}
+      <section id="join" className="scroll-mt-24 py-12 bg-blue-900 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           {/* eyebrow는 제목이 아니라 라벨이다 — 아웃라인을 어지럽히지 않도록 <p>로 둔다 */}
           <p className="text-xs font-bold uppercase tracking-[0.3em] mb-4 text-blue-200">Opportunities</p>
@@ -151,22 +165,38 @@ const Home = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="flex items-center gap-4 mb-10">
           <h2 className="font-playfair text-2xl font-bold text-blue-900">Latest News</h2>
-          <div className="h-px bg-gray-200 flex-grow"></div>
-          <Link to="/news" className="text-xs font-semibold text-gray-600 hover:text-blue-900 flex items-center gap-1 uppercase tracking-wider py-1">
+          <div className="h-px bg-slate-200 flex-grow"></div>
+          <Link to="/news" className="text-xs font-semibold text-slate-600 hover:text-blue-900 flex items-center gap-1 uppercase tracking-wider py-1">
             View All <ArrowRight className="h-3 w-3" aria-hidden="true" />
           </Link>
         </div>
 
-        {/* 뉴스 항목은 링크가 아니다 — hover 색 변화·그림자 같은 가짜 어포던스를 두지 않는다 */}
+        {/* 목적지(item.link)가 있는 항목만 링크가 된다 — 나머지에는 hover 색 변화·그림자 같은
+            가짜 어포던스를 두지 않는다. News 페이지와 같은 규칙이다. */}
         <ul className="space-y-3">
           {latestNews.map((item) => (
-            <li key={item.id} className="flex flex-col md:flex-row md:items-center gap-4 p-5 bg-white rounded-xl border border-gray-100">
+            <li key={item.id} className="flex flex-col md:flex-row md:items-center gap-4 p-5 bg-white rounded-xl border border-slate-100">
               <div className="flex items-center text-blue-700 font-bold min-w-[120px] tracking-wide text-xs">
                 <Calendar className="h-3.5 w-3.5 mr-2" aria-hidden="true" />
                 <span>{item.date}</span>
               </div>
-              <div className="text-gray-800 font-medium text-base">
-                {item.title}
+              <div className="text-slate-800 font-medium text-base">
+                {item.link ? (
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`${item.title} (opens in a new tab)`}
+                    className="group inline-flex items-start gap-1.5 hover:text-blue-800 transition-colors"
+                  >
+                    <span className="underline decoration-slate-300 underline-offset-4 group-hover:decoration-blue-400">
+                      {item.title}
+                    </span>
+                    <ArrowUpRight className="h-4 w-4 mt-0.5 shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
+                  </a>
+                ) : (
+                  item.title
+                )}
               </div>
             </li>
           ))}

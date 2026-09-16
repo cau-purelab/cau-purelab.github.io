@@ -19,7 +19,7 @@ const Navbar = () => {
   return (
     // 높이는 src/index.css의 --nav-h(= h-20 + border-b 1px)와 맞물려 있다.
     // top-0 inset-x-0을 명시해 마크업 순서에 의존하지 않게 한다.
-    <nav className="fixed top-0 inset-x-0 bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100 shadow-sm">
+    <nav className="fixed top-0 inset-x-0 bg-white/95 backdrop-blur-sm z-50 border-b border-slate-100 shadow-sm">
       {/* 키보드·스크린리더 사용자가 내비게이션을 건너뛰고 본문으로 갈 수 있게 한다 */}
       <a
         href="#main"
@@ -42,7 +42,10 @@ const Navbar = () => {
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center space-x-6">
+          {/* 데스크톱 메뉴 전환점은 lg(1024px)다. 항목이 6개라 md(768px)에서는 로고와의 여유가
+              한 자릿수 px밖에 남지 않았고, 폰트가 늦게 로드되는 첫 페인트에서는 그마저 넘쳤다.
+              768~1023px 구간은 아래 햄버거를 그대로 쓴다. */}
+          <div className="hidden lg:flex items-center space-x-6">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;
               return (
@@ -52,7 +55,7 @@ const Navbar = () => {
                   aria-current={isActive ? 'page' : undefined}
                   className={`${isActive
                     ? 'text-blue-900 font-bold border-b-2 border-blue-900'
-                    : 'text-gray-600 hover:text-blue-900 transition-colors'
+                    : 'text-slate-600 hover:text-blue-900 transition-colors'
                     } px-2 py-2.5 text-sm uppercase tracking-wide font-medium`}
                 >
                   {link.name}
@@ -61,10 +64,10 @@ const Navbar = () => {
             })}
           </div>
 
-          <div className="md:hidden flex items-center">
+          <div className="lg:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 -mr-2 rounded-md text-gray-600 hover:text-blue-900 hover:bg-gray-50 transition-colors"
+              className="p-2 -mr-2 rounded-md text-slate-600 hover:text-blue-900 hover:bg-slate-50 transition-colors"
               aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={isOpen}
               aria-controls="mobile-nav"
@@ -76,7 +79,7 @@ const Navbar = () => {
       </div>
 
       {isOpen && (
-        <div id="mobile-nav" className="md:hidden bg-white border-b border-gray-100">
+        <div id="mobile-nav" className="lg:hidden bg-white border-b border-slate-100">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;
@@ -87,7 +90,7 @@ const Navbar = () => {
                   aria-current={isActive ? 'page' : undefined}
                   className={`${isActive
                     ? 'bg-blue-50 text-blue-900 font-bold'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-blue-900'
+                    : 'text-slate-600 hover:bg-slate-50 hover:text-blue-900'
                     } block px-3 py-3 rounded-md text-base font-medium`}
                   onClick={() => setIsOpen(false)}
                 >

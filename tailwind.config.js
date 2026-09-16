@@ -16,7 +16,9 @@ export default {
                 nav: 'var(--nav-h)',
             },
             animation: {
-                'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                // fill-mode는 both여야 한다 — forwards면 지연(anim-delay-*)이 걸린 요소가
+                // 지연 동안 원래 상태(불투명)로 한 번 보였다가 사라진 뒤 페이드인한다.
+                'fade-in-up': 'fadeInUp 0.5s ease-out both',
                 // 느린 회전 — 장식용 로더에 사용. prefers-reduced-motion에서는 index.css가 속도를 조정한다.
                 'spin-slow': 'spin 6s linear infinite',
             },

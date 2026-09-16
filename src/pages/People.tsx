@@ -104,7 +104,9 @@ const PublicationItem = ({ pub, bib }: DecoratedPub) => {
               <AlertTriangle className="w-3 h-3" /> Retracted
             </span>
           )}
-          {typeof pub.citations === 'number' && (
+          {/* 인용 0은 성과가 아니다 — 초록 배지로 'Cited 0'을 찍으면 최신 논문일수록 실패처럼 보인다.
+              필드가 없는 경우와도 화면에서 구분되지 않으므로 0이면 배지를 내보내지 않는다. */}
+          {typeof pub.citations === 'number' && pub.citations > 0 && (
             <span className="inline-flex items-center gap-1 text-xs font-bold bg-emerald-50 text-emerald-700 px-2 py-1 rounded border border-emerald-100">
               <Quote className="w-3 h-3" /> Cited {pub.citations}
             </span>
@@ -273,36 +275,49 @@ const SECTIONS = [
   { title: "Ph.D. Students", members: getMembersByRole("Ph.D. Student") },
   { title: "Master Students", members: getMembersByRole("Master Student") },
   { title: "Undergraduate Interns", members: getMembersByRole("Undergraduate Intern") },
+  // isAlumni는 types.ts에 있고 위 필터에서 제외용으로만 쓰였다 — 받아줄 섹션이 없으면
+  // 졸업생을 등록하는 순간 사이트에서 사라진다. 현재 해당 구성원은 0명이라 렌더되지 않는다.
+  { title: "Alumni", members: MEMBERS.filter(m => m.isAlumni) },
 ];
 
 const MemberCard = ({ member, isPI = false, onOpenPublications }: { member: Member; isPI?: boolean; onOpenPublications: (member: Member) => void }) => {
     const tags = member.specialization ? member.specialization.split('#').filter(tag => tag.trim() !== '') :[];
+    // 연락처가 하나도 없는 구성원이 빈 구분선이나 빈 블록을 남기지 않게 미리 판정한다.
+    const hasContactLinks = Boolean(member.email || member.website || member.github || member.linkedin);
 
     if (isPI) {
       return (
         <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 w-full max-w-5xl flex flex-col md:flex-row">
-          <div className="w-full md:w-56 lg:w-64 flex-shrink-0 overflow-hidden bg-gray-100 relative min-h-[250px] md:min-h-0">
+          {/* 래퍼에 명시적 높이가 없으면(height:auto) 자식 img의 h-full이 auto로 풀려 object-cover가
+              무력화된다 — 모바일에서 사진이 원본 비율대로 500px 넘게 늘어나 학생 목록을 화면 뒤로 밀어냈다.
+              md 이상에서는 flex stretch로 텍스트 열 높이에 맞춘다. */}
+          <div className="w-full md:w-56 lg:w-64 flex-shrink-0 overflow-hidden bg-gray-100 relative h-64 md:h-auto">
             {member.image ? (
               <img src={member.image} alt={member.name} loading="lazy" className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gray-50 text-xs">No Image</div>
             )}
           </div>
+          {/* TODO(lab): 이 열의 우측 여백은 원래 PI 소개문 자리다. 정식 직함(예: 소속 학과)과
+              2~3문장 소개문이 확정되면 여기에 넣고, 위 member.role eyebrow는 섹션 제목과
+              중복되므로 그때 직함으로 교체한다. 없는 내용을 임의로 채우지 말 것. */}
           <div className="p-6 md:p-8 flex flex-col justify-center flex-grow text-center md:text-left">
             <div className="mb-4">
               <span className="text-blue-600 font-bold text-xs uppercase tracking-widest inline-block mb-1">{member.role}</span>
               <h3 className="font-playfair text-2xl md:text-3xl font-bold text-blue-900 mb-2">{member.name}</h3>
             </div>
-            <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-5">
-              {tags.map((tag, idx) => (
-                <span key={idx} className="text-[11px] bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-full border border-blue-100 font-semibold">#{tag.trim()}</span>
-              ))}
-            </div>
+            {tags.length > 0 && (
+              <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-5">
+                {tags.map((tag, idx) => (
+                  <span key={idx} className="text-[11px] bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-full border border-blue-100 font-semibold">#{tag.trim()}</span>
+                ))}
+              </div>
+            )}
             <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-auto items-center">
               <button onClick={() => onOpenPublications(member)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-blue-700 transition-colors shadow-sm hover:shadow-md z-10 relative">
                 <BookOpen className="w-4 h-4" /> <span>Publications</span>
               </button>
-              <div className="w-px h-6 bg-gray-200 mx-2 hidden md:block"></div>
+              {hasContactLinks && <div className="w-px h-6 bg-gray-200 mx-2 hidden md:block"></div>}
               {member.email && <a href={`mailto:${member.email}`} className="flex items-center gap-2 text-xs text-gray-500 hover:text-blue-900 transition-colors"><div className="p-1.5 rounded-full bg-gray-50"><Mail className="w-3.5 h-3.5 text-gray-600" /></div><span className="hidden sm:inline font-medium">Email</span></a>}
               {member.website && <a href={member.website} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs text-gray-500 hover:text-blue-900 transition-colors"><div className="p-1.5 rounded-full bg-gray-50"><Globe className="w-3.5 h-3.5 text-gray-600" /></div><span className="hidden sm:inline font-medium">Website</span></a>}
               {member.github && <a href={member.github} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs text-gray-500 hover:text-blue-900 transition-colors"><div className="p-1.5 rounded-full bg-gray-50"><Github className="w-3.5 h-3.5 text-gray-600" /></div><span className="hidden sm:inline font-medium">GitHub</span></a>}
@@ -312,12 +327,15 @@ const MemberCard = ({ member, isPI = false, onOpenPublications }: { member: Memb
         </div>
       );
     }
+    // h-full은 grid/flex의 align-items:stretch를 꺼버려(높이가 auto가 아니게 되어) 인접 카드 바닥이
+    // 어긋났다. 높이는 컨테이너 stretch에 맡기고, 폭은 고정 w-64 대신 트랙을 따라가게 한다.
     return (
-      <div className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 w-64 flex flex-col h-full">
+      <div className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 w-full max-w-xs mx-auto flex flex-col">
         <div className="aspect-square overflow-hidden bg-gray-100 relative">
           {member.image ? <img src={member.image} alt={member.name} loading="lazy" className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" /> : <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gray-50 text-xs">No Image</div>}
         </div>
-        <div className="p-5 text-center flex flex-col flex-grow">
+        {/* 태그도 연락처도 없는 구성원은 이름만 남으므로 위로 붙지 않게 세로 가운데에 둔다. */}
+        <div className={`p-5 text-center flex flex-col flex-grow ${tags.length === 0 && !hasContactLinks ? 'justify-center' : ''}`}>
           <h3 className="font-playfair text-xl font-bold text-blue-900 mb-2">{member.name}</h3>
           {/* 태그·연락처가 없는 구성원은 빈 블록을 만들지 않는다(반쯤 빈 카드 방지) */}
           {tags.length > 0 && (
@@ -325,7 +343,7 @@ const MemberCard = ({ member, isPI = false, onOpenPublications }: { member: Memb
               {tags.map((tag, idx) => <span key={idx} className="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-100 font-medium">{tag.trim()}</span>)}
             </div>
           )}
-          {(member.email || member.website || member.github || member.linkedin) && (
+          {hasContactLinks && (
             <div className="mt-auto space-y-2 pt-3 border-t border-gray-50 w-full">
               {member.email && <a href={`mailto:${member.email}`} className="flex items-center justify-center gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Mail className="w-3.5 h-3.5" /><span className="truncate">{member.email}</span></a>}
               {member.website && <a href={member.website} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Globe className="w-3.5 h-3.5" /><span>Personal Website</span></a>}
@@ -361,20 +379,27 @@ const People = () => {
         <p className="text-lg text-gray-600 font-light">Meet the researchers behind our innovations</p>
       </div>
       <div className="space-y-24">
-        {SECTIONS.map((section) => (
-          section.members.length > 0 && (
+        {SECTIONS.map((section) => {
+          if (section.members.length === 0) return null;
+          const isPISection = section.title.toLowerCase().includes("principal investigator");
+          return (
             <div key={section.title} className="flex flex-col items-center animate-fade-in-up">
               <div className="flex items-center gap-6 mb-12 w-full max-w-4xl">
                 <div className="h-px bg-gray-200 flex-grow"></div>
                 <h2 className="font-playfair text-2xl font-bold text-blue-900 uppercase tracking-wider text-center px-4">{section.title}</h2>
                 <div className="h-px bg-gray-200 flex-grow"></div>
               </div>
-              <div className="flex flex-wrap justify-center gap-8 w-full">
-                {section.members.map((member) => <MemberCard key={member.id} member={member} isPI={section.title.toLowerCase().includes("principal investigator")} onOpenPublications={handleOpenPublications} />)}
+              {/* PI 카드는 가로로 긴 한 장이라 그대로 두고, 구성원 카드는 grid로 깐다.
+                  auto-fit 트랙이 남는 폭을 나눠 가지므로 고정 w-64가 만들던 빈 거터가 사라지고,
+                  grid의 align-items:stretch가 인접 카드 높이를 맞춘다(1~3명일 때도 좌우 대칭). */}
+              <div className={isPISection
+                ? "flex flex-wrap w-full justify-center gap-8"
+                : "grid gap-8 w-full max-w-4xl grid-cols-[repeat(auto-fit,minmax(15rem,1fr))]"}>
+                {section.members.map((member) => <MemberCard key={member.id} member={member} isPI={isPISection} onOpenPublications={handleOpenPublications} />)}
               </div>
             </div>
-          )
-        ))}
+          );
+        })}
       </div>
       <PublicationsModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} member={selectedMember} publications={modalPubs} />
     </div>

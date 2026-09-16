@@ -11,7 +11,7 @@ import type { BibInfo } from '../lib/bibtex';
 import { copyText } from '../lib/clipboard';
 import {
   ExternalLink, Calendar, BookOpen, Search, Quote, Award,
-  BarChart3, SortAsc, Clock, Tags, XCircle, RefreshCw, TrendingUp, AlertTriangle
+  BarChart3, XCircle, RefreshCw, TrendingUp, AlertTriangle
 } from 'lucide-react';
 
 interface ScholarPub {
@@ -46,6 +46,24 @@ const PAGE_SIZE = 50;
 const SORT_KEYS = ['year', 'title', 'funding'] as const;
 type SortKey = (typeof SORT_KEYS)[number];
 
+// 정렬 라벨은 실제 동작과 같은 말을 해야 한다.
+// 'funding'은 첫 번째 펀딩 태그의 알파벳순이지 금액·중요도순이 아니다.
+const SORT_OPTIONS: { key: SortKey; label: string }[] = [
+  { key: 'year', label: 'Newest first' },
+  { key: 'title', label: 'Title (A–Z)' },
+  { key: 'funding', label: 'Funding code (A–Z)' },
+];
+
+// 게재/미게재는 사용자가 고르는 '범위'다. 예전처럼 목록 맨 위에 미게재를 고정하지 않는다.
+const SCOPE_KEYS = ['published', 'progress', 'all'] as const;
+type ScopeKey = (typeof SCOPE_KEYS)[number];
+const DEFAULT_SCOPE: ScopeKey = 'published';
+const SCOPE_OPTIONS: { key: ScopeKey; label: string }[] = [
+  { key: 'published', label: 'Published' },
+  { key: 'progress', label: 'In progress' },
+  { key: 'all', label: 'All' },
+];
+
 const UNKNOWN_YEAR = 'unknown';
 // 'Prof. *' 태그는 연구비가 아니라 협력 교수 라벨이다 — 펀딩 집계·필터에서 제외한다.
 const COLLABORATOR_TAG_RE = /^Prof\./i;
@@ -77,6 +95,16 @@ const getProgressLabel = (status?: string) => {
   return 'In Progress';
 };
 
+// 상단 상태 배지가 이미 단계(Submitted/In Revision)를 말한다.
+// 하단 칩까지 같은 말을 반복하지 않도록 시점만 남긴다: 'Submitted, June 2026' -> 'June 2026'.
+// 덧붙일 시점 정보가 없으면(쉼표 없음) 칩 자체를 내지 않는다.
+const getStatusDetail = (status?: string) => {
+  if (!status) return null;
+  const comma = status.indexOf(',');
+  if (comma === -1) return null;
+  return status.slice(comma + 1).trim() || null;
+};
+
 // 펀딩 태그 정렬: 말미 2자리(-26)를 연도로 보고 내림차순, 연도 없는 태그는 건수 내림차순으로 뒤에 둔다.
 const compareFundingTags = (a: [string, number], b: [string, number]) => {
   const yearA = a[0].match(/-(\d{2})$/);
@@ -103,6 +131,8 @@ const ScholarPublications = () => {
   const selectedYear = searchParams.get('year') || 'all';
   const sortParam = searchParams.get('sort') as SortKey | null;
   const sortBy: SortKey = sortParam && SORT_KEYS.includes(sortParam) ? sortParam : 'year';
+  const scopeParam = searchParams.get('show') as ScopeKey | null;
+  const scope: ScopeKey = scopeParam && SCOPE_KEYS.includes(scopeParam) ? scopeParam : DEFAULT_SCOPE;
   const urlQuery = searchParams.get('q') || '';
 
   // 검색어만 로컬 state다. 입력 1글자마다 라우트를 이동시키면 페이지가 다시 마운트되면서
@@ -130,10 +160,11 @@ const ScholarPublications = () => {
   };
 
   const handleTabChange = (name: string) =>
-    updateView({ tab: name === professors[0] ? null : name, fund: null, year: null });
+    updateView({ tab: name === professors[0] ? null : name, fund: null, year: null, show: null });
   const handleYearChange = (year: string) => updateView({ year: year === 'all' ? null : year });
   const handleFundingToggle = (tag: string | null) => updateView({ fund: tag });
   const handleSortChange = (key: SortKey) => updateView({ sort: key === 'year' ? null : key });
+  const handleScopeChange = (key: ScopeKey) => updateView({ show: key === DEFAULT_SCOPE ? null : key });
   const handleResetFilters = () => {
     setSearchTerm('');
     updateView({ q: null, fund: null, year: null, sort: null });
@@ -237,32 +268,50 @@ const ScholarPublications = () => {
     [yearScopedPubs],
   );
 
-  // --- [필터 및 정렬] ---
-  const processedPubs = useMemo(() => {
+  // --- [필터] ---
+  // 게재/미게재로 나누기 전 단계까지만 여기서 처리한다.
+  // 같은 필터 결과에서 두 범위의 건수를 함께 셀 수 있어야 세그먼트에 실제 건수를 적고,
+  // 0건일 때 '다른 범위에는 N건 있다'고 안내할 수 있다.
+  const filteredPubs = useMemo(() => {
     let result = yearScopedPubs;
     if (selectedFunding) result = result.filter(p => p.funding_tags?.includes(selectedFunding));
     const low = searchTerm.trim().toLowerCase();
     if (low) result = result.filter(p => p.searchText.includes(low));
+    return result;
+  }, [yearScopedPubs, searchTerm, selectedFunding]);
 
-    const sorted = [...result];
+  const scopeCounts = useMemo(() => {
+    const progress = filteredPubs.filter(p => p.is_progress).length;
+    return { all: filteredPubs.length, progress, published: filteredPubs.length - progress };
+  }, [filteredPubs]);
+
+  // --- [범위 적용 및 정렬] ---
+  // 예전에는 비교 함수 맨 앞에서 미게재 논문을 무조건 위로 올려, 사용자가 고른 정렬이 무력화됐다
+  // (제목순·펀딩순을 눌러도 상단 10건이 그대로 남아 컨트롤이 고장 난 것처럼 보였다).
+  // 이제 게재/미게재는 위의 범위 선택으로만 나뉘고, 정렬은 고른 대로만 동작한다.
+  const processedPubs = useMemo(() => {
+    const scoped = scope === 'all'
+      ? filteredPubs
+      : filteredPubs.filter(p => (scope === 'progress' ? Boolean(p.is_progress) : !p.is_progress));
+
+    const sorted = [...scoped];
     sorted.sort((a, b) => {
-      if (a.is_progress && !b.is_progress) return -1;
-      if (!a.is_progress && b.is_progress) return 1;
       if (sortBy === 'year') {
-        // is_progress 우선 정렬은 위에서 이미 처리됨 — 미리 계산해 둔 연도로 비교
+        // 미리 계산해 둔 연도로 비교(연도 미상은 '0000'이라 뒤로 간다)
         if (a.sortYear !== b.sortYear) return b.sortYear.localeCompare(a.sortYear);
         return a.title.localeCompare(b.title);
       }
       if (sortBy === 'title') return a.title.localeCompare(b.title);
+      // 'Funding code' 정렬 = 첫 번째 펀딩 태그의 알파벳순(태그 없는 논문은 뒤로)
       return (a.funding_tags?.[0] || "zzz").localeCompare(b.funding_tags?.[0] || "zzz");
     });
     return sorted;
-  }, [yearScopedPubs, searchTerm, selectedFunding, sortBy]);
+  }, [filteredPubs, scope, sortBy]);
 
-  // 필터/탭 변경 시 페이지네이션 초기화
+  // 필터/탭/범위 변경 시 페이지네이션 초기화
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
-  }, [activeTab, searchTerm, selectedFunding, selectedYear, sortBy]);
+  }, [activeTab, searchTerm, selectedFunding, selectedYear, sortBy, scope]);
 
   const visiblePubs = processedPubs.slice(0, visibleCount);
   const profileUrl = scholarProfileUrl(activeTab);
@@ -304,8 +353,23 @@ const ScholarPublications = () => {
         </div>
       </div>
 
+      {/* --- [교수 선택] ---
+          아래 지표가 누구의 수치인지 먼저 밝혀야 하므로 지표 카드보다 위에 둔다.
+          (예전에는 컨트롤 바 안에 있어 지표보다 250px 아래였다) */}
+      <div className="mb-4 flex justify-center">
+        <div role="group" aria-label="Select researcher" className="flex bg-slate-100 p-1 rounded-xl w-full sm:w-auto">
+          {professors.map(name => (
+            <button key={name} type="button" onClick={() => handleTabChange(name)} aria-pressed={activeTab === name}
+              className={`flex-1 sm:flex-none px-6 py-2 rounded-lg font-bold text-xs transition-all ${activeTab === name ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>{name}</button>
+          ))}
+        </div>
+      </div>
+
       {/* --- [연구 지표 카드] ---
           라벨에 '이 아카이브 기준'임을 명시한다. Google Scholar 프로필 전체와 수치가 다를 수 있다. */}
+      <p className="mb-2 text-center text-[11px] font-black uppercase tracking-widest text-slate-500">
+        Archive figures for {activeTab}
+      </p>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
         {[
           { label: 'Publications', value: scholarStats.papers, icon: BookOpen },
@@ -346,43 +410,95 @@ const ScholarPublications = () => {
         </p>
       </div>
 
-      {/* --- [슬림형 컨트롤 바] --- */}
-      <div className="sticky top-nav z-30 bg-white/95 backdrop-blur-md py-4 mb-8 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div className="flex bg-slate-100 p-1 rounded-xl w-full md:w-auto">
-          {professors.map(name => (
-            <button key={name} onClick={() => handleTabChange(name)}
-              className={`flex-1 md:flex-none px-6 py-1.5 rounded-lg font-bold text-xs transition-all ${activeTab === name ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500'}`}>{name}</button>
-          ))}
-        </div>
-        <div className="flex items-center gap-3 w-full md:w-auto">
-          <select
-            value={selectedYear}
-            onChange={(e) => handleYearChange(e.target.value)}
-            aria-label="Filter by year"
-            className="px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 focus:ring-2 focus:ring-blue-600 cursor-pointer"
-          >
-            <option value="all">All Years</option>
-            {availableYears.years.map(y => <option key={y} value={y}>{y}</option>)}
-            {/* 연도를 알 수 없는 항목도 필터로 도달할 수 있어야 한다 */}
-            {availableYears.hasUnknown && <option value={UNKNOWN_YEAR}>Year unknown</option>}
-          </select>
-          <div className="flex bg-slate-100 p-1 rounded-xl items-center shadow-inner scale-90">
-            <div className="flex bg-white rounded-lg p-0.5 gap-0.5">
-              <button onClick={() => handleSortChange('year')} aria-label="Sort by year" title="Sort by year" className={`p-1.5 rounded-md ${sortBy === 'year' ? 'bg-slate-900 text-white' : 'text-slate-500'}`}><Clock size={14}/></button>
-              <button onClick={() => handleSortChange('title')} aria-label="Sort by title" title="Sort by title" className={`p-1.5 rounded-md ${sortBy === 'title' ? 'bg-slate-900 text-white' : 'text-slate-500'}`}><SortAsc size={14}/></button>
-              <button onClick={() => handleSortChange('funding')} aria-label="Sort by funding" title="Sort by funding" className={`p-1.5 rounded-md ${sortBy === 'funding' ? 'bg-slate-900 text-white' : 'text-slate-500'}`}><Tags size={14}/></button>
+      {/* --- [슬림형 컨트롤 바] ---
+          결과 수와 활성 필터를 이 안에 함께 둔다. 목록을 스크롤해도
+          '왜 목록이 줄었는지'와 '어떻게 되돌리는지'가 화면에서 사라지지 않게 하기 위함이다. */}
+      <div className="sticky top-nav z-30 bg-white/95 backdrop-blur-md py-3 md:py-4 mb-8 border-b border-slate-100">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+          {/* 게재/미게재 범위 선택. 미게재 논문을 목록 맨 위에 고정하는 대신 사용자가 고른다. */}
+          {scholarStats.inProgress > 0 && (
+            <div role="group" aria-label="Filter by publication status" className="flex bg-slate-100 p-1 rounded-xl w-full md:w-auto">
+              {SCOPE_OPTIONS.map(({ key, label }) => (
+                <button key={key} type="button" onClick={() => handleScopeChange(key)} aria-pressed={scope === key}
+                  className={`flex-1 md:flex-none px-3 sm:px-4 py-1.5 rounded-lg font-bold text-xs transition-all ${scope === key ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>
+                  {label} <span className="font-black tabular-nums">{scopeCounts[key].toLocaleString()}</span>
+                </button>
+              ))}
             </div>
+          )}
+          <div className="flex flex-wrap items-center gap-3 w-full md:w-auto md:ml-auto">
+            {/* 셀렉트는 라벨을 눈에 보이게 둔다 — 아이콘만으로는 무엇을 고르는 컨트롤인지 읽을 수 없다 */}
+            <label className="flex items-center gap-1.5 px-3 py-2 bg-white border border-slate-200 rounded-xl focus-within:ring-2 focus-within:ring-blue-600">
+              <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Year</span>
+              <select
+                value={selectedYear}
+                onChange={(e) => handleYearChange(e.target.value)}
+                aria-label="Filter by year"
+                className="bg-transparent text-xs font-bold text-slate-700 cursor-pointer"
+              >
+                <option value="all">All years</option>
+                {availableYears.years.map(y => <option key={y} value={y}>{y}</option>)}
+                {/* 연도를 알 수 없는 항목도 필터로 도달할 수 있어야 한다 */}
+                {availableYears.hasUnknown && <option value={UNKNOWN_YEAR}>Year unknown</option>}
+              </select>
+            </label>
+            <label className="flex items-center gap-1.5 px-3 py-2 bg-white border border-slate-200 rounded-xl focus-within:ring-2 focus-within:ring-blue-600">
+              <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Sort</span>
+              <select
+                value={sortBy}
+                onChange={(e) => handleSortChange(e.target.value as SortKey)}
+                aria-label="Sort by"
+                className="bg-transparent text-xs font-bold text-slate-700 cursor-pointer"
+              >
+                {SORT_OPTIONS.map(({ key, label }) => <option key={key} value={key}>{label}</option>)}
+              </select>
+            </label>
+            {/* Enter를 누르면 현재 검색어가 URL에 기록돼 그대로 공유할 수 있다 */}
+            <form
+              role="search"
+              onSubmit={(e) => { e.preventDefault(); updateView({ q: searchTerm || null }, { replace: true }); }}
+              className="relative min-w-0 flex-grow basis-full md:basis-auto md:w-64"
+            >
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+              <input type="search" size={1} placeholder="Search title, author, venue, year..." aria-label="Search publications" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full min-w-0 pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-600" />
+            </form>
           </div>
-          {/* Enter를 누르면 현재 검색어가 URL에 기록돼 그대로 공유할 수 있다 */}
-          <form
-            role="search"
-            onSubmit={(e) => { e.preventDefault(); updateView({ q: searchTerm || null }, { replace: true }); }}
-            className="relative flex-grow md:w-64"
-          >
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
-            <input type="search" placeholder="Search title, author, venue, year..." aria-label="Search publications" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-blue-600" />
-          </form>
+        </div>
+
+        {/* 결과 수와 활성 필터 요약. 필터를 건 곳(펀딩 패널·카드의 태그)에서 멀리 떨어져 있어도
+            여기서 개별 해제·전체 해제가 된다. */}
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <p role="status" className="text-xs font-bold text-slate-600">
+            {processedPubs.length.toLocaleString()} of {tabPubs.length.toLocaleString()} papers
+          </p>
+          {selectedYear !== 'all' && (
+            <button type="button" onClick={() => handleYearChange('all')}
+              aria-label={`Clear year filter: ${selectedYear === UNKNOWN_YEAR ? 'year unknown' : selectedYear}`}
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg border border-slate-200 bg-white text-[11px] font-bold text-slate-600 hover:border-red-300 hover:text-red-600">
+              <XCircle size={11} /> {selectedYear === UNKNOWN_YEAR ? 'Year unknown' : selectedYear}
+            </button>
+          )}
+          {selectedFunding && (
+            <button type="button" onClick={() => handleFundingToggle(null)}
+              aria-label={`Clear funding filter: ${selectedFunding}`}
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg border border-slate-200 bg-white text-[11px] font-bold text-slate-600 hover:border-red-300 hover:text-red-600">
+              <XCircle size={11} /> {selectedFunding}
+            </button>
+          )}
+          {searchTerm && (
+            <button type="button" onClick={() => { setSearchTerm(''); updateView({ q: null }, { replace: true }); }}
+              aria-label={`Clear search term: ${searchTerm}`}
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg border border-slate-200 bg-white text-[11px] font-bold text-slate-600 hover:border-red-300 hover:text-red-600">
+              <XCircle size={11} /> “{searchTerm}”
+            </button>
+          )}
+          {hasActiveFilters && (
+            <button type="button" onClick={handleResetFilters}
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg border border-slate-300 bg-slate-900 text-[11px] font-bold text-white hover:bg-blue-700">
+              <RefreshCw size={11} /> Clear all
+            </button>
+          )}
         </div>
       </div>
 
@@ -426,42 +542,28 @@ const ScholarPublications = () => {
       </details>
 
       {/* --- [콤팩트 논문 리스트] --- */}
-      <div className="mb-4 flex flex-wrap items-center gap-2">
-        <p role="status" className="text-xs text-slate-600 font-bold">
-          {processedPubs.length.toLocaleString()} {processedPubs.length === 1 ? 'result' : 'results'}
-        </p>
-        {selectedYear !== 'all' && (
-          <button onClick={() => handleYearChange('all')} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg border border-slate-200 bg-white text-[11px] font-bold text-slate-600 hover:border-red-300 hover:text-red-600">
-            <XCircle size={11} /> {selectedYear === UNKNOWN_YEAR ? 'Year unknown' : selectedYear}
-          </button>
-        )}
-        {selectedFunding && (
-          <button onClick={() => handleFundingToggle(null)} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg border border-slate-200 bg-white text-[11px] font-bold text-slate-600 hover:border-red-300 hover:text-red-600">
-            <XCircle size={11} /> {selectedFunding}
-          </button>
-        )}
-        {searchTerm && (
-          <button onClick={() => { setSearchTerm(''); updateView({ q: null }, { replace: true }); }} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg border border-slate-200 bg-white text-[11px] font-bold text-slate-600 hover:border-red-300 hover:text-red-600">
-            <XCircle size={11} /> “{searchTerm}”
-          </button>
-        )}
-      </div>
       <div className="space-y-4">
         {visiblePubs.map((pub) => {
           const { bib, pubId } = pub;
           const isProg = pub.is_progress;
           const hasBibtex = !isProg && Boolean(pub.bibtex);
+          const statusDetail = getStatusDetail(pub.status);
+          // 'Prof. *'는 연구비가 아니라 공동연구 교수 라벨이다 — 펀딩 칩과 섞지 않는다.
+          const fundingTags = (pub.funding_tags || []).filter(tag => !COLLABORATOR_TAG_RE.test(tag));
+          const collaboratorTags = (pub.funding_tags || []).filter(tag => COLLABORATOR_TAG_RE.test(tag));
 
           return (
-            <div key={pubId} className={`group bg-white rounded-2xl border transition-all duration-300 overflow-hidden ${isProg ? 'border-blue-200 bg-blue-50/10 border-dashed' : 'border-slate-100 shadow-sm hover:shadow-md'}`}>
+            <div key={pubId} className={`group bg-white rounded-2xl border transition-all duration-300 overflow-hidden ${isProg ? 'border-slate-200 border-dashed' : 'border-slate-100 shadow-sm hover:shadow-md'}`}>
               <div className={`p-5 ${isProg ? 'py-4' : ''}`}>
                 <div className="flex flex-col gap-3">
                   {/* 배지 라인 */}
                   <div className="flex flex-wrap items-center gap-2">
+                    {/* 색의 무게가 사실의 무게를 따라가게 한다:
+                        게재 논문은 진한 솔리드, 미게재 투고본은 약한 아웃라인. (예전에는 반대였다) */}
                     {isProg ? (
-                      <span className="px-2 py-0.5 bg-blue-600 text-white rounded text-[10px] font-black uppercase flex items-center gap-1"><RefreshCw size={9} className="animate-spin-slow"/> {getProgressLabel(pub.status)}</span>
+                      <span className="px-2 py-0.5 bg-white text-slate-600 border border-slate-300 rounded text-[10px] font-black uppercase flex items-center gap-1"><RefreshCw size={9} className="animate-spin-slow"/> {getProgressLabel(pub.status)}</span>
                     ) : (
-                      <span className="px-2 py-0.5 bg-slate-700 text-white rounded text-[10px] font-black uppercase">{getTypeLabel(bib.type)}</span>
+                      <span className="px-2 py-0.5 bg-blue-900 text-white rounded text-[10px] font-black uppercase">{getTypeLabel(bib.type)}</span>
                     )}
                     {/* 철회 논문임을 눈에 띄게 알린다 (지표 집계에서도 빠져 있다) */}
                     {pub.retracted && (
@@ -469,8 +571,9 @@ const ScholarPublications = () => {
                         <AlertTriangle size={9} /> Retracted
                       </span>
                     )}
-                    <span className="px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-[10px] font-black border border-blue-100">{pub.displayYear === UNKNOWN_YEAR ? 'Year unknown' : pub.displayYear}</span>
-                    {typeof pub.citations === 'number' && (
+                    <span className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-[10px] font-black border border-slate-200">{pub.displayYear === UNKNOWN_YEAR ? 'Year unknown' : pub.displayYear}</span>
+                    {/* 인용 0은 성과가 아니다 — 0과 '집계 없음'을 초록 배지로 똑같이 광고하지 않는다 */}
+                    {typeof pub.citations === 'number' && pub.citations > 0 && (
                       <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded text-[10px] font-black border border-emerald-100 flex items-center gap-1">
                         <Quote size={9} /> Cited {pub.citations}
                       </span>
@@ -489,9 +592,16 @@ const ScholarPublications = () => {
                         </span>
                       )
                     )}
-                    {pub.funding_tags?.map(tag => (
-                      <button key={tag} onClick={() => handleFundingToggle(tag)} title={FUNDING_LEGEND[tag] ?? tag}
-                        className="px-2 py-0.5 bg-amber-50 text-amber-700 rounded text-[10px] font-black border border-amber-100 hover:bg-amber-100 transition-colors">{tag}</button>
+                    {/* 유일하게 누를 수 있는 배지라 혼자 알약 모양(rounded-full)을 쓴다 */}
+                    {fundingTags.map(tag => (
+                      <button key={tag} type="button" onClick={() => handleFundingToggle(tag)}
+                        title={`${FUNDING_LEGEND[tag] ?? tag} — show only papers with this tag`}
+                        aria-label={`Show only papers tagged ${tag}`}
+                        className="px-2 py-0.5 bg-amber-50 text-amber-800 rounded-full text-[10px] font-black border border-amber-200 hover:bg-amber-100 transition-colors">{tag}</button>
+                    ))}
+                    {collaboratorTags.map(tag => (
+                      <span key={tag} title={FUNDING_LEGEND[tag] ?? 'Collaborating professor'}
+                        className="px-2 py-0.5 bg-slate-50 text-slate-500 rounded text-[10px] font-bold border border-slate-200">{tag}</span>
                     ))}
                   </div>
 
@@ -506,7 +616,8 @@ const ScholarPublications = () => {
                     <div className="flex items-center gap-2 text-xs text-slate-500">
                       <BookOpen size={14} className="text-blue-400"/>
                       <span className="font-semibold text-slate-700">{isProg ? pub.journal : bib.venue}</span>
-                      {pub.status && <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded font-bold text-[10px] uppercase">{pub.status}</span>}
+                      {/* 상단 배지가 이미 단계를 말한다 — 여기서는 시점만 덧붙인다 */}
+                      {statusDetail && <span className="px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded font-bold text-[10px]">{statusDetail}</span>}
                       {!isProg && bib.volume && <span className="text-slate-500 text-[11px]">Vol.{bib.volume}</span>}
                     </div>
 
@@ -545,11 +656,19 @@ const ScholarPublications = () => {
           <Search className="mx-auto mb-3 text-slate-400" size={28} />
           <p className="text-sm font-bold text-slate-700">No publications match the current filters.</p>
           <p className="mt-1 text-xs text-slate-600">The archive is still here — try another search term, or clear the filters below.</p>
-          {hasActiveFilters && (
-            <button onClick={handleResetFilters} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-2 text-xs font-bold text-white hover:bg-blue-700 transition-colors">
-              <RefreshCw size={12} /> Reset all filters
-            </button>
-          )}
+          <div className="mt-5 flex flex-wrap justify-center gap-2">
+            {/* 범위(Published/In progress) 때문에 0건인 경우가 있다 — 다른 범위에 결과가 있으면 그리로 가는 길을 준다 */}
+            {scope !== 'all' && scopeCounts.all > 0 && (
+              <button type="button" onClick={() => handleScopeChange('all')} className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2 text-xs font-bold text-slate-700 hover:border-blue-400 hover:text-blue-700 transition-colors">
+                Show all {scopeCounts.all.toLocaleString()} matching papers
+              </button>
+            )}
+            {hasActiveFilters && (
+              <button type="button" onClick={handleResetFilters} className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-2 text-xs font-bold text-white hover:bg-blue-700 transition-colors">
+                <RefreshCw size={12} /> Reset all filters
+              </button>
+            )}
+          </div>
         </div>
       )}
 

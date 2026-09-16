@@ -3,36 +3,50 @@ import { Link } from 'react-router-dom';
 import { RESEARCH_AREAS } from '../constants';
 import { ArrowUpRight } from 'lucide-react';
 import SEO from '../components/SEO';
+import PageHeader from '../components/PageHeader';
 
 const Research = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <SEO title="Research" description="Privacy-preserving AI, machine unlearning, and robust AI engineering research." />
 
-      <div className="mb-24 text-center">
-        {/* eyebrow는 제목이 아니라 라벨이다 — h1보다 먼저 나오는 h2를 없앤다 */}
-        <p className="text-xs font-bold text-blue-900 uppercase tracking-[0.4em] mb-4">Core Competencies</p>
-        <h1 className="font-playfair text-5xl font-bold text-gray-900 mb-6 tracking-tight">Research Areas</h1>
-        <div className="w-16 h-1 bg-blue-900 mx-auto mb-8"></div>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed font-light">
-          We focus on building reliable systems that reason about <span className="text-blue-900 font-medium">privacy, unlearning, and robustness</span>. Our research promotes transparent and responsible AI development.
-        </p>
-      </div>
+      <PageHeader
+        eyebrow="Core Competencies"
+        title="Research Areas"
+        description={
+          <>
+            We focus on building reliable systems that reason about{' '}
+            <span className="text-blue-800 font-medium">privacy, unlearning, and robustness</span>. Our research
+            promotes transparent and responsible AI development.
+          </>
+        }
+      />
 
       <div className="space-y-32">
         {RESEARCH_AREAS.map((area, index) => (
-          <div key={area.id} className={`flex flex-col lg:flex-row gap-12 lg:gap-20 items-center ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}>
+          // id는 홈의 연구 카드가 가리키는 앵커다(/research#machine-unlearning).
+          // scroll-mt로 고정 Navbar와 아래 장식 숫자(-top-12)가 가려지지 않을 만큼 여백을 둔다.
+          <div
+            key={area.id}
+            id={area.id}
+            className={`scroll-mt-24 flex flex-col lg:flex-row gap-12 lg:gap-20 items-center ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}
+          >
 
             {/* Image Section */}
             <div className="flex-1 w-full relative">
-              {/* Decorative Number */}
-              <div className={`absolute -top-12 ${index % 2 !== 0 ? '-right-4 text-right' : '-left-4 text-left'} text-[120px] font-playfair font-bold text-gray-100 -z-10 leading-none select-none`}>
+              {/* 장식 번호 — 예전에는 -z-10이 걸려 있어 App 루트의 bg-white 뒤로 내려가 한 번도 보인 적이
+                  없었다. 이제는 이미지 래퍼에 z-10을 줘서 그 아래에 깔리게만 하고, 색도 흰 배경에서
+                  실제로 읽히는 단계까지 올린다. 내용이 아니므로 스크린리더에서는 감춘다. */}
+              <div
+                aria-hidden="true"
+                className={`absolute -top-12 ${index % 2 !== 0 ? '-right-4 text-right' : '-left-4 text-left'} text-[120px] font-playfair font-bold text-slate-300 leading-none select-none`}
+              >
                 0{index + 1}
               </div>
 
-              <div className="relative group perspective-1000">
+              <div className="relative z-10 group perspective-1000">
                 <div className="absolute inset-0 bg-blue-900/5 rounded-2xl transform translate-x-3 translate-y-3 transition-transform group-hover:translate-x-2 group-hover:translate-y-2"></div>
-                <div className="relative overflow-hidden rounded-2xl shadow-xl aspect-video border border-gray-100 bg-white">
+                <div className="relative overflow-hidden rounded-2xl shadow-xl aspect-video border border-slate-100 bg-white">
                   <img
                     src={area.image}
                     alt=""
@@ -58,11 +72,11 @@ const Research = () => {
                 ))}
               </div>
 
-              <h2 className="text-3xl lg:text-4xl font-playfair font-bold text-gray-900 leading-tight">
+              <h2 className="text-3xl lg:text-4xl font-playfair font-bold text-slate-900 leading-tight">
                 {area.title}
               </h2>
 
-              <p className="text-gray-600 leading-relaxed text-base lg:text-lg font-light">
+              <p className="text-slate-600 leading-relaxed text-base lg:text-lg font-light">
                 {area.description}
               </p>
 
@@ -71,7 +85,7 @@ const Research = () => {
               <div className="flex flex-wrap gap-4 pt-6">
                 <Link
                   to="/publications"
-                  className="flex items-center gap-2 text-sm font-bold text-gray-700 hover:text-blue-900 transition-colors group px-4 py-2 bg-white border border-gray-200 rounded-full hover:border-blue-900 hover:shadow-sm"
+                  className="flex items-center gap-2 text-sm font-bold text-slate-700 hover:text-blue-900 transition-colors group px-4 py-2 bg-white border border-slate-200 rounded-full hover:border-blue-900 hover:shadow-sm"
                 >
                   <span>Selected publications</span>
                   <ArrowUpRight className="h-3 w-3 opacity-60 group-hover:opacity-100 transition-opacity" />
