@@ -3,7 +3,74 @@
 @tailwind utilities;
 
 @layer base {
+  /* 고정 Navbar 높이 단일 출처.
+     App.tsx의 main 상단 패딩과 Scholar 페이지의 sticky 컨트롤 바가 이 값을 함께 쓴다.
+     (h-20 = 5rem + border-b 1px) */
+  :root {
+    --nav-h: calc(5rem + 1px);
+  }
+
+  /* 앵커(/news#n1 등)와 Tab 포커스 이동 시 대상이 고정 Navbar 뒤로 숨지 않게 한다. */
+  html {
+    scroll-padding-top: calc(var(--nav-h) + 1rem);
+  }
+
   body {
     @apply antialiased;
+  }
+
+  /* 키보드 포커스는 어디서도 사라지면 안 된다.
+     개별 컴포넌트의 focus:outline-none이 있어도 이 규칙이 보이는 표시를 보장한다. */
+  :focus-visible {
+    outline: 2px solid #1d4ed8;
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  /* Research 카드의 3D 호버용 — 이 클래스는 여기서만 정의된다. */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  /* 모달·긴 목록의 스크롤바. Firefox는 표준 속성, Chromium/WebKit은 의사 요소를 쓴다. */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 9999px;
+  }
+  .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+    background-color: #94a3b8;
+  }
+}
+
+/* OS의 '동작 줄이기' 설정 존중 (WCAG 2.3.3).
+   진입 애니메이션과 호버 확대는 즉시 끝내되, 로딩 스피너는 '진행 중'을 알리는 유일한 신호라
+   회전을 유지하고 속도만 늦춘다. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-spin,
+  .animate-spin-slow {
+    animation-duration: 1.6s !important;
+    animation-iteration-count: infinite !important;
   }
 }

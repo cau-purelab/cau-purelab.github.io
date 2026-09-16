@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { RESEARCH_AREAS } from '../constants';
-import { Database, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import SEO from '../components/SEO';
 
 const Research = () => {
@@ -9,7 +10,8 @@ const Research = () => {
       <SEO title="Research" description="Privacy-preserving AI, machine unlearning, and robust AI engineering research." />
 
       <div className="mb-24 text-center">
-        <h2 className="text-xs font-bold text-blue-900 uppercase tracking-[0.6em] mb-4">Core Competencies</h2>
+        {/* eyebrow는 제목이 아니라 라벨이다 — h1보다 먼저 나오는 h2를 없앤다 */}
+        <p className="text-xs font-bold text-blue-900 uppercase tracking-[0.4em] mb-4">Core Competencies</p>
         <h1 className="font-playfair text-5xl font-bold text-gray-900 mb-6 tracking-tight">Research Areas</h1>
         <div className="w-16 h-1 bg-blue-900 mx-auto mb-8"></div>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed font-light">
@@ -33,8 +35,11 @@ const Research = () => {
                 <div className="relative overflow-hidden rounded-2xl shadow-xl aspect-video border border-gray-100 bg-white">
                   <img
                     src={area.image}
-                    alt={area.title}
+                    alt=""
+                    width={1600}
+                    height={873}
                     loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   {/* Overlay for hover effect */}
@@ -47,7 +52,7 @@ const Research = () => {
             <div className="flex-1 space-y-6">
               <div className="flex flex-wrap gap-2">
                 {area.tags?.map(tag => (
-                  <span key={tag} className="text-[10px] font-bold uppercase tracking-widest text-blue-800 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+                  <span key={tag} className="text-xs font-bold uppercase tracking-widest text-blue-800 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
                     {tag}
                   </span>
                 ))}
@@ -61,15 +66,16 @@ const Research = () => {
                 {area.description}
               </p>
 
-              {/* [수정됨] GitHub 버튼 제거, Dataset 버튼만 유지 */}
+              {/* TODO(lab): 분야별 대표 논문 2~3편을 지정해 주면 여기에 제목과 링크를 붙인다.
+                            임의로 논문을 분야에 배정하지 않기 위해 지금은 목록 전체로만 연결한다. */}
               <div className="flex flex-wrap gap-4 pt-6">
-                {area.dataset && (
-                  <a href={area.dataset} className="flex items-center gap-2 text-sm font-bold text-gray-700 hover:text-blue-900 transition-colors group px-4 py-2 bg-white border border-gray-200 rounded-full hover:border-blue-900 hover:shadow-sm">
-                    <Database className="h-4 w-4" />
-                    <span>Dataset Mirror</span>
-                    <ArrowUpRight className="h-3 w-3 opacity-50 group-hover:opacity-100 transition-opacity" />
-                  </a>
-                )}
+                <Link
+                  to="/publications"
+                  className="flex items-center gap-2 text-sm font-bold text-gray-700 hover:text-blue-900 transition-colors group px-4 py-2 bg-white border border-gray-200 rounded-full hover:border-blue-900 hover:shadow-sm"
+                >
+                  <span>Selected publications</span>
+                  <ArrowUpRight className="h-3 w-3 opacity-60 group-hover:opacity-100 transition-opacity" />
+                </Link>
               </div>
             </div>
           </div>

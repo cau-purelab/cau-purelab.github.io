@@ -4,21 +4,99 @@ export const LAB_SHORT_NAME = "PURE";
 export const LAB_FULL_NAME = "Privacy, Unlearning, and Robust Engineering Lab";
 export const LAB_NAME = `${LAB_SHORT_NAME}(${LAB_FULL_NAME})`;
 export const LAB_DESCRIPTION = "Advancing privacy-preserving AI, machine unlearning, and robust engineering for trustworthy systems.";
-export const LAB_URL = "https://cau-purelab.github.io";
+export const LAB_URL = "https://pure.cau.ac.kr";
 export const LAB_EMAIL = "purelab.cau@gmail.com";
 export const LAB_AFFILIATION = "Chung-Ang University";
+// Footer의 지도 링크 검색어. index.html JSON-LD의 PostalAddress와 같은 주소를 쓴다.
+export const LAB_ADDRESS_QUERY = "Chung-Ang University, 84 Heukseok-ro, Dongjak-gu, Seoul 06974, Republic of Korea";
 export const LAB_ESTABLISHED_YEAR = 2024;
-// publications.json 갱신 시(fetch_scholar.py / patch_publications.py / update_scholar_metrics.cjs 실행 후) 함께 수정할 것
+// 화면·메타 태그에 쓰는 짧은 브랜드명. LAB_NAME(공식 전체 명칭)은 JSON-LD·저작권 표기에만 쓴다.
+// index.html의 og:site_name과 같은 값이어야 한다.
+export const LAB_BRAND_NAME = "PURE Lab";
+// 페이지 <title> 접미사. scripts/site.cjs의 TITLE_SUFFIX와 항상 같은 값이어야
+// 정적 HTML(크롤러가 보는 값)과 Helmet(브라우저가 보는 값)이 어긋나지 않는다.
+export const SITE_TITLE_SUFFIX = `${LAB_BRAND_NAME}, ${LAB_AFFILIATION}`;
+// publications.json 갱신 시(scripts/sync_scholar.cjs --apply / scripts/update_scholar_metrics.cjs 실행 후) 함께 수정할 것
 export const PUBLICATIONS_UPDATED_AT = "2026-07-12";
 
+// Google Scholar 프로필 ID — scripts/lib.cjs의 PROFILES와 항상 같은 값을 유지할 것.
+// (지표·배지의 출처를 화면에서 바로 열어볼 수 있도록 프런트엔드에도 공유한다)
+export const SCHOLAR_PROFILES: Record<string, string> = {
+  "Seungmin Rho": "k5aAQxUAAAAJ",
+  "Mi Young Lee": "bxWgGnoAAAAJ",
+};
+
+/** 구성원 이름 → Google Scholar 프로필 URL. 프로필이 없는 구성원은 null. */
+export const scholarProfileUrl = (name: string): string | null => {
+  const id = SCHOLAR_PROFILES[name.trim()];
+  return id ? `https://scholar.google.com/citations?user=${id}` : null;
+};
+
+// 지표 출처 고지 — 인용수는 Google Scholar에서 수집한 값이고, JCR 라벨은 연구실 공개 Google Sites에
+// 표시된 문구를 옮긴 것이다. Clarivate JCR 원자료를 직접 조회한 값이 아니다.
+// (scripts/update_scholar_metrics.cjs 주석과 같은 기준)
+export const METRICS_DISCLAIMER =
+  "Citation counts come from Google Scholar. JCR labels are transcribed from the lab's public Google Sites page and are not retrieved from Clarivate.";
+
+// 펀딩 태그 → 사람이 읽는 설명. 태그 말미의 '-NN'은 연도(20NN)를 뜻한다.
+// 여기에 없는 태그는 소비 측에서 태그 문자열을 그대로 보여준다(FUNDING_LEGEND[tag] ?? tag).
+// TODO(lab): 정식 과제명·과제번호·수행기간 확인 필요. 아래 설명은 태그에 드러난 기관/사업 약어를 풀어 쓴 수준이고,
+//            'Convg_Security-25/26', 'Rise-25', 'SW_Copyright-24'는 근거가 없어 일부러 비워 두었다.
+// 주의: 'Prof. *' 항목은 연구비가 아니라 협력 교수 라벨이다(감사 12번). 펀딩 집계·필터에서는 제외할 것.
+export const FUNDING_LEGEND: Record<string, string> = {
+  "NRF-19": "National Research Foundation of Korea (NRF) — 2019",
+  "NRF-22": "National Research Foundation of Korea (NRF) — 2022",
+  "NRF-SM-25": "National Research Foundation of Korea (NRF) — 2025",
+  "IITP-21": "Institute of Information & Communications Technology Planning & Evaluation (IITP) — 2021",
+  "ITRC-21": "Information Technology Research Center (ITRC) program — 2021",
+  "ITRC-22": "Information Technology Research Center (ITRC) program — 2022",
+  "ITRC-23": "Information Technology Research Center (ITRC) program — 2023",
+  "ITRC-25": "Information Technology Research Center (ITRC) program — 2025",
+  "ITRC-26": "Information Technology Research Center (ITRC) program — 2026",
+  "KIAT-21": "Korea Institute for Advancement of Technology (KIAT) — 2021",
+  "CAU-22": "Chung-Ang University — 2022",
+  "Prof. MYLee": "Collaborator label (Prof. Mi Young Lee) — not a funding source",
+  "Prof. HJKim": "Collaborator label — not a funding source",
+  "Prof. HWKim": "Collaborator label — not a funding source",
+};
+
 // 논문 저자 강조에 쓰이는 PI 이름 표기 변형 (Publications/Scholar 페이지 공용)
+// 'M. Lee'처럼 과도하게 일반적인 표기는 동명이인 오탐이 많아 제외한다 (scripts/lib.cjs와 같은 기준).
 export const PI_NAME_VARIANTS = [
   "Seungmin Rho", "Mi Young Lee",
   "S. Rho", "S Rho",
-  "M. Y. Lee", "M.Y. Lee", "MY Lee", "M. Lee",
+  "M. Y. Lee", "M.Y. Lee", "MY Lee",
 ];
 
+// 이니셜 아바타 — 사진이 없는 구성원용.
+// 외부 아바타 서비스(ui-avatars.com)에 구성원 실명을 쿼리로 보내지 않기 위해 인라인 SVG data URI로 만든다.
+// 색은 이름 해시로 결정되므로 매 로드마다 바뀌지 않는다. (외부 요청 0건)
+const AVATAR_COLORS = ["#1e3a8a", "#0f766e", "#7c2d12", "#4c1d95", "#155e75", "#9f1239"];
+
+export function initialsAvatar(name: string): string {
+  const initials = name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map(word => word.charAt(0).toUpperCase())
+    .join("");
+  let hash = 0;
+  for (let i = 0; i < name.length; i += 1) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
+  const background = AVATAR_COLORS[hash % AVATAR_COLORS.length];
+  const svg =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">' +
+    `<rect width="256" height="256" fill="${background}"/>` +
+    '<text x="128" y="132" fill="#ffffff" font-family="Inter, Helvetica, Arial, sans-serif" ' +
+    `font-size="104" font-weight="600" text-anchor="middle" dominant-baseline="middle">${initials}</text>` +
+    "</svg>";
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
 // 1. 뉴스 데이터
+// ⚠ 이 배열 리터럴은 scripts/site.cjs가 정규식으로 파싱해 dist/feed.xml(RSS)과 sitemap lastmod를 만든다.
+//    `export const NEWS ... = [ { id: 'nN', date: 'YYYY.MM.DD', title: '...' }, ... ];` 형태(작은따옴표 포함)를 유지할 것.
+//    화면(Home·News)은 삽입 순서를 신뢰하지 않고 날짜 내림차순으로 다시 정렬한다.
+//    RSS 항목 링크가 `/news#<id>`이므로 id는 한 번 정하면 바꾸지 말 것(News 페이지가 같은 id를 앵커로 쓴다).
 export const NEWS: NewsItem[] =[
   { id: 'n10', date: '2026.06.28', title: 'Attended IEEE ISIT 2026 in Guangzhou, China.' },
   { id: 'n11', date: '2026.05.07', title: 'Attended CISC-S 2026 (KIISC Summer Conference) in Busan, Korea.' },
@@ -101,7 +179,8 @@ export const MEMBERS: Member[] =[
     id: 'm4',
     name: "Hyungjun Park",
     role: "Master Student",
-    image: "https://ui-avatars.com/api/?name=Hyungjun+Park&background=random",
+    // TODO(lab): 프로필 사진·관심 분야(specialization)·이메일 공개 여부 확인 필요. 그때까지 이니셜 아바타 사용.
+    image: initialsAvatar("Hyungjun Park"),
     email: "",
     specialization: ""
   },
@@ -109,7 +188,8 @@ export const MEMBERS: Member[] =[
     id: 'm5',
     name: "Hyunok Kim",
     role: "Master Student",
-    image: "https://ui-avatars.com/api/?name=Hyunok+Kim&background=random",
+    // TODO(lab): 프로필 사진·관심 분야(specialization)·이메일 공개 여부 확인 필요. 그때까지 이니셜 아바타 사용.
+    image: initialsAvatar("Hyunok Kim"),
     email: "",
     specialization: ""
   },
@@ -117,14 +197,17 @@ export const MEMBERS: Member[] =[
     id: 'm6',
     name: "Junyoung Lee",
     role: "Master Student",
-    image: "https://ui-avatars.com/api/?name=Junyoung+Lee&background=random",
+    // TODO(lab): 프로필 사진·관심 분야(specialization)·이메일 공개 여부 확인 필요. 그때까지 이니셜 아바타 사용.
+    image: initialsAvatar("Junyoung Lee"),
     email: "",
     specialization: "",
     linkedin: "https://www.linkedin.com/in/%EC%A4%80%EC%98%81-%EC%9D%B4-93117424b"
   }
 ];
 
-// 4. 주요 논문 데이터
+// 4. 주요 논문 데이터 (수동 선별 — 전체 아카이브는 src/data/publications.json)
+// ⚠ scripts/sync_scholar.cjs의 정합성 검사가 `id: 'pN'` → `title: "..."` → `venue: "..."` 순서와
+//    큰따옴표 표기에 의존한다. 항목 형식을 바꾸면 그 스크립트도 함께 고칠 것.
 export const PUBLICATIONS: Publication[] =[
   {
     id: 'p1',
@@ -142,14 +225,15 @@ export const PUBLICATIONS: Publication[] =[
     year: 2026,
     title: "A Data Analytics-Driven Approach to Backorder Prediction Using Federated Machine Learning in Industrial Supply Chains",
     authors:["Asma Sattar", "Maryam Bukhari", "Zahoor ur Rehman", "Saman Khalid", "Yangsun Lee", "Seungmin Rho"],
-    venue: "Scientific Reports, Vol. 16, 1-23",
+    venue: "Scientific Reports, 16, 4560",
     tags:["Federated Learning", "Supply Chain"],
     isSelected: true,
     link: "https://doi.org/10.1038/s41598-025-34578-z"
   },
   {
     id: 'p3',
-    year: 2025,
+    // 연도는 2024가 맞다 (publications.json의 bibtex `year={2024}`, Google Scholar 표기 모두 2024).
+    year: 2024,
     title: "Advancing Autoencoder Architectures for Enhanced Anomaly Detection in Multivariate Industrial Time Series",
     authors:["Byeongcheon Lee", "Sangmin Kim", "Muazzam Maqsood", "Jihoon Moon", "Seungmin Rho"],
     venue: "CMC-Computers, Materials & Continua, 81(1)",
@@ -197,6 +281,8 @@ export const PUBLICATIONS: Publication[] =[
     link: "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:__bU50VfleQC"
   },
   {
+    // TODO(lab): 이 항목은 publications.json과 Google Scholar 어디에도 없어 대조할 원천이 없다.
+    //            JSEBS 게재 정보(DOI 또는 논문 페이지 URL)를 받아 link를 채우고 아카이브에도 등록할 것.
     id: 'p8',
     year: 2024,
     title: "Voice Phishing Detection Using Deep Learning-based NLP and Knowledge Distillation Techniques",

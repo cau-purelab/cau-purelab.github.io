@@ -38,5 +38,4 @@ export interface ResearchArea {
   description: string;
   image: string;
   tags?: string[];
-  dataset?: string;
 }
