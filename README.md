@@ -3,7 +3,16 @@
 중앙대학교 **PURE(Privacy, Unlearning, and Robust Engineering Lab)**의 공식 홈페이지 프로젝트입니다.
 노승민 교수님 지도하에 **Privacy-Preserving AI, Machine Unlearning, Robust AI Engineering** 분야를 연구하는 연구실의 정보를 제공합니다.
 
-🔗 **Live Site:** [https://cau-purelab.github.io/](https://cau-purelab.github.io/)
+🔗 **Live Site:** https://pure.cau.ac.kr/ (GitHub Pages 커스텀 도메인)
+
+> **도메인 현황 (2026-09-17 전환 완료)**
+> - 커스텀 도메인 `pure.cau.ac.kr`의 Let's Encrypt 인증서가 발급되었고(2026-09-16, 만료 2026-12-16),
+>   **Enforce HTTPS가 켜져 있어 `http://`는 `https://`로 301 이동한다.**
+> - 코드의 정본 URL 4곳(`scripts/site.cjs`의 `SITE_URL`, `src/constants.tsx`의 `LAB_URL`,
+>   `package.json`의 `homepage`, `index.html`의 canonical/og/JSON-LD)은 모두 `https://pure.cau.ac.kr`로 전환했다.
+> - `https://cau-purelab.github.io/`는 커스텀 도메인으로 301 이동한다(GitHub Pages 기본 동작).
+> - 커스텀 도메인은 `public/CNAME`에도 기록해 둔다 — 설정이 유실되면 이 파일이 복구 근거다.
+> - 장애 점검: `curl -sIv https://pure.cau.ac.kr/` (인증서 subject가 `CN=pure.cau.ac.kr`이면 정상)
 
 ---
 
@@ -43,10 +52,17 @@
 │   ├── App.tsx          # 라우팅 설정
 │   └── main.tsx         # 진입점 (HelmetProvider 설정)
 ├── scripts/
-│   ├── fetch_scholar.py           # Google Scholar 논문 수집 + 진행 중 논문 병합
-│   ├── patch_publications.py      # 논문 데이터 일회성 수정/보강
+│   ├── site.cjs                   # 정본 URL(SITE_URL) + 라우트 목록의 단일 출처, 설정 정합성 검사
+│   ├── create-pages-404.cjs       # 라우트별 정적 HTML + 404.html + sitemap.xml + robots.txt 생성
+│   ├── create-rss.cjs             # NEWS 배열 → dist/feed.xml (RSS 2.0)
+│   ├── validate_data.cjs          # publications.json 무결성 검증 (배포 전 CI 게이트)
+│   ├── sync_scholar.cjs           # Google Sites/Scholar 대조 → 논문 데이터 동기화 (주간 워크플로가 실행)
 │   ├── update_scholar_metrics.cjs # Google Scholar citation 및 공개 JCR 라벨 갱신
-│   └── create-pages-404.cjs       # GitHub Pages SPA 폴백(404.html) 생성
+│   ├── lib.cjs                    # 스크립트 공용 유틸 (fetchText/normalize/titlesMatch 등)
+│   └── patch_publications.py      # 논문 데이터 일회성 수정/보강 (Python)
+├── .github/workflows/
+│   ├── deploy.yml                 # main push → 검증·타입체크·빌드·배포·스모크 테스트
+│   └── sync-scholar.yml           # 매주 월요일 논문 데이터 동기화 PR
 └── tailwind.config.js   # 스타일링 설정
 ```
 
@@ -86,6 +102,11 @@
 
 7.  **SEO & Sharing**
     *   Open Graph 적용: 카카오톡, 슬랙 등 링크 공유 시 연구실 미리보기 카드(이미지/설명) 표시
+    *   빌드 시 `scripts/create-pages-404.cjs`가 라우트별 정적 HTML(`research.html`, `people.html` …)을 만든다.
+        GitHub Pages가 확장자 없는 경로를 이 파일로 200 서빙하므로 딥링크가 404가 되지 않고,
+        JS를 실행하지 않는 크롤러·링크 미리보기 스크래퍼도 페이지별 title/description/og 태그를 본다.
+    *   `sitemap.xml`·`robots.txt`·`feed.xml`도 같은 빌드 단계에서 `scripts/site.cjs`의 `SITE_URL` 기준으로 생성된다
+        (public/ 에 정적 파일로 두지 않는다 — 도메인이 코드 여러 곳에 흩어지는 것을 막기 위함).
 
 ---
 
@@ -101,7 +122,8 @@
     *   `citations`: Google Scholar 프로필의 citation 수
     *   `jcr`: 공개 Google Sites에 표시된 `SCIE/SSCI ... Top ...%` 라벨
     *   `jcr_source`: JCR 라벨을 가져온 공개 페이지 URL
-*   **뉴스 업데이트**: `NEWS` 배열에 소식 추가 (자동으로 최신순 정렬됨).
+*   **뉴스 업데이트**: `NEWS` 배열에 소식 추가. **화면은 배열 순서를 그대로 쓰므로 최신 항목을 배열 맨 위에 넣을 것**
+    (정렬해 주는 코드는 RSS 생성 스크립트뿐이다).
 *   **연구 분야 수정**: `RESEARCH_AREAS` 배열 수정.
 
 ---
@@ -130,10 +152,20 @@
 
 4.  **빌드 (배포용)**
     ```bash
-    npm run build
+    npm run build:pages   # vite build + 라우트별 HTML/404/sitemap/robots/feed 생성 (CI와 동일)
+    ```
+    `npm run build`는 vite 빌드만 하므로 배포 산출물 검증에는 `build:pages`를 쓸 것.
+
+5.  **커밋 전 검증**
+    ```bash
+    npm run typecheck   # tsc --noEmit (CI 게이트와 동일)
+    npm run validate    # 정본 URL 정합성 + publications.json 무결성
     ```
 
-5.  **Scholar 성과 지표 갱신**
+    > Windows와 WSL은 `node_modules`를 공유할 수 없다(네이티브 rollup 바이너리가 다름).
+    > 환경을 바꿔 작업할 때는 `rm -rf node_modules && npm ci --legacy-peer-deps`.
+
+6.  **Scholar 성과 지표 갱신**
     ```bash
     node scripts/update_scholar_metrics.cjs
     ```
@@ -143,13 +175,44 @@
 
 ## ☁️ Deployment (배포)
 
-이 프로젝트는 **GitHub Pages** user/organization site로 배포됩니다. 기본 공개 URL은 `https://cau-purelab.github.io/`입니다.
+이 프로젝트는 **GitHub Pages** organization site로 배포됩니다.
 
-1.  GitHub의 `main` 브랜치에 코드를 푸시(Push)합니다.
-2.  GitHub 저장소의 **Settings > Pages**로 이동합니다.
-3.  **Build and deployment > Source**를 `GitHub Actions`로 설정합니다.
-4.  `.github/workflows/deploy.yml` 워크플로우가 자동으로 빌드하고 Pages에 배포합니다.
-5.  이후 `git push`를 할 때마다 자동으로 재배포됩니다.
+1.  GitHub의 `main` 브랜치에 코드를 푸시(Push)합니다. **main push = 즉시 라이브 반영**입니다.
+2.  **Settings > Pages > Build and deployment > Source**가 `GitHub Actions`여야 합니다.
+3.  `.github/workflows/deploy.yml`이 다음 순서로 실행됩니다.
+    `site.cjs 설정 검증` → `validate_data.cjs` → `npm ci` → `npm run typecheck` → `npm run build:pages`
+    → Pages 배포 → **스모크 테스트**(홈·딥링크 5개·feed.xml·sitemap.xml·robots.txt가 200인지 확인)
+4.  스모크 테스트가 실패하면 워크플로가 빨간불이 됩니다 — 딥링크 404 회귀를 여기서 잡습니다.
+
+### 필요한 저장소 설정 (코드로 못 고치는 것)
+
+*   **Settings → Actions → General → Workflow permissions**
+    → `Allow GitHub Actions to create and approve pull requests` **켜기**.
+    꺼져 있으면 주간 Scholar 동기화(`sync-scholar.yml`)가 PR 생성 단계에서 매번 실패하고,
+    데이터는 `auto/scholar-sync` 브랜치에만 쌓입니다. 실패 시 워크플로가 이슈를 자동 생성합니다.
+*   **Settings → Pages → Custom domain**: `pure.cau.ac.kr` (인증서 발급 후 `Enforce HTTPS` 체크)
+
+### 도메인 전환 이력 (2026-09-17 완료)
+
+1.  인증서 발급 확인 — `curl -sIv https://pure.cau.ac.kr/` 의 subject가 `CN=pure.cau.ac.kr`. ✅
+2.  Settings → Pages → **Enforce HTTPS** 켬. ✅
+3.  도메인 문자열 4곳을 `https://pure.cau.ac.kr`로 교체. ✅
+    (`scripts/site.cjs`의 `SITE_URL`, `src/constants.tsx`의 `LAB_URL`, `package.json`의 `homepage`,
+    `index.html`의 canonical / og:url / og:image / twitter:image / JSON-LD `url`·`logo`)
+    **한 곳만 바꾸면 빌드가 실패한다** — `scripts/site.cjs`가 `LAB_URL`과 대조하고,
+    `create-pages-404.cjs`가 index.html의 잔여 도메인을 검사한다.
+4.  `npm run build:pages`로 `dist/sitemap.xml`·`feed.xml`·라우트 HTML의 URL이 모두 바뀐 것을 확인. ✅
+5.  배포 후 Google Search Console에 sitemap 재제출 — **미완료** (아래 "검색엔진 등록" 참고).
+
+### 검색엔진 등록 (아직 미등록)
+
+색인 상태와 딥링크 오류를 확인할 창구가 없으므로 다음 두 곳에 등록할 것.
+
+*   **Google Search Console**: 도메인 속성으로 등록하고 대학 DNS 담당에 검증용 TXT 레코드를 신청한다.
+    커스텀 도메인 인증서 신청과 같은 티켓으로 묶는 편이 좋다
+    (조직 도메인 검증용 `_github-pages-challenge-cau-purelab` TXT도 함께 신청하면 서브도메인 탈취를 막는다).
+*   **Naver Search Advisor**: 루트 경로만으로 검증되므로 지금도 등록 가능하다.
+    발급받은 토큰을 `index.html`의 `TODO(lab): 검색엔진 등록` 주석에 있는 메타 태그에 넣고 주석을 해제한다.
 
 ---
 
