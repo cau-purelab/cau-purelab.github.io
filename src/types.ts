@@ -16,6 +16,7 @@ export interface Member {
   isAlumni?: boolean;
   website?: string;
   github?: string;
+  linkedin?: string;
 }
 
 export interface Publication {

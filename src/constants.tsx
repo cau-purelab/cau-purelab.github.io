@@ -85,7 +85,7 @@ export const MEMBERS: Member[] =[
     image: "/assets/Byeongcheon Lee.jpg",
     email: "qudcjs0208@cau.ac.kr",
     website: "https://cheonbung.github.io/",
-    specialization: '#Machine Unlearning #Robust AI #Time Series Anomaly Detection #Generative Model Security',
+    specialization: '#Machine Unlearning #Robust AI #Generative Model Security #Trustworthy AI',
     github: "https://github.com/cheonbung"
   },
   {
@@ -108,10 +108,19 @@ export const MEMBERS: Member[] =[
   {
     id: 'm5',
     name: "Hyunok Kim",
-    role: "Undergraduate Intern",
+    role: "Master Student",
     image: "https://ui-avatars.com/api/?name=Hyunok+Kim&background=random",
     email: "",
     specialization: ""
+  },
+  {
+    id: 'm6',
+    name: "Junyoung Lee",
+    role: "Master Student",
+    image: "https://ui-avatars.com/api/?name=Junyoung+Lee&background=random",
+    email: "",
+    specialization: "",
+    linkedin: "https://www.linkedin.com/in/%EC%A4%80%EC%98%81-%EC%9D%B4-93117424b"
   }
 ];
 

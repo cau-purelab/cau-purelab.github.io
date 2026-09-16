@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MEMBERS } from '../constants';
-import { Mail, Globe, Github, BookOpen, X, ExternalLink, Copy, Check, FileText, Award, Quote } from 'lucide-react';
+import { Mail, Globe, Github, Linkedin, BookOpen, X, ExternalLink, Copy, Check, FileText, Award, Quote } from 'lucide-react';
 import { Member } from '../types';
 import SEO from '../components/SEO';
 import publicationsData from '../data/publications.json';
@@ -212,6 +212,7 @@ const People = () => {
               {member.email && <a href={`mailto:${member.email}`} className="flex items-center gap-2 text-xs text-gray-500 hover:text-blue-900 transition-colors"><div className="p-1.5 rounded-full bg-gray-50"><Mail className="w-3.5 h-3.5 text-gray-600" /></div><span className="hidden sm:inline font-medium">Email</span></a>}
               {member.website && <a href={member.website} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs text-gray-500 hover:text-blue-900 transition-colors"><div className="p-1.5 rounded-full bg-gray-50"><Globe className="w-3.5 h-3.5 text-gray-600" /></div><span className="hidden sm:inline font-medium">Website</span></a>}
               {member.github && <a href={member.github} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs text-gray-500 hover:text-blue-900 transition-colors"><div className="p-1.5 rounded-full bg-gray-50"><Github className="w-3.5 h-3.5 text-gray-600" /></div><span className="hidden sm:inline font-medium">GitHub</span></a>}
+              {member.linkedin && <a href={member.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs text-gray-500 hover:text-blue-900 transition-colors"><div className="p-1.5 rounded-full bg-gray-50"><Linkedin className="w-3.5 h-3.5 text-gray-600" /></div><span className="hidden sm:inline font-medium">LinkedIn</span></a>}
             </div>
           </div>
         </div>
@@ -231,6 +232,7 @@ const People = () => {
             {member.email && <a href={`mailto:${member.email}`} className="flex items-center justify-center gap-2 text-xs text-gray-500 hover:text-blue-900 py-0.5"><Mail className="w-3.5 h-3.5" /><span className="truncate">{member.email}</span></a>}
             {member.website && <a href={member.website} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 text-xs text-gray-500 hover:text-blue-900 py-0.5"><Globe className="w-3.5 h-3.5" /><span>Personal Website</span></a>}
             {member.github && <a href={member.github} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 text-xs text-gray-500 hover:text-blue-900 py-0.5"><Github className="w-3.5 h-3.5" /><span>GitHub Profile</span></a>}
+            {member.linkedin && <a href={member.linkedin} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 text-xs text-gray-500 hover:text-blue-900 py-0.5"><Linkedin className="w-3.5 h-3.5" /><span>LinkedIn</span></a>}
           </div>
         </div>
       </div>
