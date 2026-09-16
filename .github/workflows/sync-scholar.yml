@@ -27,10 +27,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
 
@@ -56,7 +56,7 @@ jobs:
       # 이 값을 publications.json의 _meta로 옮기기 전까지는 두 파일을 함께 커밋해야
       # 화면의 "Data last updated"가 실제 데이터와 어긋나지 않는다.
       - name: Create pull request if changed
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           add-paths: |
             src/data/publications.json
