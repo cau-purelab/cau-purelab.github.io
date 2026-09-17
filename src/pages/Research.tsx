@@ -34,16 +34,6 @@ const Research = () => {
 
             {/* Image Section */}
             <div className="flex-1 w-full relative">
-              {/* 장식 번호 — 예전에는 -z-10이 걸려 있어 App 루트의 bg-white 뒤로 내려가 한 번도 보인 적이
-                  없었다. 이제는 이미지 래퍼에 z-10을 줘서 그 아래에 깔리게만 하고, 색도 흰 배경에서
-                  실제로 읽히는 단계까지 올린다. 내용이 아니므로 스크린리더에서는 감춘다. */}
-              <div
-                aria-hidden="true"
-                className={`absolute -top-12 ${index % 2 !== 0 ? '-right-4 text-right' : '-left-4 text-left'} text-[120px] font-playfair font-bold text-slate-300 leading-none select-none`}
-              >
-                0{index + 1}
-              </div>
-
               <div className="relative z-10 group perspective-1000">
                 <div className="absolute inset-0 bg-blue-900/5 rounded-2xl transform translate-x-3 translate-y-3 transition-transform group-hover:translate-x-2 group-hover:translate-y-2"></div>
                 <div className="relative overflow-hidden rounded-2xl shadow-xl aspect-video border border-slate-100 bg-white">
@@ -51,7 +41,7 @@ const Research = () => {
                     src={area.image}
                     alt=""
                     width={1600}
-                    height={873}
+                    height={900}
                     loading="lazy"
                     decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
