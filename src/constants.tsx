@@ -104,16 +104,18 @@ export function initialsAvatar(name: string): string {
 //    `export const NEWS ... = [ { id: 'nN', date: 'YYYY.MM.DD', title: '...' }, ... ];` 형태(작은따옴표 포함)를 유지할 것.
 //    화면(Home·News)은 삽입 순서를 신뢰하지 않고 날짜 내림차순으로 다시 정렬한다.
 //    RSS 항목 링크가 `/news#<id>`이므로 id는 한 번 정하면 바꾸지 말 것(News 페이지가 같은 id를 앵커로 쓴다).
+//    학회 항목 문형: `<동사> <학회명 + 연도> in <도시>, <국가>.` — 개최지는 건물명이 아니라 도시로 적는다
+//    (AICT는 수원 광교의 차세대융합기술연구원, CAU 310관은 서울이다). 발표 논문 등 덧붙일 말은 문장 끝 괄호에 둔다.
 export const NEWS: NewsItem[] =[
   { id: 'n12', date: '2026.08.24', title: 'Attended PlatCon-26 in Jeju, Korea.' },
   { id: 'n10', date: '2026.06.28', title: 'Attended IEEE ISIT 2026 in Guangzhou, China.' },
   { id: 'n11', date: '2026.05.07', title: 'Attended CISC-S 2026 (KIISC Summer Conference) in Busan, Korea.' },
   { id: 'n9', date: '2026.02.24', title: 'Attended ICAIIC 2026 in Tokyo, Japan.' },
-  { id: 'n8', date: '2025.11.29', title: 'Attended the Society for e-Business Studies 2025 Fall Academic Conference at AICT.' },
+  { id: 'n8', date: '2025.11.29', title: 'Attended the Society for e-Business Studies 2025 Fall Conference in Suwon, Korea.' },
   { id: 'n7', date: '2025.10.25', title: 'Attended ECAI 2025 in Bologna, Italy (Workshop paper: TRUST-AI).' },
   { id: 'n6', date: '2025.09.14', title: 'Attended FedCSIS 2025 in Kraków, Poland.' },
   { id: 'n5', date: '2025.08.25', title: 'Attended PlatCon-25 in Jeju, Korea.' },
-  { id: 'n4', date: '2025.05.01', title: 'Hosted the Society for e-Business Studies Spring Conference at CAU Bldg 310.' },
+  { id: 'n4', date: '2025.05.01', title: 'Hosted the Society for e-Business Studies 2025 Spring Conference in Seoul, Korea.' },
   { id: 'n3', date: '2025.01.15', title: 'Attended ICOIN 2025 in Chiang Mai, Thailand.' },
   { id: 'n2', date: '2024.08.26', title: 'Attended PlatCon-24 in Jeju, Korea.' },
   { id: 'n1', date: '2024.03.04', title: 'PURE(Privacy, Unlearning, and Robust Engineering Lab) founded by Prof. Seungmin Rho at CAU.' },
