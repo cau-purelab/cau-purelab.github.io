@@ -133,20 +133,33 @@ function readNewsItems() {
   const arrayEnd = src.indexOf('];', arrayStart);
   const block = src.slice(arrayStart, arrayEnd === -1 ? undefined : arrayEnd);
 
+  // 작은따옴표와 큰따옴표를 모두 읽는다. 한쪽만 읽던 때, 큰따옴표로 적은 항목이
+  // 조용히 사라져 feed.xml에서 한 건이 빠진 적이 있다.
+  const quoted = key =>
+    new RegExp("\\b" + key + ":\\s*(?:'((?:[^'\\\\]|\\\\.)*)'|\"((?:[^\"\\\\]|\\\\.)*)\")");
+
   const items = [...block.matchAll(/\{[^{}]*\}/g)]
     .map(m => m[0])
     .map(entry => {
-      const id = entry.match(/\bid:\s*'((?:[^'\\]|\\.)*)'/);
-      const date = entry.match(/\bdate:\s*'(\d{4})\.(\d{2})\.(\d{2})'/);
-      const title = entry.match(/\btitle:\s*'((?:[^'\\]|\\.)*)'/);
-      if (!id || !date || !title) return null;
+      const pick = key => {
+        const m = entry.match(quoted(key));
+        return m ? (m[1] !== undefined ? m[1] : m[2]) : null;
+      };
+      const id = pick("id");
+      const rawDate = pick("date");
+      const title = pick("title");
+      const date = rawDate && rawDate.match(/^(\d{4})\.(\d{2})\.(\d{2})$/);
+      // NEWS 배열 안의 중괄호 블록은 전부 뉴스 항목이다. 못 읽었다면 형식이 어긋난 것이므로
+      // 버리지 말고 멈춘다 — 조용히 빠지면 피드와 사이트맵만 틀린 채 배포된다.
+      if (!id || !date || !title) {
+        throw new Error(`constants.tsx의 NEWS 항목을 해석하지 못함: ${entry.trim()}`);
+      }
       return {
-        id: id[1],
+        id,
         date: new Date(Date.UTC(Number(date[1]), Number(date[2]) - 1, Number(date[3]))),
-        title: title[1].replace(/\\'/g, "'"),
+        title: title.replace(/\\(["'])/g, "$1"),
       };
     })
-    .filter(Boolean)
     .sort((a, b) => b.date.getTime() - a.date.getTime());
 
   if (items.length === 0) {
