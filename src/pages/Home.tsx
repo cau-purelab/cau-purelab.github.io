@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRight, ArrowUpRight, Calendar, Users, FileText, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { LAB_DESCRIPTION, LAB_EMAIL, LAB_ESTABLISHED_YEAR, LAB_FULL_NAME, LAB_SHORT_NAME, RESEARCH_AREAS, NEWS, PUBLICATIONS, MEMBERS } from '../constants';
+import { LAB_DESCRIPTION_CLAUSES, LAB_EMAIL, LAB_ESTABLISHED_YEAR, LAB_FULL_NAME, LAB_SHORT_NAME, RESEARCH_AREAS, NEWS, PUBLICATIONS, MEMBERS } from '../constants';
 import SEO from '../components/SEO';
 
 const Home = () => {
@@ -42,8 +42,13 @@ const Home = () => {
             <span className="block text-6xl md:text-8xl">{LAB_SHORT_NAME}</span>
             <span className="block text-lg md:text-2xl font-normal tracking-wide mt-3 text-blue-100">{LAB_FULL_NAME}</span>
           </h1>
-          <p className="text-lg md:text-xl font-light max-w-2xl mx-auto opacity-90 animate-fade-in-up anim-delay-2 text-slate-200">
-            {LAB_DESCRIPTION}
+          {/* 넓은 화면에서는 한 줄, 좁아지면 "and" 앞에서 접힌다.
+              두 절이 각각 inline-block이라 남은 폭에 안 들어가면 절 통째로 다음 줄에 내려간다.
+              nowrap과 달리 아주 좁은 화면에서는 절 안에서 다시 접히므로 가로 스크롤이 생기지 않는다.
+              문장 전체가 20px Inter에서 957px다 — max-w-2xl(672px)로는 한 줄이 될 수 없어 상한을 없앴다. */}
+          <p className="text-lg md:text-xl font-light opacity-90 animate-fade-in-up anim-delay-2 text-slate-200">
+            <span className="inline-block">{LAB_DESCRIPTION_CLAUSES[0]}</span>{" "}
+            <span className="inline-block">{LAB_DESCRIPTION_CLAUSES[1]}</span>
           </p>
           {/* 1차 행동은 연구 소개, 2차는 구성원 — 홈에서 다음으로 갈 곳을 둘 다 연다 */}
           <div className="pt-6 animate-fade-in-up anim-delay-3 flex flex-wrap justify-center gap-4">

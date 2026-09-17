@@ -3,7 +3,14 @@ import { Member, Publication, ResearchArea, NewsItem } from './types';
 export const LAB_SHORT_NAME = "PURE";
 export const LAB_FULL_NAME = "Privacy, Unlearning, and Robust Engineering Lab";
 export const LAB_NAME = `${LAB_SHORT_NAME}(${LAB_FULL_NAME})`;
-export const LAB_DESCRIPTION = "Advancing privacy-preserving AI, machine unlearning, and robust engineering for trustworthy systems.";
+// 히어로 부제는 넓은 화면에서 한 줄로 두되, 폭이 모자라면 "and" 앞에서 접히게 한다.
+// 그래서 문장을 접합점 기준 두 절로 보관한다. 메타 설명에 쓰는 한 문장은 여기서 합쳐 만들어
+// 화면과 <meta description>이 갈라지지 않게 한다.
+export const LAB_DESCRIPTION_CLAUSES = [
+  "Advancing privacy-preserving AI, machine unlearning,",
+  "and robust engineering for trustworthy systems.",
+] as const;
+export const LAB_DESCRIPTION = LAB_DESCRIPTION_CLAUSES.join(" ");
 export const LAB_URL = "https://pure.cau.ac.kr";
 export const LAB_EMAIL = "purelab.cau@gmail.com";
 export const LAB_AFFILIATION = "Chung-Ang University";
