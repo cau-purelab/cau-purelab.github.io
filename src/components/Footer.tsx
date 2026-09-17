@@ -60,30 +60,9 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-2 text-xs text-slate-400">
+                <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400">
                     <p>&copy; {new Date().getFullYear()} {LAB_NAME}. All rights reserved.</p>
-                    {/* CC BY 2.0은 저작자 표시를 요구한다. 히어로 배경 출처 — 자세한 내역은 저장소의 CREDITS.md */}
-                    <p className="order-last md:order-none text-center text-slate-500">
-                        Hero image:{' '}
-                        <a
-                            href="https://commons.wikimedia.org/wiki/File:T-SNE_Embedding_of_MNIST.png"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="underline underline-offset-2 hover:text-slate-300"
-                        >
-                            t-SNE embedding of MNIST
-                        </a>{' '}
-                        by Kyle McDonald,{' '}
-                        <a
-                            href="https://creativecommons.org/licenses/by/2.0/"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="underline underline-offset-2 hover:text-slate-300"
-                        >
-                            CC BY 2.0
-                        </a>
-                    </p>
-                    <p>Site last updated: {__BUILD_DATE__}</p>
+                    <p className="mt-2 md:mt-0">Site last updated: {__BUILD_DATE__}</p>
                 </div>
             </div>
         </footer>
