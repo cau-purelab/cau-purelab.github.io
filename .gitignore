@@ -33,3 +33,6 @@ yarn-error.log*
 project_*code*.txt
 *.bak
 src/data/publications_sub.json
+
+# 일러스트 원본(1MB+ PNG). public/assets의 webp가 배포본이고 이쪽은 재변환용 보관본이다.
+design/illustration-source/
