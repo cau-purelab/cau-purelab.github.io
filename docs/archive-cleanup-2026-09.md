@@ -22,7 +22,8 @@ Google Scholar 프로필에서 자동 수집된 아카이브에 **논문이 아�
 
 - 제거 45건 · 철회 표시 4건(제거 아님) · 중복 13편 정합 + 1편 보류 · 레거시 `funding` 키 433건 제거
 - 인용 감소 98 = 동명이인 벤젠 논문 73 + 타인 논문 25 (front matter 33건은 전부 인용 0)
-- **철회 논문 4건은 제거하지 않았다.** 연구 실적이므로 목록에 남기되 `"retracted": true`로 표시했다(UI 배지는 별도 작업).
+- **철회 논문 4건은 제거하지 않았다.** 연구 실적이므로 목록에 남기되 `"retracted": true`로 표시했다.
+  (작성 당시 "UI 배지는 별도 작업"으로 남겼던 부분은 **완료** — 아래 4절 상태 갱신 참고.)
 
 ---
 
@@ -109,6 +110,13 @@ PI가 의장·위원으로 이름을 올린 것은 사실이지만 연구 업적
 > **확인 요청**: 2번째 항목(`Smart health monitoring...`)은 bibtex 저자가 `Din, Sadia and Paul, Anand` 뿐으로 PI가 없다.
 > 1절의 제거 기준에는 해당하지만, 철회 표시 대상과 겹쳐 **제거하지 않고 표시만** 했다. 실제 공저 여부를 확인해 제거할지 결정해 주기 바란다.
 
+> **상태 갱신 (2026-09-18): UI 처리 완료.** 당시 미정으로 남긴 판단은 다음과 같이 결론났다.
+> - `src/pages/ScholarPublications.tsx`와 `src/pages/People.tsx` 양쪽이 `RETRACTED_PREFIX_RE`로 제목 앞의
+>   `[Retracted]` / `RETRACTED ARTICLE:` / `Retracted:` 접두를 떼고, 대신 빨간 `Retracted` 배지를 붙인다.
+> - **목록에는 남기고 지표에서만 뺀다.** Scholar 페이지의 연구 지표(논문 수·인용수·h-index)는
+>   `!p.is_progress && !p.retracted`로 걸러 계산하고, 지표 아래에 "N retracted paper(s) … excluded from these totals"를 명시한다.
+> - 데이터(`publications.json`)에서는 여전히 제거하지 않는다.
+
 ---
 
 ## 5. 양 교수 목록에 중복 등재된 14편 — 정합 (제거 아님)
@@ -193,15 +201,32 @@ PI가 **저자로 등재된 실제 게재물**이고 인용도 집계된다(최�
 
 ---
 
-## 재발 방지 (이번 범위 밖 — 별도 작업)
+## 재발 방지 (상태: 2026-09-18 갱신)
 
-이 정리는 **1회성**이다. `scripts/sync_scholar.cjs`의 `JUNK_TITLE` 정규식이 실제 오염의 일부만 걸러내고 신규 추가에만 적용되므로,
-다음 sync가 재개되면 같은 유형이 다시 유입된다. 아래는 상류 차단 방안이다.
+이 정리는 **1회성**이었다. 작성 시점에는 `scripts/sync_scholar.cjs`의 `JUNK_TITLE` 정규식이 실제 오염의 일부만 걸러내고
+신규 추가에만 적용돼, 다음 sync가 재개되면 같은 유형이 다시 유입될 상태였다.
+아래 4건 중 **코드로 할 수 있는 2~4번은 반영됐고, 1번만 남아 있다.**
 
-1. **가장 확실한 방법** — 교수 Google Scholar 프로필에서 위원회·환영사·타인 논문 항목을 직접 삭제하면 다음 sync에 자동 반영되고 영구적이다.
-2. `JUNK_TITLE`을 `scripts/lib.cjs`로 옮기고 `^\[?retracted|^preface|^foreword|reviewers|organization$|^(welcome|message)`까지 확장.
-3. `sync_scholar.cjs`의 신규 추가 필터에 **bibtex/Scholar 저자 필드가 PI 이름 변형(한글 `노승민` 포함)을 담고 있는지** 검사하는 게이트 추가.
-4. `scripts/validate_data.cjs`에 같은 규칙을 오류로 추가해 배포 전 게이트에서 걸리게 함.
+1. **미완 — 연구실이 직접 해야 한다.** 교수 Google Scholar 프로필(계정 소유자만 편집 가능)에서 위원회·환영사·타인 논문 항목을
+   삭제하면 다음 sync에 자동 반영되고 영구적이다. 저장소 코드로는 프로필을 고칠 수 없으므로 이 항목은 계속 열려 있다.
+   그때까지는 2~4번 게이트가 **신규 유입만** 막고, 이미 들어와 있는 "보류" 절 항목은 `validate_data.cjs`에서 경고로 뜬다.
+2. **완료** — `JUNK_TITLE`을 `scripts/lib.cjs`의 `FRONT_MATTER_TITLE`로 옮기고 확장했다. 현재 패턴이 잡는 것:
+   `welcome to` / `welcome message` / `program committee` / `organizing committee` / `^message from` / `reviewers?$` /
+   `committees?` / `guest editorial` / `special (issue|section)` / `^preface` / `^foreword` / `\borganization$` /
+   `(N papers)` / `^(front|back) matter` / `table of contents` / `author index` / `^proceedings of`.
+   철회 접두는 같은 파일의 `RETRACTED_TITLE`(`^\[?\s*retracted`)이 맡고, `isJunkTitle()`이 둘을 합쳐 판정한다.
+3. **완료(단, 한글 표기는 미반영)** — `scripts/lib.cjs`에 `PI_NAME_VARIANTS`와 `hasPiAuthor()`를 두고,
+   `sync_scholar.cjs`가 신규 추가 직전 Scholar 상세의 `Authors`를 이 게이트에 통과시킨다.
+   통과하지 못하면 "저자에 PI 없음"으로 skip하고, `Authors`가 비어 있어도 검증 불가로 보아 추가하지 않는다.
+   다만 현재 변형 목록은 영문 표기(`Seungmin Rho` / `Rho, Seungmin` / `S Rho` / `S. Rho` / `SM Rho` / `S.M. Rho`,
+   Lee 교수는 `Mi Young Lee` 계열)뿐이고 **한글 `노승민`은 들어 있지 않다.**
+   위 "보류 A-1"(`한병준 and 노승민 and 황인준`) 같은 한글 표기 논문이 앞으로 Scholar에 올라오면 이 게이트에서 누락된다 — 남은 과제.
+4. **완료** — `scripts/validate_data.cjs`가 `lib.cjs`의 `FRONT_MATTER_TITLE`·`RETRACTED_TITLE`을 그대로 읽어 배포 전에 검사한다.
+   위 "보류" 절에 남긴 기존 항목만 `REVIEW_PENDING_FRONT_MATTER` / `REVIEW_PENDING_AND_OTHERS` 목록에서 경고로 낮추고,
+   **목록에 없는 신규 위반은 오류(exit 1)로 배포를 막는다.** `retracted: true` 표시가 빠진 철회 논문도 오류다.
+   (저자 게이트 자체는 sync 시점에만 적용되고 `validate_data.cjs`에는 없다. 대신 `and others` 잔존 검사가 같은 역할의 일부를 한다.)
+
+> 연구실이 1번을 처리해 항목을 삭제하면, `validate_data.cjs`의 `REVIEW_PENDING_*` 목록에서도 해당 줄을 함께 지운다.
 
 ## 검증
 

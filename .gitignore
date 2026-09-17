@@ -28,11 +28,14 @@ yarn-error.log*
 .vscode/
 .claude/settings.local.json
 .claude/*.lock
+# 로컬에서만 돌리는 일회성 감사 워크플로 스크립트 — 빌드·배포와 무관하다.
+.claude/workflows/
 
 # 로컬 작업 잔재 — 절대 커밋하지 말 것 (코드 덤프·데이터 백업·일회성 스크립트)
 project_*code*.txt
 *.bak
 src/data/publications_sub.json
+scripts/patch_missing.cjs
 
 # 일러스트 원본(1MB+ PNG). public/assets의 webp가 배포본이고 이쪽은 재변환용 보관본이다.
 design/illustration-source/

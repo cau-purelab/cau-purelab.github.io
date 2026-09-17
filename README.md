@@ -32,11 +32,22 @@
 
 ```bash
 ├── public/
-│   └── assets/          # 연구원 프로필 이미지 및 Open Graph 대표 이미지
+│   ├── assets/          # 배포되는 정적 이미지 (Vite가 최적화하지 않고 그대로 복사)
+│   │   ├── *.jpg            # 구성원 프로필 사진 (파일명 = MEMBERS의 name)
+│   │   ├── hero.webp        # Home 히어로 배경 (1400×933)
+│   │   ├── privacy-preserving-ai.webp    # 연구 분야 일러스트 3장 (각 1600×900,
+│   │   ├── machine-unlearning.webp       #   파일명 = RESEARCH_AREAS의 id)
+│   │   ├── robust-ai-engineering.webp    #
+│   │   ├── favicon-16.png / favicon-32.png / favicon.png  # 파비콘 3종 (16·32·512px)
+│   │   └── og-image.png     # Open Graph 대표 이미지 (1200×630)
+│   ├── CNAME            # 커스텀 도메인 (설정 유실 시 복구 근거)
+│   └── .nojekyll        # GitHub Pages의 Jekyll 처리 비활성화
 ├── src/
 │   ├── components/      # 재사용 가능한 UI 컴포넌트
 │   │   ├── Navbar.tsx       # 상단 네비게이션
-│   │   ├── Footer.tsx       # 하단 정보
+│   │   ├── Footer.tsx       # 하단 정보 (빌드일 표시)
+│   │   ├── Logo.tsx         # 브랜드 마크/락업 (LogoMark·LogoLockup — 내비와 푸터가 공유)
+│   │   ├── PageHeader.tsx   # 페이지 공용 헤더 (eyebrow/h1/설명/액션)
 │   │   └── SEO.tsx          # 메타태그 및 Open Graph 설정
 │   ├── pages/           # 각 라우트별 페이지
 │   │   ├── Home.tsx         # 메인 (통계, 최신 뉴스 4건, 채용 공고)
@@ -44,13 +55,19 @@
 │   │   ├── People.tsx       # 구성원 소개 (직급별 분류)
 │   │   ├── Publications.tsx # 주요 논문 하이라이트
 │   │   ├── ScholarPublications.tsx # 전체 논문 아카이브, citation/JCR 표시
-│   │   └── News.tsx         # 전체 뉴스 아카이브 (연도별 그룹화)
+│   │   ├── News.tsx         # 전체 뉴스 아카이브 (연도별 그룹화)
+│   │   └── NotFound.tsx     # 404 페이지 (noindex로 내보내 soft-404 색인 방지)
+│   ├── lib/
+│   │   ├── bibtex.ts        # BibTeX 파싱·저자 표기 유틸 (논문을 그리는 세 페이지가 공유)
+│   │   └── clipboard.ts     # 클립보드 복사 (비보안 오리진·구형 브라우저용 폴백 포함)
 │   ├── data/
 │   │   └── publications.json # 교수별 전체 논문, 진행 중 논문, citation/JCR 지표
 │   ├── constants.tsx    # ⚡ 핵심 데이터 파일 (멤버, 논문, 뉴스 등 데이터 관리)
 │   ├── types.ts         # TypeScript 인터페이스 정의
 │   ├── App.tsx          # 라우팅 설정
-│   └── main.tsx         # 진입점 (HelmetProvider 설정)
+│   ├── main.tsx         # 진입점 (HelmetProvider 설정)
+│   ├── index.css        # Tailwind 지시문 + 전역 스타일 (내비 높이, 히어로 애니메이션, 동작 줄이기)
+│   └── vite-env.d.ts    # Vite 클라이언트 타입 + __BUILD_DATE__ 선언
 ├── scripts/
 │   ├── site.cjs                   # 정본 URL(SITE_URL) + 라우트 목록의 단일 출처, 설정 정합성 검사
 │   ├── create-pages-404.cjs       # 라우트별 정적 HTML + 404.html + sitemap.xml + robots.txt 생성
@@ -60,10 +77,25 @@
 │   ├── update_scholar_metrics.cjs # Google Scholar citation 및 공개 JCR 라벨 갱신
 │   ├── lib.cjs                    # 스크립트 공용 유틸 (fetchText/normalize/titlesMatch 등)
 │   └── patch_publications.py      # 논문 데이터 일회성 수정/보강 (Python)
-├── .github/workflows/
-│   ├── deploy.yml                 # main push → 검증·타입체크·빌드·배포·스모크 테스트
-│   └── sync-scholar.yml           # 매주 월요일 논문 데이터 동기화 PR
-└── tailwind.config.js   # 스타일링 설정
+├── .github/
+│   ├── workflows/
+│   │   ├── deploy.yml             # main push → 검증·타입체크·빌드·배포·스모크 테스트
+│   │   ├── ci.yml                 # PR 검증 (배포 없이 같은 게이트 + 산출물·번들 예산 점검)
+│   │   └── sync-scholar.yml       # 매주 월요일 논문 데이터 동기화 PR
+│   └── dependabot.yml             # 의존성·액션 버전 자동 갱신 PR 설정 (npm major는 제외)
+├── docs/
+│   └── archive-cleanup-2026-09.md # 논문 아카이브 1회성 정리 기록 (제거·보류 판단 근거)
+├── CLAUDE.md            # 작업 가이드 (규칙, 아키텍처, 알려진 한계, 작업 이력)
+├── CREDITS.md           # 배포 이미지의 출처·라이선스 기록 — 이미지 추가 시 함께 갱신
+├── LICENSE              # MIT
+├── index.html           # SPA 진입 HTML. SEO 메타·JSON-LD의 원본이며 빌드가 라우트별 값으로 치환한다
+├── package.json         # 스크립트 6개 (dev / build / build:pages / preview / typecheck / validate)
+├── vite.config.ts       # base path, 코드 분할, __BUILD_DATE__ 주입
+├── tsconfig.json        # TypeScript 설정 (tsconfig.node.json은 빌드 도구용)
+├── postcss.config.js    # Tailwind·autoprefixer 파이프라인
+├── tailwind.config.js   # 스타일링 설정
+├── .npmrc               # legacy-peer-deps=true — React 19 peer-deps 충돌 회피
+└── .gitattributes       # 저장소에는 LF로만 저장, 바이너리 자산은 변환 금지
 ```
 
 ---
@@ -183,6 +215,9 @@
     `site.cjs 설정 검증` → `validate_data.cjs` → `npm ci` → `npm run typecheck` → `npm run build:pages`
     → Pages 배포 → **스모크 테스트**(홈·딥링크 5개·feed.xml·sitemap.xml·robots.txt가 200인지 확인)
 4.  스모크 테스트가 실패하면 워크플로가 빨간불이 됩니다 — 딥링크 404 회귀를 여기서 잡습니다.
+5.  `deploy.yml`은 main push에만 반응하므로, **PR 검증은 `.github/workflows/ci.yml`**이 맡습니다.
+    배포 없이 같은 게이트(설정·데이터 검증 → 타입체크 → `build:pages`)를 돌리고,
+    추가로 빌드 산출물(라우트별 HTML·canonical 구분·404 noindex)과 초기 번들 예산(gzip 130KB)을 확인합니다.
 
 ### 필요한 저장소 설정 (코드로 못 고치는 것)
 

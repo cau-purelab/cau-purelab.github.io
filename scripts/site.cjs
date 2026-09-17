@@ -6,8 +6,8 @@
  *
  * ⚠ SITE_URL은 src/constants.tsx의 LAB_URL과 항상 같은 값이어야 한다.
  *   `node scripts/site.cjs`(deploy.yml의 "Validate site configuration" 스텝)가 불일치를 배포 전에 잡는다.
- *   커스텀 도메인(public/CNAME = pure.cau.ac.kr)의 TLS 인증서가 발급된 뒤에만 도메인을 전환할 것.
- *   전환 절차는 README.md의 "도메인 전환 절차" 절 참고.
+ *   커스텀 도메인(public/CNAME = pure.cau.ac.kr)은 2026-09-17에 전환을 마쳤다 — 인증서 발급(2026-09-16) +
+ *   Enforce HTTPS 적용. 전환 당시 바꾼 곳과 확인 절차는 README.md의 "도메인 전환 이력 (2026-09-17 완료)" 절 참고.
  */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -16,7 +16,8 @@ const path = require('node:path');
 const SITE_URL = 'https://pure.cau.ac.kr';
 
 // GitHub Pages 설정에 등록된 커스텀 도메인 (public/CNAME과 같은 값).
-// 인증서 미발급 상태라 아직 SITE_URL로 승격하지 않았다.
+// 2026-09-17에 SITE_URL로 승격했으므로 지금은 SITE_URL의 호스트와 같은 값이다.
+// 검증 로그에서 CNAME·Pages 설정과 대조할 수 있도록 별도 상수로 남겨 둔다.
 const CUSTOM_DOMAIN = 'pure.cau.ac.kr';
 
 const TITLE_SUFFIX = 'PURE Lab, Chung-Ang University';
@@ -214,7 +215,7 @@ function checkConstantsInSync() {
   if (labUrl.replace(/\/$/, '') !== SITE_URL.replace(/\/$/, '')) {
     throw new Error(
       `도메인 불일치: scripts/site.cjs SITE_URL='${SITE_URL}' vs src/constants.tsx LAB_URL='${labUrl}'. ` +
-        '두 값과 package.json의 homepage를 같은 도메인으로 맞출 것 (README "도메인 전환 절차" 참고).'
+        '두 값과 package.json의 homepage를 같은 도메인으로 맞출 것 (README "도메인 전환 이력" 절의 교체 대상 목록 참고).'
     );
   }
   return labUrl;

@@ -8,6 +8,7 @@
   - 커스텀 도메인은 `public/CNAME`에도 기록해 둔다(워크플로 배포에서는 무시되지만 설정 유실 시 복구 근거).
 - **Deployment**: GitHub Pages organization user site — main push 시 `.github/workflows/deploy.yml`이 자동 배포 (push = 즉시 라이브 반영)
   - 파이프라인: 설정 검증 → 데이터 검증 → `npm ci` → 타입체크 → `build:pages` → 배포 → 스모크 테스트(딥링크 200 확인)
+  - PR에는 `.github/workflows/ci.yml`이 배포 없이 같은 게이트를 돌린다(+ 빌드 산출물 점검과 초기 번들 예산 130KB 검사). deploy.yml은 main push에만 반응하므로 PR 검증은 이쪽이 담당한다.
 - **Stack**: React 19 + TypeScript, Vite 6, Tailwind CSS 3, React Router 7, React Helmet Async, Lucide React
 
 ---
@@ -56,6 +57,8 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 - 출판: `{ title, url, bibtex, funding_tags, citations?, jcr?, jcr_source? }`
 - 진행 중: `{ title, author, journal, status, funding_tags, year, is_progress: true }`
 
+**`docs/archive-cleanup-2026-09.md`**: 2026-09-17 아카이브 1회성 정리 기록 — 무엇을 지웠고 무엇을 판단 보류했는지. `validate_data.cjs`가 경고 끝에 붙이는 "확인 대기" 항목의 근거가 여기 있다.
+
 **`scripts/`**: `site.cjs`(정본 URL `SITE_URL` + 라우트 목록 `ROUTES`의 단일 출처. `constants.tsx`의 `LAB_URL`과 어긋나면 throw — CI가 배포 전에 잡는다), `create-pages-404.cjs`(라우트별 정적 HTML·404.html·sitemap.xml·robots.txt 생성), `create-rss.cjs`(NEWS → feed.xml), `validate_data.cjs`(publications.json 무결성), `sync_scholar.cjs`(통합 동기화 — Google Sites in-review 섹션과 Scholar 프로필을 json과 대조해 상태 변경/신규 논문/출판 전환을 감지·반영하고 constants.tsx 정합성도 검사), `update_scholar_metrics.cjs`(Scholar citation + Google Sites의 `[SCIE-Q1 Top N%]` 라벨 수집 — Clarivate 원자료 아님), `patch_publications.py`(수동 일회성 패치용), `lib.cjs`(공용 유틸: fetchText/normalize/titlesMatch 등).
 
 ---
@@ -67,8 +70,9 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
    - **임의로 다시 그리지 말 것**: 직접 그린 SVG 3장은 네 번 연속 거절당한 끝에 사용자가 직접 그림을 제공해 교체됐다(2026-09-18). 그림을 바꿔야 하면 새로 그리지 말고 사용자에게 받는다. 예전에 거절당한 이유는 ①산업 설비처럼 보임 ②작품이 아니라 도해 ③표시 크기에서 안 읽힘이었다 — 언젠가 다시 만들 일이 있으면 이 셋을 먼저 본다.
    - **워터마크를 확인할 것**: 더 예전 일러스트 3장에는 이미지 생성기 워터마크(우하단 4각 sparkle)가 남은 채 배포돼 있었다. 지금 3장은 네 귀퉁이를 확대해 확인했고 워터마크가 없다. 이미지를 갈아끼울 때마다 같은 확인을 한다.
    - **표시 크기에서 눈으로 확인할 것**: Research 페이지에서 **568×320px**로 렌더된다(1600px의 0.355배). 원본만 보고 판단하면 화면에서 아무것도 안 보인다(2026-09-17에 그렇게 실패했다). 현재 `robust-ai-engineering.webp`의 파이프라인 라벨은 이 크기에서 8px 남짓이라 글자로는 읽히지 않는다 — 구도는 읽히지만 **글자에 의미를 싣지 말 것**.
-   - **로고는 이미지가 아니라 컴포넌트**: `src/components/Logo.tsx`의 `LogoMark`·`LogoLockup`을 쓴다. 내비와 푸터가 같은 마크를 공유하고 페이지 폰트(Inter)를 상속한다. 마크는 글자가 없는 도형 3개(방패=경계, 노치=제거, 코어=보존된 모델)이고 16px에서도 같은 실루엣이다. `favicon-16/32/512.png`와 `og-image.png`만 래스터로 유지하며, 이들은 마크와 같은 좌표를 쓰므로 한쪽만 고치면 어긋난다.
-2. **멤버 사진**: 파일명은 `MEMBERS.name`과 동일한 `{이름}.jpg`. 사진 없으면 `https://ui-avatars.com/api/?name={이름}&background=random`.
+   - **로고는 이미지가 아니라 컴포넌트**: `src/components/Logo.tsx`의 `LogoMark`·`LogoLockup`을 쓴다. 내비와 푸터가 같은 마크를 공유하고 페이지 폰트(Inter)를 상속한다. 마크는 글자가 없는 도형 3개(방패=경계, 노치=제거, 코어=보존된 모델)이고 16px에서도 같은 실루엣이다. `favicon-16.png`·`favicon-32.png`·`favicon.png`(512×512)와 `og-image.png`만 래스터로 유지하며, 이들은 마크와 같은 좌표를 쓰므로 한쪽만 고치면 어긋난다.
+   - **출처 기록**: 배포하는 이미지의 출처·라이선스·가한 편집은 `CREDITS.md`에 적는다. 외부 이미지를 추가·교체하면 그 표를 반드시 함께 갱신할 것(CC BY 계열을 쓰면 푸터 표기도 필요하다).
+2. **멤버 사진**: `public/assets/{이름}.jpg`. GitHub Pages는 경로 대소문자를 구분하므로 파일명과 `MEMBERS[].image` 경로가 글자 단위로 같아야 한다 — 실제로 `Mi young Lee.jpg`는 이름(`Mi Young Lee`)과 대소문자가 다르고 constants.tsx가 경로를 그대로 적어 맞추고 있다. 사진이 없으면 `initialsAvatar(name)`가 인라인 SVG 이니셜 아바타를 만든다(외부 요청 0건 — 예전의 ui-avatars.com 호출은 실명이 외부로 나가서 걷어냈다).
 3. **People 논문 모달**: `member.name`이 publications.json의 키와 정확히 일치해야 논문이 표시됨 (현재 `"Seungmin Rho"`, `"Mi Young Lee"`만 해당).
 4. **publications.json 수정**: node 스크립트로 수행하고, 저장 후 ①`JSON.parse` 유효성 ②제목·bibtex 중복 여부 ③항목 수 변화를 검증할 것. UTF-8, 2-space indent 유지.
 5. **patch_publications.py**: 패치 적용이 끝나면 4개 배열을 다시 비워둘 것 (재실행 시 오염 방지).
@@ -96,9 +100,8 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 ## 알려진 한계
 
 1. **스크레이핑 구조 의존** — `sync_scholar.cjs`·`update_scholar_metrics.cjs`는 Google Sites 텍스트 구조(제목/저자/`학술지 (상태, 날짜)` 3줄 패턴)와 Scholar HTML 클래스명에 의존. 페이지 구조가 바뀌면 파서 수정 필요. Google Scholar가 GitHub Actions IP를 차단하면 주간 자동 sync가 실패할 수 있음(로컬 실행으로 대체).
-2. **Mi Young Lee 아카이브는 부분 수집** — Scholar 프로필 214편 중 43편만 게재(작업 규칙 7 참조). 나머지는 sync 보고서에만 나타남.
-3. **HTTPS 미지원** — 커스텀 도메인 TLS 인증서가 발급되지 않아 평문 HTTP로만 서비스된다. 비보안 오리진에서는 `navigator.clipboard`가 없으므로 클립보드 기능은 폴백이 필요하다.
-4. **프리렌더는 메타 태그까지만** — 라우트별 HTML은 본문 없이 title/description/og/canonical만 주입한다. 본문 텍스트가 필요한 크롤러(예: Naver Yeti)에는 여전히 빈 페이지로 보인다. SSR/SSG 도입은 별도 과제.
+2. **Mi Young Lee 아카이브는 부분 수집** — Scholar 프로필 논문 중 일부만 게재한다(현재 publications.json 기준 42편, 작업 규칙 7 참조). 나머지는 sync 보고서에만 나타남. Scholar 쪽 전체 편수는 프로필이 계속 바뀌므로 숫자를 문서에 박아 두지 말고 `node scripts/sync_scholar.cjs` 보고서에서 확인할 것.
+3. **프리렌더는 메타 태그까지만** — 라우트별 HTML은 본문 없이 title/description/og/canonical만 주입한다. 본문 텍스트가 필요한 크롤러(예: Naver Yeti)에는 여전히 빈 페이지로 보인다. SSR/SSG 도입은 별도 과제.
 
 ---
 
@@ -117,7 +120,8 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 | 2026-07-12 | 남은 과제 3건 해결 — `sync_scholar.cjs` 신규(Sites/Scholar 자동 대조·출판 전환·constants 정합성 검사·날짜 상수 자동 갱신), `lib.cjs` 공용 유틸 추출, stub이던 `fetch_scholar.py` 삭제. 첫 --apply로 funding_tags 2건 교정(TRUST-SDT→ITRC-26 등), citation 501건 갱신 |
 | 2026-07-12 | 2차 개선 — 404 NotFound 라우트 신설, 이미지 lazy loading, Major Publications에 DOI/Scholar 링크 5건, Scholar 페이지 연구 지표 카드(논문 수·인용수·h-index), sync에 빈 URL 보강 기능(MYL 15건 적용), 주간 자동 sync PR 워크플로우(`sync-scholar.yml`)와 배포 전 데이터 검증 게이트(`validate_data.cjs`) 추가 |
 | 2026-07-12 | 3차 개선 — Scholar 페이지 연도 필터·Load More 페이지네이션(50건 단위), 뉴스 RSS 피드(`create-rss.cjs`, 빌드 시 feed.xml 생성), Home 히어로 Unsplash 외부 이미지 → 로컬 `hero.webp`(185KB) 교체, MIT LICENSE 추가 |
-| 2026-09-17 | 감사 27개 문제군 + UI/UX 검토 반영(커밋 13건), 커스텀 도메인 HTTPS 전환, 라우트별 프리렌더, 아카이브 정리(470→427건), PR CI 신설, 의존성·데이터 PR 3건 머지 |
+| 2026-09-17 | 감사 27개 문제군 + UI/UX 검토 반영(커밋 13건), 커스텀 도메인 HTTPS 전환, 라우트별 프리렌더, 아카이브 정리(470→426건), PR CI 신설, 의존성·데이터 PR 3건 머지 |
 | 2026-09-17 | 브랜드 자산 재제작 — 연구 분야 일러스트 3장을 직접 그린 SVG로 교체(생성기 워터마크 제거), 내비·푸터로 갈라져 있던 두 마크를 `Logo.tsx` 하나로 통합, 파비콘 크기별 3종과 OG 카드 재생성 |
 | 2026-09-17 | 빌드·배포 정비 — 라우트별 정적 HTML 생성(딥링크 404 해소)과 라우트별 SEO 메타 주입, `site.cjs`로 정본 URL·라우트 단일화(sitemap/robots/feed 빌드 생성), `public/CNAME` 추가, CI에 타입체크 게이트·설정 검증·배포 후 스모크 테스트 추가, 주간 sync 워크플로 pipefail + 실패 시 이슈 생성, Dependabot·.gitattributes·.gitignore 정비, 폰트 웨이트 범위 교정(Inter 300~900 / Playfair 400~800), 문서 최신화 |
 | 2026-09-18 | 히어로 부제 한 줄 + "and" 앞 줄바꿈, PlatCon-26 뉴스 추가(뉴스 파서가 항목을 조용히 버리던 버그 수정), 연구 분야 일러스트 3장을 사용자 제공 그림으로 교체(SVG → WebP) |
+| 2026-09-18 | 문서 모순 정리(HTTPS 한계 서술·site.cjs 주석·README 구조·아카이브 건수·사진 규칙), 데이터 정리(Glow 논문 투고/출판 중복 제거 427→426, 교차 탭 제목 표기 2건 통일, 학술지명 폴백 확장으로 빈칸 9→5건), 검증 경고 43→27건(설계상 다른 url 비교 제거 + 투고/출판 중복 검사 신설), 뉴스 문형 통일 |

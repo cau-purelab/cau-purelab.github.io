@@ -6,6 +6,10 @@
 | 파일 | 출처 | 저작자 | 라이선스 | 가한 편집 |
 |------|------|--------|----------|-----------|
 | `public/assets/hero.webp` | [Cybersecurity.png — Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Cybersecurity.png) | (CC0 기증, 저작자 표시 불요) | [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) | 자물쇠가 헤드라인 뒤에 가리지 않도록 오른쪽 78% 지점에 오게 크롭, 1400×933으로 리사이즈, **신경망 노드·엣지 레이어를 직접 그려 합성**(왼쪽에서 자물쇠로 수렴 — 인공지능과 보안을 함께 표현), WebP 변환. 원본은 8000×4500 PNG. |
+| `public/assets/privacy-preserving-ai.webp`<br>`machine-unlearning.webp`<br>`robust-ai-engineering.webp` | 연구실에서 받은 그림 (2026-09-18 반영). 원본 PNG는 `design/illustration-source/`에 두고 커밋하지 않는다. | **미확인** | **미확인** | 16:9로 가운데 크롭(내용 경계가 모두 안에 들어와 그림은 잘리지 않음) 후 1600×900 WebP(q90)로 변환. 네 귀퉁이를 2배 확대해 생성기 워터마크가 없음을 확인. |
+
+> ⚠ 위 일러스트 3장은 **저작자와 사용 조건이 아직 확인되지 않았다.** 연구실 자체 제작인지, 외부·생성 도구 산출물인지 확인해
+> 이 표를 채워야 한다. 외부 저작물이고 CC BY 계열이면 푸터 표기 의무가 생긴다.
 
 > CC0는 퍼블릭 도메인 기증이라 **저작자 표시 의무가 없다.** 그래서 사이트 푸터에는 표기하지 않고
 > 출처 추적을 위해 이 문서에만 남긴다. 만약 앞으로 CC BY 계열 이미지를 쓰면 **푸터에 표시를 넣어야 한다.**
@@ -14,7 +18,6 @@
 
 | 파일 | 설명 |
 |------|------|
-| `public/assets/privacy-preserving-ai.svg` 외 2종 | 연구 분야 일러스트. 직접 그린 SVG. |
 | `public/assets/favicon*.png`, `og-image.png` | 브랜드 마크에서 생성. `src/components/Logo.tsx`와 같은 좌표를 쓴다. |
 | `public/assets/*.jpg` | 구성원 사진. 본인 제공. |
 | `hero.webp`의 신경망 레이어 | 직접 그려 CC0 배경 위에 합성. |

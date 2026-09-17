@@ -10,8 +10,7 @@
     "build:pages": "vite build && node scripts/create-pages-404.cjs && node scripts/create-rss.cjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "validate": "node scripts/site.cjs && node scripts/validate_data.cjs",
-    "deploy": "npm run build:pages"
+    "validate": "node scripts/site.cjs && node scripts/validate_data.cjs"
   },
   "dependencies": {
     "lucide-react": "^0.577.0",
