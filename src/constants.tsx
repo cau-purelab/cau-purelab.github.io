@@ -105,7 +105,7 @@ export function initialsAvatar(name: string): string {
 //    화면(Home·News)은 삽입 순서를 신뢰하지 않고 날짜 내림차순으로 다시 정렬한다.
 //    RSS 항목 링크가 `/news#<id>`이므로 id는 한 번 정하면 바꾸지 말 것(News 페이지가 같은 id를 앵커로 쓴다).
 export const NEWS: NewsItem[] =[
-  { id: 'n12', date: '2026.08.24', title: 'Attended PlatCon-26 in Jeju, Korea.', link: 'https://www.platcon.org/' },
+  { id: 'n12', date: '2026.08.24', title: 'Attended PlatCon-26 in Jeju, Korea.' },
   { id: 'n10', date: '2026.06.28', title: 'Attended IEEE ISIT 2026 in Guangzhou, China.' },
   { id: 'n11', date: '2026.05.07', title: 'Attended CISC-S 2026 (KIISC Summer Conference) in Busan, Korea.' },
   { id: 'n9', date: '2026.02.24', title: 'Attended ICAIIC 2026 in Tokyo, Japan.' },
