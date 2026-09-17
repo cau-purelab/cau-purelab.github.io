@@ -23,8 +23,8 @@ const Home = () => {
         <img
           src="/assets/hero.webp"
           alt=""
-          width={1600}
-          height={1068}
+          width={1100}
+          height={734}
           loading="eager"
           fetchPriority="high"
           decoding="async"
