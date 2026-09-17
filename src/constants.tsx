@@ -24,7 +24,7 @@ export const LAB_BRAND_NAME = "PURE Lab";
 // 정적 HTML(크롤러가 보는 값)과 Helmet(브라우저가 보는 값)이 어긋나지 않는다.
 export const SITE_TITLE_SUFFIX = `${LAB_BRAND_NAME}, ${LAB_AFFILIATION}`;
 // publications.json 갱신 시(scripts/sync_scholar.cjs --apply / scripts/update_scholar_metrics.cjs 실행 후) 함께 수정할 것
-export const PUBLICATIONS_UPDATED_AT = "2026-09-17";
+export const PUBLICATIONS_UPDATED_AT = "2026-09-18";
 
 // Google Scholar 프로필 ID — scripts/lib.cjs의 PROFILES와 항상 같은 값을 유지할 것.
 // (지표·배지의 출처를 화면에서 바로 열어볼 수 있도록 프런트엔드에도 공유한다)

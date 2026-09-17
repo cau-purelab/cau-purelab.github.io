@@ -78,22 +78,13 @@
       "jcr_source": "https://sites.google.com/view/seungminrho/home"
     },
     {
-      "title": "Novel Glow Adversarial Attack–based Proactive Defense against Deepfake Generation with Photometric Specular Highlights",
-      "author": "Maryam Bukhari, M. Maqsood, M.Y. Lee, S Rho",
-      "journal": "IEEE Access",
-      "status": "Submitted, April 2026",
+      "title": "A Novel Glow Adversarial Attack for Proactive Deepfake Defense",
+      "url": "https://scholar.google.com/citations?view_op=view_citation&user=k5aAQxUAAAAJ&citation_for_view=k5aAQxUAAAAJ:hvmnpdAuIbkC",
+      "bibtex": "@article{bukhari2026novel,\n  title={A Novel Glow Adversarial Attack for Proactive Deepfake Defense},\n  author={Maryam Bukhari and Muazzam Maqsood and Mi Young Lee and Seungmin Rho},\n  journal={IEEE Access},\n  publisher={IEEE},\n  year={2026}\n}",
       "funding_tags": [
         "Convg_Security-26",
         "Prof. MYLee"
       ],
-      "year": "2026",
-      "is_progress": true
-    },
-    {
-      "title": "A Novel Glow Adversarial Attack for Proactive Deepfake Defense",
-      "url": "https://scholar.google.com/citations?view_op=view_citation&user=k5aAQxUAAAAJ&citation_for_view=k5aAQxUAAAAJ:hvmnpdAuIbkC",
-      "bibtex": "@article{bukhari2026novel,\n  title={A Novel Glow Adversarial Attack for Proactive Deepfake Defense},\n  author={Maryam Bukhari and Muazzam Maqsood and Mi Young Lee and Seungmin Rho},\n  journal={IEEE Access},\n  publisher={IEEE},\n  year={2026}\n}",
-      "funding_tags": [],
       "citations": 0
     },
     {
@@ -3444,7 +3435,7 @@
       "citations": 10
     },
     {
-      "title": "Predictive Modeling for Ubiquitin Proteins through Advanced Machine Learning Technique",
+      "title": "Predictive modeling for ubiquitin proteins through advanced machine learning technique",
       "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=bxWgGnoAAAAJ&pagesize=100&sortby=pubdate&citation_for_view=bxWgGnoAAAAJ:xtoqd-5pKcoC",
       "bibtex": "@article{Shazia2024Ubiquitin,\n  title={Predictive Modeling for Ubiquitin Proteins through Advanced Machine Learning Technique},\n  author={Shazia and Ullah, FUM and Rho, Seungmin and Lee, Mi Young},\n  journal={Heliyon},\n  year={2024}\n}",
       "funding_tags": [],
@@ -3458,7 +3449,7 @@
       "citations": 19
     },
     {
-      "title": "Machine Learning Based missing data Imputation in Categorical Datasets",
+      "title": "Machine learning based missing data imputation in categorical datasets",
       "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=bxWgGnoAAAAJ&pagesize=100&sortby=pubdate&citation_for_view=bxWgGnoAAAAJ:HbR8gkJAVGIC",
       "bibtex": "@article{ishaq2024machine,\n  title={Machine learning based missing data imputation in categorical datasets},\n  author={Ishaq, Muhammad and Zahir, Sana and Iftikhar, Laila and Bulbul, Mohammad Farhad and Rho, Seungmin and Lee, Mi Young},\n  journal={IEEE Access},\n  volume={12},\n  pages={88332--88344},\n  year={2024},\n  publisher={IEEE}\n}",
       "funding_tags": [],

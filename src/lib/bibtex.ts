@@ -16,16 +16,17 @@ export interface BibInfo {
   number?: string;
   pages?: string;
   publisher?: string;
+  school?: string;
   doi?: string;
 }
 
 const TYPE_RE = /^\s*@(\w+)\s*\{/;
 
-// 학술지 자리는 journal → booktitle → howpublished 순으로 찾는다.
+// 학술지 자리는 journal → booktitle → howpublished → school → publisher 순으로 찾는다.
 // (프리프린트·학술지 미상 항목은 sync_scholar.cjs가 @misc + howpublished로 저장한다.)
 const FIELDS = [
   'journal', 'booktitle', 'howpublished',
-  'volume', 'number', 'pages', 'publisher', 'doi', 'author', 'year',
+  'volume', 'number', 'pages', 'publisher', 'school', 'doi', 'author', 'year',
 ] as const;
 
 type BibField = (typeof FIELDS)[number];
@@ -67,7 +68,12 @@ export function parseBibtex(bib: string): BibInfo {
     else info[field] = value;
   }
 
-  info.venue = info.journal || info.booktitle || howpublished || '';
+  // school이 publisher보다 앞이다. school은 @phdthesis/@mastersthesis에만 쓰이는 필드이고
+  // 학위논문에서는 수여 대학이 곧 게재처라 확실하다. publisher는 게재처가 아니라 발행사여서
+  // 학술지명의 대체물로는 약하지만, journal/booktitle/howpublished가 전부 없는 항목
+  // (@book publisher={Elsevier}, 프리프린트 publisher={Preprints} 등)에서는 남은 유일한
+  // 출처 단서이므로 빈칸으로 두는 것보다 낫다. 마지막 폴백으로만 쓴다.
+  info.venue = info.journal || info.booktitle || howpublished || info.school || info.publisher || '';
   return info;
 }
 
