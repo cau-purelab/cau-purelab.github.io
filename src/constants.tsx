@@ -211,8 +211,7 @@ export const MEMBERS: Member[] =[
     // TODO(lab): 프로필 사진·관심 분야(specialization)·이메일 공개 여부 확인 필요. 그때까지 이니셜 아바타 사용.
     image: initialsAvatar("Junyoung Lee"),
     email: "",
-    specialization: "",
-    linkedin: "https://www.linkedin.com/in/%EC%A4%80%EC%98%81-%EC%9D%B4-93117424b"
+    specialization: ""
   }
 ];
 
