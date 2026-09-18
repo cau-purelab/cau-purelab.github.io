@@ -182,6 +182,7 @@ export const MEMBERS: Member[] =[
     role: "Ph.D. Student",
     image: "/assets/Sangmin Kim.jpg",
     email: "kimddol98@cau.ac.kr",
+    website: "https://sang-t.github.io/",
     specialization: '#Machine Unlearning #Robust AI #Natural Language Processing #LLM',
     github: "https://github.com/Sang-T"
   },
