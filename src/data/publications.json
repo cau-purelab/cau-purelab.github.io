@@ -78,6 +78,20 @@
       "jcr_source": "https://sites.google.com/view/seungminrho/home"
     },
     {
+      "title": "Voice Phishing Detection Using Deep Learning-based NLP and Knowledge Distillation Techniques",
+      "url": "https://doi.org/10.7838/jsebs.2024.29.4.139",
+      "bibtex": "@article{kim2024voice,\n  title={Voice Phishing Detection Using Deep Learning-based NLP and Knowledge Distillation Techniques},\n  author={Sang-Min Kim and Seung-Min Rho},\n  journal={Korean Journal of Digital Industry},\n  volume={29},\n  number={4},\n  pages={139--148},\n  year={2024},\n  publisher={The Korean Society of Digital Industry},\n  doi={10.7838/jsebs.2024.29.4.139}\n}",
+      "funding_tags": [],
+      "citations": 0
+    },
+    {
+      "title": "Time Series-Based Traffic Volume Forecasting on the Gyeongbu Expressway with Weather Data",
+      "url": "https://doi.org/10.7838/jsebs.2025.30.3.117",
+      "bibtex": "@article{lee2025time,\n  title={Time Series-Based Traffic Volume Forecasting on the Gyeongbu Expressway with Weather Data},\n  author={Byeongcheon Lee and Seungmin Rho},\n  journal={Korean Journal of Digital Industry},\n  volume={30},\n  number={3},\n  pages={117--131},\n  year={2025},\n  publisher={The Korean Society of Digital Industry},\n  doi={10.7838/jsebs.2025.30.3.117}\n}",
+      "funding_tags": [],
+      "citations": 0
+    },
+    {
       "title": "SEAL: Decoupling Representation Erasure and Utility Recovery for Machine Unlearning",
       "author": "Hyungjun Park, Sangmin Kim, Byeongcheon Lee, Hyunok Kim, Sungwoo Park, M.Y. Lee, S Rho",
       "journal": "ICDM-26 Workshop TrustFL-SIS @ Shenyang, China",

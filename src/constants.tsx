@@ -297,18 +297,27 @@ export const PUBLICATIONS: Publication[] =[
   },
   {
     // TODO(lab): 이 항목은 publications.json과 Google Scholar 어디에도 없어 대조할 원천이 없다.
-    //            DOI는 KCI(ART003140556)에서 확인해 채웠다. 남은 확인 사항 둘:
-    //            ① KCI 등재 저자는 김상민·노승민 2인인데 여기 authors는 4인이다(이병천·김현우 추가).
-    //               비슷한 제목의 논문이 PlatCon-24에서도 발표됐다고 하니 두 편이 섞였을 수 있다 —
-    //               확인 전까지 저자 목록을 임의로 줄이지 말 것.
-    //            ② 학회지가 개명했다: 한국전자거래학회지 → 한국디지털산업학회지(Korean Journal of Digital
-    //               Industry). DOI 네임스페이스 jsebs와 권·호는 그대로다. 어느 이름으로 표기할지 미정.
+    //            DOI와 저자는 KCI(ART003140556) 등재 정보로 맞췄다 — 저자는 김상민·노승민 2인이다.
+    //            (비슷한 제목의 논문이 PlatCon-24에서도 발표됐다. 그쪽은 별개 항목이며 아직 등록하지 않았다.)
+    //            학회지명은 현재 명칭(Korean Journal of Digital Industry)으로 적는다. 한국전자거래학회지가
+    //            개명한 것이고 권·호 번호와 DOI 네임스페이스 jsebs는 그대로라 같은 학술지다 —
+    //            p8과 p9에 다른 이름을 쓰면 한 화면에서 별개 학술지처럼 보이고 sync도 매주 불일치를 보고한다.
     id: 'p8',
     year: 2024,
     title: "Voice Phishing Detection Using Deep Learning-based NLP and Knowledge Distillation Techniques",
-    authors:["Sangmin Kim", "Byeongcheon Lee", "Hyeonwoo Kim", "Seungmin Rho"],
-    venue: "The Journal of Society for e-Business Studies, 29(4), 139-148",
+    authors:["Sangmin Kim", "Seungmin Rho"],
+    venue: "Korean Journal of Digital Industry, 29(4), 139-148",
     tags:["Voice Phishing", "NLP"],
     link: "https://doi.org/10.7838/jsebs.2024.29.4.139"
+  },
+  {
+    // KCI ART003237995 · DBpia NODE12354332 에서 서지 확인
+    id: 'p9',
+    year: 2025,
+    title: "Time Series-Based Traffic Volume Forecasting on the Gyeongbu Expressway with Weather Data",
+    authors:["Byeongcheon Lee", "Seungmin Rho"],
+    venue: "Korean Journal of Digital Industry, 30(3), 117-131",
+    tags:["Traffic Forecasting", "Time Series"],
+    link: "https://doi.org/10.7838/jsebs.2025.30.3.117"
   }
 ];
