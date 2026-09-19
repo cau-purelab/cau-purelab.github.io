@@ -73,6 +73,10 @@ export function parseBibtex(bib: string): BibInfo {
   // 학술지명의 대체물로는 약하지만, journal/booktitle/howpublished가 전부 없는 항목
   // (@book publisher={Elsevier}, 프리프린트 publisher={Preprints} 등)에서는 남은 유일한
   // 출처 단서이므로 빈칸으로 두는 것보다 낫다. 마지막 폴백으로만 쓴다.
+  //
+  // 이 여섯 필드가 전부 없으면 venue는 빈 문자열이다(현재 아카이브에 5건). 게재처를 지어낼 수는
+  // 없으므로 파서는 '모른다'를 그대로 돌려주고, 화면 표기는 호출부가 정한다
+  // (ScholarPublications는 'Venue unknown'으로 보여준다). 빈 문자열을 그대로 렌더하지 말 것.
   info.venue = info.journal || info.booktitle || howpublished || info.school || info.publisher || '';
   return info;
 }

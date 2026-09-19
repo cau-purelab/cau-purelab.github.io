@@ -64,6 +64,17 @@ const SCOPE_OPTIONS: { key: ScopeKey; label: string }[] = [
   { key: 'all', label: 'All' },
 ];
 
+// 범위 필터는 목록과 펀딩 집계가 똑같이 쓴다 — 한 곳에 두어 두 경로가 갈라지지 않게 한다.
+const applyScope = (list: DecoratedPub[], scope: ScopeKey) =>
+  scope === 'all' ? list : list.filter(p => (scope === 'progress' ? Boolean(p.is_progress) : !p.is_progress));
+
+// 펀딩 패널 분모에 붙는 명사. 분모가 어떤 집합인지 숫자 옆에서 바로 읽히게 한다.
+const SCOPE_NOUN: Record<ScopeKey, string> = {
+  published: 'published papers',
+  progress: 'in-progress papers',
+  all: 'papers',
+};
+
 const UNKNOWN_YEAR = 'unknown';
 // 'Prof. *' 태그는 연구비가 아니라 협력 교수 라벨이다 — 펀딩 집계·필터에서 제외한다.
 const COLLABORATOR_TAG_RE = /^Prof\./i;
@@ -85,13 +96,18 @@ const getTypeLabel = (type?: string) => {
   }
 };
 
+// 라벨은 데이터(=Google Sites 원문)의 표기를 그대로 쓴다. 'Under Review'를 'In Review'로
+// 바꿔 적으면 화면과 기준 소스가 어긋난다.
+// 검사 순서는 진행 단계가 늦은 쪽부터다('Accepted after revision'은 In Press가 맞다).
+// 'submitted'는 어느 단계 문구에나 섞여 들어올 수 있어('Revision submitted', 'Under review,
+// resubmitted' 등) 맨 뒤의 기본값으로만 둔다.
 const getProgressLabel = (status?: string) => {
   if (!status) return 'In Progress';
   const s = status.toLowerCase();
-  if (s.includes('submitted')) return 'Submitted';
-  if (s.includes('revision')) return 'In Revision';
   if (s.includes('press') || s.includes('accepted')) return 'In Press';
-  if (s.includes('review')) return 'In Review';
+  if (s.includes('revision')) return 'In Revision';
+  if (s.includes('review')) return 'Under Review';
+  if (s.includes('submitted')) return 'Submitted';
   return 'In Progress';
 };
 
@@ -225,7 +241,8 @@ const ScholarPublications = () => {
       papers: published.length,
       inProgress: tabPubs.filter(p => p.is_progress).length,
       retracted: tabPubs.filter(p => p.retracted).length,
-      jcrLabelled: tabPubs.filter(p => p.jcr && !p.is_progress).length,
+      // 'X of {papers}'로 표시되므로 분모(papers)와 같은 집합에서 센다 — 철회 논문 제외.
+      jcrLabelled: tabPubs.filter(p => p.jcr && !p.is_progress && !p.retracted).length,
       totalCitations,
       hIndex,
     };
@@ -242,43 +259,53 @@ const ScholarPublications = () => {
     return { years: [...years].sort((a, b) => b.localeCompare(a)), hasUnknown };
   }, [tabPubs]);
 
-  // 연도 필터를 먼저 적용한 집합. 펀딩 대시보드도 이 집합을 세어
-  // '태그는 보이는데 결과가 0건'인 조합이 생기지 않게 한다.
+  // 연도 → 검색 → (펀딩 | 범위) 순으로 집합을 좁힌다.
+  // 펀딩 필터와 범위 선택은 서로 독립이라 마지막 단계에서 갈라 놓는다.
   const yearScopedPubs = useMemo(
     () => (selectedYear === 'all' ? tabPubs : tabPubs.filter(p => p.displayYear === selectedYear)),
     [tabPubs, selectedYear],
   );
 
+  const searchedPubs = useMemo(() => {
+    const low = searchTerm.trim().toLowerCase();
+    return low ? yearScopedPubs.filter(p => p.searchText.includes(low)) : yearScopedPubs;
+  }, [yearScopedPubs, searchTerm]);
+
+  // 펀딩 집계의 기준 집합: 펀딩 필터만 빼고 나머지(연도·검색·범위)를 모두 건 상태다.
+  // 목록도 같은 집합에 펀딩 필터만 더해 만들므로 '태그에 적힌 수 = 눌렀을 때 뜨는 수'가 성립한다.
+  const fundingScopedPubs = useMemo(() => applyScope(searchedPubs, scope), [searchedPubs, scope]);
+
   // --- [펀딩 통계: 협력 교수 라벨 제외, 연도 내림차순] ---
   const fundingStats = useMemo(() => {
     const counts: Record<string, number> = {};
-    yearScopedPubs.forEach(p => {
+    fundingScopedPubs.forEach(p => {
       p.funding_tags?.forEach(tag => {
         if (COLLABORATOR_TAG_RE.test(tag)) return;
         counts[tag] = (counts[tag] || 0) + 1;
       });
     });
-    // 선택 중인 태그가 이 연도에 0건이어도 해제할 수 있도록 남겨 둔다.
-    if (selectedFunding && !(selectedFunding in counts)) counts[selectedFunding] = 0;
+    // 선택 중인 태그는 이 범위·연도에 0건이어도 해제할 수 있도록 남겨 둔다.
+    // 집계에서 빠지는 협력 교수 라벨(Prof.*)이 URL로 직접 지정된 경우도 여기로 오는데,
+    // 0으로 박으면 칩은 0인데 카드는 나오는 모순이 생긴다 — 실제 건수를 세어 넣는다.
+    if (selectedFunding && !(selectedFunding in counts)) {
+      counts[selectedFunding] = fundingScopedPubs.filter(p => p.funding_tags?.includes(selectedFunding)).length;
+    }
     return Object.entries(counts).sort(compareFundingTags);
-  }, [yearScopedPubs, selectedFunding]);
+  }, [fundingScopedPubs, selectedFunding]);
 
   const taggedCount = useMemo(
-    () => yearScopedPubs.filter(p => p.funding_tags?.some(tag => !COLLABORATOR_TAG_RE.test(tag))).length,
-    [yearScopedPubs],
+    () => fundingScopedPubs.filter(p => p.funding_tags?.some(tag => !COLLABORATOR_TAG_RE.test(tag))).length,
+    [fundingScopedPubs],
   );
 
   // --- [필터] ---
   // 게재/미게재로 나누기 전 단계까지만 여기서 처리한다.
   // 같은 필터 결과에서 두 범위의 건수를 함께 셀 수 있어야 세그먼트에 실제 건수를 적고,
   // 0건일 때 '다른 범위에는 N건 있다'고 안내할 수 있다.
-  const filteredPubs = useMemo(() => {
-    let result = yearScopedPubs;
-    if (selectedFunding) result = result.filter(p => p.funding_tags?.includes(selectedFunding));
-    const low = searchTerm.trim().toLowerCase();
-    if (low) result = result.filter(p => p.searchText.includes(low));
-    return result;
-  }, [yearScopedPubs, searchTerm, selectedFunding]);
+  const filteredPubs = useMemo(
+    () => (selectedFunding ? searchedPubs.filter(p => p.funding_tags?.includes(selectedFunding)) : searchedPubs),
+    [searchedPubs, selectedFunding],
+  );
 
   const scopeCounts = useMemo(() => {
     const progress = filteredPubs.filter(p => p.is_progress).length;
@@ -290,11 +317,7 @@ const ScholarPublications = () => {
   // (제목순·펀딩순을 눌러도 상단 10건이 그대로 남아 컨트롤이 고장 난 것처럼 보였다).
   // 이제 게재/미게재는 위의 범위 선택으로만 나뉘고, 정렬은 고른 대로만 동작한다.
   const processedPubs = useMemo(() => {
-    const scoped = scope === 'all'
-      ? filteredPubs
-      : filteredPubs.filter(p => (scope === 'progress' ? Boolean(p.is_progress) : !p.is_progress));
-
-    const sorted = [...scoped];
+    const sorted = [...applyScope(filteredPubs, scope)];
     sorted.sort((a, b) => {
       if (sortBy === 'year') {
         // 미리 계산해 둔 연도로 비교(연도 미상은 '0000'이라 뒤로 간다)
@@ -370,18 +393,30 @@ const ScholarPublications = () => {
       <p className="mb-2 text-center text-[11px] font-black uppercase tracking-widest text-slate-500">
         Archive figures for {activeTab}
       </p>
+      {/* 지표는 철회 논문을 빼고 세는데 아래 목록·세그먼트는 철회 논문까지 센다(목록에 실제로 나오니까).
+          두 숫자(415/418)가 한 화면에 나란히 보이므로, 왜 다른지를 회색 박스 한 문장에 맡기지 않고
+          카드 안에서 '418 listed · 3 retracted excluded'로 두 수를 직접 잇는다. */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
         {[
-          { label: 'Publications', value: scholarStats.papers, icon: BookOpen },
-          { label: 'In Progress', value: scholarStats.inProgress, icon: RefreshCw },
-          { label: 'Citations (archived)', value: scholarStats.totalCitations.toLocaleString(), icon: Quote },
-          { label: 'h-index (archived)', value: scholarStats.hIndex, icon: TrendingUp },
-        ].map(({ label, value, icon: Icon }) => (
+          {
+            label: 'Publications', value: scholarStats.papers, icon: BookOpen,
+            note: scholarStats.retracted > 0
+              ? `${(scholarStats.papers + scholarStats.retracted).toLocaleString()} listed · ${scholarStats.retracted} retracted excluded`
+              : null,
+          },
+          { label: 'In Progress', value: scholarStats.inProgress, icon: RefreshCw, note: null },
+          {
+            label: 'Citations (archived)', value: scholarStats.totalCitations.toLocaleString(), icon: Quote,
+            note: scholarStats.retracted > 0 ? 'excludes retracted' : null,
+          },
+          { label: 'h-index (archived)', value: scholarStats.hIndex, icon: TrendingUp, note: null },
+        ].map(({ label, value, icon: Icon, note }) => (
           <div key={label} className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 flex items-center gap-3">
             <div className="p-2 bg-blue-50 text-blue-600 rounded-xl"><Icon size={16} /></div>
             <div>
               <p className="text-lg font-black text-slate-900 leading-tight">{value}</p>
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">{label}</p>
+              {note && <p className="mt-0.5 text-[10px] font-medium text-slate-400">{note}</p>}
             </div>
           </div>
         ))}
@@ -504,7 +539,9 @@ const ScholarPublications = () => {
 
       {/* --- [펀딩 대시보드] ---
           태그가 붙은 논문이 아카이브의 일부뿐이라 전폭 패널 대신 접이식으로 둔다.
-          집계는 연도 필터가 적용된 집합 기준이라 '태그는 보이는데 0건'인 조합이 생기지 않는다. */}
+          집계는 목록과 같은 집합(연도·검색·범위 적용, 펀딩만 미적용)을 세므로
+          '태그에 숫자가 보이는데 눌러 보면 0건'인 조합이 생기지 않는다.
+          그 범위에 0건인 태그는 아예 나오지 않는다(선택 중인 태그만 해제용으로 남는다). */}
       <details className="bg-slate-50 rounded-3xl mb-8 border border-slate-100 shadow-sm">
         <summary className="cursor-pointer list-none px-6 py-4 flex flex-wrap items-center justify-between gap-2">
           <span className="flex items-center gap-2">
@@ -512,7 +549,7 @@ const ScholarPublications = () => {
             <span className="text-xs font-black uppercase tracking-widest text-slate-700">Funding Portfolio</span>
           </span>
           <span className="text-[11px] font-bold text-slate-600">
-            {taggedCount} of {yearScopedPubs.length} papers tagged
+            {taggedCount} of {fundingScopedPubs.length.toLocaleString()} {SCOPE_NOUN[scope]} tagged
             {selectedYear !== 'all' && ` (${selectedYear === UNKNOWN_YEAR ? 'year unknown' : selectedYear})`}
             {selectedFunding && ` · filtering by ${selectedFunding}`}
           </span>
@@ -548,6 +585,7 @@ const ScholarPublications = () => {
           const isProg = pub.is_progress;
           const hasBibtex = !isProg && Boolean(pub.bibtex);
           const statusDetail = getStatusDetail(pub.status);
+          const venue = (isProg ? pub.journal : bib.venue) || '';
           // 'Prof. *'는 연구비가 아니라 공동연구 교수 라벨이다 — 펀딩 칩과 섞지 않는다.
           const fundingTags = (pub.funding_tags || []).filter(tag => !COLLABORATOR_TAG_RE.test(tag));
           const collaboratorTags = (pub.funding_tags || []).filter(tag => COLLABORATOR_TAG_RE.test(tag));
@@ -572,11 +610,20 @@ const ScholarPublications = () => {
                       </span>
                     )}
                     <span className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-[10px] font-black border border-slate-200">{pub.displayYear === UNKNOWN_YEAR ? 'Year unknown' : pub.displayYear}</span>
-                    {/* 인용 0은 성과가 아니다 — 0과 '집계 없음'을 초록 배지로 똑같이 광고하지 않는다 */}
+                    {/* 인용 0은 성과가 아니다 — 0과 '집계 없음'을 초록 배지로 똑같이 광고하지 않는다.
+                        철회 논문의 인용은 위 합계에서 빠져 있다. 성과색(초록)으로 칠하지 않고
+                        제외됐음을 배지에 적는다 — 그래야 배지를 더한 값과 헤드라인이 어긋나 보이지 않는다. */}
                     {typeof pub.citations === 'number' && pub.citations > 0 && (
-                      <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded text-[10px] font-black border border-emerald-100 flex items-center gap-1">
-                        <Quote size={9} /> Cited {pub.citations}
-                      </span>
+                      pub.retracted ? (
+                        <span title="Citations of a retracted paper — not included in the archive totals above"
+                          className="px-2 py-0.5 bg-slate-100 text-slate-500 rounded text-[10px] font-black border border-slate-200 flex items-center gap-1">
+                          <Quote size={9} /> Cited {pub.citations} · excluded
+                        </span>
+                      ) : (
+                        <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded text-[10px] font-black border border-emerald-100 flex items-center gap-1">
+                          <Quote size={9} /> Cited {pub.citations}
+                        </span>
+                      )
                     )}
                     {/* 미게재 논문의 라벨은 '투고 대상 저널'의 등급이지 게재 성과가 아니다 */}
                     {pub.jcr && (
@@ -615,7 +662,12 @@ const ScholarPublications = () => {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-slate-50">
                     <div className="flex items-center gap-2 text-xs text-slate-500">
                       <BookOpen size={14} className="text-blue-400"/>
-                      <span className="font-semibold text-slate-700">{isProg ? pub.journal : bib.venue}</span>
+                      {/* 게재처 필드가 하나도 없는 항목이 있다(현재 5건). 없는 게재처를 지어내지 않고,
+                          연도 미상의 'Year unknown'과 같은 어조로 비어 있음을 밝힌다.
+                          예전에는 빈 문자열을 그대로 출력해 아이콘 옆이 빈 칸으로 남았다. */}
+                      {venue
+                        ? <span className="font-semibold text-slate-700">{venue}</span>
+                        : <span className="italic text-slate-500">Venue unknown</span>}
                       {/* 상단 배지가 이미 단계를 말한다 — 여기서는 시점만 덧붙인다 */}
                       {statusDetail && <span className="px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded font-bold text-[10px]">{statusDetail}</span>}
                       {!isProg && bib.volume && <span className="text-slate-500 text-[11px]">Vol.{bib.volume}</span>}
