@@ -344,11 +344,11 @@ const MemberCard = ({ member, isPI = false, onOpenPublications }: { member: Memb
             </div>
           )}
           {hasContactLinks && (
-            <div className="mt-auto space-y-2 pt-3 border-t border-gray-50 w-full">
-              {member.email && <a href={`mailto:${member.email}`} className="flex items-center justify-center gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Mail className="w-3.5 h-3.5" /><span className="truncate">{member.email}</span></a>}
-              {member.website && <a href={member.website} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Globe className="w-3.5 h-3.5" /><span>Personal Website</span></a>}
-              {member.github && <a href={member.github} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Github className="w-3.5 h-3.5" /><span>GitHub Profile</span></a>}
-              {member.linkedin && <a href={member.linkedin} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Linkedin className="w-3.5 h-3.5" /><span>LinkedIn</span></a>}
+            <div className="mt-auto space-y-2 pt-3 border-t border-gray-50 w-full text-left">
+              {member.email && <a href={`mailto:${member.email}`} className="flex items-center justify-start gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Mail className="w-3.5 h-3.5 shrink-0" /><span className="truncate min-w-0">{member.email}</span></a>}
+              {member.website && <a href={member.website} target="_blank" rel="noreferrer" className="flex items-center justify-start gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Globe className="w-3.5 h-3.5" /><span>Personal Website</span></a>}
+              {member.github && <a href={member.github} target="_blank" rel="noreferrer" className="flex items-center justify-start gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Github className="w-3.5 h-3.5" /><span>GitHub Profile</span></a>}
+              {member.linkedin && <a href={member.linkedin} target="_blank" rel="noreferrer" className="flex items-center justify-start gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Linkedin className="w-3.5 h-3.5" /><span>LinkedIn</span></a>}
             </div>
           )}
         </div>
