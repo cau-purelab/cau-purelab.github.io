@@ -297,12 +297,18 @@ export const PUBLICATIONS: Publication[] =[
   },
   {
     // TODO(lab): 이 항목은 publications.json과 Google Scholar 어디에도 없어 대조할 원천이 없다.
-    //            JSEBS 게재 정보(DOI 또는 논문 페이지 URL)를 받아 link를 채우고 아카이브에도 등록할 것.
+    //            DOI는 KCI(ART003140556)에서 확인해 채웠다. 남은 확인 사항 둘:
+    //            ① KCI 등재 저자는 김상민·노승민 2인인데 여기 authors는 4인이다(이병천·김현우 추가).
+    //               비슷한 제목의 논문이 PlatCon-24에서도 발표됐다고 하니 두 편이 섞였을 수 있다 —
+    //               확인 전까지 저자 목록을 임의로 줄이지 말 것.
+    //            ② 학회지가 개명했다: 한국전자거래학회지 → 한국디지털산업학회지(Korean Journal of Digital
+    //               Industry). DOI 네임스페이스 jsebs와 권·호는 그대로다. 어느 이름으로 표기할지 미정.
     id: 'p8',
     year: 2024,
     title: "Voice Phishing Detection Using Deep Learning-based NLP and Knowledge Distillation Techniques",
     authors:["Sangmin Kim", "Byeongcheon Lee", "Hyeonwoo Kim", "Seungmin Rho"],
     venue: "The Journal of Society for e-Business Studies, 29(4), 139-148",
-    tags:["Voice Phishing", "NLP"]
+    tags:["Voice Phishing", "NLP"],
+    link: "https://doi.org/10.7838/jsebs.2024.29.4.139"
   }
 ];
