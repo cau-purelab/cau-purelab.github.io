@@ -208,10 +208,12 @@ export const MEMBERS: Member[] =[
     id: 'm6',
     name: "Junyoung Lee",
     role: "Master Student",
-    // TODO(lab): 프로필 사진·관심 분야(specialization)·이메일 공개 여부 확인 필요. 그때까지 이니셜 아바타 사용.
-    image: initialsAvatar("Junyoung Lee"),
-    email: "",
-    specialization: ""
+    image: "/assets/Junyoung Lee.jpg",
+    email: "tfg0074@cau.ac.kr",
+    website: "https://lee-jun-young98.github.io/",
+    specialization: '#Multimodal Learning #Vision-Language-Action (VLA)',
+    github: "https://github.com/Lee-jun-young98",
+    linkedin: "https://www.linkedin.com/in/leejunyoung98/"
   }
 ];
 
