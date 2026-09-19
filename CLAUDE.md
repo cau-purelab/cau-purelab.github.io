@@ -31,8 +31,10 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 
 - 매주 월요일 `.github/workflows/sync-scholar.yml`이 sync를 자동 실행해 변경 시 PR(`auto/scholar-sync` 브랜치)을 생성함 — 검토 후 머지하면 배포됨.
 - ⚠ **PR 생성 권한 문제는 해결됐다** — 2026-09-16 실행(run 35143140435)에서 기본 GITHUB_TOKEN으로 PR #4가 실제로 생성·머지됐다. 실패를 보면 `Allow GitHub Actions to create and approve pull requests` 토글부터 의심하지 말 것(단, 이 토글을 다시 끄면 같은 오류가 돌아온다).
-- 남은 미해결 원인은 **Google Scholar 403** 하나다. 예약 실행 10회 중 수집이 성공한 것은 4회(40%)뿐이고, 나머지 6회는 Scholar가 러너 IP를 차단해 수집 단계에서 멈췄다. 차단되면 로컬에서 `--apply`를 돌려 직접 PR을 올린다.
-- 실패하면 워크플로가 이슈를 자동 생성한다. 제목에 원인 구분이 붙으므로(`Weekly Scholar Sync failed: 수집 차단 (Scholar 403/429)` 등) 원인이 바뀌면 새 이슈로 드러나고, 다시 성공하면 열린 실패 이슈를 닫는다 — **열린 실패 이슈 = 지금 실패 중**.
+- 남은 미해결 원인은 **Google Scholar 403/429** 하나다. 예약 실행 10회 중 수집이 성공한 것은 4회(40%)뿐이다.
+- **차단돼도 이제 한 주를 통째로 잃지 않는다.** `sync_scholar.cjs`는 Google Sites 기반 작업(진행 중 논문 상태·신규 투고·제목 변경 탐지·constants 검사)을 먼저 끝내고 반영한 뒤, Scholar가 필요한 작업만 건너뛰며 **종료 코드 2**로 끝난다. 워크플로는 2를 실패가 아니라 부분 성공으로 보고 PR을 계속 만든다(제목에 `(부분 — Scholar 미수집)` 표기). 따라서 차단 주에도 Sites 변경은 들어오고, 로컬 `--apply`는 Scholar가 필요한 작업까지 당겨오고 싶을 때만 쓴다.
+- 종료 코드 규약: **0** 정상 · **2** 부분 성공(Sites 반영됨, Scholar 건너뜀 — 커밋·PR 계속) · **1** 치명적 실패(Sites 수집·파싱 실패 등, 반영 없음).
+- 실패 이슈는 종료 코드 1이나 그 뒤 단계가 깨졌을 때만 열린다. 제목에 원인 구분이 붙고(`Weekly Scholar Sync failed: 수집 차단 (Scholar 403/429)` 등) 다시 성공하면 닫힌다. ⚠ **Scholar 차단만 일어난 주는 초록 실행 + `::warning::`으로 끝나 이슈가 열리지 않는다** — 차단이 계속되는지 보려면 이슈가 아니라 실행 로그의 경고를 봐야 한다.
 - 실행 로그를 볼 때 `gh run view <id> --log`는 이 워크플로에서 **빈 출력**을 준다. `gh api repos/cau-purelab/cau-purelab.github.io/actions/runs/<id>/logs > logs.zip`으로 받아 풀어 볼 것.
 
 테스트 스위트 없음 — 변경 후 `npm run typecheck` + `npm run build:pages` 성공 + `npm run dev`로 해당 페이지 육안 확인이 기본 검증.
@@ -103,7 +105,7 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 ## 알려진 한계
 
 1. **스크레이핑 구조 의존** — `sync_scholar.cjs`·`update_scholar_metrics.cjs`는 Google Sites 텍스트 구조(제목/저자/`학술지 (상태, 날짜)` 3줄 패턴)와 Scholar HTML 클래스명에 의존. 페이지 구조가 바뀌면 파서 수정 필요.
-2. **Google Scholar 차단이 주간 sync의 최대 실패 원인** — 예약 실행 10회를 로그로 전수 확인한 결과 6회가 `Failed to fetch https://scholar.google.com/citations?...: 403`으로 수집 단계에서 멈췄다(2026-07-20, 07-27, 08-10, 08-17, 08-24, 08-31). 통과율 40%. 6회 모두 수집 단계에서 멈춰 PR이 열리지 않았고, 그 주의 Google Sites 변경도 함께 유실된 채 실패 이슈만 남았다. 복구는 로컬 실행(로컬 IP는 차단되지 않음) 후 수동 PR.
+2. **Google Scholar가 러너 IP를 자주 막는다** — 예약 실행 10회를 로그로 전수 확인한 결과 6회가 Scholar 차단으로 수집 단계에서 멈췄다(2026-07-20, 07-27, 08-10, 08-17, 08-24, 08-31). 통과율 40%이고, 같은 커밋을 1분 간격으로 돌렸을 때 하나는 403, 하나는 성공한 기록이 있다 — 코드가 아니라 러너 IP 운이다. **2026-09-20 이전에는** 차단되면 그 주의 Google Sites 변경까지 통째로 버려졌다. 지금은 재시도(최대 4회, 지수 백오프)와 부분 성공 보존이 들어가 Sites 변경은 반영되고 Scholar 의존 작업만 건너뛴다. 그래도 신규 출판 논문·citation 갱신은 차단 주에 들어오지 않으므로, 차단이 여러 주 이어지면 로컬에서 `--apply`를 돌려 당겨와야 한다(로컬 IP는 대체로 차단되지 않음).
 3. **Mi Young Lee 아카이브는 부분 수집** — Scholar 프로필 논문 중 일부만 게재한다(현재 publications.json 기준 42편, 작업 규칙 7 참조). 나머지는 sync 보고서에만 나타남. Scholar 쪽 전체 편수는 프로필이 계속 바뀌므로 숫자를 문서에 박아 두지 말고 `node scripts/sync_scholar.cjs` 보고서에서 확인할 것.
 4. **프리렌더는 메타 태그까지만** — 라우트별 HTML은 본문 없이 title/description/og/canonical만 주입한다. 본문 텍스트가 필요한 크롤러(예: Naver Yeti)에는 여전히 빈 페이지로 보인다. SSR/SSG 도입은 별도 과제.
 

@@ -518,7 +518,7 @@ async function main() {
 
     // 이 프로필의 Scholar 수집이 실패했다면 아래 작업은 근거가 없다 — 건너뛰고 보고에 남긴다.
     if (!scholarRows) {
-      report.degraded.push(`[${name}] 건너뜀 — 빈 URL 보강, 신규 출판 논문 추가 (Scholar 미수집)`);
+      report.degraded.push(`[${name}] 건너뜀 — 출판 전환, 빈 URL 보강, 신규 출판 논문 추가 (Scholar 미수집)`);
       continue;
     }
 
@@ -616,7 +616,10 @@ async function main() {
   // Sites in-review에서 사라졌는데 Scholar 엄격 매칭도 안 된 논문은, 제목이 손질된 채 출판됐을 수 있다.
   // 후보 풀은 Sites 게재 항목 + Scholar 행. Scholar가 막혀도 Sites만으로 탐지가 동작한다.
   if (unresolvedMissing.length) {
-    const rhoScholar = scholarByName.get(SITES_PROFESSOR) || [];
+    const rhoScholarRows = scholarByName.get(SITES_PROFESSOR);
+    const rhoScholar = rhoScholarRows || [];
+    // Scholar를 한 줄도 못 읽은 런에서는 "Scholar에도 없다"를 단정할 수 없다 — 확인한 범위만 말한다.
+    const scholarChecked = rhoScholarRows !== null && rhoScholarRows !== undefined;
     const pool = [
       ...sitesPublished.map(s => ({ ...s, source: `Sites 게재 · ${s.journal} (${s.status})` })),
       ...rhoScholar.map(r => ({ ...r, source: `Scholar (${r.year || '연도 미상'})` })),
@@ -626,7 +629,11 @@ async function main() {
     for (const jp of unresolvedMissing) {
       const hits = findRenameCandidates(jp, pool, knownNorms);
       if (!hits.length) {
-        report.warnings.push(`진행 중 논문이 Sites에서 사라졌으나 Scholar에도 없음 (수동 확인): "${jp.title.slice(0, 60)}"`);
+        report.warnings.push(
+          scholarChecked
+            ? `진행 중 논문이 Sites에서 사라졌으나 Scholar에도 없음 (수동 확인): "${jp.title.slice(0, 60)}"`
+            : `진행 중 논문이 Sites에서 사라짐 — 이 실행은 Scholar를 읽지 못해 출판 여부 미확인 (수동 확인): "${jp.title.slice(0, 60)}"`
+        );
         continue;
       }
       report.renames.push({

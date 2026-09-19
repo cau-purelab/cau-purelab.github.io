@@ -550,6 +550,7 @@ const ScholarPublications = () => {
           </span>
           <span className="text-[11px] font-bold text-slate-600">
             {taggedCount} of {fundingScopedPubs.length.toLocaleString()} {SCOPE_NOUN[scope]} tagged
+            {urlQuery && ` matching "${urlQuery}"`}
             {selectedYear !== 'all' && ` (${selectedYear === UNKNOWN_YEAR ? 'year unknown' : selectedYear})`}
             {selectedFunding && ` · filtering by ${selectedFunding}`}
           </span>

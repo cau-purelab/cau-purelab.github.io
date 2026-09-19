@@ -143,7 +143,11 @@ function authorSimilarity(a, b) {
   return { shared, ratio: shared / Math.min(keysA.length, keysB.length) };
 }
 
-// 후보 문턱 — 오탐(서로 다른 논문을 합치는 것)이 치명적이라 높게 잡는다.
+// 후보 문턱. 주의: 이 값들만으로는 오탐이 걸러지지 않는다 — 아카이브 전수 쌍에 문턱만 적용하면
+// 같은 팀의 확장판·후속 논문(예: "… part I" ↔ "… part II")이 high로 올라온다.
+// 실제 안전장치는 호출부의 세 겹 필터다: ① Sites in-review에서 사라진 항목만 대상으로 삼고
+// ② 이미 json에 별도 논문으로 등재된 제목은 후보에서 빼며 ③ 결과를 자동 반영하지 않고 보고만 한다.
+// 문턱은 사람이 훑을 후보 수를 줄이는 역할이지 정확성의 근거가 아니다.
 const RENAME_MIN_TOKENS = 4; // 양쪽 모두 내용어 4개 이상일 때만 비교한다
 const RENAME_MIN_SHARED = 4; // 겹치는 내용어가 4개 미만이면 우연일 수 있다
 const RENAME_MIN_CONTAINMENT = 0.7; // 짧은 쪽 제목의 70% 이상이 긴 쪽에 들어 있을 것

@@ -234,16 +234,20 @@
 GitHub의 예약 실행은 정시를 보장하지 않고 밀립니다(실측 지연 1시간 24분~12시간 40분).
 수동 실행(`workflow_dispatch`)은 기본이 `dry_run`이라 보고만 하고 데이터·PR을 건드리지 않습니다.
 
-*   **남은 실패 원인은 Google Scholar 차단 하나입니다.** 예약 실행 10회를 로그로 전수 확인한 결과
-    6회가 `Failed to fetch https://scholar.google.com/citations?...: 403`으로 수집 단계에서 멈췄습니다(통과율 40%).
-    6회 모두 PR이 열리지 않아 그 주의 Google Sites 변경도 함께 유실됐습니다. 로컬에서 수동 실행해 PR을 올리세요.
+*   **남은 실패 원인은 Google Scholar 차단 하나입니다.** 예약 실행 10회 중 6회가 차단으로 수집 단계에서 멈췄습니다(통과율 40%).
+    **차단돼도 이제 한 주를 통째로 잃지는 않습니다** — Google Sites 기반 변경은 반영되고 Scholar가 필요한 작업만 건너뛰며
+    종료 코드 2(부분 성공)로 끝나, 워크플로가 `(부분 — Scholar 미수집)` 표기를 단 PR을 계속 만듭니다.
+    종료 코드는 0 정상 · 2 부분 성공 · 1 치명적 실패입니다.
+    차단이 여러 주 이어져 신규 논문·citation이 밀리면 로컬에서 당겨오세요.
     ```bash
     node scripts/sync_scholar.cjs --apply && node scripts/update_scholar_metrics.cjs
     ```
 *   **cron 주기를 올리지 마세요.** `update_scholar_metrics.cjs`가 변경 여부와 무관하게
     `publications.json`을 매번 다시 쓰므로, 주기를 올리면 citation 숫자만 바뀐 PR이 거의 매일 열립니다.
-*   실패하면 워크플로가 이슈를 자동 생성합니다. 제목에 원인 구분이 붙고(수집 차단 / 데이터 검증 실패 / PR 생성 실패 등),
-    같은 원인이면 코멘트만 쌓이며, 다시 성공하면 열린 실패 이슈를 닫습니다 — **열린 실패 이슈 = 지금 실패 중**.
+*   종료 코드 1이나 그 뒤 단계가 깨지면 워크플로가 이슈를 자동 생성합니다. 제목에 원인 구분이 붙고(수집 차단 / 데이터 검증 실패 / PR 생성 실패 등),
+    같은 원인이면 코멘트만 쌓이며, 다시 성공하면 닫힙니다.
+    ⚠ **Scholar 차단만 일어난 주는 부분 성공(코드 2)이라 초록 실행으로 끝나고 이슈가 열리지 않습니다.**
+    차단이 이어지는지 보려면 실행 로그의 `::warning::`을 확인하세요.
 *   실행 로그는 `gh run view <id> --log`로는 비어 보입니다.
     `gh api repos/cau-purelab/cau-purelab.github.io/actions/runs/<id>/logs > logs.zip`으로 받으세요.
 
