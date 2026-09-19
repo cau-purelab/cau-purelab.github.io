@@ -288,10 +288,11 @@ const MemberCard = ({ member, isPI = false, onOpenPublications }: { member: Memb
     if (isPI) {
       return (
         <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 w-full max-w-5xl flex flex-col md:flex-row">
-          {/* 래퍼에 명시적 높이가 없으면(height:auto) 자식 img의 h-full이 auto로 풀려 object-cover가
-              무력화된다 — 모바일에서 사진이 원본 비율대로 500px 넘게 늘어나 학생 목록을 화면 뒤로 밀어냈다.
+          {/* 세로 배치에서는 aspect-square가 높이를 만든다 — 높이가 auto면 자식 img의 h-full이 풀려 object-cover가
+              무력화되고 사진이 원본 비율대로 늘어난다. 예전의 고정 h-64는 폭이 커져도 높이가 그대로여서
+              768px 미만에서 세로형 증명사진의 위쪽만 남았다(700px에서 상단 28%). 비율로 묶어 잘림을 일정하게 한다.
               md 이상에서는 flex stretch로 텍스트 열 높이에 맞춘다. */}
-          <div className="w-full md:w-56 lg:w-64 flex-shrink-0 overflow-hidden bg-gray-100 relative h-64 md:h-auto">
+          <div className="w-full md:w-56 lg:w-64 flex-shrink-0 overflow-hidden bg-gray-100 relative aspect-square md:aspect-auto md:h-auto">
             {member.image ? (
               <img src={member.image} alt={member.name} loading="lazy" className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" />
             ) : (
@@ -301,7 +302,7 @@ const MemberCard = ({ member, isPI = false, onOpenPublications }: { member: Memb
           {/* TODO(lab): 이 열의 우측 여백은 원래 PI 소개문 자리다. 정식 직함(예: 소속 학과)과
               2~3문장 소개문이 확정되면 여기에 넣고, 위 member.role eyebrow는 섹션 제목과
               중복되므로 그때 직함으로 교체한다. 없는 내용을 임의로 채우지 말 것. */}
-          <div className="p-6 md:p-8 flex flex-col justify-center flex-grow text-center md:text-left">
+          <div className="p-6 md:p-8 flex flex-col justify-center flex-grow min-w-0 text-center md:text-left">
             <div className="mb-4">
               <span className="text-blue-600 font-bold text-xs uppercase tracking-widest inline-block mb-1">{member.role}</span>
               <h3 className="font-playfair text-2xl md:text-3xl font-bold text-blue-900 mb-2">{member.name}</h3>
@@ -314,14 +315,14 @@ const MemberCard = ({ member, isPI = false, onOpenPublications }: { member: Memb
               </div>
             )}
             <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-auto items-center">
-              <button onClick={() => onOpenPublications(member)} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-blue-700 transition-colors shadow-sm hover:shadow-md z-10 relative">
+              <button onClick={() => onOpenPublications(member)} aria-label={`Publications by ${member.name}`} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-blue-700 transition-colors shadow-sm hover:shadow-md z-10 relative">
                 <BookOpen className="w-4 h-4" /> <span>Publications</span>
               </button>
               {hasContactLinks && <div className="w-px h-6 bg-gray-200 mx-2 hidden md:block"></div>}
-              {member.email && <a href={`mailto:${member.email}`} className="flex items-center gap-2 text-xs text-gray-500 hover:text-blue-900 transition-colors"><div className="p-1.5 rounded-full bg-gray-50"><Mail className="w-3.5 h-3.5 text-gray-600" /></div><span className="hidden sm:inline font-medium">Email</span></a>}
-              {member.website && <a href={member.website} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs text-gray-500 hover:text-blue-900 transition-colors"><div className="p-1.5 rounded-full bg-gray-50"><Globe className="w-3.5 h-3.5 text-gray-600" /></div><span className="hidden sm:inline font-medium">Website</span></a>}
-              {member.github && <a href={member.github} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs text-gray-500 hover:text-blue-900 transition-colors"><div className="p-1.5 rounded-full bg-gray-50"><Github className="w-3.5 h-3.5 text-gray-600" /></div><span className="hidden sm:inline font-medium">GitHub</span></a>}
-              {member.linkedin && <a href={member.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs text-gray-500 hover:text-blue-900 transition-colors"><div className="p-1.5 rounded-full bg-gray-50"><Linkedin className="w-3.5 h-3.5 text-gray-600" /></div><span className="hidden sm:inline font-medium">LinkedIn</span></a>}
+              {member.email && <a href={`mailto:${member.email}`} aria-label={`Email ${member.name}`} className="flex items-center gap-2 text-xs text-gray-500 hover:text-blue-900 transition-colors"><div className="p-1.5 rounded-full bg-gray-50"><Mail className="w-3.5 h-3.5 text-gray-600" /></div><span className="hidden sm:inline font-medium">Email</span></a>}
+              {member.website && <a href={member.website} target="_blank" rel="noreferrer" aria-label={`${member.name} website`} className="flex items-center gap-2 text-xs text-gray-500 hover:text-blue-900 transition-colors"><div className="p-1.5 rounded-full bg-gray-50"><Globe className="w-3.5 h-3.5 text-gray-600" /></div><span className="hidden sm:inline font-medium">Website</span></a>}
+              {member.github && <a href={member.github} target="_blank" rel="noreferrer" aria-label={`${member.name} GitHub profile`} className="flex items-center gap-2 text-xs text-gray-500 hover:text-blue-900 transition-colors"><div className="p-1.5 rounded-full bg-gray-50"><Github className="w-3.5 h-3.5 text-gray-600" /></div><span className="hidden sm:inline font-medium">GitHub</span></a>}
+              {member.linkedin && <a href={member.linkedin} target="_blank" rel="noreferrer" aria-label={`${member.name} LinkedIn profile`} className="flex items-center gap-2 text-xs text-gray-500 hover:text-blue-900 transition-colors"><div className="p-1.5 rounded-full bg-gray-50"><Linkedin className="w-3.5 h-3.5 text-gray-600" /></div><span className="hidden sm:inline font-medium">LinkedIn</span></a>}
             </div>
           </div>
         </div>
@@ -330,25 +331,30 @@ const MemberCard = ({ member, isPI = false, onOpenPublications }: { member: Memb
     // h-full은 grid/flex의 align-items:stretch를 꺼버려(높이가 auto가 아니게 되어) 인접 카드 바닥이
     // 어긋났다. 높이는 컨테이너 stretch에 맡기고, 폭은 고정 w-64 대신 트랙을 따라가게 한다.
     return (
-      <div className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 w-full max-w-xs mx-auto flex flex-col">
-        <div className="aspect-square overflow-hidden bg-gray-100 relative">
+      <div className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 w-full max-w-md mx-auto flex flex-col sm:flex-row sm:min-h-[16.5rem]">
+        {/* 사진 열. PI 카드와 같은 이유로 세로 배치일 때만 명시적 높이를 준다 —
+            높이가 auto면 자식 img의 h-full이 풀려 object-cover가 무력화되고 사진이 원본 비율로 늘어난다.
+            가로 배치에서는 flex stretch가 오른쪽 정보 열 높이에 맞춘다. */}
+        <div className="w-full aspect-square sm:aspect-auto sm:w-44 flex-shrink-0 overflow-hidden bg-gray-100 relative">
           {member.image ? <img src={member.image} alt={member.name} loading="lazy" className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" /> : <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gray-50 text-xs">No Image</div>}
         </div>
-        {/* 태그도 연락처도 없는 구성원은 이름만 남으므로 위로 붙지 않게 세로 가운데에 둔다. */}
-        <div className={`p-5 text-center flex flex-col flex-grow ${tags.length === 0 && !hasContactLinks ? 'justify-center' : ''}`}>
+        {/* min-w-0이 없으면 flex 자식의 기본 min-width:auto 때문에 이 열이 min-content 아래로 줄지 못하고,
+            카드가 overflow-hidden이라 브라우저 글꼴만 확대했을 때(약 160%↑) 이름과 이메일이 잘려 사라진다.
+            정렬은 모든 폭에서 왼쪽으로 통일한다 — 이름만 가운데이고 연락처만 왼쪽이면 실수처럼 보인다. */}
+        <div className="p-5 flex flex-col flex-grow min-w-0 text-left">
           <h3 className="font-playfair text-xl font-bold text-blue-900 mb-2">{member.name}</h3>
           {/* 태그·연락처가 없는 구성원은 빈 블록을 만들지 않는다(반쯤 빈 카드 방지) */}
           {tags.length > 0 && (
-            <div className="flex flex-wrap justify-center gap-1.5 mb-4 content-start">
+            <div className="flex flex-wrap justify-start gap-1.5 mb-4 content-start">
               {tags.map((tag, idx) => <span key={idx} className="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-100 font-medium">{tag.trim()}</span>)}
             </div>
           )}
           {hasContactLinks && (
             <div className="mt-auto space-y-2 pt-3 border-t border-gray-50 w-full text-left">
               {member.email && <a href={`mailto:${member.email}`} className="flex items-center justify-start gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Mail className="w-3.5 h-3.5 shrink-0" /><span className="truncate min-w-0">{member.email}</span></a>}
-              {member.website && <a href={member.website} target="_blank" rel="noreferrer" className="flex items-center justify-start gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Globe className="w-3.5 h-3.5" /><span>Personal Website</span></a>}
-              {member.github && <a href={member.github} target="_blank" rel="noreferrer" className="flex items-center justify-start gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Github className="w-3.5 h-3.5" /><span>GitHub Profile</span></a>}
-              {member.linkedin && <a href={member.linkedin} target="_blank" rel="noreferrer" className="flex items-center justify-start gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Linkedin className="w-3.5 h-3.5" /><span>LinkedIn</span></a>}
+              {member.website && <a href={member.website} target="_blank" rel="noreferrer" aria-label={`${member.name} personal website`} className="flex items-center justify-start gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Globe className="w-3.5 h-3.5" /><span>Personal Website</span></a>}
+              {member.github && <a href={member.github} target="_blank" rel="noreferrer" aria-label={`${member.name} GitHub profile`} className="flex items-center justify-start gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Github className="w-3.5 h-3.5" /><span>GitHub Profile</span></a>}
+              {member.linkedin && <a href={member.linkedin} target="_blank" rel="noreferrer" aria-label={`${member.name} LinkedIn profile`} className="flex items-center justify-start gap-2 text-xs text-gray-600 hover:text-blue-900 py-0.5"><Linkedin className="w-3.5 h-3.5" /><span>LinkedIn</span></a>}
             </div>
           )}
         </div>
@@ -390,11 +396,15 @@ const People = () => {
                 <div className="h-px bg-gray-200 flex-grow"></div>
               </div>
               {/* PI 카드는 가로로 긴 한 장이라 그대로 두고, 구성원 카드는 grid로 깐다.
-                  auto-fit 트랙이 남는 폭을 나눠 가지므로 고정 w-64가 만들던 빈 거터가 사라지고,
-                  grid의 align-items:stretch가 인접 카드 높이를 맞춘다(1~3명일 때도 좌우 대칭). */}
+                  트랙 수는 auto-fit이 아니라 고정이다 — auto-fit은 인원이 적으면 빈 트랙을 접어
+                  남는 폭을 나눠 주기 때문에, 2명인 섹션의 카드가 3명인 섹션보다 넓어졌다.
+                  lg 미만에서는 한 줄에 하나이고, 이때 카드가 컨테이너 폭까지 늘어나지 않도록
+                  카드 자체에 max-w-md를 둔다. 2열은 트랙이 400px을 넘는 lg부터 연다 —
+                  md에서 열면 트랙이 344px이라 태그가 한 줄 더 접혀 그 섹션만 카드가 높아진다.
+                  grid의 align-items:stretch가 인접 카드 높이를 맞춘다. */}
               <div className={isPISection
                 ? "flex flex-wrap w-full justify-center gap-8"
-                : "grid gap-8 w-full max-w-4xl grid-cols-[repeat(auto-fit,minmax(15rem,1fr))]"}>
+                : "grid gap-8 w-full max-w-4xl grid-cols-1 lg:grid-cols-2"}>
                 {section.members.map((member) => <MemberCard key={member.id} member={member} isPI={isPISection} onOpenPublications={handleOpenPublications} />)}
               </div>
             </div>

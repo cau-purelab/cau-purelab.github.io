@@ -90,11 +90,14 @@ export function initialsAvatar(name: string): string {
   let hash = 0;
   for (let i = 0; i < name.length; i += 1) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
   const background = AVATAR_COLORS[hash % AVATAR_COLORS.length];
+  // 캔버스는 정사각이 아니라 세로형이다 — People 카드의 사진 칸이 176x262(비율 0.67)이고,
+  // 정사각 SVG를 넣으면 object-cover가 좌우를 잘라내며 글자만 커진다(측정: 보이는 폭의 84%).
+  // 같은 비율로 내보내면 잘림이 없어지고 글자는 열 폭의 40% 남짓이 된다.
   const svg =
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">' +
-    `<rect width="256" height="256" fill="${background}"/>` +
-    '<text x="128" y="132" fill="#ffffff" font-family="Inter, Helvetica, Arial, sans-serif" ' +
-    `font-size="104" font-weight="600" text-anchor="middle" dominant-baseline="middle">${initials}</text>` +
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 380" width="256" height="380">' +
+    `<rect width="256" height="380" fill="${background}"/>` +
+    '<text x="128" y="190" fill="#ffffff" font-family="Inter, Helvetica, Arial, sans-serif" ' +
+    `font-size="76" font-weight="600" text-anchor="middle" dominant-baseline="middle">${initials}</text>` +
     "</svg>";
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
