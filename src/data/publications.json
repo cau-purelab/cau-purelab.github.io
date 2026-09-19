@@ -88,6 +88,16 @@
       "citations": 0
     },
     {
+      "title": "Noise Frequencies Let Pixel-Space Diffusion Priors Detect Native-Resolution Images",
+      "url": "https://scholar.google.com/citations?view_op=view_citation&user=k5aAQxUAAAAJ&citation_for_view=k5aAQxUAAAAJ:mel-f30kHHgC",
+      "bibtex": "@inproceedings{kim2026noise,\n  title={Noise Frequencies Let Pixel-Space Diffusion Priors Detect Native-Resolution Images},\n  author={Bumsoo Kim and Hyun-Jun Jin and Mi Young Lee and Seungmin Rho and Sanghyun Seo},\n  booktitle={The Second Workshop on Low-Level Vision Frontiers with Generative AI, Preference Optimization, Agentic Systems and World Models @ ECCV},\n  year={2026}\n}",
+      "funding_tags": [
+        "Prof. MYLee",
+        "Prof. SH Seo"
+      ],
+      "citations": 0
+    },
+    {
       "title": "An improved deep learning-based MSA-Net model for small liver tumor segmentation",
       "url": "https://scholar.google.com/citations?view_op=view_citation&user=k5aAQxUAAAAJ&citation_for_view=k5aAQxUAAAAJ:Zh0EY9V9P6UC",
       "bibtex": "@article{hina2026improved,\n  title={An improved deep learning-based MSA-Net model for small liver tumor segmentation},\n  author={Beenish Hina and Muazzam Maqsood and Asma Sattar and Zahoor ur Rehman and Maryam Bukhari and Seungmin Rho and Hyungjoon Kim},\n  journal={Science Progress},\n  volume={109},\n  number={3},\n  pages={00368504261473340},\n  publisher={SAGE Publications},\n  year={2026}\n}",
@@ -109,18 +119,16 @@
       "is_progress": true
     },
     {
-      "title": "MSTCA Framework: Advancing Medical Deepfake Detection with Multiscale Spatial Transformers and Convolutional Attention",
+      "title": "Medical Deepfake Detection with Multiscale Spatial Transformers and Cross-Attention",
       "author": "Fizza Bukhari, Maryam Bukhari, Amna Sarwar, M. Maqsood, Mehr Yahya Durrani, Hyungjoon Kim, S Rho",
-      "journal": "Scientific Reports",
-      "status": "Submitted, Feb. 2026",
+      "journal": "CMC-Computers, Materials & Continua",
+      "status": "Accepted, Sept. 2026",
       "funding_tags": [
         "ITRC-26",
         "Prof. HJKim"
       ],
       "year": "2026",
-      "is_progress": true,
-      "jcr": "SCIE-Q1 Top 18%",
-      "jcr_source": "https://sites.google.com/view/seungminrho/home"
+      "is_progress": true
     },
     {
       "title": "Regime-aware static and dynamic graph structure learning for stock price forecasting",
