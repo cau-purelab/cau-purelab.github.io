@@ -66,9 +66,41 @@ const STATUS_WORDS = /submit|revision|review|press|proofing|accept/i;
 const SECTION_HEADING = /\[(?:Journal|Conference|Domestic)\]\s*Publications(?:\s*\([^)\n]*\))?/i;
 // 게재 완료 학술지 섹션 헤딩 — in-review 섹션 바로 다음에 온다.
 const PUBLISHED_HEADING = /\[Journal\]\s*Publications\s*\(\s*in Google Scholar\s*\)/i;
+// 학회 섹션 헤딩. 이 구역은 오랫동안 '경계 표시'로만 쓰이고 내용은 아무도 읽지 않았다 —
+// 그 사이 투고 중 학회 논문 4편이 Sites에만 있고 사이트에는 없는 상태로 남아 있었다.
+const CONFERENCE_HEADING = /\[\s*Conference\s*\]\s*Publications/i;
+// 학회 항목의 3번째 줄: 'FedCSIS-25 @ Kraków, Poland (...)' 또는 'Submitted (AAAI-27 @ Montreal, Canada)'.
+// 학술지 섹션과 달리 연도가 없는 경우가 많아 STATUS_LINE으로는 잡히지 않는다.
+const CONFERENCE_VENUE_LINE = /^submitted\s*\(|@/i;
 
 // 항목 구조 (3줄): "[JCR]? 제목 [펀딩태그]*" / "저자" / "학술지 (상태·권호, 월 연도)"
 // 마지막 줄을 앵커로 역방향 파싱한다. in-review 구역과 게재 구역이 같은 구조라 둘 다 이 함수로 읽는다.
+/**
+ * [Conference] Publications 구역 파싱.
+ * compactTextFromHtml이 항목당 정확히 3줄로 정리해 준다:
+ *   1) 제목 [태그] [태그]
+ *   2) 저자
+ *   3) 'VENUE @ 장소 (일정)' 또는 'Submitted (VENUE @ 장소)'
+ * 3번째 줄이 게재처로 보이지 않으면 줄 구조가 바뀐 것이므로 조용히 넘기지 않고 멈춘다.
+ */
+function parseConferenceEntries(segment) {
+  const lines = segment.split('\n').map(l => l.trim()).filter(Boolean).slice(1); // 첫 줄은 헤딩
+  const entries = [];
+  for (let i = 0; i + 2 < lines.length + 2; i += 3) {
+    const [rawTitle, author, venueLine] = [lines[i], lines[i + 1], lines[i + 2]];
+    if (!rawTitle || !author || !venueLine) break;
+    if (!CONFERENCE_VENUE_LINE.test(venueLine)) break;
+    const tags = [...rawTitle.matchAll(/\[([^\]]+)\]/g)].map(m => m[1].trim());
+    const title = rawTitle.replace(/\[[^\]]*\]/g, '').trim();
+    const submitted = /^submitted\b/i.test(venueLine);
+    const venue = submitted
+      ? venueLine.replace(/^submitted\s*\(?/i, '').replace(/\)\s*$/, '').trim()
+      : venueLine;
+    entries.push({ title, author, venue, status: submitted ? 'Submitted' : null, tags });
+  }
+  return entries;
+}
+
 function parseSiteEntries(section, { requireStatusWords }) {
   const lines = section.split('\n').map(l => l.trim()).filter(Boolean);
   const entries = [];
@@ -132,7 +164,19 @@ async function fetchSites() {
     if (!published.length) publishedError = '게재 섹션에서 항목을 하나도 파싱하지 못함 (줄 구조 변경 확인 필요)';
   }
 
-  return { inProgress, published, publishedError };
+  // 학회 구역: 헤딩부터 in-review 헤딩 전까지.
+  let conference = [];
+  let conferenceError = null;
+  const confStart = text.search(CONFERENCE_HEADING);
+  if (confStart === -1) {
+    conferenceError = '학회 섹션 헤딩을 찾지 못함 (페이지 구조 변경 확인 필요)';
+  } else {
+    const confEnd = start > confStart ? start : text.length;
+    conference = parseConferenceEntries(text.slice(confStart, confEnd));
+    if (!conference.length) conferenceError = '학회 섹션에서 항목을 하나도 파싱하지 못함 (줄 구조 변경 확인 필요)';
+  }
+
+  return { inProgress, published, publishedError, conference, conferenceError };
 }
 
 // ──────────────────────────────────────────────
@@ -343,6 +387,7 @@ async function main() {
   const report = {
     updates: [], authorDiffs: [], conversions: [], additionsProgress: [], titleChanges: [],
     renames: [], additionsPublished: [], unknownYear: [], skipped: [], urlBackfills: [], warnings: [],
+    conferenceMissing: [], elsewhereDiffs: [],
     degraded: [], constants: [],
   };
   const bibKeys = collectBibKeys(data); // 신규 생성 bibtex 키 충돌 방지
@@ -351,19 +396,61 @@ async function main() {
   // ── A. Sites in-review ↔ json is_progress 대조
   // Sites 수집 실패는 치명적이다(대조 근거 자체가 없다) — 여기서 throw되면 종료 코드 1.
   console.log('1/3 Google Sites 수집...');
-  const { inProgress: sites, published: sitesPublished, publishedError } = await fetchSites();
-  console.log(`   → in-review ${sites.length}건, 게재 ${sitesPublished.length}건 파싱됨`);
+  const {
+    inProgress: sites, published: sitesPublished, publishedError,
+    conference: sitesConference, conferenceError,
+  } = await fetchSites();
+  console.log(`   → in-review ${sites.length}건, 게재 ${sitesPublished.length}건, 학회 ${sitesConference.length}건 파싱됨`);
+  if (conferenceError) {
+    report.degraded.push(`Sites 학회 섹션 파싱 실패 — 학회 논문 누락을 감지할 수 없음 (${conferenceError})`);
+  }
+  // 학회 섹션에 있는데 아카이브에 없는 논문을 보고한다.
+  // 게재된 학회 논문은 Scholar를 통해 들어오지만 투고 중 학회 논문은 이 구역 말고 들어올 경로가 없다.
+  // 자동 추가하지 않는 이유: Sites가 날짜를 주지 않아 status를 지어내야 하고, 저자 표기도 손이 필요하다.
+  if (sitesConference.length) {
+    const archived = new Set();
+    for (const arr of Object.values(data)) for (const p of arr) archived.add(normalize(p.title));
+    for (const e of sitesConference) {
+      if (archived.has(normalize(e.title))) continue;
+      const where = `${e.status ? e.status + ' · ' : ''}${e.venue}`;
+      report.conferenceMissing.push(`${e.title.slice(0, 70)}\n      ${where}\n      ${e.author}`);
+    }
+  }
   if (publishedError) {
     report.degraded.push(`Sites 게재 섹션 파싱 실패 — 제목 변경 탐지의 근거 절반이 빠짐 (${publishedError})`);
   }
   const rhoPubs = data[SITES_PROFESSOR] || [];
   const progress = rhoPubs.filter(p => p.is_progress);
 
+  // in-review 구역 밖에서도 Sites가 그 논문을 여전히 다루고 있을 수 있다:
+  //  - 학회 투고는 [Conference] 구역에 'Submitted (AAAI-27 @ ...)' 형태로 적힌다
+  //  - 게재 확정분은 게재 구역으로 옮겨 간다
+  // 이 둘을 모르면 멀쩡한 논문이 매주 '사라짐' 경고로 뜬다(실제로 5건이 그랬다).
+  const sitesElsewhere = new Map();
+  for (const s of sitesPublished) {
+    sitesElsewhere.set(normalize(s.title), { where: '게재 구역', journal: s.journal, status: s.status });
+  }
+  for (const s of sitesConference) {
+    sitesElsewhere.set(normalize(s.title), { where: '학회 구역', journal: s.venue, status: s.status });
+  }
+
   const matchedSiteIdx = new Set();
   for (const jp of progress) {
     const jpNorm = normalize(jp.title);
     const siteIdx = sites.findIndex((s, i) => !matchedSiteIdx.has(i) && titlesMatch(normalize(s.title), jpNorm));
-    if (siteIdx === -1) { jp.__missing = true; continue; }
+    if (siteIdx === -1) {
+      const other = sitesElsewhere.get(jpNorm);
+      if (!other) { jp.__missing = true; continue; }
+      // 사라진 게 아니라 다른 구역에 있다. 값이 어긋나면 그것만 보고한다(자동 반영하지 않는다 —
+      // 구역마다 표기 형식이 달라 기계적으로 옮기면 오히려 데이터가 상한다).
+      const diffs = [];
+      if (other.journal && other.journal !== jp.journal) diffs.push(`journal: "${jp.journal}" → "${other.journal}"`);
+      if (other.status && other.status !== jp.status) diffs.push(`status: "${jp.status}" → "${other.status}"`);
+      if (diffs.length) {
+        report.elsewhereDiffs.push(`${jp.title.slice(0, 55)} (Sites ${other.where})\n      ${diffs.join('\n      ')}`);
+      }
+      continue;
+    }
     matchedSiteIdx.add(siteIdx);
     const s = sites[siteIdx];
     // author는 Sites 쪽 오타가 잦아 자동 반영하지 않고 보고만 함
@@ -671,6 +758,9 @@ async function main() {
   section('신규 출판 논문 추가', report.additionsPublished);
   // 연도 미상은 사람이 봐야 처리되는 목록이다. 잘라내면 확인할 사람이 없으므로 전부 출력한다.
   section('연도 미상으로 보류 (자동 추가 안 함 — 수동 확인 필요)', report.unknownYear, x => x, Infinity);
+  // 잘리면 볼 사람이 없다 — 학회 누락도 전부 출력한다.
+  section('Sites 학회 섹션에 있으나 아카이브에 없음 (수동 추가 필요)', report.conferenceMissing, x => x, Infinity);
+  section('진행 중 논문이 Sites 다른 구역에 있고 값이 다름 (자동 반영 안 함)', report.elsewhereDiffs, x => x, Infinity);
   section('자동 추가 제외 (필터/저자 게이트)', report.skipped);
   section('빈 URL 보강 (Scholar 링크)', report.urlBackfills);
   section('경고', report.warnings);

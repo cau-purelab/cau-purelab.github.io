@@ -78,6 +78,53 @@
       "jcr_source": "https://sites.google.com/view/seungminrho/home"
     },
     {
+      "title": "SEAL: Decoupling Representation Erasure and Utility Recovery for Machine Unlearning",
+      "author": "Hyungjun Park, Sangmin Kim, Byeongcheon Lee, Hyunok Kim, Sungwoo Park, M.Y. Lee, S Rho",
+      "journal": "ICDM-26 Workshop TrustFL-SIS @ Shenyang, China",
+      "status": "Submitted",
+      "funding_tags": [
+        "Convg_Security-26",
+        "Prof. MYLee"
+      ],
+      "year": "2026",
+      "is_progress": true
+    },
+    {
+      "title": "ODACE: Robust Output-Grounded Denoising-Anchored Contrastive Concept Erasure in Diffusion Models",
+      "author": "Byeongcheon Lee, Sangmin Kim, Sungwoo Park, Daehoon Kim, M.Y. Lee, S Rho",
+      "journal": "AAAI-27 @ Montreal, Canada",
+      "status": "Submitted",
+      "funding_tags": [
+        "ITRC-26",
+        "Prof. MYLee"
+      ],
+      "year": "2026",
+      "is_progress": true
+    },
+    {
+      "title": "LAPSE: Label-set Adaptive Prompting via Selective Erasure for Unified Unlearning in Large Language Models",
+      "author": "Sangmin Kim, Byeongcheon Lee, Sungwoo Park, Daehoon Kim, M.Y. Lee, S Rho",
+      "journal": "EACL-27 @ Athens, Greece",
+      "status": "Submitted",
+      "funding_tags": [
+        "Convg_Security-26",
+        "Prof. MYLee"
+      ],
+      "year": "2026",
+      "is_progress": true
+    },
+    {
+      "title": "When Do Frozen VLMs Respond to Image-Free Object-Token Edits? An Answer-Key-Free Protocol and What It Reveals",
+      "author": "Wonbin Son, Gyumun Choi, Seojunil, S Rho, M.Y. Lee, Hyungjoon Kim",
+      "journal": "WACV-27 @ Orlando, FL, USA",
+      "status": "Submitted",
+      "funding_tags": [
+        "Prof. HJKim"
+      ],
+      "year": "2026",
+      "is_progress": true
+    },
+    {
       "title": "A Novel Glow Adversarial Attack for Proactive Deepfake Defense",
       "url": "https://scholar.google.com/citations?view_op=view_citation&user=k5aAQxUAAAAJ&citation_for_view=k5aAQxUAAAAJ:hvmnpdAuIbkC",
       "bibtex": "@article{bukhari2026novel,\n  title={A Novel Glow Adversarial Attack for Proactive Deepfake Defense},\n  author={Maryam Bukhari and Muazzam Maqsood and Mi Young Lee and Seungmin Rho},\n  journal={IEEE Access},\n  publisher={IEEE},\n  year={2026}\n}",

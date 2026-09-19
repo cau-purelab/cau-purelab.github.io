@@ -81,7 +81,10 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 3. **People 논문 모달**: `member.name`이 publications.json의 키와 정확히 일치해야 논문이 표시됨 (현재 `"Seungmin Rho"`, `"Mi Young Lee"`만 해당).
 4. **publications.json 수정**: node 스크립트로 수행하고, 저장 후 ①`JSON.parse` 유효성 ②제목·bibtex 중복 여부 ③항목 수 변화를 검증할 것. UTF-8, 2-space indent 유지.
 5. **patch_publications.py**: 패치 적용이 끝나면 4개 배열을 다시 비워둘 것 (재실행 시 오염 방지).
-6. **논문 데이터 기준 소스**: Rho 교수 Google Sites(https://sites.google.com/view/seungminrho)가 진행 중 논문의 단일 기준 — `sync_scholar.cjs`가 자동 대조함. 단, **저자 표기는 자동 반영하지 않음**(Sites 쪽 오타가 잦음, 보고서 확인 후 수동 판단).
+6. **논문 데이터 기준 소스**: Rho 교수 Google Sites(https://sites.google.com/view/seungminrho)가 진행 중 논문의 단일 기준 — `sync_scholar.cjs`가 자동 대조함.
+   Sites에는 구역이 셋 있고 sync는 셋 다 읽는다: `[Conference] Publications`(학회 — 게재분과 `Submitted (AAAI-27 @ ...)` 형태의 투고분), `[Journal] Publications (in Press, Proofing, or in Review)`(심사 중), `[Journal] Publications (in Google Scholar)`(게재).
+   학회 구역은 오랫동안 경계 표시로만 쓰이고 내용은 아무도 읽지 않았다 — 그 사이 투고 중 학회 논문 4편이 Sites에만 있고 사이트에는 없었다(2026-09-20 수동 추가).
+   학회 투고는 Sites가 날짜를 주지 않으므로 `status: "Submitted"`만 두고 시점을 지어내지 않는다(화면은 쉼표가 없으면 시점 칩을 생략한다). 단, **저자 표기는 자동 반영하지 않음**(Sites 쪽 오타가 잦음, 보고서 확인 후 수동 판단).
 7. **Mi Young Lee 논문은 자동 추가 금지**: Scholar 프로필에 동명이인 의심 논문(1993~2016 직업의학·화학 분야)이 섞여 있어 sync는 보고만 함. 필요한 논문만 `patch_publications.py`로 수동 추가.
 8. **날짜 배지**: `sync_scholar.cjs --apply`가 `PUBLICATIONS_UPDATED_AT`을 자동 갱신함. json을 수동 수정한 경우에만 직접 갱신. Footer의 "Site last updated"는 빌드 시 자동 주입(`__BUILD_DATE__`).
 9. **커밋**: 주제별로 분리 커밋. main push는 곧바로 라이브 배포이므로 push 전 `npm run typecheck && npm run build:pages` 필수.
@@ -135,3 +138,4 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 | 2026-09-20 | 수집 복원력 — `fetchText`에 지수 백오프 재시도(403/429/5xx, 지터·Retry-After·대기 예산 60s) 추가. Scholar가 막혀도 Google Sites 수집분은 저장하고 종료 코드 2(부분 성공)로 구분해 PR이 계속 나가게 함. 제목이 바뀐 출판 전환을 토큰 유사도로 탐지(MSTCA 건 78% 겹침·저자 100%로 검출). 보고 모드와 `--apply`가 같은 게이트를 거치게 해 결과 불일치 해소. 연도 미상 보류 항목을 별도 버킷으로 분리. `workflow_dispatch`에 `dry_run`(기본 켬) 추가 |
 | 2026-09-20 | Scholar 화면 — 펀딩 집계를 범위 적용 집합에서 세어 "태그에 3건인데 눌러도 빈 화면"을 없앰(칩 수 = 카드 수). 지표 카드에 `419 listed · 3 retracted excluded` 주석을 달아 415/418 혼란 해소. 게재처 미상 5건을 빈칸 대신 `Venue unknown`으로 표기. 진행 중 배지를 원본 표기(`Under Review`)로 되돌리고 검사 순서를 진행 단계 역순으로 정리 |
 | 2026-09-20 | 데이터 교정 — 의료 딥페이크 논문이 Sites에서 제목·학술지·상태가 모두 바뀌어 게재 확정(CMC-Computers, Materials & Continua, Accepted Sept. 2026)된 것을 반영(7개월간 `Scientific Reports / Submitted, Feb. 2026`로 노출됐음). Scholar에 연도가 없어 영구히 걸러지던 ECCV-26 워크숍 논문 1건 추가(426→427). 인용수 갱신은 Scholar 429로 보류 |
+| 2026-09-20 | Sites `[Conference] Publications` 구역을 sync가 읽게 함 — 지금까지 경계 표시로만 쓰여 투고 중 학회 논문 4편(SEAL/ICDM-26, ODACE/AAAI-27, LAPSE/EACL-27, VLM/WACV-27)이 사이트에 한 번도 나온 적이 없었다. 4편 수동 추가(427→431)하고, 학회 구역에 있으나 아카이브에 없는 논문을 보고하는 섹션을 신설. 아울러 in-review 구역 밖(학회·게재 구역)에 있는 진행 중 논문을 "Sites에서 사라짐"으로 오보하던 문제를 고침(거짓 경보 5건 → 0건) |
