@@ -199,9 +199,9 @@ export const MEMBERS: Member[] =[
     id: 'm5',
     name: "Hyunok Kim",
     role: "Master Student",
-    // TODO(lab): 프로필 사진·관심 분야(specialization)·이메일 공개 여부 확인 필요. 그때까지 이니셜 아바타 사용.
-    image: initialsAvatar("Hyunok Kim"),
-    email: "",
+    // TODO(lab): 관심 분야(specialization) 확인 필요.
+    image: "/assets/Hyunok Kim.jpg",
+    email: "hyunok@cau.ac.kr",
     specialization: ""
   },
   {
