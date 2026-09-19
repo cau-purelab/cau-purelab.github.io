@@ -30,7 +30,10 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 ```
 
 - 매주 월요일 `.github/workflows/sync-scholar.yml`이 sync를 자동 실행해 변경 시 PR(`auto/scholar-sync` 브랜치)을 생성함 — 검토 후 머지하면 배포됨.
-- ⚠ PR 생성은 저장소 설정에 달려 있다: **Settings → Actions → General → Workflow permissions → "Allow GitHub Actions to create and approve pull requests"**. 꺼져 있으면 데이터가 `auto/scholar-sync` 브랜치에만 쌓이고 PR이 열리지 않는다(실패 시 워크플로가 이슈를 자동 생성함).
+- ⚠ **PR 생성 권한 문제는 해결됐다** — 2026-09-16 실행(run 35143140435)에서 기본 GITHUB_TOKEN으로 PR #4가 실제로 생성·머지됐다. 실패를 보면 `Allow GitHub Actions to create and approve pull requests` 토글부터 의심하지 말 것(단, 이 토글을 다시 끄면 같은 오류가 돌아온다).
+- 남은 미해결 원인은 **Google Scholar 403** 하나다. 예약 실행 10회 중 수집이 성공한 것은 4회(40%)뿐이고, 나머지 6회는 Scholar가 러너 IP를 차단해 수집 단계에서 멈췄다. 차단되면 로컬에서 `--apply`를 돌려 직접 PR을 올린다.
+- 실패하면 워크플로가 이슈를 자동 생성한다. 제목에 원인 구분이 붙으므로(`Weekly Scholar Sync failed: 수집 차단 (Scholar 403/429)` 등) 원인이 바뀌면 새 이슈로 드러나고, 다시 성공하면 열린 실패 이슈를 닫는다 — **열린 실패 이슈 = 지금 실패 중**.
+- 실행 로그를 볼 때 `gh run view <id> --log`는 이 워크플로에서 **빈 출력**을 준다. `gh api repos/cau-purelab/cau-purelab.github.io/actions/runs/<id>/logs > logs.zip`으로 받아 풀어 볼 것.
 
 테스트 스위트 없음 — 변경 후 `npm run typecheck` + `npm run build:pages` 성공 + `npm run dev`로 해당 페이지 육안 확인이 기본 검증.
 
@@ -99,9 +102,10 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 
 ## 알려진 한계
 
-1. **스크레이핑 구조 의존** — `sync_scholar.cjs`·`update_scholar_metrics.cjs`는 Google Sites 텍스트 구조(제목/저자/`학술지 (상태, 날짜)` 3줄 패턴)와 Scholar HTML 클래스명에 의존. 페이지 구조가 바뀌면 파서 수정 필요. Google Scholar가 GitHub Actions IP를 차단하면 주간 자동 sync가 실패할 수 있음(로컬 실행으로 대체).
-2. **Mi Young Lee 아카이브는 부분 수집** — Scholar 프로필 논문 중 일부만 게재한다(현재 publications.json 기준 42편, 작업 규칙 7 참조). 나머지는 sync 보고서에만 나타남. Scholar 쪽 전체 편수는 프로필이 계속 바뀌므로 숫자를 문서에 박아 두지 말고 `node scripts/sync_scholar.cjs` 보고서에서 확인할 것.
-3. **프리렌더는 메타 태그까지만** — 라우트별 HTML은 본문 없이 title/description/og/canonical만 주입한다. 본문 텍스트가 필요한 크롤러(예: Naver Yeti)에는 여전히 빈 페이지로 보인다. SSR/SSG 도입은 별도 과제.
+1. **스크레이핑 구조 의존** — `sync_scholar.cjs`·`update_scholar_metrics.cjs`는 Google Sites 텍스트 구조(제목/저자/`학술지 (상태, 날짜)` 3줄 패턴)와 Scholar HTML 클래스명에 의존. 페이지 구조가 바뀌면 파서 수정 필요.
+2. **Google Scholar 차단이 주간 sync의 최대 실패 원인** — 예약 실행 10회를 로그로 전수 확인한 결과 6회가 `Failed to fetch https://scholar.google.com/citations?...: 403`으로 수집 단계에서 멈췄다(2026-07-20, 07-27, 08-10, 08-17, 08-24, 08-31). 통과율 40%. 6회 모두 수집 단계에서 멈춰 PR이 열리지 않았고, 그 주의 Google Sites 변경도 함께 유실된 채 실패 이슈만 남았다. 복구는 로컬 실행(로컬 IP는 차단되지 않음) 후 수동 PR.
+3. **Mi Young Lee 아카이브는 부분 수집** — Scholar 프로필 논문 중 일부만 게재한다(현재 publications.json 기준 42편, 작업 규칙 7 참조). 나머지는 sync 보고서에만 나타남. Scholar 쪽 전체 편수는 프로필이 계속 바뀌므로 숫자를 문서에 박아 두지 말고 `node scripts/sync_scholar.cjs` 보고서에서 확인할 것.
+4. **프리렌더는 메타 태그까지만** — 라우트별 HTML은 본문 없이 title/description/og/canonical만 주입한다. 본문 텍스트가 필요한 크롤러(예: Naver Yeti)에는 여전히 빈 페이지로 보인다. SSR/SSG 도입은 별도 과제.
 
 ---
 
@@ -125,3 +129,7 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 | 2026-09-17 | 빌드·배포 정비 — 라우트별 정적 HTML 생성(딥링크 404 해소)과 라우트별 SEO 메타 주입, `site.cjs`로 정본 URL·라우트 단일화(sitemap/robots/feed 빌드 생성), `public/CNAME` 추가, CI에 타입체크 게이트·설정 검증·배포 후 스모크 테스트 추가, 주간 sync 워크플로 pipefail + 실패 시 이슈 생성, Dependabot·.gitattributes·.gitignore 정비, 폰트 웨이트 범위 교정(Inter 300~900 / Playfair 400~800), 문서 최신화 |
 | 2026-09-18 | 히어로 부제 한 줄 + "and" 앞 줄바꿈, PlatCon-26 뉴스 추가(뉴스 파서가 항목을 조용히 버리던 버그 수정), 연구 분야 일러스트 3장을 사용자 제공 그림으로 교체(SVG → WebP) |
 | 2026-09-18 | 문서 모순 정리(HTTPS 한계 서술·site.cjs 주석·README 구조·아카이브 건수·사진 규칙), 데이터 정리(Glow 논문 투고/출판 중복 제거 427→426, 교차 탭 제목 표기 2건 통일, 학술지명 폴백 확장으로 빈칸 9→5건), 검증 경고 43→27건(설계상 다른 url 비교 제거 + 투고/출판 중복 검사 신설), 뉴스 문형 통일 |
+| 2026-09-20 | Rho 실적 파이프라인 감사·수리 — 주간 sync 예약 실행 10회 실패를 로그로 전수 분류(Scholar 403 6회 / PR 권한 4회)하고, 이미 해결된 PR 권한을 1순위 원인으로 지목하던 문서·워크플로 주석을 사실에 맞게 교정. 실패 이슈 제목에 원인 구분을 넣어 원인 변화가 묻히지 않게 하고 성공 시 자동 종료, 단계 이름을 수집/검증/PR로 구분, cron 주기를 올리면 안 되는 이유를 주석으로 고정 |
+| 2026-09-20 | 수집 복원력 — `fetchText`에 지수 백오프 재시도(403/429/5xx, 지터·Retry-After·대기 예산 60s) 추가. Scholar가 막혀도 Google Sites 수집분은 저장하고 종료 코드 2(부분 성공)로 구분해 PR이 계속 나가게 함. 제목이 바뀐 출판 전환을 토큰 유사도로 탐지(MSTCA 건 78% 겹침·저자 100%로 검출). 보고 모드와 `--apply`가 같은 게이트를 거치게 해 결과 불일치 해소. 연도 미상 보류 항목을 별도 버킷으로 분리. `workflow_dispatch`에 `dry_run`(기본 켬) 추가 |
+| 2026-09-20 | Scholar 화면 — 펀딩 집계를 범위 적용 집합에서 세어 "태그에 3건인데 눌러도 빈 화면"을 없앰(칩 수 = 카드 수). 지표 카드에 `419 listed · 3 retracted excluded` 주석을 달아 415/418 혼란 해소. 게재처 미상 5건을 빈칸 대신 `Venue unknown`으로 표기. 진행 중 배지를 원본 표기(`Under Review`)로 되돌리고 검사 순서를 진행 단계 역순으로 정리 |
+| 2026-09-20 | 데이터 교정 — 의료 딥페이크 논문이 Sites에서 제목·학술지·상태가 모두 바뀌어 게재 확정(CMC-Computers, Materials & Continua, Accepted Sept. 2026)된 것을 반영(7개월간 `Scientific Reports / Submitted, Feb. 2026`로 노출됐음). Scholar에 연도가 없어 영구히 걸러지던 ECCV-26 워크숍 논문 1건 추가(426→427). 인용수 갱신은 Scholar 429로 보류 |

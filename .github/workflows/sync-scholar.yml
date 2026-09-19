@@ -1,30 +1,58 @@
 # 매주 Google Sites/Scholar를 대조해 논문 데이터 변경을 감지하고,
 # 변경이 있으면 자동으로 PR을 생성한다 (main 직접 push = 즉시 배포이므로 PR로 검토 후 머지).
 #
-# ⚠ 선행 조건 — 저장소 설정 토글 (코드로는 고칠 수 없음):
-#   Settings → Actions → General → Workflow permissions →
-#   "Allow GitHub Actions to create and approve pull requests" 를 켤 것.
-#   이게 꺼져 있으면 마지막 단계가 매번
-#   `GitHub Actions is not permitted to create or approve pull requests` 로 실패한다.
-#   (브랜치 push는 성공하므로 데이터는 auto/scholar-sync 브랜치에 쌓이지만 PR이 열리지 않는다.)
+# ⚠ 실패를 보면 저장소 권한 토글부터 의심하지 말 것 — 그건 이미 해결된 항목이다.
+#   2026-09-16 실행(run 35143140435)에서 기본 GITHUB_TOKEN으로 PR #4가 실제로 생성·머지됐다.
 #
-# 주의: Google Scholar가 GitHub Actions IP를 차단(429/403)하면 이 워크플로우는 실패할 수 있음.
-# 그 경우 로컬에서 `node scripts/sync_scholar.cjs --apply`를 수동 실행할 것.
+# 예약 실행 10회 전수 확인 (2026-09-20 감사, 실행 로그 기준):
+#   - 수집 단계에서 Google Scholar 403: 6회 (07-20, 07-27, 08-10, 08-17, 08-24, 08-31)
+#   - 마지막 PR 생성 단계에서 권한 오류: 4회 (07-13, 08-03, 09-07, 09-14) — 해결됨
+#   → 수집이 성공한 것은 10회 중 4회(40%)다. 남은 미해결 원인은 Scholar 차단 하나뿐이다.
+#
+# Scholar가 러너 IP를 차단(403/429)하면 로컬에서 수동 실행해 PR을 올린다.
+#   node scripts/sync_scholar.cjs --apply && node scripts/update_scholar_metrics.cjs
+#
+# 실패 로그 확인: `gh run view <id> --log`는 이 워크플로에서 빈 출력을 준다.
+#   `gh api repos/cau-purelab/cau-purelab.github.io/actions/runs/<id>/logs > logs.zip` 으로 받을 것.
 name: Weekly Scholar Sync
 
 on:
   schedule:
-    - cron: '0 0 * * 1' # 매주 월요일 09:00 KST
+    # 월요일 00:00 UTC(09:00 KST) '예정'일 뿐이다. GitHub의 예약 실행은 정시를 보장하지 않고 밀린다 —
+    # 실측 10회의 기동 지연은 1시간 24분 ~ 12시간 40분이었다. 시각에 의존하는 일을 여기 걸지 말 것.
+    # 주기를 올리지 말 것 —
+    # update_scholar_metrics.cjs는 변경 여부와 무관하게 publications.json을 매번 다시 쓴다.
+    # 주기를 올리면 citation 숫자만 바뀐 PR이 거의 매일 열려 검토가 무의미해진다.
+    - cron: '0 0 * * 1'
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '시험 실행 — 보고서만 만들고 데이터·PR은 건드리지 않는다'
+        type: boolean
+        # 기본을 켜 두는 이유: 수동 실행은 대개 "지금 무엇이 잡히는지" 보려는 것이고,
+        # 정기 반영은 cron이 맡는다. 반영하려면 체크를 끄고 실행한다 —
+        # 실수로 데이터를 바꾸는 쪽보다 실수로 아무것도 안 바꾸는 쪽이 되돌리기 쉽다.
+        default: true
 
+# create-pull-request 액션이 쓰는 권한: 브랜치 push(contents)와 PR 생성(pull-requests).
+# 둘 다 필요조건일 뿐이다 — 저장소의 "Allow GitHub Actions to create and approve pull requests"
+# 토글이 꺼지면 이 블록과 무관하게 PR 생성이 거부된다.
 permissions:
-  contents: write
-  pull-requests: write
-  issues: write # 실패 시 이슈 생성/코멘트
+  contents: write # auto/scholar-sync 브랜치 push
+  pull-requests: write # PR 생성/갱신
+  issues: write # 실패 보고 이슈 생성/코멘트
+
+# 예약 실행과 수동 실행이 겹치면 같은 auto/scholar-sync 브랜치를 동시에 밀게 된다.
+concurrency:
+  group: scholar-sync
+  cancel-in-progress: false
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+    env:
+      # 예약 실행은 항상 반영 모드다. dry_run은 수동 실행에만 있는 입력이라 그 외에는 false로 굳는다.
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -34,64 +62,137 @@ jobs:
         with:
           node-version: 22
 
+      # ── 수집 ── 여기서 실패하면 원인은 거의 항상 Google Scholar 차단이다(위 실측 참고).
       # 스크립트는 node 내장 모듈만 사용하므로 npm install 불필요.
       # shell: bash → GitHub이 `-eo pipefail`로 실행한다. 이게 없으면 파이프 앞 스크립트가
       # exit 1로 죽어도 tee의 성공 코드에 가려져 워크플로가 계속 진행된다.
-      - name: Run scholar sync (apply)
+      # 두 로그를 파일로 남기는 이유: sync 쪽은 PR 본문이 되고, 둘 다 실패 원인 판별에 쓰인다.
+      - name: Collect — scholar sync
+        id: sync
         shell: bash
-        run: node scripts/sync_scholar.cjs --apply 2>&1 | tee "$RUNNER_TEMP/sync-report.txt"
+        run: |
+          # 종료 코드 2 = 부분 성공(Scholar를 못 읽었지만 Sites 기반 변경은 이미 저장됨).
+          # 여기서 job을 죽이면 그 저장분이 PR로 나가지 못하고 버려진다 — 경고만 남기고 계속 간다.
+          # tee가 성공 코드로 덮어쓰므로 node의 코드를 PIPESTATUS로 직접 읽는다.
+          set +e
+          if [ "$DRY_RUN" = true ]; then
+            node scripts/sync_scholar.cjs 2>&1 | tee "$RUNNER_TEMP/sync-report.txt"
+          else
+            node scripts/sync_scholar.cjs --apply 2>&1 | tee "$RUNNER_TEMP/sync-report.txt"
+          fi
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          case "$status" in
+            0) ;;
+            2) echo "::warning::Google Scholar를 읽지 못해 Sites 기반 변경만 반영했다 (부분 성공)" ;;
+            *) exit "$status" ;;
+          esac
 
-      - name: Update scholar metrics
+      - name: Collect — scholar metrics
+        id: metrics
+        # dry_run에서는 이 스크립트가 publications.json을 무조건 덮어쓰므로 돌리지 않는다.
+        # sync가 부분 성공(2)이면 Scholar가 막힌 것이라 여기서도 막힌다 — 돌려서 job을 죽이면
+        # 위에서 저장한 Sites 변경까지 함께 잃는다.
+        if: env.DRY_RUN != 'true' && steps.sync.outputs.status == '0'
         shell: bash
-        run: node scripts/update_scholar_metrics.cjs
+        run: node scripts/update_scholar_metrics.cjs 2>&1 | tee "$RUNNER_TEMP/metrics-report.txt"
 
-      - name: Validate data
+      # ── 검증 ── 수집 결과가 배포 게이트를 통과하는지 여기서 먼저 본다.
+      - name: Verify — config and data
+        id: verify
         shell: bash
         run: |
           node scripts/site.cjs
           node scripts/validate_data.cjs
 
-      # add-paths에 src/constants.tsx를 남겨 두는 이유:
+      # ── PR ── add-paths에 src/constants.tsx를 남겨 두는 이유:
       # PUBLICATIONS_UPDATED_AT을 sync 스크립트가 constants.tsx에서 갱신한다.
       # 이 값을 publications.json의 _meta로 옮기기 전까지는 두 파일을 함께 커밋해야
       # 화면의 "Data last updated"가 실제 데이터와 어긋나지 않는다.
-      - name: Create pull request if changed
+      - name: PR — create or update if changed
+        id: pr
+        if: env.DRY_RUN != 'true'
         uses: peter-evans/create-pull-request@v8
         with:
           add-paths: |
             src/data/publications.json
             src/constants.tsx
           commit-message: 'Weekly scholar data sync'
-          title: 'Weekly scholar data sync'
+          # 부분 성공분이 완전 성공분과 같은 제목으로 섞이면 검토자가 구분할 수 없다.
+          title: ${{ steps.sync.outputs.status == '2' && 'Weekly scholar data sync (부분 — Scholar 미수집)' || 'Weekly scholar data sync' }}
           body-path: ${{ runner.temp }}/sync-report.txt
           branch: auto/scholar-sync
           delete-branch: true
 
       # 실패를 아무도 모르고 지나가지 않게 이슈로 남긴다(예약 실행은 알림이 약하다).
-      # 같은 제목의 열린 이슈가 있으면 코멘트만 추가해 이슈가 매주 쌓이는 것을 막는다.
+      # 제목에 원인 구분을 붙이는 이유: 한 이슈에 코멘트만 쌓으면 원인이 바뀐 것이 묻힌다.
+      # 원인이 같으면 코멘트만 달고, 원인이 바뀌면 새 이슈가 열려 눈에 띈다.
       - name: Report failure as an issue
-        if: failure()
+        # 시험 실행(dry_run)의 실패로 이슈를 열지 않는다 — 실행 로그로 충분하다.
+        if: failure() && env.DRY_RUN != 'true'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SYNC_OUTCOME: ${{ steps.sync.outcome }}
+          METRICS_OUTCOME: ${{ steps.metrics.outcome }}
+          VERIFY_OUTCOME: ${{ steps.verify.outcome }}
+          PR_OUTCOME: ${{ steps.pr.outcome }}
         run: |
-          title='Weekly Scholar Sync failed'
+          if [ "$SYNC_OUTCOME" = failure ] || [ "$METRICS_OUTCOME" = failure ]; then
+            # lib.cjs의 FetchError 메시지 형식은 `HTTP <상태> — <라벨>`이다.
+            # 예전 형식('Failed to fetch ...: 403')을 보던 패턴은 아무것도 잡지 못해
+            # 차단 실패가 '차단 외'로 잘못 분류됐다.
+            if grep -qsE 'HTTP (403|429) —' \
+              "$RUNNER_TEMP/sync-report.txt" "$RUNNER_TEMP/metrics-report.txt"; then
+              reason='수집 차단 (Scholar 403/429)'
+              hint='러너 IP가 차단된 것이다. 로컬에서 `node scripts/sync_scholar.cjs --apply`와 `node scripts/update_scholar_metrics.cjs`를 실행하고 결과를 PR로 올릴 것.'
+            else
+              reason='수집 실패 (차단 외)'
+              hint='Google Sites나 Scholar의 페이지 구조가 바뀌었을 수 있다. 로그의 파서 경고를 확인할 것.'
+            fi
+          elif [ "$VERIFY_OUTCOME" = failure ]; then
+            reason='데이터 검증 실패'
+            hint='수집 결과가 publications.json 무결성 규칙을 깼다. 로그의 검증 실패 목록을 확인할 것.'
+          elif [ "$PR_OUTCOME" = failure ]; then
+            reason='PR 생성 실패'
+            hint="브랜치 push까지는 됐을 수 있다(auto/scholar-sync 확인). 권한 오류라면 Settings → Actions → General → Workflow permissions의 'Allow GitHub Actions to create and approve pull requests'를 볼 것 — 2026-09-16 PR #4 생성으로 한 번 해결된 항목이다."
+          else
+            reason='원인 미분류'
+            hint='로그의 ##[error] 줄을 확인할 것.'
+          fi
+          title="Weekly Scholar Sync failed: $reason"
           body=$(printf '%s\n' \
-            "주간 Scholar 동기화가 실패했습니다." \
+            "주간 Scholar 동기화가 실패했습니다 — 원인 구분: **$reason**" \
             "" \
             "- 실행 로그: $RUN_URL" \
+            "- 단계별 결과: 수집 \`$SYNC_OUTCOME\` / 지표 \`$METRICS_OUTCOME\` / 검증 \`$VERIFY_OUTCOME\` / PR \`$PR_OUTCOME\`" \
             "" \
-            "자주 나오는 원인:" \
-            "1. \`GitHub Actions is not permitted to create or approve pull requests\`" \
-            "   → Settings → Actions → General → Workflow permissions에서" \
-            "     'Allow GitHub Actions to create and approve pull requests'를 켤 것." \
-            "2. Google Scholar가 러너 IP를 차단(429/403)" \
-            "   → 로컬에서 \`node scripts/sync_scholar.cjs --apply\`를 수동 실행할 것." \
-            "3. validate_data.cjs 실패 → 수집 데이터 이상. 로그의 검증 실패 목록을 확인할 것.")
-          existing=$(gh issue list --state open --search "in:title $title" --json number --jq '.[0].number // empty' || true)
+            "$hint" \
+            "" \
+            "로그가 \`gh run view <id> --log\`로 비어 보이면 \`gh api repos/$GITHUB_REPOSITORY/actions/runs/<id>/logs > logs.zip\`으로 받을 것.")
+          printf '### 실패 — %s\n\n%s\n' "$reason" "$hint" >> "$GITHUB_STEP_SUMMARY"
+          existing=$(TITLE="$title" gh issue list --state open --search 'in:title "Weekly Scholar Sync failed"' \
+            --json number,title --jq 'map(select(.title == env.TITLE)) | .[0].number // empty' || true)
           if [ -n "$existing" ]; then
             gh issue comment "$existing" --body "$body"
           else
             gh issue create --title "$title" --body "$body"
           fi
+
+      # 열린 실패 이슈 = 지금 실패 중이라는 뜻을 유지해야 연속 실패가 신호로 읽힌다.
+      # 이 단계가 녹색 실행을 빨갛게 만들면 안 되므로 전부 `|| true`.
+      - name: Close the failure issue on success
+        # 시험 실행이나 부분 성공(Scholar 미수집)으로 닫으면 "고쳐졌다"는 거짓 신호가 된다.
+        if: success() && env.DRY_RUN != 'true' && steps.sync.outputs.status == '0'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          open=$(gh issue list --state open --search 'in:title "Weekly Scholar Sync failed"' \
+            --json number --jq '.[].number' || true)
+          for number in $open; do
+            gh issue close "$number" --comment "동기화가 다시 성공했습니다: $RUN_URL" || true
+          done

@@ -222,10 +222,30 @@
 ### 필요한 저장소 설정 (코드로 못 고치는 것)
 
 *   **Settings → Actions → General → Workflow permissions**
-    → `Allow GitHub Actions to create and approve pull requests` **켜기**.
-    꺼져 있으면 주간 Scholar 동기화(`sync-scholar.yml`)가 PR 생성 단계에서 매번 실패하고,
-    데이터는 `auto/scholar-sync` 브랜치에만 쌓입니다. 실패 시 워크플로가 이슈를 자동 생성합니다.
+    → `Allow GitHub Actions to create and approve pull requests` **켜기**. — ✅ 켜져 있음(확인됨).
+    2026-09-16 실행에서 기본 GITHUB_TOKEN으로 PR #4가 생성·머지된 것으로 확인했습니다.
+    다시 끄면 주간 Scholar 동기화(`sync-scholar.yml`)가 PR 생성 단계에서 실패하고
+    데이터는 `auto/scholar-sync` 브랜치에만 쌓입니다.
 *   **Settings → Pages → Custom domain**: `pure.cau.ac.kr` (인증서 발급 후 `Enforce HTTPS` 체크)
+
+### 주간 Scholar 동기화 (`sync-scholar.yml`)
+
+월요일 00:00 UTC(09:00 KST) 예정으로 Google Sites/Scholar를 대조해 변경이 있으면 `auto/scholar-sync` 브랜치로 PR을 엽니다.
+GitHub의 예약 실행은 정시를 보장하지 않고 밀립니다(실측 지연 1시간 24분~12시간 40분).
+수동 실행(`workflow_dispatch`)은 기본이 `dry_run`이라 보고만 하고 데이터·PR을 건드리지 않습니다.
+
+*   **남은 실패 원인은 Google Scholar 차단 하나입니다.** 예약 실행 10회를 로그로 전수 확인한 결과
+    6회가 `Failed to fetch https://scholar.google.com/citations?...: 403`으로 수집 단계에서 멈췄습니다(통과율 40%).
+    6회 모두 PR이 열리지 않아 그 주의 Google Sites 변경도 함께 유실됐습니다. 로컬에서 수동 실행해 PR을 올리세요.
+    ```bash
+    node scripts/sync_scholar.cjs --apply && node scripts/update_scholar_metrics.cjs
+    ```
+*   **cron 주기를 올리지 마세요.** `update_scholar_metrics.cjs`가 변경 여부와 무관하게
+    `publications.json`을 매번 다시 쓰므로, 주기를 올리면 citation 숫자만 바뀐 PR이 거의 매일 열립니다.
+*   실패하면 워크플로가 이슈를 자동 생성합니다. 제목에 원인 구분이 붙고(수집 차단 / 데이터 검증 실패 / PR 생성 실패 등),
+    같은 원인이면 코멘트만 쌓이며, 다시 성공하면 열린 실패 이슈를 닫습니다 — **열린 실패 이슈 = 지금 실패 중**.
+*   실행 로그는 `gh run view <id> --log`로는 비어 보입니다.
+    `gh api repos/cau-purelab/cau-purelab.github.io/actions/runs/<id>/logs > logs.zip`으로 받으세요.
 
 ### 도메인 전환 이력 (2026-09-17 완료)
 
