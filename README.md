@@ -73,7 +73,7 @@
 │   ├── create-pages-404.cjs       # 라우트별 정적 HTML + 404.html + sitemap.xml + robots.txt 생성
 │   ├── create-rss.cjs             # NEWS 배열 → dist/feed.xml (RSS 2.0)
 │   ├── validate_data.cjs          # publications.json 무결성 검증 (배포 전 CI 게이트)
-│   ├── sync_scholar.cjs           # Google Sites/Scholar 대조 → 논문 데이터 동기화 (주간 워크플로가 실행)
+│   ├── sync_scholar.cjs           # Google Sites/Scholar 대조 → 논문 데이터 동기화 (이틀마다 워크플로가 실행)
 │   ├── update_scholar_metrics.cjs # Google Scholar citation 및 공개 JCR 라벨 갱신
 │   ├── check_retractions.cjs      # 아카이브에 철회 논문이 섞였는지 Crossref 전수 조회 (보고만)
 │   ├── lib.cjs                    # 스크립트 공용 유틸 (fetchText/normalize/titlesMatch 등)
@@ -82,7 +82,7 @@
 │   ├── workflows/
 │   │   ├── deploy.yml             # main push → 검증·타입체크·빌드·배포·스모크 테스트
 │   │   ├── ci.yml                 # PR 검증 (배포 없이 같은 게이트 + 산출물·번들 예산 점검)
-│   │   └── sync-scholar.yml       # 매주 월요일 논문 데이터 동기화 PR
+│   │   └── sync-scholar.yml       # 이틀마다 논문 데이터 동기화 → 검증 통과 시 PR 자동 머지·배포
 │   └── dependabot.yml             # 의존성·액션 버전 자동 갱신 PR 설정 (npm major는 제외)
 ├── docs/
 │   └── archive-cleanup-2026-09.md # 논문 아카이브 1회성 정리 기록 (제거·보류 판단 근거)
@@ -225,29 +225,38 @@
 *   **Settings → Actions → General → Workflow permissions**
     → `Allow GitHub Actions to create and approve pull requests` **켜기**. — ✅ 켜져 있음(확인됨).
     2026-09-16 실행에서 기본 GITHUB_TOKEN으로 PR #4가 생성·머지된 것으로 확인했습니다.
-    다시 끄면 주간 Scholar 동기화(`sync-scholar.yml`)가 PR 생성 단계에서 실패하고
+    다시 끄면 Scholar 동기화(`sync-scholar.yml`)가 PR 생성 단계에서 실패하고
     데이터는 `auto/scholar-sync` 브랜치에만 쌓입니다.
+*   자동 머지는 GitHub의 "Allow auto-merge" 설정이나 브랜치 보호 규칙을 쓰지 않습니다 — 동기화 워크플로가
+    `gh pr merge`로 직접 머지합니다. 나중에 main에 리뷰 필수 같은 보호 규칙을 걸면 이 머지가 막히니 함께 조정하세요.
 *   **Settings → Pages → Custom domain**: `pure.cau.ac.kr` (인증서 발급 후 `Enforce HTTPS` 체크)
 
-### 주간 Scholar 동기화 (`sync-scholar.yml`)
+### Scholar 동기화 (`sync-scholar.yml`)
 
-월요일 00:00 UTC(09:00 KST) 예정으로 Google Sites/Scholar를 대조해 변경이 있으면 `auto/scholar-sync` 브랜치로 PR을 엽니다.
+홀수일 00:17 UTC(09:17 KST) 예정, 즉 대략 이틀마다 Google Sites/Scholar를 대조합니다(31일과 다음 달 1일은 연달아 돕니다).
+변경이 있으면 배포와 같은 게이트(설정·데이터 검증 → 타입체크 → `build:pages`)를 먼저 통과시킨 뒤
+`auto/scholar-sync` 브랜치로 PR을 열고, **곧바로 스스로 squash 머지하고 배포 워크플로를 호출합니다**(2026-10-01부터 — 그 전에는 주 1회 PR을 사람이 머지했습니다).
+PR은 기록으로 남고 본문이 그 실행의 sync 보고서입니다. 수동 확인이 필요한 항목(이미영 교수 신규 논문, 학회 투고 누락, 철회 표기 등)은 여기에 적힙니다.
 GitHub의 예약 실행은 정시를 보장하지 않고 밀립니다(실측 지연 1시간 24분~12시간 40분).
 수동 실행(`workflow_dispatch`)은 기본이 `dry_run`이라 보고만 하고 데이터·PR을 건드리지 않습니다.
 
+*   배포를 워크플로가 직접 부르는 이유: `GITHUB_TOKEN`으로 한 머지는 main push여도 `deploy.yml`을 깨우지 않습니다.
+    같은 이유로 이 워크플로가 만든 PR에는 `ci.yml`도 돌지 않아서, 게이트를 동기화 워크플로 안에서 돌립니다.
+
 *   **남은 실패 원인은 Google Scholar 차단 하나입니다.** 예약 실행 10회 중 6회가 차단으로 수집 단계에서 멈췄습니다(통과율 40%).
-    **차단돼도 이제 한 주를 통째로 잃지는 않습니다** — Google Sites 기반 변경은 반영되고 Scholar가 필요한 작업만 건너뛰며
-    종료 코드 2(부분 성공)로 끝나, 워크플로가 `(부분 — Scholar 미수집)` 표기를 단 PR을 계속 만듭니다.
+    **차단돼도 그 회차를 통째로 잃지는 않습니다** — Google Sites 기반 변경은 반영되고 Scholar가 필요한 작업만 건너뛰며
+    종료 코드 2(부분 성공)로 끝나, 워크플로가 `(부분 — Scholar 미수집)` 표기를 단 PR을 계속 만들고 머지합니다.
     종료 코드는 0 정상 · 2 부분 성공 · 1 치명적 실패입니다.
-    차단이 여러 주 이어져 신규 논문·citation이 밀리면 로컬에서 당겨오세요.
+    차단이 여러 번 이어져 신규 논문·citation이 밀리면 로컬에서 당겨오세요.
     ```bash
     node scripts/sync_scholar.cjs --apply && node scripts/update_scholar_metrics.cjs
     ```
-*   **cron 주기를 올리지 마세요.** `update_scholar_metrics.cjs`가 변경 여부와 무관하게
-    `publications.json`을 매번 다시 쓰므로, 주기를 올리면 citation 숫자만 바뀐 PR이 거의 매일 열립니다.
-*   종료 코드 1이나 그 뒤 단계가 깨지면 워크플로가 이슈를 자동 생성합니다. 제목에 원인 구분이 붙고(수집 차단 / 데이터 검증 실패 / PR 생성 실패 등),
+*   예전에는 "cron 주기를 올리지 마세요"였습니다 — `update_scholar_metrics.cjs`가 매번 `publications.json`을 다시 써서
+    citation 숫자만 바뀐 PR이 거의 매일 열리고 검토가 무의미해진다는 이유였습니다. 자동 머지로 사람이 검토할 PR이 없어져 이틀 주기로 당겼습니다.
+*   종료 코드 1이나 그 뒤 단계가 깨지면 워크플로가 이슈를 자동 생성합니다. 제목에 원인 구분이 붙고
+    (수집 차단 / 데이터 검증 실패 / 빌드 검증 실패 / PR 생성 실패 / 자동 머지 실패 / 배포 호출 실패 등),
     같은 원인이면 코멘트만 쌓이며, 다시 성공하면 닫힙니다.
-    ⚠ **Scholar 차단만 일어난 주는 부분 성공(코드 2)이라 초록 실행으로 끝나고 이슈가 열리지 않습니다.**
+    ⚠ **Scholar 차단만 일어난 회차는 부분 성공(코드 2)이라 초록 실행으로 끝나고 이슈가 열리지 않습니다.**
     차단이 이어지는지 보려면 실행 로그의 `::warning::`을 확인하세요.
 *   실행 로그는 `gh run view <id> --log`로는 비어 보입니다.
     `gh api repos/cau-purelab/cau-purelab.github.io/actions/runs/<id>/logs > logs.zip`으로 받으세요.

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  # sync-scholar.yml이 자동 머지 뒤 이걸로 배포를 부른다 — GITHUB_TOKEN으로 한 머지는 위 push 트리거를 깨우지 않는다.
   workflow_dispatch:
 
 permissions:

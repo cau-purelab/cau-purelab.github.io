@@ -30,12 +30,15 @@ node scripts/check_retractions.cjs       # 아카이브에 철회 논문이 섞�
 python scripts/patch_publications.py     # publications.json 일회성 수동 패치 (Python 환경 필요)
 ```
 
-- 매주 월요일 `.github/workflows/sync-scholar.yml`이 sync를 자동 실행해 변경 시 PR(`auto/scholar-sync` 브랜치)을 생성함 — 검토 후 머지하면 배포됨.
+- 이틀마다(홀수일 00:17 UTC 예정 — 31일과 다음 달 1일은 연달아 돈다) `.github/workflows/sync-scholar.yml`이 sync를 자동 실행한다. 변경이 있으면 배포와 같은 게이트(설정·데이터 검증 → 타입체크 → `build:pages`)를 통과시킨 뒤 PR(`auto/scholar-sync` 브랜치)을 만들고 **스스로 squash 머지하고 `deploy.yml`을 호출**한다(2026-10-01부터 — 그 전에는 주 1회 PR을 사람이 머지했다).
+  - 배포를 직접 부르는 이유: `GITHUB_TOKEN`으로 한 머지는 main push여도 `deploy.yml`을 깨우지 않는다. 같은 이유로 이 PR에는 `ci.yml`이 돌지 않아 게이트를 sync 워크플로 안에서 돌린다.
+  - 사람이 볼 것은 머지된 PR의 본문(= sync 보고서)이다 — 이미영 교수 신규 논문, Sites 학회 투고 누락, 저자 표기 차이, 철회 표기처럼 자동 반영하지 않는 항목이 거기 적힌다.
+  - 예전 규칙 "cron 주기를 올리지 말 것"은 citation만 바뀐 PR이 거의 매일 열려 검토가 무의미해진다는 이유였다. 자동 머지로 검토할 PR이 없어져 이틀 주기로 당겼다. main에 리뷰 필수 같은 보호 규칙을 걸면 이 머지가 막힌다.
 - ⚠ **PR 생성 권한 문제는 해결됐다** — 2026-09-16 실행(run 35143140435)에서 기본 GITHUB_TOKEN으로 PR #4가 실제로 생성·머지됐다. 실패를 보면 `Allow GitHub Actions to create and approve pull requests` 토글부터 의심하지 말 것(단, 이 토글을 다시 끄면 같은 오류가 돌아온다).
 - 남은 미해결 원인은 **Google Scholar 403/429** 하나다. 예약 실행 10회 중 수집이 성공한 것은 4회(40%)뿐이다.
-- **차단돼도 이제 한 주를 통째로 잃지 않는다.** `sync_scholar.cjs`는 Google Sites 기반 작업(진행 중 논문 상태·신규 투고·제목 변경 탐지·constants 검사)을 먼저 끝내고 반영한 뒤, Scholar가 필요한 작업만 건너뛰며 **종료 코드 2**로 끝난다. 워크플로는 2를 실패가 아니라 부분 성공으로 보고 PR을 계속 만든다(제목에 `(부분 — Scholar 미수집)` 표기). 따라서 차단 주에도 Sites 변경은 들어오고, 로컬 `--apply`는 Scholar가 필요한 작업까지 당겨오고 싶을 때만 쓴다.
+- **차단돼도 그 회차를 통째로 잃지 않는다.** `sync_scholar.cjs`는 Google Sites 기반 작업(진행 중 논문 상태·신규 투고·제목 변경 탐지·constants 검사)을 먼저 끝내고 반영한 뒤, Scholar가 필요한 작업만 건너뛰며 **종료 코드 2**로 끝난다. 워크플로는 2를 실패가 아니라 부분 성공으로 보고 PR을 계속 만들고 머지한다(제목에 `(부분 — Scholar 미수집)` 표기). 따라서 차단된 회차에도 Sites 변경은 들어오고, 로컬 `--apply`는 Scholar가 필요한 작업까지 당겨오고 싶을 때만 쓴다.
 - 종료 코드 규약: **0** 정상 · **2** 부분 성공(Sites 반영됨, Scholar 건너뜀 — 커밋·PR 계속) · **1** 치명적 실패(Sites 수집·파싱 실패 등, 반영 없음).
-- 실패 이슈는 종료 코드 1이나 그 뒤 단계가 깨졌을 때만 열린다. 제목에 원인 구분이 붙고(`Weekly Scholar Sync failed: 수집 차단 (Scholar 403/429)` 등) 다시 성공하면 닫힌다. ⚠ **Scholar 차단만 일어난 주는 초록 실행 + `::warning::`으로 끝나 이슈가 열리지 않는다** — 차단이 계속되는지 보려면 이슈가 아니라 실행 로그의 경고를 봐야 한다.
+- 실패 이슈는 종료 코드 1이나 그 뒤 단계(검증·빌드·PR·머지·배포 호출)가 깨졌을 때만 열린다. 제목에 원인 구분이 붙고(`Scholar Sync failed: 수집 차단 (Scholar 403/429)`, `… 자동 머지 실패` 등 — 2026-10-01 전에는 `Weekly Scholar Sync failed: …`) 다시 성공하면 닫힌다. ⚠ **Scholar 차단만 일어난 회차는 초록 실행 + `::warning::`으로 끝나 이슈가 열리지 않는다** — 차단이 계속되는지 보려면 이슈가 아니라 실행 로그의 경고를 봐야 한다.
 - 실행 로그를 볼 때 `gh run view <id> --log`는 이 워크플로에서 **빈 출력**을 준다. `gh api repos/cau-purelab/cau-purelab.github.io/actions/runs/<id>/logs > logs.zip`으로 받아 풀어 볼 것.
 
 테스트 스위트 없음 — 변경 후 `npm run typecheck` + `npm run build:pages` 성공 + `npm run dev`로 해당 페이지 육안 확인이 기본 검증.
@@ -113,7 +116,7 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 ## 알려진 한계
 
 1. **스크레이핑 구조 의존** — `sync_scholar.cjs`·`update_scholar_metrics.cjs`는 Google Sites 텍스트 구조(제목/저자/`학술지 (상태, 날짜)` 3줄 패턴)와 Scholar HTML 클래스명에 의존. 페이지 구조가 바뀌면 파서 수정 필요.
-2. **Google Scholar가 러너 IP를 자주 막는다** — 예약 실행 10회를 로그로 전수 확인한 결과 6회가 Scholar 차단으로 수집 단계에서 멈췄다(2026-07-20, 07-27, 08-10, 08-17, 08-24, 08-31). 통과율 40%이고, 같은 커밋을 1분 간격으로 돌렸을 때 하나는 403, 하나는 성공한 기록이 있다 — 코드가 아니라 러너 IP 운이다. **2026-09-20 이전에는** 차단되면 그 주의 Google Sites 변경까지 통째로 버려졌다. 지금은 재시도(최대 4회, 지수 백오프)와 부분 성공 보존이 들어가 Sites 변경은 반영되고 Scholar 의존 작업만 건너뛴다. 그래도 신규 출판 논문·citation 갱신은 차단 주에 들어오지 않으므로, 차단이 여러 주 이어지면 로컬에서 `--apply`를 돌려 당겨와야 한다(로컬 IP는 대체로 차단되지 않음).
+2. **Google Scholar가 러너 IP를 자주 막는다** — 예약 실행 10회를 로그로 전수 확인한 결과 6회가 Scholar 차단으로 수집 단계에서 멈췄다(2026-07-20, 07-27, 08-10, 08-17, 08-24, 08-31). 통과율 40%이고, 같은 커밋을 1분 간격으로 돌렸을 때 하나는 403, 하나는 성공한 기록이 있다 — 코드가 아니라 러너 IP 운이다. **2026-09-20 이전에는** 차단되면 그 주의 Google Sites 변경까지 통째로 버려졌다. 지금은 재시도(최대 4회, 지수 백오프)와 부분 성공 보존이 들어가 Sites 변경은 반영되고 Scholar 의존 작업만 건너뛴다. 그래도 신규 출판 논문·citation 갱신은 차단된 회차에 들어오지 않으므로, 차단이 여러 번 이어지면 로컬에서 `--apply`를 돌려 당겨와야 한다(로컬 IP는 대체로 차단되지 않음). 2026-10-01부터 주 1회 → 이틀 주기로 바꿔, 회차마다 러너 IP가 새로 걸리는 만큼 수집 기회도 늘었다.
 3. **Mi Young Lee 아카이브는 부분 수집** — Scholar 프로필 논문 중 일부만 게재한다(현재 publications.json 기준 41편, 작업 규칙 7 참조). 나머지는 sync 보고서에만 나타남. Scholar 쪽 전체 편수는 프로필이 계속 바뀌므로 숫자를 문서에 박아 두지 말고 `node scripts/sync_scholar.cjs` 보고서에서 확인할 것.
 4. **프리렌더는 메타 태그까지만** — 라우트별 HTML은 본문 없이 title/description/og/canonical만 주입한다. 본문 텍스트가 필요한 크롤러(예: Naver Yeti)에는 여전히 빈 페이지로 보인다. SSR/SSG 도입은 별도 과제.
 
@@ -146,3 +149,4 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 | 2026-09-20 | Sites `[Conference] Publications` 구역을 sync가 읽게 함 — 지금까지 경계 표시로만 쓰여 투고 중 학회 논문 4편(SEAL/ICDM-26, ODACE/AAAI-27, LAPSE/EACL-27, VLM/WACV-27)이 사이트에 한 번도 나온 적이 없었다. 4편 수동 추가(427→431)하고, 학회 구역에 있으나 아카이브에 없는 논문을 보고하는 섹션을 신설. 아울러 in-review 구역 밖(학회·게재 구역)에 있는 진행 중 논문을 "Sites에서 사라짐"으로 오보하던 문제를 고침(거짓 경보 5건 → 0건) |
 | 2026-10-01 | 철회 논문 걷어냄(연구실 요청) — Retraction Watch DB·Crossref·Scholar 세 경로로 아카이브 475건을 전수 대조해 철회 논문이 표시돼 있던 4편뿐임을 확인. 3편 삭제(Rho 433→431, Lee 42→41), 1편('Smart health monitoring…')은 철회된 FGCS 논문 정보가 Rho 교수의 2024년 책 챕터 레코드에 잘못 붙은 것이라 챕터로 바로잡음. 화면의 Retracted 배지·제외 주석 제거. 재유입 방지(`RETRACTED_REMOVED_RECORDS` — sync 자동 추가 제외 + validate 배포 차단), 철회 패턴을 출판사 공지 제목('Retraction Note:' 등)까지 넓힘(지운 논문의 Springer 공지가 Rho 교수 저자로 Scholar에 올라오면 신규 논문으로 들어갈 뻔했다), sync에 철회 표기 감지 보고, Crossref 전수 조회 스크립트 `check_retractions.cjs` 신설 |
 | 2026-10-01 | 박형준(Hyungjun Park) 프로필 — 사진(4344×5792 PNG 11MB → 354×472 JPEG 13.5KB, 원본은 `design/photo-source/`에 비커밋 보관), 이메일, 관심 분야(#Machine Unlearning) |
+| 2026-10-01 | Scholar 동기화 자동 머지 + 이틀 주기 — 주 1회 PR을 사람이 머지하던 방식(9/28 PR #6이 머지되지 않은 채 쌓임)을 바꿔, 변경이 있으면 배포 게이트(설정·데이터 검증 → 타입체크 → `build:pages`)를 sync 워크플로 안에서 통과시킨 뒤 PR을 만들고 스스로 squash 머지, `deploy.yml`을 workflow_dispatch로 호출(GITHUB_TOKEN 머지는 push 트리거를 깨우지 않음). cron `0 0 * * 1` → `17 0 */2 * *`, 실패 이슈에 빌드·머지·배포 호출 단계 원인 구분 추가, 워크플로·이슈 이름에서 Weekly 제거 |
