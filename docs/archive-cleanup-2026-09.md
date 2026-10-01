@@ -24,6 +24,7 @@ Google Scholar 프로필에서 자동 수집된 아카이브에 **논문이 아�
 - 인용 감소 98 = 동명이인 벤젠 논문 73 + 타인 논문 25 (front matter 33건은 전부 인용 0)
 - **철회 논문 4건은 제거하지 않았다.** 연구 실적이므로 목록에 남기되 `"retracted": true`로 표시했다.
   (작성 당시 "UI 배지는 별도 작업"으로 남겼던 부분은 **완료** — 아래 4절 상태 갱신 참고.)
+  **→ 2026-10-01 방침 변경: 철회 논문은 싣지 않는다.** 3건 삭제, 1건은 잘못 붙은 철회 논문 정보를 걷어내 바로잡았다(4절 끝).
 
 ---
 
@@ -95,7 +96,7 @@ PI가 의장·위원으로 이름을 올린 것은 사실이지만 연구 업적
 | 1 | Occupational exposure to benzene in South Korea | 73 | 동명이인(직업의학 분야 Mi-Young Lee) — CLAUDE.md 작업 규칙 7이 경고한 사안 |
 ---
 
-## 4. 철회(Retracted) 논문 — 제거하지 않고 표시만 추가 (4건)
+## 4. 철회(Retracted) 논문 — 제거하지 않고 표시만 추가 (4건) → 2026-10-01 걷어냄 (이 절 끝의 상태 갱신)
 
 `"retracted": true` 필드를 추가했다. 표시 제목에서 잘려 있던 `RETRACTED` / `[Retracted]` 접두는 bibtex의 원 제목대로 복원했다.
 목록·지표에서 제외할지는 UI 쪽 별도 판단 사항이며, 데이터에서는 제거하지 않았다.
@@ -116,6 +117,40 @@ PI가 의장·위원으로 이름을 올린 것은 사실이지만 연구 업적
 > - **목록에는 남기고 지표에서만 뺀다.** Scholar 페이지의 연구 지표(논문 수·인용수·h-index)는
 >   `!p.is_progress && !p.retracted`로 걸러 계산하고, 지표 아래에 "N retracted paper(s) … excluded from these totals"를 명시한다.
 > - 데이터(`publications.json`)에서는 여전히 제거하지 않는다.
+
+> **상태 갱신 (2026-10-01): 방침 변경 — 철회 논문은 아카이브에 싣지 않는다.** 연구실 요청(목록에 철회 배지가 보기 좋지 않다)으로
+> 표시만 해 두던 방식을 접었다. 위 표의 4건은 이렇게 처리했다(Rho 433→431, Lee 42→41).
+>
+> | 논문 | 처리 | 철회 공지 (Crossref·Retraction Watch 모두 확인) |
+> |------|------|------|
+> | Intrusion detection based on machine learning in the IoT (J. Supercomputing) | 삭제 | 10.1007/s11227-024-05973-6 (2024-02-13) |
+> | A Rapid AI-Based CAD System for COVID-19 Classification (Behavioural Neurology) | 삭제 | 10.1155/2023/9876194 (2023-08-09) |
+> | Vision Sensor-Based Real-Time Fire Detection (Comput. Intell. Neurosci., Lee) | 삭제 | 10.1155/2023/9846578 (2023-12-13) |
+> | Smart health monitoring and management system: toward autonomous wearable sensing… (FGCS, Din·Paul) | **철회 논문 정보만 걷어내고 바로잡음** | 10.1016/j.future.2021.07.007 (2021-07-15) |
+>
+> - **위 "확인 요청"은 이렇게 결론났다.** 이 항목의 Scholar 레코드(`k5aAQxUAAAAJ:SIv7DqKytYAC`)는 철회된 FGCS 논문이 아니라
+>   **2024년 책 챕터**다 — *Smart Health Monitoring and Management System*, Gul·Paul·Kim·Rho,
+>   *Intelligent Computing on IoT 2.0, Big Data Analytics, and Block Chain Technology*(Chapman and Hall/CRC) pp. 206–225,
+>   DOI 10.1201/9781003326236-12(Crossref에 철회 이력 없음). 인용 1도 이 챕터의 것이다. 제목·bibtex만 앞부분이 같은
+>   FGCS 논문(PI 없음, 철회)으로 잘못 붙어 있었다. 항목을 지우면 다음 sync가 같은 챕터를 신규 논문으로 다시 넣으므로,
+>   지우지 않고 제목·bibtex를 챕터 것으로 고쳤다.
+> - **다른 철회 논문이 더 없는지 세 경로로 전수 확인했다**(당시 아카이브 475건): ① Retraction Watch 데이터베이스
+>   (철회 6.7만 건)와 제목 정확 일치·토큰 유사도 대조 ② Crossref에서 항목마다 검색 상위 10건의 철회 공지와 `updated-by`
+>   ③ Scholar 프로필 전 행(Rho 483행, Lee 230행)의 철회 접두. 어느 경로도 위 4건 밖의 철회 논문은 찾지 못했다
+>   (Scholar 경로는 그중 1건만 잡았다 — 아래). Crossref 검색에 함께 걸린, 제목이 닮은 별개의 철회 논문 4건
+>   (M-LSB-SM / neutrosophic cubic graphs / museum AR / clinical disease prediction 각각의 유사 제목)은 PI가 저자에 없는
+>   다른 논문이다(neutrosophic 쪽은 Gulistan이 공저자로 겹친다). M-LSB-SM·neutrosophic·clinical disease의 원 논문은
+>   Crossref 레코드에 철회 이력이 없고, museum AR 원 논문은 Crossref 레코드 자체가 없다(Retraction Watch에도 기록 없음).
+>   Retraction Watch 토큰 유사도 대조가 더 내놓은 후보(유사도 0.50~0.57)도 모두 제목이 다른 논문이었다.
+>   정정(correction)만 있는 4건은 철회가 아니라 그대로 두었다.
+> - Scholar 제목에 철회 접두가 붙어 있던 것은 프로필에 남은 철회 논문 2건(Rho) 중 1건뿐이었다('Smart health' 레코드는
+>   철회 논문이 아니었고, Lee 건은 이미 프로필에서 사라졌다). **Scholar만 봐서는 새 철회를 놓친다.**
+> - 재유입 방지: 지운 3건의 Scholar 레코드를 `scripts/lib.cjs`의 `RETRACTED_REMOVED_RECORDS`에 적었다. sync는 이 레코드를
+>   자동 추가에서 영구히 빼고, `validate_data.cjs`는 json에 철회 표기(제목·bibtex의 철회 접두와 'Retraction Note:' 같은
+>   공지 제목)·`retracted` 키·이 레코드가 나타나면 배포를 막는다. 출판사 철회 공지가 별도 레코드로 Scholar에 올라와도
+>   sync가 신규 논문으로 넣지 않는다. 아카이브 논문이 Scholar에서 철회 표기를 달면 sync 보고서의 "철회 표기" 절에 뜬다.
+>   Scholar가 철회를 반영하지 않는 경우까지 보려면 `node scripts/check_retractions.cjs`(Crossref 전수 조회, 보고만)를 돌린다.
+> - 화면의 `Retracted` 배지, "N listed · N retracted excluded" 주석, 철회 인용 회색 배지, `RETRACTED_PREFIX_RE`는 모두 걷어냈다.
 
 ---
 
@@ -168,7 +203,7 @@ PI가 의장·위원으로 이름을 올린 것은 사실이지만 연구 업적
 | 4 | Smart Transportation Decision Making through Big Graphs and IoT. | 0 | 저자 목록이 `and others`로 잘림. Rathore·Paul은 본 연구실 공동연구자 |
 | 5 | Automatic voice query transformation for query-by-humming systems | 0 | 저자에 PI의 지도교수(황인준)가 있고 주제(query-by-humming)가 PI 초기 연구와 일치 — bibtex 저자 목록이 부정확할 가능성 |
 | 6 | Crumbling Walls Log Quorum System-based Name Resolution Routing for CCN based IoT | 2 | bibtex 저자가 `Shah, Peer` 하나뿐인 손상된 형태라 판단 불가 |
-| 7 | Smart health monitoring and management system (→ 철회 표시함) | 1 | 위 4절 참조 |
+| 7 | Smart health monitoring and management system (→ **2026-10-01 해결**: Rho 교수 공저 2024년 책 챕터로 bibtex 교정, 철회 FGCS 논문 정보는 걷어냄) | 1 | 위 4절 참조 |
 
 ### B. front matter 성격이지만 제거하지 않은 특집호 편집 논설 9건
 
@@ -223,7 +258,8 @@ PI가 **저자로 등재된 실제 게재물**이고 인용도 집계된다(최�
    위 "보류 A-1"(`한병준 and 노승민 and 황인준`) 같은 한글 표기 논문이 앞으로 Scholar에 올라오면 이 게이트에서 누락된다 — 남은 과제.
 4. **완료** — `scripts/validate_data.cjs`가 `lib.cjs`의 `FRONT_MATTER_TITLE`·`RETRACTED_TITLE`을 그대로 읽어 배포 전에 검사한다.
    위 "보류" 절에 남긴 기존 항목만 `REVIEW_PENDING_FRONT_MATTER` / `REVIEW_PENDING_AND_OTHERS` 목록에서 경고로 낮추고,
-   **목록에 없는 신규 위반은 오류(exit 1)로 배포를 막는다.** `retracted: true` 표시가 빠진 철회 논문도 오류다.
+   **목록에 없는 신규 위반은 오류(exit 1)로 배포를 막는다.** 철회 논문은 남아 있기만 해도 오류다
+   (2026-10-01부터 — 그 전에는 `retracted: true` 표시가 빠진 경우만 오류였다).
    (저자 게이트 자체는 sync 시점에만 적용되고 `validate_data.cjs`에는 없다. 대신 `and others` 잔존 검사가 같은 역할의 일부를 한다.)
 
 > 연구실이 1번을 처리해 항목을 삭제하면, `validate_data.cjs`의 `REVIEW_PENDING_*` 목록에서도 해당 줄을 함께 지운다.

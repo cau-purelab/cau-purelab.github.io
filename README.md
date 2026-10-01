@@ -75,6 +75,7 @@
 │   ├── validate_data.cjs          # publications.json 무결성 검증 (배포 전 CI 게이트)
 │   ├── sync_scholar.cjs           # Google Sites/Scholar 대조 → 논문 데이터 동기화 (주간 워크플로가 실행)
 │   ├── update_scholar_metrics.cjs # Google Scholar citation 및 공개 JCR 라벨 갱신
+│   ├── check_retractions.cjs      # 아카이브에 철회 논문이 섞였는지 Crossref 전수 조회 (보고만)
 │   ├── lib.cjs                    # 스크립트 공용 유틸 (fetchText/normalize/titlesMatch 등)
 │   └── patch_publications.py      # 논문 데이터 일회성 수정/보강 (Python)
 ├── .github/

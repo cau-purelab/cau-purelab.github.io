@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { MEMBERS, PI_NAME_VARIANTS, METRICS_DISCLAIMER, scholarProfileUrl } from '../constants';
-import { Mail, Globe, Github, Linkedin, BookOpen, X, ExternalLink, Copy, Check, FileText, Award, Quote, AlertTriangle } from 'lucide-react';
+import { Mail, Globe, Github, Linkedin, BookOpen, X, ExternalLink, Copy, Check, FileText, Award, Quote } from 'lucide-react';
 import { Member } from '../types';
 import SEO from '../components/SEO';
 import publicationsData from '../data/publications.json';
@@ -22,7 +22,6 @@ interface MemberPub {
   jcr_source?: string;
   status?: string;
   is_progress?: boolean;
-  retracted?: boolean;
 }
 
 interface DecoratedPub {
@@ -36,8 +35,6 @@ const loadedPublications = publicationsData as Record<string, MemberPub[]>;
 // 모달에는 최신 논문만 보여주고 전체 목록은 아카이브 페이지로 넘긴다.
 // (예전에는 470건을 한 번에 렌더해 키보드 사용자가 1,400개 가까운 탭 스톱을 지나야 했다.)
 const MODAL_PUB_LIMIT = 20;
-// 철회 논문 제목의 접두 표기. 배지로 따로 보여주므로 제목에서는 덜어낸다.
-const RETRACTED_PREFIX_RE = /^(\[retracted\]|retracted article:|retracted:)\s*/i;
 
 const renderAuthors = (raw: string, isBibtexFormat: boolean) => {
   const { names, etAl } = splitAuthors(raw, isBibtexFormat);
@@ -66,7 +63,7 @@ const PublicationItem = ({ pub, bib }: DecoratedPub) => {
   // JSON에 직접 연도/저자가 없으므로 BibTeX에서 파싱해서 사용
   const displayYear = pub.is_progress ? pub.year : bib.year;
   const displayVenue = pub.is_progress ? pub.journal : bib.venue;
-  const displayTitle = (pub.title || "Untitled Paper").replace(RETRACTED_PREFIX_RE, '');
+  const displayTitle = pub.title || "Untitled Paper";
 
   const handleCopyBibtex = async () => {
     const ok = await copyText(pub.bibtex || "");
@@ -98,12 +95,6 @@ const PublicationItem = ({ pub, bib }: DecoratedPub) => {
           <span className="text-xs font-bold bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-100">
             {pub.is_progress ? 'Working' : (displayYear || 'Year unknown')}
           </span>
-          {/* 철회 논문임을 눈에 띄게 알린다 */}
-          {pub.retracted && (
-            <span className="inline-flex items-center gap-1 text-xs font-bold bg-red-600 text-white px-2 py-1 rounded uppercase">
-              <AlertTriangle className="w-3 h-3" /> Retracted
-            </span>
-          )}
           {/* 인용 0은 성과가 아니다 — 초록 배지로 'Cited 0'을 찍으면 최신 논문일수록 실패처럼 보인다.
               필드가 없는 경우와도 화면에서 구분되지 않으므로 0이면 배지를 내보내지 않는다. */}
           {typeof pub.citations === 'number' && pub.citations > 0 && (

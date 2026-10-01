@@ -3,7 +3,7 @@
  *
  * 검사 항목: JSON 유효성, 교수별 항목 수, 정규화 제목/bibtex 중복,
  * 출판 항목의 bibtex 존재, 진행 중 항목의 필수 필드,
- * 논문이 아닌 레코드(위원회 명단·특집호 서문)와 철회 논문 표기,
+ * 논문이 아닌 레코드(위원회 명단·특집호 서문)와 철회 논문(잔존·재유입),
  * 'and others' 저자 잔존, url 형식, funding_tags 타입,
  * 연도/학술지 파싱 가능 여부, 같은 논문의 투고 중/출판 동시 등재,
  * 교수 간 중복 항목의 필드 일관성.
@@ -15,7 +15,9 @@
  */
 const fs = require('fs');
 const path = require('path');
-const { normalize, venuesMatch, FRONT_MATTER_TITLE, RETRACTED_TITLE } = require('./lib.cjs');
+const {
+  normalize, venuesMatch, scholarRecordId, FRONT_MATTER_TITLE, RETRACTED_TITLE, RETRACTED_REMOVED_RECORDS,
+} = require('./lib.cjs');
 
 const JSON_PATH = path.join(__dirname, '..', 'src', 'data', 'publications.json');
 
@@ -103,15 +105,23 @@ try {
   process.exit(1);
 }
 
-// 논문이 아닌 레코드 / 철회 논문 표기 검사
+// 논문이 아닌 레코드 / 철회 논문 검사
 function checkTitleQuality(p, where) {
   const title = String(p.title || '').trim();
   if (FRONT_MATTER_TITLE.test(title)) {
     reportViolation('front-matter', title, `${where} — 논문이 아닌 레코드(위원회 명단·서문·특집호 편집자 등)`);
   }
-  // 철회 논문은 삭제하거나 retracted: true로 표시해 지표 집계에서 빼야 한다
-  if (RETRACTED_TITLE.test(title) && p.retracted !== true) {
-    errors.push(`${where} — 철회 논문인데 retracted: true 표시가 없음`);
+  // 철회 논문은 아카이브에 싣지 않는다(2026-10-01부터 — 표시만 달아 남기던 방식은 폐기).
+  // Scholar가 준 제목에는 철회 접두가 없는 일이 잦아 bibtex 제목도 본다 —
+  // 2026-09 정리 때 'Smart health monitoring…'은 접두가 bibtex 제목에만 있었다.
+  // RETRACTED_TITLE은 출판사 철회 공지('Retraction Note: …' 등)도 잡는다.
+  // (`'retracted' in p`로 쓰지 않는다 — 문자열 같은 잘못된 항목에서 예외가 나 오류 목록이 출력되지 않는다)
+  if (RETRACTED_TITLE.test(title) || RETRACTED_TITLE.test(bibField(p.bibtex, 'title')) || p.retracted !== undefined) {
+    errors.push(`${where} — 철회 논문은 아카이브에서 지운다 (지운 뒤 Scholar 레코드 ID를 lib.cjs RETRACTED_REMOVED_RECORDS에 적을 것)`);
+  }
+  // 지운 철회 논문이 수동 패치 등으로 되살아나는 것을 막는다(sync 쪽은 같은 목록으로 자동 추가를 막는다)
+  if (RETRACTED_REMOVED_RECORDS.has(scholarRecordId(p.url))) {
+    errors.push(`${where} — 철회돼 지운 Scholar 레코드가 다시 들어옴 (${scholarRecordId(p.url)})`);
   }
 }
 

@@ -26,6 +26,7 @@ node scripts/sync_scholar.cjs            # 논문 데이터 변경 감지 보고
 node scripts/sync_scholar.cjs --apply    # 감지된 변경을 publications.json에 반영 + 날짜 상수 자동 갱신
 node scripts/update_scholar_metrics.cjs  # citation/JCR 라벨 갱신
 node scripts/validate_data.cjs           # publications.json 무결성 검증 (CI가 배포 전 실행)
+node scripts/check_retractions.cjs       # 아카이브에 철회 논문이 섞였는지 Crossref 전수 조회 (보고만, 약 12분)
 python scripts/patch_publications.py     # publications.json 일회성 수동 패치 (Python 환경 필요)
 ```
 
@@ -62,9 +63,9 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 - 출판: `{ title, url, bibtex, funding_tags, citations?, jcr?, jcr_source? }`
 - 진행 중: `{ title, author, journal, status, funding_tags, year, is_progress: true }`
 
-**`docs/archive-cleanup-2026-09.md`**: 2026-09-17 아카이브 1회성 정리 기록 — 무엇을 지웠고 무엇을 판단 보류했는지. `validate_data.cjs`가 경고 끝에 붙이는 "확인 대기" 항목의 근거가 여기 있다.
+**`docs/archive-cleanup-2026-09.md`**: 2026-09-17 아카이브 1회성 정리 기록 — 무엇을 지웠고 무엇을 판단 보류했는지. `validate_data.cjs`가 경고 끝에 붙이는 "확인 대기" 항목의 근거가 여기 있다. 철회 논문 처리 이력(표시만 → 2026-10-01 삭제)과 그 근거도 4절에 있다.
 
-**`scripts/`**: `site.cjs`(정본 URL `SITE_URL` + 라우트 목록 `ROUTES`의 단일 출처. `constants.tsx`의 `LAB_URL`과 어긋나면 throw — CI가 배포 전에 잡는다), `create-pages-404.cjs`(라우트별 정적 HTML·404.html·sitemap.xml·robots.txt 생성), `create-rss.cjs`(NEWS → feed.xml), `validate_data.cjs`(publications.json 무결성), `sync_scholar.cjs`(통합 동기화 — Google Sites in-review 섹션과 Scholar 프로필을 json과 대조해 상태 변경/신규 논문/출판 전환을 감지·반영하고 constants.tsx 정합성도 검사), `update_scholar_metrics.cjs`(Scholar citation + Google Sites의 `[SCIE-Q1 Top N%]` 라벨 수집 — Clarivate 원자료 아님), `patch_publications.py`(수동 일회성 패치용), `lib.cjs`(공용 유틸: fetchText/normalize/titlesMatch 등).
+**`scripts/`**: `site.cjs`(정본 URL `SITE_URL` + 라우트 목록 `ROUTES`의 단일 출처. `constants.tsx`의 `LAB_URL`과 어긋나면 throw — CI가 배포 전에 잡는다), `create-pages-404.cjs`(라우트별 정적 HTML·404.html·sitemap.xml·robots.txt 생성), `create-rss.cjs`(NEWS → feed.xml), `validate_data.cjs`(publications.json 무결성), `sync_scholar.cjs`(통합 동기화 — Google Sites in-review 섹션과 Scholar 프로필을 json과 대조해 상태 변경/신규 논문/출판 전환을 감지·반영하고 constants.tsx 정합성도 검사), `update_scholar_metrics.cjs`(Scholar citation + Google Sites의 `[SCIE-Q1 Top N%]` 라벨 수집 — Clarivate 원자료 아님), `check_retractions.cjs`(게재 항목을 Crossref에서 찾아 철회 공지·`updated-by`가 있는지 전수 조회 — 보고만), `patch_publications.py`(수동 일회성 패치용), `lib.cjs`(공용 유틸: fetchText/normalize/titlesMatch, 철회 접두·삭제한 철회 레코드 목록 등).
 
 ---
 
@@ -91,6 +92,9 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 9. **커밋**: 주제별로 분리 커밋. main push는 곧바로 라이브 배포이므로 push 전 `npm run typecheck && npm run build:pages` 필수.
 10. **라우트 추가/삭제 시**: `src/App.tsx`의 `<Route>`와 `scripts/site.cjs`의 `ROUTES`를 함께 고칠 것. 빠뜨리면 해당 딥링크가 다시 404가 된다.
 11. **index.html의 SEO 태그**: `data-rh="true"`가 붙은 태그는 Helmet이 런타임에 교체하고, 빌드 시에는 `create-pages-404.cjs`가 라우트별 값으로 치환한다. 태그 구조를 바꾸면 그 스크립트의 치환 패턴도 함께 고칠 것(치환 실패 시 빌드가 멈춘다).
+12. **철회 논문은 싣지 않는다**(2026-10-01, 연구실 요청): publications.json에서 지우고, 그 논문의 Scholar 레코드 ID를 `lib.cjs`의 `RETRACTED_REMOVED_RECORDS`에 적는다 — 적지 않으면 sync가 다시 넣을 수 있다. url이 Scholar 주소면 그 `citation_for_view=` 값을, DOI 등 다른 주소면 교수 Scholar 프로필에서 같은 논문 행을 찾아 그 행의 값을 적는다. `retracted: true` 표시로 남기던 방식은 폐기됐고, `validate_data.cjs`가 철회 흔적(제목·bibtex의 철회 접두와 'Retraction Note:' 같은 공지 제목, `retracted` 키, 지운 레코드)을 배포 전에 막는다.
+    - **지우기 전에 Scholar 레코드가 정말 그 철회 논문인지 볼 것**: 'Smart health monitoring…'은 철회된 FGCS 논문(PI 없음)의 정보가 Rho 교수의 2024년 책 챕터 레코드에 잘못 붙어 있던 경우였다 — 지우지 않고 챕터로 바로잡았다.
+    - **새 철회는 Scholar만 봐서는 못 잡는다**: 2026-10 전수 확인 때 프로필에 남은 철회 논문 2편 중 Scholar 제목에 접두가 붙은 것은 1편뿐이었다. sync는 철회 표기가 붙은 경우만 보고하므로, 가끔 `node scripts/check_retractions.cjs`(Crossref)로 확인한다.
 
 ---
 
@@ -110,7 +114,7 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 
 1. **스크레이핑 구조 의존** — `sync_scholar.cjs`·`update_scholar_metrics.cjs`는 Google Sites 텍스트 구조(제목/저자/`학술지 (상태, 날짜)` 3줄 패턴)와 Scholar HTML 클래스명에 의존. 페이지 구조가 바뀌면 파서 수정 필요.
 2. **Google Scholar가 러너 IP를 자주 막는다** — 예약 실행 10회를 로그로 전수 확인한 결과 6회가 Scholar 차단으로 수집 단계에서 멈췄다(2026-07-20, 07-27, 08-10, 08-17, 08-24, 08-31). 통과율 40%이고, 같은 커밋을 1분 간격으로 돌렸을 때 하나는 403, 하나는 성공한 기록이 있다 — 코드가 아니라 러너 IP 운이다. **2026-09-20 이전에는** 차단되면 그 주의 Google Sites 변경까지 통째로 버려졌다. 지금은 재시도(최대 4회, 지수 백오프)와 부분 성공 보존이 들어가 Sites 변경은 반영되고 Scholar 의존 작업만 건너뛴다. 그래도 신규 출판 논문·citation 갱신은 차단 주에 들어오지 않으므로, 차단이 여러 주 이어지면 로컬에서 `--apply`를 돌려 당겨와야 한다(로컬 IP는 대체로 차단되지 않음).
-3. **Mi Young Lee 아카이브는 부분 수집** — Scholar 프로필 논문 중 일부만 게재한다(현재 publications.json 기준 42편, 작업 규칙 7 참조). 나머지는 sync 보고서에만 나타남. Scholar 쪽 전체 편수는 프로필이 계속 바뀌므로 숫자를 문서에 박아 두지 말고 `node scripts/sync_scholar.cjs` 보고서에서 확인할 것.
+3. **Mi Young Lee 아카이브는 부분 수집** — Scholar 프로필 논문 중 일부만 게재한다(현재 publications.json 기준 41편, 작업 규칙 7 참조). 나머지는 sync 보고서에만 나타남. Scholar 쪽 전체 편수는 프로필이 계속 바뀌므로 숫자를 문서에 박아 두지 말고 `node scripts/sync_scholar.cjs` 보고서에서 확인할 것.
 4. **프리렌더는 메타 태그까지만** — 라우트별 HTML은 본문 없이 title/description/og/canonical만 주입한다. 본문 텍스트가 필요한 크롤러(예: Naver Yeti)에는 여전히 빈 페이지로 보인다. SSR/SSG 도입은 별도 과제.
 
 ---
@@ -140,4 +144,5 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 | 2026-09-20 | Scholar 화면 — 펀딩 집계를 범위 적용 집합에서 세어 "태그에 3건인데 눌러도 빈 화면"을 없앰(칩 수 = 카드 수). 지표 카드에 `419 listed · 3 retracted excluded` 주석을 달아 415/418 혼란 해소. 게재처 미상 5건을 빈칸 대신 `Venue unknown`으로 표기. 진행 중 배지를 원본 표기(`Under Review`)로 되돌리고 검사 순서를 진행 단계 역순으로 정리 |
 | 2026-09-20 | 데이터 교정 — 의료 딥페이크 논문이 Sites에서 제목·학술지·상태가 모두 바뀌어 게재 확정(CMC-Computers, Materials & Continua, Accepted Sept. 2026)된 것을 반영(7개월간 `Scientific Reports / Submitted, Feb. 2026`로 노출됐음). Scholar에 연도가 없어 영구히 걸러지던 ECCV-26 워크숍 논문 1건 추가(426→427). 인용수 갱신은 Scholar 429로 보류 |
 | 2026-09-20 | Sites `[Conference] Publications` 구역을 sync가 읽게 함 — 지금까지 경계 표시로만 쓰여 투고 중 학회 논문 4편(SEAL/ICDM-26, ODACE/AAAI-27, LAPSE/EACL-27, VLM/WACV-27)이 사이트에 한 번도 나온 적이 없었다. 4편 수동 추가(427→431)하고, 학회 구역에 있으나 아카이브에 없는 논문을 보고하는 섹션을 신설. 아울러 in-review 구역 밖(학회·게재 구역)에 있는 진행 중 논문을 "Sites에서 사라짐"으로 오보하던 문제를 고침(거짓 경보 5건 → 0건) |
+| 2026-10-01 | 철회 논문 걷어냄(연구실 요청) — Retraction Watch DB·Crossref·Scholar 세 경로로 아카이브 475건을 전수 대조해 철회 논문이 표시돼 있던 4편뿐임을 확인. 3편 삭제(Rho 433→431, Lee 42→41), 1편('Smart health monitoring…')은 철회된 FGCS 논문 정보가 Rho 교수의 2024년 책 챕터 레코드에 잘못 붙은 것이라 챕터로 바로잡음. 화면의 Retracted 배지·제외 주석 제거. 재유입 방지(`RETRACTED_REMOVED_RECORDS` — sync 자동 추가 제외 + validate 배포 차단), 철회 패턴을 출판사 공지 제목('Retraction Note:' 등)까지 넓힘(지운 논문의 Springer 공지가 Rho 교수 저자로 Scholar에 올라오면 신규 논문으로 들어갈 뻔했다), sync에 철회 표기 감지 보고, Crossref 전수 조회 스크립트 `check_retractions.cjs` 신설 |
 | 2026-10-01 | 박형준(Hyungjun Park) 프로필 — 사진(4344×5792 PNG 11MB → 354×472 JPEG 13.5KB, 원본은 `design/photo-source/`에 비커밋 보관), 이메일, 관심 분야(#Machine Unlearning) |

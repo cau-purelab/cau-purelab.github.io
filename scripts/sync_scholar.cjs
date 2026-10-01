@@ -4,7 +4,8 @@
  * 기준 소스 2곳을 publications.json과 대조한다:
  *   1. Google Sites (in Press/Review 섹션 + 게재 섹션) → 진행 중 논문의 상태/학술지 변경 감지,
  *      제목이 바뀐 채 출판된 논문 탐지
- *   2. Google Scholar 프로필                          → 신규 출판 논문 수집, 진행 중 → 출판 전환
+ *   2. Google Scholar 프로필                          → 신규 출판 논문 수집, 진행 중 → 출판 전환,
+ *                                                      철회 표기가 붙은 아카이브 논문 감지(보고만)
  * 추가로 constants.tsx의 PUBLICATIONS(주요 논문)와 json의 정합성을 검사한다(보고만).
  *
  * 사용법:
@@ -30,7 +31,11 @@ const {
   isJunkTitle,
   hasPiAuthor,
   venuesMatch,
+  scholarRecordId,
   scholarCitationUrl,
+  RETRACTED_TITLE,
+  RETRACTED_PREFIX,
+  RETRACTED_REMOVED_RECORDS,
   PREPRINT_VENUE,
   FetchError,
   fetchText,
@@ -387,7 +392,7 @@ async function main() {
   const report = {
     updates: [], authorDiffs: [], conversions: [], additionsProgress: [], titleChanges: [],
     renames: [], additionsPublished: [], unknownYear: [], skipped: [], urlBackfills: [], warnings: [],
-    conferenceMissing: [], elsewhereDiffs: [],
+    conferenceMissing: [], elsewhereDiffs: [], retractions: [],
     degraded: [], constants: [],
   };
   const bibKeys = collectBibKeys(data); // 신규 생성 bibtex 키 충돌 방지
@@ -605,8 +610,21 @@ async function main() {
 
     // 이 프로필의 Scholar 수집이 실패했다면 아래 작업은 근거가 없다 — 건너뛰고 보고에 남긴다.
     if (!scholarRows) {
-      report.degraded.push(`[${name}] 건너뜀 — 출판 전환, 빈 URL 보강, 신규 출판 논문 추가 (Scholar 미수집)`);
+      report.degraded.push(`[${name}] 건너뜀 — 출판 전환, 빈 URL 보강, 신규 출판 논문 추가, 철회 표기 감지 (Scholar 미수집)`);
       continue;
+    }
+
+    // 아카이브에 있는 논문이 Scholar에서 철회 표기('RETRACTED ARTICLE: …')를 달거나 그 철회 공지
+    // ('Retraction Note: …')가 따로 올라오면 알린다. 제목이 기존 항목과 맞으면 신규 행이 아니라서
+    // 아래의 철회 필터(isJunkTitle)를 거치지 않고 조용히 남기 때문이다.
+    // 자동으로 지우지 않는다 — 제목 포함 판정이 별개 논문을 엮을 수 있어 사람이 확인한 뒤 지운다.
+    // Scholar는 철회를 제목에 반영하지 않는 경우가 많다(2026-10 확인: 프로필에 남은 철회 논문 2편 중 1편만).
+    // 전수 확인은 check_retractions.cjs로 한다.
+    for (const row of scholarRows) {
+      if (!RETRACTED_TITLE.test(row.title)) continue;
+      const original = normalize(row.title.replace(RETRACTED_PREFIX, ''));
+      const hit = pubs.find(p => !p.is_progress && titlesMatch(normalize(p.title), original));
+      if (hit) report.retractions.push(`[${name}] ${hit.title.slice(0, 70)}\n      Scholar: ${row.title.slice(0, 80)}`);
     }
 
     // url이 비어 있는 기존 출판 항목 → Scholar 링크로 보강 (모든 교수 대상)
@@ -630,17 +648,19 @@ async function main() {
     for (const row of newRows) {
       // 자동 추가 제외 사유 (한 줄이라도 걸리면 보고만 하고 넘어간다)
       const rowTitle = row.title.trim();
-      const skipReason = isJunkTitle(rowTitle)
-        ? '논문이 아님/철회 논문'
-        : /[가-힣]/.test(rowTitle)
-          ? '한글 제목 (국문 중복 등재 가능성)'
-          : PREPRINT_VENUE.test(rowTitle)
-            ? '프리프린트/학술발표'
-            : !/^\d{4}$/.test(String(row.year || ''))
-              ? UNKNOWN_YEAR_REASON
-              : Number(row.year) < MIN_AUTO_ADD_YEAR
-                ? `${MIN_AUTO_ADD_YEAR}년 이전 (${row.year})`
-                : null;
+      const skipReason = RETRACTED_REMOVED_RECORDS.has(scholarRecordId(row.href))
+        ? '철회 논문 — 아카이브에서 지운 레코드 (lib.cjs RETRACTED_REMOVED_RECORDS)'
+        : isJunkTitle(rowTitle)
+          ? '논문이 아님/철회 논문'
+          : /[가-힣]/.test(rowTitle)
+            ? '한글 제목 (국문 중복 등재 가능성)'
+            : PREPRINT_VENUE.test(rowTitle)
+              ? '프리프린트/학술발표'
+              : !/^\d{4}$/.test(String(row.year || ''))
+                ? UNKNOWN_YEAR_REASON
+                : Number(row.year) < MIN_AUTO_ADD_YEAR
+                  ? `${MIN_AUTO_ADD_YEAR}년 이전 (${row.year})`
+                  : null;
 
       // 연도 미상은 '오래돼서 뺀 것'이 아니라 '판단할 재료가 없어서 뺀 것'이다 — 따로 모은다.
       if (skipReason === UNKNOWN_YEAR_REASON) {
@@ -758,6 +778,8 @@ async function main() {
   section('신규 출판 논문 추가', report.additionsPublished);
   // 연도 미상은 사람이 봐야 처리되는 목록이다. 잘라내면 확인할 사람이 없으므로 전부 출력한다.
   section('연도 미상으로 보류 (자동 추가 안 함 — 수동 확인 필요)', report.unknownYear, x => x, Infinity);
+  // 철회 논문은 아카이브에 싣지 않는다 — 걸리면 지울 것(지운 뒤 Scholar 레코드 ID를 lib.cjs RETRACTED_REMOVED_RECORDS에 적는다).
+  section('Scholar에 철회 표기가 붙은 아카이브 논문 (지울 것 — 수동)', report.retractions, x => x, Infinity);
   // 잘리면 볼 사람이 없다 — 학회 누락도 전부 출력한다.
   section('Sites 학회 섹션에 있으나 아카이브에 없음 (수동 추가 필요)', report.conferenceMissing, x => x, Infinity);
   section('진행 중 논문이 Sites 다른 구역에 있고 값이 다름 (자동 반영 안 함)', report.elsewhereDiffs, x => x, Infinity);

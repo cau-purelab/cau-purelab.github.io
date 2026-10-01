@@ -11,7 +11,7 @@ import type { BibInfo } from '../lib/bibtex';
 import { copyText } from '../lib/clipboard';
 import {
   ExternalLink, Calendar, BookOpen, Search, Quote, Award,
-  BarChart3, XCircle, RefreshCw, TrendingUp, AlertTriangle
+  BarChart3, XCircle, RefreshCw, TrendingUp
 } from 'lucide-react';
 
 interface ScholarPub {
@@ -27,19 +27,19 @@ interface ScholarPub {
   jcr_source?: string;
   status?: string;
   is_progress?: boolean;
-  retracted?: boolean;
 }
 
 // 화면 표시용으로 한 번만 계산해 두는 파생 값(파싱 결과·식별자·검색 색인).
 interface DecoratedPub extends ScholarPub {
   bib: BibInfo;
   pubId: string;
-  displayTitle: string;
   displayYear: string;
   sortYear: string;
   searchText: string;
 }
 
+// 철회 논문은 아카이브에 싣지 않는다 — 데이터에서 지웠고 scripts/validate_data.cjs가 재유입을 막는다.
+// 그래서 이 페이지에는 철회 표시·제외 집계 같은 분기가 없다.
 const loadedPublications = publicationsData as Record<string, ScholarPub[]>;
 
 const PAGE_SIZE = 50;
@@ -78,8 +78,6 @@ const SCOPE_NOUN: Record<ScopeKey, string> = {
 const UNKNOWN_YEAR = 'unknown';
 // 'Prof. *' 태그는 연구비가 아니라 협력 교수 라벨이다 — 펀딩 집계·필터에서 제외한다.
 const COLLABORATOR_TAG_RE = /^Prof\./i;
-// 철회 논문 제목의 접두 표기. 배지로 따로 보여주므로 제목에서는 덜어낸다.
-const RETRACTED_PREFIX_RE = /^(\[retracted\]|retracted article:|retracted:)\s*/i;
 
 // BibTeX 엔트리 유형 → 표시용 라벨
 const getTypeLabel = (type?: string) => {
@@ -221,7 +219,6 @@ const ScholarPublications = () => {
         ...pub,
         bib,
         pubId,
-        displayTitle: pub.title.replace(RETRACTED_PREFIX_RE, ''),
         displayYear,
         sortYear: displayYear === UNKNOWN_YEAR ? '0000' : displayYear,
         searchText,
@@ -230,9 +227,8 @@ const ScholarPublications = () => {
   }, [activeTab]);
 
   // --- [연구 지표: 이 아카이브에 담긴 논문 기준] ---
-  // 철회 논문은 집계에서 뺀다(인용수·h-index가 부풀지 않도록).
   const scholarStats = useMemo(() => {
-    const published = tabPubs.filter(p => !p.is_progress && !p.retracted);
+    const published = tabPubs.filter(p => !p.is_progress);
     const totalCitations = published.reduce((sum, p) => sum + (p.citations || 0), 0);
     const sorted = published.map(p => p.citations || 0).sort((a, b) => b - a);
     let hIndex = 0;
@@ -240,9 +236,8 @@ const ScholarPublications = () => {
     return {
       papers: published.length,
       inProgress: tabPubs.filter(p => p.is_progress).length,
-      retracted: tabPubs.filter(p => p.retracted).length,
-      // 'X of {papers}'로 표시되므로 분모(papers)와 같은 집합에서 센다 — 철회 논문 제외.
-      jcrLabelled: tabPubs.filter(p => p.jcr && !p.is_progress && !p.retracted).length,
+      // 'X of {papers}'로 표시되므로 분모(papers)와 같은 집합에서 센다.
+      jcrLabelled: published.filter(p => p.jcr).length,
       totalCitations,
       hIndex,
     };
@@ -393,30 +388,18 @@ const ScholarPublications = () => {
       <p className="mb-2 text-center text-[11px] font-black uppercase tracking-widest text-slate-500">
         Archive figures for {activeTab}
       </p>
-      {/* 지표는 철회 논문을 빼고 세는데 아래 목록·세그먼트는 철회 논문까지 센다(목록에 실제로 나오니까).
-          두 숫자(415/418)가 한 화면에 나란히 보이므로, 왜 다른지를 회색 박스 한 문장에 맡기지 않고
-          카드 안에서 '418 listed · 3 retracted excluded'로 두 수를 직접 잇는다. */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
         {[
-          {
-            label: 'Publications', value: scholarStats.papers, icon: BookOpen,
-            note: scholarStats.retracted > 0
-              ? `${(scholarStats.papers + scholarStats.retracted).toLocaleString()} listed · ${scholarStats.retracted} retracted excluded`
-              : null,
-          },
-          { label: 'In Progress', value: scholarStats.inProgress, icon: RefreshCw, note: null },
-          {
-            label: 'Citations (archived)', value: scholarStats.totalCitations.toLocaleString(), icon: Quote,
-            note: scholarStats.retracted > 0 ? 'excludes retracted' : null,
-          },
-          { label: 'h-index (archived)', value: scholarStats.hIndex, icon: TrendingUp, note: null },
-        ].map(({ label, value, icon: Icon, note }) => (
+          { label: 'Publications', value: scholarStats.papers, icon: BookOpen },
+          { label: 'In Progress', value: scholarStats.inProgress, icon: RefreshCw },
+          { label: 'Citations (archived)', value: scholarStats.totalCitations.toLocaleString(), icon: Quote },
+          { label: 'h-index (archived)', value: scholarStats.hIndex, icon: TrendingUp },
+        ].map(({ label, value, icon: Icon }) => (
           <div key={label} className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 flex items-center gap-3">
             <div className="p-2 bg-blue-50 text-blue-600 rounded-xl"><Icon size={16} /></div>
             <div>
               <p className="text-lg font-black text-slate-900 leading-tight">{value}</p>
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">{label}</p>
-              {note && <p className="mt-0.5 text-[10px] font-medium text-slate-400">{note}</p>}
             </div>
           </div>
         ))}
@@ -438,7 +421,6 @@ const ScholarPublications = () => {
         <p className="mt-1">
           Computed from the {scholarStats.papers.toLocaleString()} papers archived on this page as of {PUBLICATIONS_UPDATED_AT}.
           This archive may not mirror every record on the profile, so the citation total and h-index can differ from the profile's own figures.
-          {scholarStats.retracted > 0 && ` ${scholarStats.retracted} retracted paper${scholarStats.retracted > 1 ? 's are' : ' is'} listed below but excluded from these totals.`}
         </p>
         <p className="mt-1">
           {METRICS_DISCLAIMER} JCR labels appear on {scholarStats.jcrLabelled} of {scholarStats.papers} archived papers — a missing label does not mean a lower ranking.
@@ -604,27 +586,12 @@ const ScholarPublications = () => {
                     ) : (
                       <span className="px-2 py-0.5 bg-blue-900 text-white rounded text-[10px] font-black uppercase">{getTypeLabel(bib.type)}</span>
                     )}
-                    {/* 철회 논문임을 눈에 띄게 알린다 (지표 집계에서도 빠져 있다) */}
-                    {pub.retracted && (
-                      <span className="px-2 py-0.5 bg-red-600 text-white rounded text-[10px] font-black uppercase flex items-center gap-1">
-                        <AlertTriangle size={9} /> Retracted
-                      </span>
-                    )}
                     <span className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-[10px] font-black border border-slate-200">{pub.displayYear === UNKNOWN_YEAR ? 'Year unknown' : pub.displayYear}</span>
-                    {/* 인용 0은 성과가 아니다 — 0과 '집계 없음'을 초록 배지로 똑같이 광고하지 않는다.
-                        철회 논문의 인용은 위 합계에서 빠져 있다. 성과색(초록)으로 칠하지 않고
-                        제외됐음을 배지에 적는다 — 그래야 배지를 더한 값과 헤드라인이 어긋나 보이지 않는다. */}
+                    {/* 인용 0은 성과가 아니다 — 0과 '집계 없음'을 초록 배지로 똑같이 광고하지 않는다. */}
                     {typeof pub.citations === 'number' && pub.citations > 0 && (
-                      pub.retracted ? (
-                        <span title="Citations of a retracted paper — not included in the archive totals above"
-                          className="px-2 py-0.5 bg-slate-100 text-slate-500 rounded text-[10px] font-black border border-slate-200 flex items-center gap-1">
-                          <Quote size={9} /> Cited {pub.citations} · excluded
-                        </span>
-                      ) : (
-                        <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded text-[10px] font-black border border-emerald-100 flex items-center gap-1">
-                          <Quote size={9} /> Cited {pub.citations}
-                        </span>
-                      )
+                      <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded text-[10px] font-black border border-emerald-100 flex items-center gap-1">
+                        <Quote size={9} /> Cited {pub.citations}
+                      </span>
                     )}
                     {/* 미게재 논문의 라벨은 '투고 대상 저널'의 등급이지 게재 성과가 아니다 */}
                     {pub.jcr && (
@@ -655,7 +622,7 @@ const ScholarPublications = () => {
 
                   {/* 제목 & 저자 */}
                   <div className="space-y-1">
-                    <h3 className={`font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug ${isProg ? 'text-base italic' : 'text-lg'}`}>{pub.displayTitle}</h3>
+                    <h3 className={`font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug ${isProg ? 'text-base italic' : 'text-lg'}`}>{pub.title}</h3>
                     <div className="text-slate-600 leading-normal">{renderAuthors(isProg ? (pub.author || "") : bib.author, !isProg, isProg)}</div>
                   </div>
 
@@ -675,7 +642,7 @@ const ScholarPublications = () => {
                     </div>
 
                     <div className="flex gap-2">
-                      {pub.url && <a href={pub.url} target="_blank" rel="noreferrer" aria-label={`Open "${pub.displayTitle}" in a new tab`} className="p-1.5 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-900 hover:text-white transition-all shadow-sm"><ExternalLink size={14}/></a>}
+                      {pub.url && <a href={pub.url} target="_blank" rel="noreferrer" aria-label={`Open "${pub.title}" in a new tab`} className="p-1.5 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-900 hover:text-white transition-all shadow-sm"><ExternalLink size={14}/></a>}
                       {/* BibTeX가 없는 항목(진행 중 논문)은 빈 패널이 열리지 않도록 버튼 자체를 내지 않는다 */}
                       {hasBibtex && (
                         <button onClick={() => setActiveBibtex(activeBibtex === pubId ? null : pubId)}

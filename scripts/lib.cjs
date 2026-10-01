@@ -20,8 +20,32 @@ const PI_NAME_VARIANTS = {
 const FRONT_MATTER_TITLE =
   /^welcome to|welcome message|program committee|organizing committee|^message from|reviewers?$|committees?(\s*\(|$)|guest editorial|special (issue|section)|^preface|^foreword|\borganization$|\(\d+\s*papers?\)|^(front|back)\s*matter|table of contents|author index|^proceedings of/i;
 
-// 철회 논문 제목 패턴 (Scholar가 'RETRACTED ARTICLE:' 접두를 붙인다)
-const RETRACTED_TITLE = /^\[?\s*retracted/i;
+// 철회 논문·철회 공지 제목 패턴. Scholar는 원 논문 제목에 'RETRACTED ARTICLE:' 같은 접두를 붙이고, 출판사는 공지를
+// 'Retraction Note: X' / 'Retraction notice to “X” […]' / 'Notice of Retraction: X' 같은 별도 레코드로 낸다.
+// 공지도 원 논문 저자 이름으로 나와 Scholar 프로필에 올라오므로(지운 Intrusion 논문의 Springer 공지는 Rho 교수가 저자다)
+// 'retracted'로 시작하는 것만 보던 예전 패턴으로는 공지가 신규 논문으로 자동 추가될 수 있었다.
+// 'Retraction in science…', 'Withdrawn from…' 같은 보통 제목은 피하려고 그 낱말 뒤에 구두점·따옴표를 요구한다.
+const RETRACTED_TITLE =
+  /^\s*\[?\s*(?:retracted(?:\s+article)?\b|retraction(?:\s+(?:note|notice))?(?:\s+(?:to|of|for))?\s*[:\]“‘"']|(?:notice|statement)\s+of\s+retraction\b|withdrawn\s*[:\]])/i;
+// 위 패턴의 머리를 떼어 낸다 — 남는 것이 원 논문 제목이다(공지는 뒤에 서지 사항이 붙기도 해 대조는 titlesMatch로 한다)
+const RETRACTED_PREFIX =
+  /^\s*\[?\s*(?:retracted(?:\s+article)?|retraction(?:\s+(?:note|notice))?(?:\s+(?:to|of|for))?|(?:notice|statement)\s+of\s+retraction|withdrawn)\s*\]?\s*[:\-–—]?\s*/i;
+
+// 철회 논문은 아카이브에 싣지 않는다(2026-10-01 연구실 요청 — docs/archive-cleanup-2026-09.md 4절).
+// 아래 논문들은 지웠지만 Scholar 프로필에 남아 있으면 sync가 돌 때마다 신규 후보로 다시 잡는다. 지금 이들을 막는 것은
+// 철회 접두(프로필에 남은 Rho 2편 중 접두가 붙은 것은 1편뿐이다), 연도 하한(MIN_AUTO_ADD_YEAR), 자동 추가 대상 제한이라
+// 그 설정이 바뀌면 되살아난다. 그래서 Scholar 레코드 ID(citation_for_view 값)로 지목해 영구히 뺀다.
+// 아카이브 url이 DOI 주소인 논문을 지울 때는 교수 Scholar 프로필에서 같은 논문 행을 찾아 그 행의 ID를 적는다.
+// 제목으로 막지 않는 이유: 넷째 철회 논문 'Smart health monitoring and management system: toward…'(FGCS, Din·Paul)는
+// 아카이브 항목이 실은 같은 제목으로 시작하는 2024년 책 챕터(Rho 교수 공저)의 Scholar 레코드였다 — bibtex만 잘못
+// 붙어 있어 그 정보를 걷어내고 챕터로 바로잡았다. 제목 포함 판정은 이 멀쩡한 챕터까지 막는다.
+const RETRACTED_REMOVED_RECORDS = new Set([
+  'k5aAQxUAAAAJ:jE2MZjpN3IcC', // Intrusion detection based on machine learning in the IoT — J. Supercomputing, 2024 철회
+  'k5aAQxUAAAAJ:SnGPuo6Feq8C', // A Rapid AI-Based CAD System for COVID-19 Classification — Behavioural Neurology, 2023 철회
+  // Vision Sensor-Based Real-Time Fire Detection — Comput. Intell. Neurosci., 2023 철회.
+  // 2026-10-01 현재 Lee 프로필에서 레코드가 사라졌지만(상세 주소가 404) 다시 나타날 수 있어 함께 막는다.
+  'bxWgGnoAAAAJ:NJ774b8OgUMC',
+]);
 
 // 프리프린트·국내 학술발표 등 정식 출판물로 볼 수 없는 레코드
 const PREPRINT_VENUE = /arxiv|preprint|학술발표|학술대회/i;
@@ -207,6 +231,12 @@ function venuesMatch(a, b) {
   return minLength >= 5 && (na.includes(nb) || nb.includes(na));
 }
 
+// Scholar 주소(json의 url 또는 프로필 행의 href)에서 'user:record' 형태의 레코드 ID를 꺼낸다
+function scholarRecordId(url) {
+  const match = String(url || '').match(/[?&]citation_for_view=([^&]+)/);
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
 // Scholar 상세 링크에서 user / citation_for_view 만 남겨 재조립한다.
 // (프로필 페이지 href에는 cstart·pagesize 같은 페이징 파라미터가 섞여 들어온다)
 function scholarCitationUrl(href) {
@@ -335,6 +365,8 @@ module.exports = {
   PI_NAME_VARIANTS,
   FRONT_MATTER_TITLE,
   RETRACTED_TITLE,
+  RETRACTED_PREFIX,
+  RETRACTED_REMOVED_RECORDS,
   PREPRINT_VENUE,
   decodeHtml,
   stripTags,
@@ -348,6 +380,7 @@ module.exports = {
   isJunkTitle,
   hasPiAuthor,
   venuesMatch,
+  scholarRecordId,
   scholarCitationUrl,
   compactTextFromHtml,
   FetchError,
