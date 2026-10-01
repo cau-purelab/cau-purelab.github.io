@@ -78,6 +78,7 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
    - **로고는 이미지가 아니라 컴포넌트**: `src/components/Logo.tsx`의 `LogoMark`·`LogoLockup`을 쓴다. 내비와 푸터가 같은 마크를 공유하고 페이지 폰트(Inter)를 상속한다. 마크는 글자가 없는 도형 3개(방패=경계, 노치=제거, 코어=보존된 모델)이고 16px에서도 같은 실루엣이다. `favicon-16.png`·`favicon-32.png`·`favicon.png`(512×512)와 `og-image.png`만 래스터로 유지하며, 이들은 마크와 같은 좌표를 쓰므로 한쪽만 고치면 어긋난다.
    - **출처 기록**: 배포하는 이미지의 출처·라이선스·가한 편집은 `CREDITS.md`에 적는다. 외부 이미지를 추가·교체하면 그 표를 반드시 함께 갱신할 것(CC BY 계열을 쓰면 푸터 표기도 필요하다).
 2. **멤버 사진**: `public/assets/{이름}.jpg`. GitHub Pages는 경로 대소문자를 구분하므로 파일명과 `MEMBERS[].image` 경로가 글자 단위로 같아야 한다 — 실제로 `Mi young Lee.jpg`는 이름(`Mi Young Lee`)과 대소문자가 다르고 constants.tsx가 경로를 그대로 적어 맞추고 있다. 사진이 없으면 `initialsAvatar(name)`가 인라인 SVG 이니셜 아바타를 만든다(외부 요청 0건 — 예전의 ui-avatars.com 호출은 실명이 외부로 나가서 걷어냈다).
+   학생 사진은 354×472 JPEG(3:4 증명사진 비율)로 맞춘다 — Byeongcheon Lee·Sangmin Kim·Junyoung Lee·Hyungjun Park 사진이 이 크기다(Hyunok Kim만 658×846). 카드 사진 칸 자체는 3:4가 아니다: 640px 미만은 정사각, 그 이상은 폭 176px·높이 262px 이상(≈2:3, `initialsAvatar` 주석과 같은 값)이고 `object-cover`가 남는 부분을 잘라 낸다. 수 MB짜리 원본(예: 4344×5792 PNG)이 오면 줄여서 넣고, 원본은 `design/photo-source/`에 두되 커밋하지 않는다(.gitignore).
 3. **People 논문 모달**: `member.name`이 publications.json의 키와 정확히 일치해야 논문이 표시됨 (현재 `"Seungmin Rho"`, `"Mi Young Lee"`만 해당).
 4. **publications.json 수정**: node 스크립트로 수행하고, 저장 후 ①`JSON.parse` 유효성 ②제목·bibtex 중복 여부 ③항목 수 변화를 검증할 것. UTF-8, 2-space indent 유지.
 5. **patch_publications.py**: 패치 적용이 끝나면 4개 배열을 다시 비워둘 것 (재실행 시 오염 방지).
@@ -139,3 +140,4 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 | 2026-09-20 | Scholar 화면 — 펀딩 집계를 범위 적용 집합에서 세어 "태그에 3건인데 눌러도 빈 화면"을 없앰(칩 수 = 카드 수). 지표 카드에 `419 listed · 3 retracted excluded` 주석을 달아 415/418 혼란 해소. 게재처 미상 5건을 빈칸 대신 `Venue unknown`으로 표기. 진행 중 배지를 원본 표기(`Under Review`)로 되돌리고 검사 순서를 진행 단계 역순으로 정리 |
 | 2026-09-20 | 데이터 교정 — 의료 딥페이크 논문이 Sites에서 제목·학술지·상태가 모두 바뀌어 게재 확정(CMC-Computers, Materials & Continua, Accepted Sept. 2026)된 것을 반영(7개월간 `Scientific Reports / Submitted, Feb. 2026`로 노출됐음). Scholar에 연도가 없어 영구히 걸러지던 ECCV-26 워크숍 논문 1건 추가(426→427). 인용수 갱신은 Scholar 429로 보류 |
 | 2026-09-20 | Sites `[Conference] Publications` 구역을 sync가 읽게 함 — 지금까지 경계 표시로만 쓰여 투고 중 학회 논문 4편(SEAL/ICDM-26, ODACE/AAAI-27, LAPSE/EACL-27, VLM/WACV-27)이 사이트에 한 번도 나온 적이 없었다. 4편 수동 추가(427→431)하고, 학회 구역에 있으나 아카이브에 없는 논문을 보고하는 섹션을 신설. 아울러 in-review 구역 밖(학회·게재 구역)에 있는 진행 중 논문을 "Sites에서 사라짐"으로 오보하던 문제를 고침(거짓 경보 5건 → 0건) |
+| 2026-10-01 | 박형준(Hyungjun Park) 프로필 — 사진(4344×5792 PNG 11MB → 354×472 JPEG 13.5KB, 원본은 `design/photo-source/`에 비커밋 보관), 이메일, 관심 분야(#Machine Unlearning) |

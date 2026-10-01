@@ -193,10 +193,9 @@ export const MEMBERS: Member[] =[
     id: 'm4',
     name: "Hyungjun Park",
     role: "Master Student",
-    // TODO(lab): 프로필 사진·관심 분야(specialization)·이메일 공개 여부 확인 필요. 그때까지 이니셜 아바타 사용.
-    image: initialsAvatar("Hyungjun Park"),
-    email: "",
-    specialization: ""
+    image: "/assets/Hyungjun Park.jpg",
+    email: "jeff0312@cau.ac.kr",
+    specialization: '#Machine Unlearning'
   },
   {
     id: 'm5',
