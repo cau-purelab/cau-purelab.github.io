@@ -27,30 +27,26 @@
     {
       "title": "TRUST-SDT: A Transparent and Reliable Framework for Selective Machine Unlearning via Soft Decision Tree Distillation",
       "author": "SM Kim, BC Lee, SW Park, M. Maqsood, MY Lee, S Rho",
-      "journal": "Array",
-      "status": "Submitted, August 2026",
+      "journal": "Journal of Engineering Research",
+      "status": "Under Review, Sept. 2026",
       "funding_tags": [
         "ITRC-26",
         "Prof. MYLee"
       ],
       "year": "2026",
-      "is_progress": true,
-      "jcr": "SCIE-Q1 Top 13.3%",
-      "jcr_source": "https://sites.google.com/view/seungminrho/home"
+      "is_progress": true
     },
     {
       "title": "TRUST: Toward TRUstworthy Selective unlearning through Two-stage optimization",
       "author": "BC Lee, SM Kim, SW Park, M. Maqsood, MY Lee, S Rho",
-      "journal": "Information Sciences",
-      "status": "Under Review, June 2026",
+      "journal": "Ain Shams Engineering Journal",
+      "status": "Submitted, Sept. 2026",
       "funding_tags": [
         "Convg_Security-26",
         "Prof. MYLee"
       ],
       "year": "2026",
-      "is_progress": true,
-      "jcr": "SCIE-Q1 Top 7.9%",
-      "jcr_source": "https://sites.google.com/view/seungminrho/home"
+      "is_progress": true
     },
     {
       "title": "Domain Knowledge-Aware Photovoltaic Power Forecasting via LLM-Driven Semantic Feature Extraction and Graph Neural Networks",
