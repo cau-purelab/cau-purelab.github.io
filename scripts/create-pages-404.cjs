@@ -41,6 +41,7 @@ const ALLOWED_ORIGINS = [
   'https://sites.google.com',
   'https://github.com',
   'https://www.w3.org',
+  'https://seungminrho.vercel.app', // Rho 교수 개인 홈페이지 (JSON-LD Person url)
 ];
 
 function assertNoStaleOrigin(html) {

@@ -158,7 +158,8 @@ export const MEMBERS: Member[] =[
     image: "/assets/Seungmin Rho.jpg",
     email: "smrho@cau.ac.kr",
     specialization: '#AI Privacy #Robust AI #Trustworthy Systems',
-    website: "https://sites.google.com/view/seungminrho"
+    // 개인 홈페이지(2026-10-06). 예전 링크였던 Google Sites는 sync의 논문 기준 소스로만 쓴다(scripts/lib.cjs SITES_URL).
+    website: "https://seungminrho.vercel.app/"
   },
   {
     id: 'co-pi',

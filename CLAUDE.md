@@ -87,6 +87,7 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 4. **publications.json 수정**: node 스크립트로 수행하고, 저장 후 ①`JSON.parse` 유효성 ②제목·bibtex 중복 여부 ③항목 수 변화를 검증할 것. UTF-8, 2-space indent 유지.
 5. **patch_publications.py**: 패치 적용이 끝나면 4개 배열을 다시 비워둘 것 (재실행 시 오염 방지).
 6. **논문 데이터 기준 소스**: Rho 교수 Google Sites(https://sites.google.com/view/seungminrho)가 진행 중 논문의 단일 기준 — `sync_scholar.cjs`가 자동 대조함.
+   교수 개인 홈페이지(https://seungminrho.vercel.app/ — 2026-10-06부터 People 카드의 Website 링크)는 링크일 뿐 sync 기준 소스가 아니다. 교수님이 Google Sites 갱신을 멈추면 진행 중 논문 동기화도 함께 멈추므로, 그때는 기준 소스를 다시 정해야 한다.
    Sites에는 구역이 셋 있고 sync는 셋 다 읽는다: `[Conference] Publications`(학회 — 게재분과 `Submitted (AAAI-27 @ ...)` 형태의 투고분), `[Journal] Publications (in Press, Proofing, or in Review)`(심사 중), `[Journal] Publications (in Google Scholar)`(게재).
    학회 구역은 오랫동안 경계 표시로만 쓰이고 내용은 아무도 읽지 않았다 — 그 사이 투고 중 학회 논문 4편이 Sites에만 있고 사이트에는 없었다(2026-09-20 수동 추가).
    학회 투고는 Sites가 날짜를 주지 않으므로 `status: "Submitted"`만 두고 시점을 지어내지 않는다(화면은 쉼표가 없으면 시점 칩을 생략한다). 단, **저자 표기는 자동 반영하지 않음**(Sites 쪽 오타가 잦음, 보고서 확인 후 수동 판단).
@@ -152,3 +153,4 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 | 2026-10-01 | 철회 논문 걷어냄(연구실 요청) — Retraction Watch DB·Crossref·Scholar 세 경로로 아카이브 475건을 전수 대조해 철회 논문이 표시돼 있던 4편뿐임을 확인. 3편 삭제(Rho 433→431, Lee 42→41), 1편('Smart health monitoring…')은 철회된 FGCS 논문 정보가 Rho 교수의 2024년 책 챕터 레코드에 잘못 붙은 것이라 챕터로 바로잡음. 화면의 Retracted 배지·제외 주석 제거. 재유입 방지(`RETRACTED_REMOVED_RECORDS` — sync 자동 추가 제외 + validate 배포 차단), 철회 패턴을 출판사 공지 제목('Retraction Note:' 등)까지 넓힘(지운 논문의 Springer 공지가 Rho 교수 저자로 Scholar에 올라오면 신규 논문으로 들어갈 뻔했다), sync에 철회 표기 감지 보고, Crossref 전수 조회 스크립트 `check_retractions.cjs` 신설 |
 | 2026-10-01 | 박형준(Hyungjun Park) 프로필 — 사진(4344×5792 PNG 11MB → 354×472 JPEG 13.5KB, 원본은 `design/photo-source/`에 비커밋 보관), 이메일, 관심 분야(#Machine Unlearning) |
 | 2026-10-01 | Scholar 동기화 자동 머지 + 이틀 주기 — 주 1회 PR을 사람이 머지하던 방식(9/28 PR #6이 머지되지 않은 채 쌓임)을 바꿔, 변경이 있으면 배포 게이트(설정·데이터 검증 → 타입체크 → `build:pages`)를 sync 워크플로 안에서 통과시킨 뒤 PR을 만들고 스스로 squash 머지, `deploy.yml`을 workflow_dispatch로 호출(GITHUB_TOKEN 머지는 push 트리거를 깨우지 않음). cron `0 0 * * 1` → `17 0 */2 * *`, 실패 이슈에 빌드·머지·배포 호출 단계 원인 구분 추가, 워크플로·이슈 이름에서 Weekly 제거 |
+| 2026-10-06 | Rho 교수 개인 홈페이지(https://seungminrho.vercel.app/)를 People 카드 Website 링크와 JSON-LD Person `url`에 반영(카드 링크는 원래 Google Sites — Google Sites는 sync 기준 소스로만 남음), `create-pages-404.cjs` 허용 origin에 추가 |
