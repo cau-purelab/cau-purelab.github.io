@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, useNavigationType } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigationType } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -12,7 +12,8 @@ const News = lazy(() => import('./pages/News'));
 const ScholarPublications = lazy(() => import('./pages/ScholarPublications')); // 전체 논문 페이지
 const NotFound = lazy(() => import('./pages/NotFound'));
 
-const routerBasename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
+/** 라우터 basename. 브라우저(main.tsx)와 빌드 시 프리렌더(entry-server.tsx)가 같은 값을 쓴다. */
+export const routerBasename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
 
 const PageLoader = () => (
   <div className="flex items-center justify-center py-32">
@@ -145,9 +146,13 @@ const RoutedContent = () => {
   );
 };
 
+/**
+ * 라우터는 바깥에서 감싼다 — 브라우저는 BrowserRouter(main.tsx), 빌드 시 프리렌더는
+ * StaticRouter(entry-server.tsx). 두 트리가 같아야 하이드레이션이 서버 HTML을 그대로 재사용한다.
+ */
 function App() {
   return (
-    <Router basename={routerBasename}>
+    <>
       <ScrollToTop />
       <div className="min-h-screen bg-white flex flex-col font-sans text-gray-900">
         <Navbar />
@@ -157,7 +162,7 @@ function App() {
         </main>
         <Footer />
       </div>
-    </Router>
+    </>
   );
 }
 

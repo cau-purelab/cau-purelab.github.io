@@ -61,7 +61,7 @@ const Footer = () => {
                 </div>
 
                 <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400">
-                    <p>&copy; {new Date().getFullYear()} {LAB_NAME}. All rights reserved.</p>
+                    <p>&copy; {__BUILD_DATE__.slice(0, 4)} {LAB_NAME}. All rights reserved.</p>
                     <p className="mt-2 md:mt-0">Site last updated: {__BUILD_DATE__}</p>
                 </div>
             </div>
