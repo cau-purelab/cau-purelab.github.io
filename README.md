@@ -90,8 +90,7 @@
 │   │   └── sync-scholar.yml       # 이틀마다 논문 데이터 동기화 → 검증 통과 시 PR 자동 머지·배포
 │   └── dependabot.yml             # 의존성·액션 버전 자동 갱신 PR 설정 (npm major는 제외)
 ├── docs/
-│   ├── archive-cleanup-2026-09.md # 논문 아카이브 1회성 정리 기록 (제거·보류 판단 근거)
-│   └── search-and-analytics-setup.md # 검색엔진 등록·GA4 설정 중 사람이 직접 할 작업과 절차
+│   └── archive-cleanup-2026-09.md # 논문 아카이브 1회성 정리 기록 (제거·보류 판단 근거)
 ├── CLAUDE.md            # 작업 가이드 (규칙, 아키텍처, 알려진 한계, 작업 이력)
 ├── CREDITS.md           # 배포 이미지의 출처·라이선스 기록 — 이미지 추가 시 함께 갱신
 ├── LICENSE              # MIT
