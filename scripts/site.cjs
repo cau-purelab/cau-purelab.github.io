@@ -20,85 +20,46 @@ const SITE_URL = 'https://pure.cau.ac.kr';
 // 검증 로그에서 CNAME·Pages 설정과 대조할 수 있도록 별도 상수로 남겨 둔다.
 const CUSTOM_DOMAIN = 'pure.cau.ac.kr';
 
-const TITLE_SUFFIX = 'PURE Lab, Chung-Ang University';
 const OG_IMAGE_PATH = '/assets/og-image.png'; // 1200x630 PNG
 const OG_IMAGE_SIZE = { width: 1200, height: 630, type: 'image/png' };
+
+// 라우트별 <title>·description의 단일 출처. 프런트엔드 SEO 컴포넌트(src/components/SEO.tsx)도
+// 같은 파일을 읽으므로, 정적 HTML(크롤러)과 Helmet(브라우저·JS 렌더링 크롤러)이 같은 값을 낸다.
+// 문구를 바꿀 때는 이 JSON만 고칠 것. scripts/prerender.cjs가 렌더 결과와 대조해 어긋나면 빌드를 멈춘다.
+const SEO_ROUTES_PATH = path.join(__dirname, '..', 'src', 'data', 'seo-routes.json');
+const SEO_META = JSON.parse(fs.readFileSync(SEO_ROUTES_PATH, 'utf8'));
+
+function seoMeta(routePath) {
+  const meta = SEO_META.routes[routePath];
+  if (!meta || !meta.title || !meta.description) {
+    throw new Error(`src/data/seo-routes.json에 '${routePath}'의 title/description이 없음`);
+  }
+  return meta;
+}
 
 /**
  * 정적 HTML을 만들 라우트 목록. src/App.tsx의 <Route path=...>와 1:1로 유지할 것.
  * - file     : dist에 생성할 파일명. GitHub Pages는 확장자 없는 경로를 <name>.html로 200 서빙한다
  *              (디렉터리 방식은 301 리다이렉트가 붙으므로 파일 방식을 쓴다).
  * - lastmod  : sitemap의 <lastmod> 출처. 'publications' | 'news' | 'latest' | 'build'
+ * - title/description은 seo-routes.json에서 채운다.
  */
 const ROUTES = [
-  {
-    path: '/',
-    file: 'index.html',
-    title: 'PURE Lab, Chung-Ang University — Privacy-Preserving AI Research',
-    description:
-      'PURE Lab at Chung-Ang University, led by Prof. Seungmin Rho, researches privacy-preserving AI, machine unlearning, and robust AI engineering.',
-    changefreq: 'weekly',
-    priority: '1.0',
-    lastmod: 'latest',
-  },
-  {
-    path: '/research',
-    file: 'research.html',
-    title: `Research | ${TITLE_SUFFIX}`,
-    description:
-      'Research areas of PURE Lab, Chung-Ang University: privacy-preserving AI, machine unlearning, and robust AI engineering for trustworthy systems.',
-    changefreq: 'monthly',
-    priority: '0.8',
-    lastmod: 'build',
-  },
-  {
-    path: '/people',
-    file: 'people.html',
-    title: `People | ${TITLE_SUFFIX}`,
-    description:
-      'Members of PURE Lab at Chung-Ang University — Prof. Seungmin Rho (PI), Prof. Mi Young Lee (Co-PI), Ph.D. students, and master students.',
-    changefreq: 'monthly',
-    priority: '0.8',
-    lastmod: 'build',
-  },
-  {
-    path: '/publications',
-    file: 'publications.html',
-    title: `Selected Publications | ${TITLE_SUFFIX}`,
-    description:
-      'Selected publications of PURE Lab, Chung-Ang University on privacy-preserving AI, machine unlearning, and robust AI engineering.',
-    changefreq: 'monthly',
-    priority: '0.9',
-    lastmod: 'publications',
-  },
-  {
-    path: '/scholar',
-    file: 'scholar.html',
-    title: `Publication Archive | ${TITLE_SUFFIX}`,
-    description:
-      'Full publication archive of PURE Lab, Chung-Ang University, with BibTeX entries, citation counts, and research funding records per project.',
-    changefreq: 'monthly',
-    priority: '0.7',
-    lastmod: 'publications',
-  },
-  {
-    path: '/news',
-    file: 'news.html',
-    title: `News | ${TITLE_SUFFIX}`,
-    description:
-      'News from PURE Lab at Chung-Ang University — conference participation, lab activities, and announcements since the lab was founded in 2024.',
-    changefreq: 'monthly',
-    priority: '0.6',
-    lastmod: 'news',
-  },
-];
+  { path: '/', file: 'index.html', changefreq: 'weekly', priority: '1.0', lastmod: 'latest' },
+  { path: '/research', file: 'research.html', changefreq: 'monthly', priority: '0.8', lastmod: 'build' },
+  { path: '/people', file: 'people.html', changefreq: 'monthly', priority: '0.8', lastmod: 'build' },
+  { path: '/publications', file: 'publications.html', changefreq: 'monthly', priority: '0.9', lastmod: 'publications' },
+  { path: '/scholar', file: 'scholar.html', changefreq: 'monthly', priority: '0.7', lastmod: 'publications' },
+  { path: '/news', file: 'news.html', changefreq: 'monthly', priority: '0.6', lastmod: 'news' },
+].map(route => ({ ...route, ...seoMeta(route.path) }));
+
+const extraRoutes = Object.keys(SEO_META.routes).filter(p => !ROUTES.some(r => r.path === p));
+if (extraRoutes.length) {
+  throw new Error(`seo-routes.json에만 있고 ROUTES에 없는 경로: ${extraRoutes.join(', ')}`);
+}
 
 // GitHub Pages가 미지 경로에 돌려주는 404.html용 메타. sitemap에는 넣지 않는다.
-const NOT_FOUND = {
-  file: '404.html',
-  title: `Page Not Found | ${TITLE_SUFFIX}`,
-  description: 'The requested page was not found on the PURE Lab website at Chung-Ang University.',
-};
+const NOT_FOUND = { file: '404.html', ...SEO_META.notFound };
 
 const CONSTANTS_PATH = path.join(__dirname, '..', 'src', 'constants.tsx');
 
@@ -224,7 +185,6 @@ function checkConstantsInSync() {
 module.exports = {
   SITE_URL,
   CUSTOM_DOMAIN,
-  TITLE_SUFFIX,
   OG_IMAGE_PATH,
   OG_IMAGE_SIZE,
   ROUTES,

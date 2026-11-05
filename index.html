@@ -24,8 +24,8 @@
   <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-  <!-- 기본 Title (라우트별 title은 scripts/create-pages-404.cjs가 치환) -->
-  <title>PURE Lab, Chung-Ang University — Privacy-Preserving AI Research</title>
+  <!-- 기본 Title·설명 = src/data/seo-routes.json의 "/" 값 (개발 서버용. 배포본은 scripts/create-pages-404.cjs가 라우트별로 치환) -->
+  <title>PURE Lab, Chung-Ang University | 중앙대학교 PURE 연구실</title>
 
   <!-- SEO & Open Graph
        data-rh="true"가 붙은 태그는 react-helmet-async가 라우트 이동 시 회수/교체한다.
@@ -33,15 +33,15 @@
        빌드 시에는 scripts/create-pages-404.cjs가 라우트별 값으로 치환하므로,
        이 태그들의 구조를 바꾸면 그 스크립트의 치환 패턴도 함께 고쳐야 한다. -->
   <meta data-rh="true" name="description"
-    content="PURE Lab at Chung-Ang University, led by Prof. Seungmin Rho, researches privacy-preserving AI, machine unlearning, and robust AI engineering." />
+    content="PURE Lab (중앙대학교 PURE 연구실, 노승민 교수) at Chung-Ang University researches privacy-preserving AI, machine unlearning, and robust AI engineering." />
   <link data-rh="true" rel="canonical" href="https://pure.cau.ac.kr/" />
   <link rel="alternate" type="application/rss+xml" title="PURE Lab News" href="/feed.xml" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="PURE Lab" />
   <meta property="og:locale" content="en_US" />
-  <meta data-rh="true" property="og:title" content="PURE Lab, Chung-Ang University — Privacy-Preserving AI Research" />
+  <meta data-rh="true" property="og:title" content="PURE Lab, Chung-Ang University | 중앙대학교 PURE 연구실" />
   <meta data-rh="true" property="og:description"
-    content="PURE Lab at Chung-Ang University, led by Prof. Seungmin Rho, researches privacy-preserving AI, machine unlearning, and robust AI engineering." />
+    content="PURE Lab (중앙대학교 PURE 연구실, 노승민 교수) at Chung-Ang University researches privacy-preserving AI, machine unlearning, and robust AI engineering." />
   <meta data-rh="true" property="og:url" content="https://pure.cau.ac.kr/" />
 
   <!-- [공유 이미지] PURE Open Graph 이미지 - 절대경로 필수 (1200x630) -->
@@ -53,13 +53,14 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta data-rh="true" name="twitter:title" content="PURE Lab, Chung-Ang University — Privacy-Preserving AI Research" />
+  <meta data-rh="true" name="twitter:title" content="PURE Lab, Chung-Ang University | 중앙대학교 PURE 연구실" />
   <meta data-rh="true" name="twitter:description"
-    content="PURE Lab at Chung-Ang University, led by Prof. Seungmin Rho, researches privacy-preserving AI, machine unlearning, and robust AI engineering." />
+    content="PURE Lab (중앙대학교 PURE 연구실, 노승민 교수) at Chung-Ang University researches privacy-preserving AI, machine unlearning, and robust AI engineering." />
   <meta data-rh="true" name="twitter:image" content="https://pure.cau.ac.kr/assets/og-image.png" />
 
-  <!-- TODO(lab): 검색엔진 등록 — Naver Search Advisor에서 발급한 토큰으로 아래 주석을 해제할 것.
-       Google Search Console은 DNS TXT(도메인 속성)로 등록하므로 여기 넣을 태그가 없다.
+  <!-- TODO(lab): 네이버 서치어드바이저 소유 확인 — 발급받은 토큰으로 아래 주석을 해제할 것
+       (절차: docs/search-and-analytics-setup.md). 구글 소유 확인은 위쪽 google-site-verification 태그와
+       public/googled74444b38c6d2830.html이 맡는다.
        <meta name="naver-site-verification" content="발급받은-토큰" /> -->
 
   <!-- 구조화 데이터: 연구 조직 -->
@@ -68,7 +69,7 @@
     "@context": "https://schema.org",
     "@type": "ResearchOrganization",
     "name": "PURE(Privacy, Unlearning, and Robust Engineering Lab)",
-    "alternateName": "PURE Lab",
+    "alternateName": ["PURE Lab", "PURE 연구실", "중앙대학교 PURE 연구실"],
     "url": "https://pure.cau.ac.kr/",
     "logo": "https://pure.cau.ac.kr/assets/og-image.png",
     "email": "purelab.cau@gmail.com",
@@ -81,6 +82,7 @@
       {
         "@type": "Person",
         "name": "Seungmin Rho",
+        "alternateName": "노승민",
         "jobTitle": "Principal Investigator",
         "url": "https://seungminrho.vercel.app/",
         "sameAs": "https://scholar.google.com/citations?user=k5aAQxUAAAAJ"
@@ -88,13 +90,16 @@
       {
         "@type": "Person",
         "name": "Mi Young Lee",
+        "alternateName": "이미영",
         "jobTitle": "Co-Principal Investigator",
         "sameAs": "https://scholar.google.com/citations?user=bxWgGnoAAAAJ"
       }
     ],
     "parentOrganization": {
       "@type": "CollegeOrUniversity",
-      "name": "Chung-Ang University"
+      "name": "Chung-Ang University",
+      "alternateName": "중앙대학교",
+      "url": "https://www.cau.ac.kr/"
     },
     "address": {
       "@type": "PostalAddress",

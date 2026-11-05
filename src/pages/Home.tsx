@@ -14,7 +14,7 @@ const Home = () => {
 
   return (
     <div className="pb-20 overflow-hidden">
-      <SEO title="Home" description="PURE lab at Chung-Ang University." />
+      <SEO />
 
       {/* 1. Hero Section — 소형 뷰포트에서 텍스트가 잘리지 않도록 고정 높이 대신 최소 높이를 쓴다 */}
       <section className="relative min-h-[450px] py-20 flex items-center justify-center overflow-hidden">

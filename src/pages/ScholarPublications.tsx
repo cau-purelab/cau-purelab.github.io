@@ -360,7 +360,7 @@ const ScholarPublications = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <SEO title="Publication Archive" description="Full publication archive with BibTeX entries, citation counts, and funding records." />
+      <SEO />
 
       <div className="mb-10 text-center">
         <h1 className="font-playfair text-4xl font-extrabold text-slate-900 mb-2">Publication Archive</h1>

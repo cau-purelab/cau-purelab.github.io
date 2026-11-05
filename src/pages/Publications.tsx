@@ -12,10 +12,10 @@ const Publications = () => {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <SEO title="Selected Publications" description="Major research contributions of PURE." />
+      <SEO />
 
       {/* 1. 상단 헤더 — 정렬·크기·색은 PageHeader가 전 페이지 공통으로 정한다.
-             제목 문구는 scripts/site.cjs의 /publications 라우트 title·SEO title과 같게 유지할 것 */}
+             제목 문구는 src/data/seo-routes.json의 /publications title과 같게 유지할 것 */}
       <PageHeader
         eyebrow="Research Highlights"
         title="Selected Publications"

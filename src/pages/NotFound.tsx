@@ -7,7 +7,7 @@ const NotFound = () => {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
       {/* 404가 자기 자신을 canonical로 선언하면 soft-404가 색인된다 — noindex로 내보낸다 */}
-      <SEO title="Page Not Found" description="The page you are looking for does not exist." noindex />
+      <SEO noindex />
 
       <p className="text-8xl font-playfair font-extrabold text-blue-900/25 mb-4" aria-hidden="true">404</p>
       <h1 className="font-playfair text-3xl font-bold text-slate-900 mb-3">Page Not Found</h1>

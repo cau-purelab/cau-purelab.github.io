@@ -8,7 +8,7 @@ import PageHeader from '../components/PageHeader';
 const Research = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <SEO title="Research" description="Privacy-preserving AI, machine unlearning, and robust AI engineering research." />
+      <SEO />
 
       <PageHeader
         eyebrow="Core Competencies"

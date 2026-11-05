@@ -20,9 +20,6 @@ export const LAB_ESTABLISHED_YEAR = 2024;
 // 화면·메타 태그에 쓰는 짧은 브랜드명. LAB_NAME(공식 전체 명칭)은 JSON-LD·저작권 표기에만 쓴다.
 // index.html의 og:site_name과 같은 값이어야 한다.
 export const LAB_BRAND_NAME = "PURE Lab";
-// 페이지 <title> 접미사. scripts/site.cjs의 TITLE_SUFFIX와 항상 같은 값이어야
-// 정적 HTML(크롤러가 보는 값)과 Helmet(브라우저가 보는 값)이 어긋나지 않는다.
-export const SITE_TITLE_SUFFIX = `${LAB_BRAND_NAME}, ${LAB_AFFILIATION}`;
 // publications.json 갱신 시(scripts/sync_scholar.cjs --apply / scripts/update_scholar_metrics.cjs 실행 후) 함께 수정할 것
 export const PUBLICATIONS_UPDATED_AT = "2026-10-27";
 

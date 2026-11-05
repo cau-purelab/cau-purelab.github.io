@@ -1,0 +1,32 @@
+{
+  "routes": {
+    "/": {
+      "title": "PURE Lab, Chung-Ang University | 중앙대학교 PURE 연구실",
+      "description": "PURE Lab (중앙대학교 PURE 연구실, 노승민 교수) at Chung-Ang University researches privacy-preserving AI, machine unlearning, and robust AI engineering."
+    },
+    "/research": {
+      "title": "Research | PURE Lab, Chung-Ang University",
+      "description": "Research areas of PURE Lab, Chung-Ang University: privacy-preserving AI, machine unlearning, and robust AI engineering. 중앙대학교 PURE 연구실 연구 분야 — 프라이버시 보존 AI, 머신 언러닝, 강건한 AI."
+    },
+    "/people": {
+      "title": "People | PURE Lab, Chung-Ang University",
+      "description": "Members of PURE Lab at Chung-Ang University — Prof. Seungmin Rho (노승민, PI), Prof. Mi Young Lee (이미영, Co-PI), Ph.D. students, and master students."
+    },
+    "/publications": {
+      "title": "Selected Publications | PURE Lab, Chung-Ang University",
+      "description": "Selected publications of PURE Lab, Chung-Ang University on privacy-preserving AI, machine unlearning, and robust AI engineering. 중앙대학교 PURE 연구실 주요 논문."
+    },
+    "/scholar": {
+      "title": "Publication Archive | PURE Lab, Chung-Ang University",
+      "description": "Full publication archive of PURE Lab, Chung-Ang University, with BibTeX entries, citation counts, and research funding records. 중앙대학교 PURE 연구실 전체 논문 목록."
+    },
+    "/news": {
+      "title": "News | PURE Lab, Chung-Ang University",
+      "description": "News from PURE Lab at Chung-Ang University — conference participation, lab activities, and announcements. 중앙대학교 PURE 연구실 소식."
+    }
+  },
+  "notFound": {
+    "title": "Page Not Found | PURE Lab, Chung-Ang University",
+    "description": "The requested page was not found on the PURE Lab website at Chung-Ang University."
+  }
+}
