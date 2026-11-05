@@ -107,7 +107,7 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
     - **새 철회는 Scholar만 봐서는 못 잡는다**: 2026-10 전수 확인 때 프로필에 남은 철회 논문 2편 중 Scholar 제목에 접두가 붙은 것은 1편뿐이었다. sync는 철회 표기가 붙은 경우만 보고하므로, 가끔 `node scripts/check_retractions.cjs`(Crossref)로 확인한다.
 13. **검색 등록·애널리틱스**: 계정이 필요한 작업(네이버 서치어드바이저·Search Console·GA4)은 `docs/search-and-analytics-setup.md`에 절차가 있다. 네이버 토큰은 아직 받지 않았다(2026-11-06).
     - **GA4(`G-G6810EMH75`, 2026-11-06~)**: `src/lib/analytics.ts`가 `LAB_URL` 호스트에서만 gtag.js를 불러온다(개발 서버·localhost는 집계 안 함). 자동 page_view는 끄고(`send_page_view: false`) `App.tsx`의 `PageViewTracker`가 **pathname이 바뀔 때만** `seo-routes.json` 제목으로 보낸다 — Scholar는 필터·검색어를 쿼리에 계속 써서 쿼리까지 보면 타자마다 조회가 쌓인다.
-    - 그래서 GA 관리 화면의 향상된 측정 → "브라우저 기록 이벤트 기반 페이지 변경"은 **꺼져 있어야** 한다. 켜져 있으면 이동마다 2건씩 집계된다(`_ee` 플래그가 붙은 쪽이 GA 자동 이벤트).
+    - 그래서 GA 관리 화면의 향상된 측정 → 페이지 조회 → 고급 설정의 "브라우저 방문 기록 이벤트 기반 페이지 변경"은 **꺼져 있어야** 한다(2026-11-06 끔, 실시간 보고서로 이동당 1건 확인). 다시 켜지면 이동마다 2건씩 집계된다(`_ee` 플래그가 붙은 쪽이 GA 자동 이벤트).
     - gtag 스니펫을 index.html에 직접 붙이지 말 것(이중 로드). 푸터의 GA 사용 고지 문구도 이 구성과 짝이다.
 
 ---
