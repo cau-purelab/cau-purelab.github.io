@@ -13,6 +13,8 @@ export const LAB_DESCRIPTION_CLAUSES = [
 export const LAB_DESCRIPTION = LAB_DESCRIPTION_CLAUSES.join(" ");
 export const LAB_URL = "https://pure.cau.ac.kr";
 export const LAB_EMAIL = "purelab.cau@gmail.com";
+// Google Analytics 4 측정 ID (공개값 — 비밀 아님). src/lib/analytics.ts가 정식 도메인에서만 쓴다.
+export const GA_MEASUREMENT_ID = "G-G6810EMH75";
 export const LAB_AFFILIATION = "Chung-Ang University";
 // Footer의 지도 링크 검색어. index.html JSON-LD의 PostalAddress와 같은 주소를 쓴다.
 export const LAB_ADDRESS_QUERY = "Chung-Ang University, 84 Heukseok-ro, Dongjak-gu, Seoul 06974, Republic of Korea";

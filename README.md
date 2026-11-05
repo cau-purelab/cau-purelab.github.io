@@ -59,7 +59,9 @@
 │   │   └── NotFound.tsx     # 404 페이지 (noindex로 내보내 soft-404 색인 방지)
 │   ├── lib/
 │   │   ├── bibtex.ts        # BibTeX 파싱·저자 표기 유틸 (논문을 그리는 세 페이지가 공유)
-│   │   └── clipboard.ts     # 클립보드 복사 (비보안 오리진·구형 브라우저용 폴백 포함)
+│   │   ├── clipboard.ts     # 클립보드 복사 (비보안 오리진·구형 브라우저용 폴백 포함)
+│   │   ├── seo.ts           # 경로 → title·description 조회 (SEO 컴포넌트·GA page_view 공용)
+│   │   └── analytics.ts     # Google Analytics 4 — 정식 도메인에서만 로드, 경로 변경 시 page_view
 │   ├── data/
 │   │   ├── publications.json # 교수별 전체 논문, 진행 중 논문, citation/JCR 지표
 │   │   └── seo-routes.json   # 라우트별 <title>·description의 단일 출처 (SEO 컴포넌트·정적 HTML·sitemap이 공유)

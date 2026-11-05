@@ -3,6 +3,8 @@ import { Routes, Route, useLocation, useNavigationType } from 'react-router-dom'
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import { trackPageView } from './lib/analytics';
+import { metaForPath } from './lib/seo';
 
 // 라우트 코드 스플리팅: 무거운 publications.json을 쓰는 People/Scholar가 초기 번들에서 분리됨
 const Research = lazy(() => import('./pages/Research'));
@@ -66,6 +68,21 @@ const ScrollToTop = () => {
     // location.key는 같은 경로로 다시 이동해도 매번 새로 발급된다
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.key, location.hash, navigationType]);
+
+  return null;
+};
+
+/**
+ * GA page_view — 경로(pathname)가 바뀔 때만 보낸다.
+ * Scholar 페이지는 필터·검색어를 쿼리스트링에 계속 쓰므로, 쿼리까지 보면 타자 한 번마다 조회가 쌓인다.
+ * 제목은 탭 제목(Helmet이 한 박자 늦게 바꿈) 대신 seo-routes.json에서 바로 꺼낸다.
+ */
+const PageViewTracker = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    trackPageView(metaForPath(pathname).title);
+  }, [pathname]);
 
   return null;
 };
@@ -154,6 +171,7 @@ function App() {
   return (
     <>
       <ScrollToTop />
+      <PageViewTracker />
       <div className="min-h-screen bg-white flex flex-col font-sans text-gray-900">
         <Navbar />
         {/* pt-nav = 고정 Navbar 높이(src/index.css의 --nav-h). 값을 바꾸면 그 변수만 고칠 것 */}

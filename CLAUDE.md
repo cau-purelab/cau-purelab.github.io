@@ -62,7 +62,7 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
   - **렌더 중에 브라우저마다 달라지는 값을 쓰지 말 것**(`window`·`localStorage`·현재 시각 등 — effect·핸들러 안은 괜찮다). 빌드 시점과 값이 달라지면 hydrate가 어긋나 React가 그 구역을 다시 그린다. 그래서 Footer 연도도 `__BUILD_DATE__`에서 뽑는다.
   - `/scholar?q=…`처럼 쿼리가 붙은 진입은 빌드본(쿼리 없음)과 화면이 달라 그 구역만 클라이언트에서 다시 그린다 — 의도된 동작.
   - React는 큰 Suspense 경계를 숨긴 조각 + 인라인 스크립트로 내보내므로 `progressiveChunkSize: Infinity`로 막아 두었다(빼면 JS 없는 크롤러에 본문이 hidden으로 보인다).
-- **라우트별 title·description은 `src/data/seo-routes.json`이 단일 출처**: `SEO.tsx`(Helmet)와 `site.cjs`(정적 HTML·sitemap)가 같은 파일을 읽고, `prerender.cjs`가 렌더 결과와 대조해 다르면 빌드를 멈춘다. 페이지에서는 `<SEO />`(404는 `<SEO noindex />`)만 쓴다.
+- **라우트별 title·description은 `src/data/seo-routes.json`이 단일 출처**(조회 함수는 `src/lib/seo.ts`): `SEO.tsx`(Helmet)·GA page_view와 `site.cjs`(정적 HTML·sitemap)가 같은 파일을 읽고, `prerender.cjs`가 렌더 결과와 대조해 다르면 빌드를 멈춘다. 페이지에서는 `<SEO />`(404는 `<SEO noindex />`)만 쓴다.
 
 ### 데이터 파일
 
@@ -105,7 +105,10 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 12. **철회 논문은 싣지 않는다**(2026-10-01, 연구실 요청): publications.json에서 지우고, 그 논문의 Scholar 레코드 ID를 `lib.cjs`의 `RETRACTED_REMOVED_RECORDS`에 적는다 — 적지 않으면 sync가 다시 넣을 수 있다. url이 Scholar 주소면 그 `citation_for_view=` 값을, DOI 등 다른 주소면 교수 Scholar 프로필에서 같은 논문 행을 찾아 그 행의 값을 적는다. `retracted: true` 표시로 남기던 방식은 폐기됐고, `validate_data.cjs`가 철회 흔적(제목·bibtex의 철회 접두와 'Retraction Note:' 같은 공지 제목, `retracted` 키, 지운 레코드)을 배포 전에 막는다.
     - **지우기 전에 Scholar 레코드가 정말 그 철회 논문인지 볼 것**: 'Smart health monitoring…'은 철회된 FGCS 논문(PI 없음)의 정보가 Rho 교수의 2024년 책 챕터 레코드에 잘못 붙어 있던 경우였다 — 지우지 않고 챕터로 바로잡았다.
     - **새 철회는 Scholar만 봐서는 못 잡는다**: 2026-10 전수 확인 때 프로필에 남은 철회 논문 2편 중 Scholar 제목에 접두가 붙은 것은 1편뿐이었다. sync는 철회 표기가 붙은 경우만 보고하므로, 가끔 `node scripts/check_retractions.cjs`(Crossref)로 확인한다.
-13. **검색 등록·애널리틱스**: 계정이 필요한 작업(네이버 서치어드바이저·Search Console·GA4)은 `docs/search-and-analytics-setup.md`에 절차가 있다. 네이버 토큰과 GA 측정 ID는 아직 받지 않았다(2026-11-06). GA 스니펫을 넣을 때는 `create-pages-404.cjs`의 `ALLOWED_ORIGINS`에 `https://www.googletagmanager.com`도 추가해야 빌드가 통과한다.
+13. **검색 등록·애널리틱스**: 계정이 필요한 작업(네이버 서치어드바이저·Search Console·GA4)은 `docs/search-and-analytics-setup.md`에 절차가 있다. 네이버 토큰은 아직 받지 않았다(2026-11-06).
+    - **GA4(`G-G6810EMH75`, 2026-11-06~)**: `src/lib/analytics.ts`가 `LAB_URL` 호스트에서만 gtag.js를 불러온다(개발 서버·localhost는 집계 안 함). 자동 page_view는 끄고(`send_page_view: false`) `App.tsx`의 `PageViewTracker`가 **pathname이 바뀔 때만** `seo-routes.json` 제목으로 보낸다 — Scholar는 필터·검색어를 쿼리에 계속 써서 쿼리까지 보면 타자마다 조회가 쌓인다.
+    - 그래서 GA 관리 화면의 향상된 측정 → "브라우저 기록 이벤트 기반 페이지 변경"은 **꺼져 있어야** 한다. 켜져 있으면 이동마다 2건씩 집계된다(`_ee` 플래그가 붙은 쪽이 GA 자동 이벤트).
+    - gtag 스니펫을 index.html에 직접 붙이지 말 것(이중 로드). 푸터의 GA 사용 고지 문구도 이 구성과 짝이다.
 
 ---
 
@@ -161,4 +164,5 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 | 2026-10-01 | 박형준(Hyungjun Park) 프로필 — 사진(4344×5792 PNG 11MB → 354×472 JPEG 13.5KB, 원본은 `design/photo-source/`에 비커밋 보관), 이메일, 관심 분야(#Machine Unlearning) |
 | 2026-10-01 | Scholar 동기화 자동 머지 + 이틀 주기 — 주 1회 PR을 사람이 머지하던 방식(9/28 PR #6이 머지되지 않은 채 쌓임)을 바꿔, 변경이 있으면 배포 게이트(설정·데이터 검증 → 타입체크 → `build:pages`)를 sync 워크플로 안에서 통과시킨 뒤 PR을 만들고 스스로 squash 머지, `deploy.yml`을 workflow_dispatch로 호출(GITHUB_TOKEN 머지는 push 트리거를 깨우지 않음). cron `0 0 * * 1` → `17 0 */2 * *`, 실패 이슈에 빌드·머지·배포 호출 단계 원인 구분 추가, 워크플로·이슈 이름에서 Weekly 제거 |
 | 2026-11-06 | 검색 노출 — 라우트 본문 프리렌더(SSG: `entry-server.tsx` + `prerender.cjs`, 브라우저는 hydrate), 라우트 title·description을 `seo-routes.json`으로 단일화(이전에는 Helmet이 정적 메타보다 짧은 설명 "PURE lab at Chung-Ang University." 등으로 덮어써 JS 렌더링 크롤러가 다른 값을 봤다), 홈 제목·설명과 JSON-LD에 한국어 이름(중앙대학교 PURE 연구실·노승민·이미영·중앙대학교) 추가, 사람이 할 등록 절차를 `docs/search-and-analytics-setup.md`로 정리 |
+| 2026-11-06 | GA4 연결(`G-G6810EMH75`) — 정식 도메인에서만 로드, 경로 변경 시 수동 page_view(제목은 seo-routes.json), 푸터 사용 고지. 로컬 빌드를 pure.cau.ac.kr로 띄워 수집 요청을 가로채 확인(실제 GA로는 미전송): 경로마다 1건 + GA 자동 이벤트 1건(`_ee`)이 함께 나가 GA 화면의 기록 이벤트 옵션을 꺼야 함 |
 | 2026-10-06 | Rho 교수 개인 홈페이지(https://seungminrho.vercel.app/)를 People 카드 Website 링크와 JSON-LD Person `url`에 반영(카드 링크는 원래 Google Sites — Google Sites는 sync 기준 소스로만 남음), `create-pages-404.cjs` 허용 origin에 추가 |

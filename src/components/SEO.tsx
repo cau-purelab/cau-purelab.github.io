@@ -2,24 +2,19 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import { LAB_URL } from '../constants';
-// 라우트별 title·description의 단일 출처 — scripts/site.cjs도 같은 파일로 정적 HTML·sitemap을 만든다.
-import seoMeta from '../data/seo-routes.json';
+import { NOT_FOUND_META, metaForPath, normalizePath } from '../lib/seo';
 
 interface SEOProps {
     /** 색인에서 제외할 페이지(404 등). canonical을 내보내지 않고 robots를 noindex로 지정하며 404 문구를 쓴다. */
     noindex?: boolean;
 }
 
-type RouteMeta = { title: string; description: string };
-const ROUTE_META: Record<string, RouteMeta> = seoMeta.routes;
-
 const OG_IMAGE = '/assets/og-image.png';
 
 const SEO: React.FC<SEOProps> = ({ noindex = false }) => {
     const { pathname } = useLocation();
-    // "/people/"처럼 끝에 슬래시가 붙어 들어와도 같은 라우트 메타를 쓴다
-    const normalized = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname;
-    const meta = (!noindex && ROUTE_META[normalized]) || seoMeta.notFound;
+    const normalized = normalizePath(pathname);
+    const meta = noindex ? NOT_FOUND_META : metaForPath(pathname);
     const canonicalUrl = `${LAB_URL}${normalized === '/' ? '/' : normalized}`;
     const imageUrl = `${LAB_URL}${OG_IMAGE}`;
 

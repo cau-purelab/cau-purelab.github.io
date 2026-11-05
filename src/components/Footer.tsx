@@ -62,6 +62,8 @@ const Footer = () => {
 
                 <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400">
                     <p>&copy; {__BUILD_DATE__.slice(0, 4)} {LAB_NAME}. All rights reserved.</p>
+                    {/* GA4 사용 고지 (src/lib/analytics.ts) — 분석 도구를 바꾸거나 빼면 이 문구도 함께 고칠 것 */}
+                    <p className="mt-2 md:mt-0 text-center">This site uses Google Analytics to collect anonymous visit statistics.</p>
                     <p className="mt-2 md:mt-0">Site last updated: {__BUILD_DATE__}</p>
                 </div>
             </div>
