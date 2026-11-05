@@ -19,7 +19,7 @@
 npm install --legacy-peer-deps           # React 19 peer-deps 이슈로 --legacy-peer-deps 필수 (.npmrc에 설정됨)
 npm run dev                              # http://localhost:5173
 npm run build                            # 일반 빌드 (dist/) — 배포 산출물 검증에는 쓰지 말 것
-npm run build:pages                      # 배포용 빌드 (라우트별 HTML + 404.html + sitemap.xml + robots.txt + feed.xml, CI가 사용)
+npm run build:pages                      # 배포용 빌드 (vite build + SSR 번들 → 라우트별 HTML·본문 프리렌더 + 404.html + sitemap.xml + robots.txt + feed.xml, CI가 사용)
 npm run typecheck                        # tsc --noEmit (CI 게이트)
 npm run validate                         # site.cjs 설정 정합성 + validate_data.cjs
 node scripts/sync_scholar.cjs            # 논문 데이터 변경 감지 보고서 (Google Sites + Scholar 대조, 변경 없음)
@@ -57,6 +57,12 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 | `/news` | `News.tsx` | constants.tsx `NEWS` |
 
 - Home 외 라우트는 `React.lazy`로 분리 — publications.json(~340KB)은 People/Scholar 방문 시에만 로드됨. 이 구조를 깨지 말 것.
+- **본문 프리렌더(SSG, 2026-11-06~)**: `build:pages`가 `vite build --ssr src/entry-server.tsx`(→ `dist-ssr/`, 비배포)를 만들고, `scripts/prerender.cjs`가 라우트마다 렌더한 HTML을 `dist/<route>.html`의 `#root`에 넣는다. `main.tsx`는 `#root`에 내용이 있으면 `hydrateRoot`, 비어 있으면(개발 서버·404.html) `createRoot`.
+  - 라우터는 `App` 밖에서 감싼다(브라우저 `BrowserRouter` / 빌드 `StaticRouter`). 두 트리가 같아야 hydrate가 서버 DOM을 재사용한다.
+  - **렌더 중에 브라우저마다 달라지는 값을 쓰지 말 것**(`window`·`localStorage`·현재 시각 등 — effect·핸들러 안은 괜찮다). 빌드 시점과 값이 달라지면 hydrate가 어긋나 React가 그 구역을 다시 그린다. 그래서 Footer 연도도 `__BUILD_DATE__`에서 뽑는다.
+  - `/scholar?q=…`처럼 쿼리가 붙은 진입은 빌드본(쿼리 없음)과 화면이 달라 그 구역만 클라이언트에서 다시 그린다 — 의도된 동작.
+  - React는 큰 Suspense 경계를 숨긴 조각 + 인라인 스크립트로 내보내므로 `progressiveChunkSize: Infinity`로 막아 두었다(빼면 JS 없는 크롤러에 본문이 hidden으로 보인다).
+- **라우트별 title·description은 `src/data/seo-routes.json`이 단일 출처**: `SEO.tsx`(Helmet)와 `site.cjs`(정적 HTML·sitemap)가 같은 파일을 읽고, `prerender.cjs`가 렌더 결과와 대조해 다르면 빌드를 멈춘다. 페이지에서는 `<SEO />`(404는 `<SEO noindex />`)만 쓴다.
 
 ### 데이터 파일
 
@@ -68,7 +74,7 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 
 **`docs/archive-cleanup-2026-09.md`**: 2026-09-17 아카이브 1회성 정리 기록 — 무엇을 지웠고 무엇을 판단 보류했는지. `validate_data.cjs`가 경고 끝에 붙이는 "확인 대기" 항목의 근거가 여기 있다. 철회 논문 처리 이력(표시만 → 2026-10-01 삭제)과 그 근거도 4절에 있다.
 
-**`scripts/`**: `site.cjs`(정본 URL `SITE_URL` + 라우트 목록 `ROUTES`의 단일 출처. `constants.tsx`의 `LAB_URL`과 어긋나면 throw — CI가 배포 전에 잡는다), `create-pages-404.cjs`(라우트별 정적 HTML·404.html·sitemap.xml·robots.txt 생성), `create-rss.cjs`(NEWS → feed.xml), `validate_data.cjs`(publications.json 무결성), `sync_scholar.cjs`(통합 동기화 — Google Sites in-review 섹션과 Scholar 프로필을 json과 대조해 상태 변경/신규 논문/출판 전환을 감지·반영하고 constants.tsx 정합성도 검사), `update_scholar_metrics.cjs`(Scholar citation + Google Sites의 `[SCIE-Q1 Top N%]` 라벨 수집 — Clarivate 원자료 아님), `check_retractions.cjs`(게재 항목을 Crossref에서 찾아 철회 공지·`updated-by`가 있는지 전수 조회 — 보고만), `patch_publications.py`(수동 일회성 패치용), `lib.cjs`(공용 유틸: fetchText/normalize/titlesMatch, 철회 접두·삭제한 철회 레코드 목록 등).
+**`scripts/`**: `site.cjs`(정본 URL `SITE_URL` + 라우트 목록 `ROUTES`의 단일 출처. `constants.tsx`의 `LAB_URL`과 어긋나면 throw — CI가 배포 전에 잡는다), `create-pages-404.cjs`(라우트별 정적 HTML·404.html·sitemap.xml·robots.txt 생성), `prerender.cjs`(라우트별 HTML의 `#root`에 본문 렌더 — SSG), `create-rss.cjs`(NEWS → feed.xml), `validate_data.cjs`(publications.json 무결성), `sync_scholar.cjs`(통합 동기화 — Google Sites in-review 섹션과 Scholar 프로필을 json과 대조해 상태 변경/신규 논문/출판 전환을 감지·반영하고 constants.tsx 정합성도 검사), `update_scholar_metrics.cjs`(Scholar citation + Google Sites의 `[SCIE-Q1 Top N%]` 라벨 수집 — Clarivate 원자료 아님), `check_retractions.cjs`(게재 항목을 Crossref에서 찾아 철회 공지·`updated-by`가 있는지 전수 조회 — 보고만), `patch_publications.py`(수동 일회성 패치용), `lib.cjs`(공용 유틸: fetchText/normalize/titlesMatch, 철회 접두·삭제한 철회 레코드 목록 등).
 
 ---
 
@@ -95,10 +101,11 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 8. **날짜 배지**: `sync_scholar.cjs --apply`가 `PUBLICATIONS_UPDATED_AT`을 자동 갱신함. json을 수동 수정한 경우에만 직접 갱신. Footer의 "Site last updated"는 빌드 시 자동 주입(`__BUILD_DATE__`).
 9. **커밋**: 주제별로 분리 커밋. main push는 곧바로 라이브 배포이므로 push 전 `npm run typecheck && npm run build:pages` 필수.
 10. **라우트 추가/삭제 시**: `src/App.tsx`의 `<Route>`와 `scripts/site.cjs`의 `ROUTES`를 함께 고칠 것. 빠뜨리면 해당 딥링크가 다시 404가 된다.
-11. **index.html의 SEO 태그**: `data-rh="true"`가 붙은 태그는 Helmet이 런타임에 교체하고, 빌드 시에는 `create-pages-404.cjs`가 라우트별 값으로 치환한다. 태그 구조를 바꾸면 그 스크립트의 치환 패턴도 함께 고칠 것(치환 실패 시 빌드가 멈춘다).
+11. **index.html의 SEO 태그**: `data-rh="true"`가 붙은 태그는 Helmet이 런타임에 교체하고, 빌드 시에는 `create-pages-404.cjs`가 라우트별 값으로 치환한다. 태그 구조를 바꾸면 그 스크립트의 치환 패턴도 함께 고칠 것(치환 실패 시 빌드가 멈춘다). index.html의 기본 title·description은 `seo-routes.json`의 `/` 값과 같게 둔다. `<div id="root"></div>`는 `prerender.cjs`가 정확히 이 문자열을 찾아 채우므로 모양을 바꾸지 말 것.
 12. **철회 논문은 싣지 않는다**(2026-10-01, 연구실 요청): publications.json에서 지우고, 그 논문의 Scholar 레코드 ID를 `lib.cjs`의 `RETRACTED_REMOVED_RECORDS`에 적는다 — 적지 않으면 sync가 다시 넣을 수 있다. url이 Scholar 주소면 그 `citation_for_view=` 값을, DOI 등 다른 주소면 교수 Scholar 프로필에서 같은 논문 행을 찾아 그 행의 값을 적는다. `retracted: true` 표시로 남기던 방식은 폐기됐고, `validate_data.cjs`가 철회 흔적(제목·bibtex의 철회 접두와 'Retraction Note:' 같은 공지 제목, `retracted` 키, 지운 레코드)을 배포 전에 막는다.
     - **지우기 전에 Scholar 레코드가 정말 그 철회 논문인지 볼 것**: 'Smart health monitoring…'은 철회된 FGCS 논문(PI 없음)의 정보가 Rho 교수의 2024년 책 챕터 레코드에 잘못 붙어 있던 경우였다 — 지우지 않고 챕터로 바로잡았다.
     - **새 철회는 Scholar만 봐서는 못 잡는다**: 2026-10 전수 확인 때 프로필에 남은 철회 논문 2편 중 Scholar 제목에 접두가 붙은 것은 1편뿐이었다. sync는 철회 표기가 붙은 경우만 보고하므로, 가끔 `node scripts/check_retractions.cjs`(Crossref)로 확인한다.
+13. **검색 등록·애널리틱스**: 계정이 필요한 작업(네이버 서치어드바이저·Search Console·GA4)은 `docs/search-and-analytics-setup.md`에 절차가 있다. 네이버 토큰과 GA 측정 ID는 아직 받지 않았다(2026-11-06). GA 스니펫을 넣을 때는 `create-pages-404.cjs`의 `ALLOWED_ORIGINS`에 `https://www.googletagmanager.com`도 추가해야 빌드가 통과한다.
 
 ---
 
@@ -119,7 +126,7 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 1. **스크레이핑 구조 의존** — `sync_scholar.cjs`·`update_scholar_metrics.cjs`는 Google Sites 텍스트 구조(제목/저자/`학술지 (상태, 날짜)` 3줄 패턴)와 Scholar HTML 클래스명에 의존. 페이지 구조가 바뀌면 파서 수정 필요.
 2. **Google Scholar가 러너 IP를 자주 막는다** — 예약 실행 10회를 로그로 전수 확인한 결과 6회가 Scholar 차단으로 수집 단계에서 멈췄다(2026-07-20, 07-27, 08-10, 08-17, 08-24, 08-31). 통과율 40%이고, 같은 커밋을 1분 간격으로 돌렸을 때 하나는 403, 하나는 성공한 기록이 있다 — 코드가 아니라 러너 IP 운이다. **2026-09-20 이전에는** 차단되면 그 주의 Google Sites 변경까지 통째로 버려졌다. 지금은 재시도(최대 4회, 지수 백오프)와 부분 성공 보존이 들어가 Sites 변경은 반영되고 Scholar 의존 작업만 건너뛴다. 그래도 신규 출판 논문·citation 갱신은 차단된 회차에 들어오지 않으므로, 차단이 여러 번 이어지면 로컬에서 `--apply`를 돌려 당겨와야 한다(로컬 IP는 대체로 차단되지 않음). 2026-10-01부터 주 1회 → 이틀 주기로 바꿔, 회차마다 러너 IP가 새로 걸리는 만큼 수집 기회도 늘었다.
 3. **Mi Young Lee 아카이브는 부분 수집** — Scholar 프로필 논문 중 일부만 게재한다(현재 publications.json 기준 41편, 작업 규칙 7 참조). 나머지는 sync 보고서에만 나타남. Scholar 쪽 전체 편수는 프로필이 계속 바뀌므로 숫자를 문서에 박아 두지 말고 `node scripts/sync_scholar.cjs` 보고서에서 확인할 것.
-4. **프리렌더는 메타 태그까지만** — 라우트별 HTML은 본문 없이 title/description/og/canonical만 주입한다. 본문 텍스트가 필요한 크롤러(예: Naver Yeti)에는 여전히 빈 페이지로 보인다. SSR/SSG 도입은 별도 과제.
+4. **프리렌더는 빌드 시점 스냅숏** — 2026-11-06부터 라우트별 HTML에 본문이 들어간다(SSG). Scholar 페이지는 첫 50건만 HTML에 있고 나머지는 Load More로 나온다. 404.html은 본문 없이 빈 셸이다. 화면은 영어라 한국어 검색어는 메타·JSON-LD의 한국어 이름에 기대고 있다.
 
 ---
 
@@ -153,4 +160,5 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 | 2026-10-01 | 철회 논문 걷어냄(연구실 요청) — Retraction Watch DB·Crossref·Scholar 세 경로로 아카이브 475건을 전수 대조해 철회 논문이 표시돼 있던 4편뿐임을 확인. 3편 삭제(Rho 433→431, Lee 42→41), 1편('Smart health monitoring…')은 철회된 FGCS 논문 정보가 Rho 교수의 2024년 책 챕터 레코드에 잘못 붙은 것이라 챕터로 바로잡음. 화면의 Retracted 배지·제외 주석 제거. 재유입 방지(`RETRACTED_REMOVED_RECORDS` — sync 자동 추가 제외 + validate 배포 차단), 철회 패턴을 출판사 공지 제목('Retraction Note:' 등)까지 넓힘(지운 논문의 Springer 공지가 Rho 교수 저자로 Scholar에 올라오면 신규 논문으로 들어갈 뻔했다), sync에 철회 표기 감지 보고, Crossref 전수 조회 스크립트 `check_retractions.cjs` 신설 |
 | 2026-10-01 | 박형준(Hyungjun Park) 프로필 — 사진(4344×5792 PNG 11MB → 354×472 JPEG 13.5KB, 원본은 `design/photo-source/`에 비커밋 보관), 이메일, 관심 분야(#Machine Unlearning) |
 | 2026-10-01 | Scholar 동기화 자동 머지 + 이틀 주기 — 주 1회 PR을 사람이 머지하던 방식(9/28 PR #6이 머지되지 않은 채 쌓임)을 바꿔, 변경이 있으면 배포 게이트(설정·데이터 검증 → 타입체크 → `build:pages`)를 sync 워크플로 안에서 통과시킨 뒤 PR을 만들고 스스로 squash 머지, `deploy.yml`을 workflow_dispatch로 호출(GITHUB_TOKEN 머지는 push 트리거를 깨우지 않음). cron `0 0 * * 1` → `17 0 */2 * *`, 실패 이슈에 빌드·머지·배포 호출 단계 원인 구분 추가, 워크플로·이슈 이름에서 Weekly 제거 |
+| 2026-11-06 | 검색 노출 — 라우트 본문 프리렌더(SSG: `entry-server.tsx` + `prerender.cjs`, 브라우저는 hydrate), 라우트 title·description을 `seo-routes.json`으로 단일화(이전에는 Helmet이 정적 메타보다 짧은 설명 "PURE lab at Chung-Ang University." 등으로 덮어써 JS 렌더링 크롤러가 다른 값을 봤다), 홈 제목·설명과 JSON-LD에 한국어 이름(중앙대학교 PURE 연구실·노승민·이미영·중앙대학교) 추가, 사람이 할 등록 절차를 `docs/search-and-analytics-setup.md`로 정리 |
 | 2026-10-06 | Rho 교수 개인 홈페이지(https://seungminrho.vercel.app/)를 People 카드 Website 링크와 JSON-LD Person `url`에 반영(카드 링크는 원래 Google Sites — Google Sites는 sync 기준 소스로만 남음), `create-pages-404.cjs` 허용 origin에 추가 |

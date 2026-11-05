@@ -61,16 +61,19 @@
 │   │   ├── bibtex.ts        # BibTeX 파싱·저자 표기 유틸 (논문을 그리는 세 페이지가 공유)
 │   │   └── clipboard.ts     # 클립보드 복사 (비보안 오리진·구형 브라우저용 폴백 포함)
 │   ├── data/
-│   │   └── publications.json # 교수별 전체 논문, 진행 중 논문, citation/JCR 지표
+│   │   ├── publications.json # 교수별 전체 논문, 진행 중 논문, citation/JCR 지표
+│   │   └── seo-routes.json   # 라우트별 <title>·description의 단일 출처 (SEO 컴포넌트·정적 HTML·sitemap이 공유)
 │   ├── constants.tsx    # ⚡ 핵심 데이터 파일 (멤버, 논문, 뉴스 등 데이터 관리)
 │   ├── types.ts         # TypeScript 인터페이스 정의
-│   ├── App.tsx          # 라우팅 설정
-│   ├── main.tsx         # 진입점 (HelmetProvider 설정)
+│   ├── App.tsx          # 라우팅 설정 (라우터는 main.tsx·entry-server.tsx가 감쌈)
+│   ├── main.tsx         # 브라우저 진입점 (HelmetProvider + BrowserRouter, 프리렌더된 본문은 hydrate)
+│   ├── entry-server.tsx # 빌드 시 프리렌더 진입점 (StaticRouter, 브라우저 번들에는 안 들어감)
 │   ├── index.css        # Tailwind 지시문 + 전역 스타일 (내비 높이, 히어로 애니메이션, 동작 줄이기)
 │   └── vite-env.d.ts    # Vite 클라이언트 타입 + __BUILD_DATE__ 선언
 ├── scripts/
 │   ├── site.cjs                   # 정본 URL(SITE_URL) + 라우트 목록의 단일 출처, 설정 정합성 검사
-│   ├── create-pages-404.cjs       # 라우트별 정적 HTML + 404.html + sitemap.xml + robots.txt 생성
+│   ├── create-pages-404.cjs       # 라우트별 정적 HTML(메타) + 404.html + sitemap.xml + robots.txt 생성
+│   ├── prerender.cjs              # 라우트별 HTML의 #root에 React로 렌더한 본문을 채움 (SSG)
 │   ├── create-rss.cjs             # NEWS 배열 → dist/feed.xml (RSS 2.0)
 │   ├── validate_data.cjs          # publications.json 무결성 검증 (배포 전 CI 게이트)
 │   ├── sync_scholar.cjs           # Google Sites/Scholar 대조 → 논문 데이터 동기화 (이틀마다 워크플로가 실행)
@@ -85,7 +88,8 @@
 │   │   └── sync-scholar.yml       # 이틀마다 논문 데이터 동기화 → 검증 통과 시 PR 자동 머지·배포
 │   └── dependabot.yml             # 의존성·액션 버전 자동 갱신 PR 설정 (npm major는 제외)
 ├── docs/
-│   └── archive-cleanup-2026-09.md # 논문 아카이브 1회성 정리 기록 (제거·보류 판단 근거)
+│   ├── archive-cleanup-2026-09.md # 논문 아카이브 1회성 정리 기록 (제거·보류 판단 근거)
+│   └── search-and-analytics-setup.md # 검색엔진 등록·GA4 설정 중 사람이 직접 할 작업과 절차
 ├── CLAUDE.md            # 작업 가이드 (규칙, 아키텍처, 알려진 한계, 작업 이력)
 ├── CREDITS.md           # 배포 이미지의 출처·라이선스 기록 — 이미지 추가 시 함께 갱신
 ├── LICENSE              # MIT
@@ -138,6 +142,11 @@
     *   빌드 시 `scripts/create-pages-404.cjs`가 라우트별 정적 HTML(`research.html`, `people.html` …)을 만든다.
         GitHub Pages가 확장자 없는 경로를 이 파일로 200 서빙하므로 딥링크가 404가 되지 않고,
         JS를 실행하지 않는 크롤러·링크 미리보기 스크래퍼도 페이지별 title/description/og 태그를 본다.
+    *   이어서 `scripts/prerender.cjs`가 각 라우트를 React로 렌더해(`src/entry-server.tsx`) 본문을 `#root`에 넣는다.
+        JS를 거의 실행하지 않는 네이버 Yeti도 본문을 읽고, 브라우저는 그 DOM을 hydrate해 그대로 쓴다.
+        렌더된 title·description이 `src/data/seo-routes.json`과 다르면 빌드가 멈춘다.
+    *   제목·설명은 `src/data/seo-routes.json` 한 곳에서 고친다. 홈 제목과 설명, JSON-LD의 `alternateName`에
+        한국어 이름(중앙대학교 PURE 연구실·노승민·이미영)을 넣어 한국어 검색어로도 찾히게 했다.
     *   `sitemap.xml`·`robots.txt`·`feed.xml`도 같은 빌드 단계에서 `scripts/site.cjs`의 `SITE_URL` 기준으로 생성된다
         (public/ 에 정적 파일로 두지 않는다 — 도메인이 코드 여러 곳에 흩어지는 것을 막기 위함).
 
