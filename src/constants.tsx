@@ -46,8 +46,10 @@ export const METRICS_DISCLAIMER =
 
 // 펀딩 태그 → 사람이 읽는 설명. 태그 말미의 '-NN'은 연도(20NN)를 뜻한다.
 // 여기에 없는 태그는 소비 측에서 태그 문자열을 그대로 보여준다(FUNDING_LEGEND[tag] ?? tag).
-// TODO(lab): 정식 과제명·과제번호·수행기간 확인 필요. 아래 설명은 태그에 드러난 기관/사업 약어를 풀어 쓴 수준이고,
-//            'Convg_Security-25/26', 'Rise-25', 'SW_Copyright-24'는 근거가 없어 일부러 비워 두었다.
+// ITRC-25/26 · Convg_Security-25/26 · SW_Copyright-24 · KIAT-21은 노승민 교수 개인 홈페이지 Projects 페이지
+// (https://seungminrho.vercel.app/projects, 2026-11-06 확인)의 과제명으로 풀었다 — 같은 과제가 src/data/projects.ts에도 있다.
+// TODO(lab): 나머지(NRF-*, IITP-21, ITRC-21~23, CAU-22)는 기관/사업 약어를 풀어 쓴 수준이고, 'Rise-25'는 출처에도
+//            "pending verification"이라 일부러 비워 두었다.
 // 주의: 'Prof. *' 항목은 연구비가 아니라 협력 교수 라벨이다(감사 12번). 펀딩 집계·필터에서는 제외할 것.
 export const FUNDING_LEGEND: Record<string, string> = {
   "NRF-19": "National Research Foundation of Korea (NRF) — 2019",
@@ -57,9 +59,12 @@ export const FUNDING_LEGEND: Record<string, string> = {
   "ITRC-21": "Information Technology Research Center (ITRC) program — 2021",
   "ITRC-22": "Information Technology Research Center (ITRC) program — 2022",
   "ITRC-23": "Information Technology Research Center (ITRC) program — 2023",
-  "ITRC-25": "Information Technology Research Center (ITRC) program — 2025",
-  "ITRC-26": "Information Technology Research Center (ITRC) program — 2026",
-  "KIAT-21": "Korea Institute for Advancement of Technology (KIAT) — 2021",
+  "ITRC-25": "ITRC — The Development of Advanced Data Security Technology and Human Resources (MSIT) — 2025",
+  "ITRC-26": "ITRC — The Development of Advanced Data Security Technology and Human Resources (MSIT) — 2026",
+  "Convg_Security-25": "Convergence Security Graduate School, Chung-Ang University (IITP / MSIT) — 2025",
+  "Convg_Security-26": "Convergence Security Graduate School, Chung-Ang University (IITP / MSIT) — 2026",
+  "SW_Copyright-24": "Blockchain-based Distribution and Management Platform for SW Copyright Protection (KOCCA / MCST) — 2024",
+  "KIAT-21": "KIAT — Data Augmentation Technology Using Heterogeneous and External Data Integration — 2021",
   "CAU-22": "Chung-Ang University — 2022",
   "Prof. MYLee": "Collaborator label (Prof. Mi Young Lee) — not a funding source",
   "Prof. HJKim": "Collaborator label — not a funding source",
