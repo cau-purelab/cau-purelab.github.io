@@ -2,7 +2,7 @@
 // 출처: 수상 안내 메일·학술대회 프로그램·수상 목록 캡처(2026-11-06 사용자 제공). 확인 안 된 값은 비워 둔다 —
 //  · CISC-W'26 수상 논문은 공식 영문 제목을 받지 못해 원제만 둔다(저자는 학술대회 프로그램 캡처 기준).
 //  · DID 공모전은 사용자가 준 기사(2024 블록체인 진흥주간 × 웹3 콘퍼런스, 과기정통부 주최)를 근거로 행사명을 붙였다.
-//    기사에는 공모전 자체가 아니라 한국전자거래학회 세션만 나온다 — 행사와의 연결은 사용자 확인에 기댄다.
+//    기사에는 공모전 자체가 아니라 한국전자거래학회 세션만 나온다 — 행사와의 연결은 사용자 확인에 기댄다. 기사 링크는 사용자 요청으로 뺐다(2026-11-06).
 //  · 국내 상은 원래 이름(awardKo)을 함께 둔다. 영문 상 이름은 등급을 옮긴 것이다(우수논문상 → Best Paper Award).
 // 화면은 date 내림차순으로 다시 정렬하므로 삽입 순서는 상관없다.
 import type { Award } from '../types';
@@ -70,7 +70,6 @@ export const AWARDS: Award[] = [
     awardKo: '장려상',
     event: 'DID (Decentralized Identity) Business Model Patent Idea Competition, 2024 Blockchain Promotion Week × Web3 Conference, Seoul',
     organizer: SEB,
-    link: 'https://www.techm.kr/news/articleView.html?idxno=132748',
     peopleKind: 'team',
     people: ['Byeongcheon Lee', 'Sangmin Kim'],
   },
