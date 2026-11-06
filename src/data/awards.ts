@@ -1,6 +1,8 @@
 // 학생·연구실 수상 내역 (수동 관리). 화면: Home 하이라이트, News의 Honors & Awards(/news#awards).
 // 출처: 수상 안내 메일·학술대회 프로그램·수상 목록 캡처(2026-11-06 사용자 제공). 확인 안 된 값은 비워 둔다 —
-//  · CISC-W'26 수상 논문은 공식 영문 제목과 전체 저자를 받지 못해 원문 제목과 확인된 수상자만 적었다.
+//  · CISC-W'26 수상 논문은 공식 영문 제목을 받지 못해 원제만 둔다(저자는 학술대회 프로그램 캡처 기준).
+//  · DID 공모전은 사용자가 준 기사(2024 블록체인 진흥주간 × 웹3 콘퍼런스, 과기정통부 주최)를 근거로 행사명을 붙였다.
+//    기사에는 공모전 자체가 아니라 한국전자거래학회 세션만 나온다 — 행사와의 연결은 사용자 확인에 기댄다.
 //  · 국내 상은 원래 이름(awardKo)을 함께 둔다. 영문 상 이름은 등급을 옮긴 것이다(우수논문상 → Best Paper Award).
 // 화면은 date 내림차순으로 다시 정렬하므로 삽입 순서는 상관없다.
 import type { Award } from '../types';
@@ -18,8 +20,9 @@ export const AWARDS: Award[] = [
     event: 'CISC-W 2026 (KIISC Winter Conference), Yeosu',
     organizer: KIISC,
     work: { titleKo: '머신 언러닝 모델의 탐지 가능성 완화를 위한 내부 표현 정렬 프레임워크' },
-    peopleKind: 'recipient',
-    people: ['Hyunok Kim'],
+    peopleKind: 'authors',
+    // 박성우는 덕성여자대학교 소속(외부 공저자), 나머지는 중앙대학교
+    people: ['Hyunok Kim', 'Sangmin Kim', 'Byeongcheon Lee', 'Hyungjun Park', 'Sungwoo Park', 'Mi Young Lee', 'Seungmin Rho'],
   },
   {
     id: 'cau-junior-2025',
@@ -28,7 +31,7 @@ export const AWARDS: Award[] = [
     award: 'Excellence Award',
     awardKo: '우수상',
     event: '2025 CAU-Junior Convergence Research Group',
-    organizer: 'Chung-Ang University (미래융합원)',
+    organizer: 'Chung-Ang University',
     peopleKind: 'team',
     people: ['Byeongcheon Lee', 'Sangmin Kim'],
   },
@@ -65,8 +68,9 @@ export const AWARDS: Award[] = [
     tier: 'encouragement',
     award: 'Encouragement Award',
     awardKo: '장려상',
-    event: 'DID (Decentralized Identity) Business Model Patent Idea Competition',
+    event: 'DID (Decentralized Identity) Business Model Patent Idea Competition, 2024 Blockchain Promotion Week × Web3 Conference, Seoul',
     organizer: SEB,
+    link: 'https://www.techm.kr/news/articleView.html?idxno=132748',
     peopleKind: 'team',
     people: ['Byeongcheon Lee', 'Sangmin Kim'],
   },

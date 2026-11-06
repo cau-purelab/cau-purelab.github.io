@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award as AwardIcon, Calendar } from 'lucide-react';
+import { ArrowUpRight, Award as AwardIcon, Calendar } from 'lucide-react';
 import { MEMBERS } from '../constants';
 import type { Award, AwardTier } from '../types';
 
@@ -77,7 +77,23 @@ export default function AwardItem({ award, variant = 'full' }: AwardItemProps) {
           <AwardBadge award={award} />
           {award.awardKo && <span className="text-xs text-slate-500">{award.awardKo}</span>}
         </div>
-        <h3 className="text-slate-900 font-semibold text-lg leading-snug">{award.event}</h3>
+        <h3 className="text-slate-900 font-semibold text-lg leading-snug">
+          {award.link ? (
+            <a
+              href={award.link}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${award.event} (opens in a new tab)`}
+              className="group hover:text-blue-800 transition-colors"
+            >
+              {/* 긴 대회명이 여러 줄로 접혀도 화살표가 마지막 단어 바로 뒤에 붙도록 inline으로 둔다 */}
+              <span className="underline decoration-slate-300 underline-offset-4 group-hover:decoration-blue-400">{award.event}</span>
+              <ArrowUpRight className="inline-block h-4 w-4 ml-1 -mt-0.5 opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
+            </a>
+          ) : (
+            award.event
+          )}
+        </h3>
         <p className="text-xs text-slate-500">{award.organizer}</p>
         {work && (work.title || work.titleKo) && (
           <p className="text-sm text-slate-700 leading-relaxed border-l-2 border-slate-200 pl-3">

@@ -60,6 +60,8 @@ export interface Award {
   awardKo?: string;
   /** 대회·학술대회 이름(영문) */
   event: string;
+  /** 대회·행사 원문 주소(기사·공지). 있을 때만 대회 이름이 링크가 된다 — 없는 주소를 지어내지 말 것 */
+  link?: string;
   organizer: string;
   /** 수상 논문·출품작 제목. 공식 영문 제목이 있을 때만 title을 채우고, 없으면 원문(titleKo)만 둔다 */
   work?: { title?: string; titleKo?: string };

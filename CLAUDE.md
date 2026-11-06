@@ -72,7 +72,7 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 - 출판: `{ title, url, bibtex, funding_tags, citations?, jcr?, jcr_source? }`
 - 진행 중: `{ title, author, journal, status, funding_tags, year, is_progress: true }`
 
-**`src/data/awards.ts`** (수동 관리): 수상 내역. Home 하이라이트(최근 3건)와 News `#awards`에 나온다. 화면이 날짜 내림차순으로 정렬한다. `people`의 이름이 `MEMBERS[].name`과 글자 단위로 같아야 멤버로 굵게 표시된다. **날짜·저자·영문 제목을 모르면 지어내지 말고 사용자에게 받는다** — CISC-W'26 우수논문상은 공식 영문 제목·전체 저자를 받지 못해 원제와 수상자(김현옥)만 있다.
+**`src/data/awards.ts`** (수동 관리): 수상 내역. Home 하이라이트(최근 3건)와 News `#awards`에 나온다. 화면이 날짜 내림차순으로 정렬한다. `people`의 이름이 `MEMBERS[].name`과 글자 단위로 같아야 멤버로 굵게 표시된다. **날짜·저자·영문 제목을 모르면 지어내지 말고 사용자에게 받는다** — CISC-W'26 우수논문상은 공식 영문 제목을 받지 못해 원제만 있다. 대회 원문 주소는 `link`(있을 때만 링크). News에서는 수상 섹션이 소식 타임라인 **다음**에 온다(사용자 지정 순서).
 
 **`src/data/projects.ts`** (수동 관리): 진행 중 정부 과제. 출처는 노승민 교수 개인 홈페이지 Projects 페이지(https://seungminrho.vercel.app/projects) — 과제가 바뀌면 그 페이지와 대조해 고친다. 진행 중 여부·진행 막대·"Year N of M"은 `__BUILD_DATE__` 기준이라(hydrate 일치) 종료일이 지난 과제는 다음 빌드에서 저절로 빠진다(이틀마다 sync 배포가 있으니 사실상 자동). 연구비·과제번호·연구실 역할은 출처에 없어 적지 않았다. 설립(2024.03) 전에 끝난 교수 개인 과제 3건은 싣지 않았다. `fundingTags`는 publications.json 태그로 Scholar `?fund=` 필터 링크가 된다. `constants.tsx`의 `FUNDING_LEGEND`도 같은 출처로 일부 태그를 풀어 두었다.
 
