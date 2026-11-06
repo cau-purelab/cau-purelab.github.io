@@ -45,3 +45,43 @@ export interface ResearchArea {
   image: string;
   tags?: string[];
 }
+/** 수상 등급 — 화면의 배지 색과 라벨을 정한다(src/components/AwardItem.tsx). */
+export type AwardTier = 'grand' | 'best-paper' | 'excellence' | 'encouragement';
+
+export interface Award {
+  /** 앵커·key용. 한 번 정하면 바꾸지 말 것 */
+  id: string;
+  /** 'YYYY.MM' — 정렬 기준. 날짜를 모르면 지어내지 말고 사용자에게 받을 것 */
+  date: string;
+  tier: AwardTier;
+  /** 상 이름(영문) */
+  award: string;
+  /** 상 이름 원문(국내 상은 한국어 그대로) */
+  awardKo?: string;
+  /** 대회·학술대회 이름(영문) */
+  event: string;
+  organizer: string;
+  /** 수상 논문·출품작 제목. 공식 영문 제목이 있을 때만 title을 채우고, 없으면 원문(titleKo)만 둔다 */
+  work?: { title?: string; titleKo?: string };
+  /** 'authors'는 논문 저자, 'team'은 공모전 팀원 — 화면 라벨이 달라진다 */
+  peopleKind: 'authors' | 'team' | 'recipient';
+  /** 이름 표기는 MEMBERS[].name과 글자 단위로 같아야 연구실 멤버로 강조된다 */
+  people: string[];
+}
+
+export interface FundedProject {
+  id: string;
+  title: string;
+  titleKo?: string;
+  /** 'YYYY.MM.DD' — 진행 중/종료 판정은 빌드 날짜(__BUILD_DATE__)와 end를 비교해 정한다 */
+  start: string;
+  end: string;
+  /** 짧은 배지 라벨(예: 'ITRC', 'IITP', 'KIAT', 'KOCCA') */
+  program: string;
+  /** 지원 부처·전문기관 */
+  funders: string[];
+  /** 컨소시엄(참여 기관) 또는 주관 학과 */
+  partners?: string;
+  /** publications.json의 funding_tags 중 이 과제에 해당하는 것(최신 연도가 마지막). Scholar 필터 링크에 쓴다 */
+  fundingTags?: string[];
+}

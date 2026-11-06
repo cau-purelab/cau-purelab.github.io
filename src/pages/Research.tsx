@@ -4,6 +4,8 @@ import { RESEARCH_AREAS } from '../constants';
 import { ArrowUpRight } from 'lucide-react';
 import SEO from '../components/SEO';
 import PageHeader from '../components/PageHeader';
+import ProjectCard from '../components/ProjectCard';
+import { ACTIVE_PROJECTS } from '../data/projects';
 
 const Research = () => {
   return (
@@ -85,6 +87,32 @@ const Research = () => {
           </div>
         ))}
       </div>
+
+      {/* 연구를 지원하는 정부 과제. id는 홈 하이라이트가 가리키는 앵커다(/research#projects).
+          데이터·출처는 src/data/projects.ts — 종료일이 지난 과제는 빌드 때 저절로 빠진다. */}
+      {ACTIVE_PROJECTS.length > 0 && (
+        <section id="projects" aria-labelledby="projects-heading" className="scroll-mt-24 mt-32">
+          <div className="flex items-end justify-between gap-6 flex-wrap mb-10">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-blue-700 mb-3">Funding</p>
+              <h2 id="projects-heading" className="text-3xl lg:text-4xl font-playfair font-bold text-slate-900">
+                Funded Research Projects
+              </h2>
+              <p className="text-slate-600 font-light mt-3 max-w-2xl">
+                National R&amp;D and education programs that currently support our research.
+              </p>
+            </div>
+            <p className="text-5xl font-playfair font-bold text-blue-900/20 tabular-nums" aria-hidden="true">
+              {String(ACTIVE_PROJECTS.length).padStart(2, '0')}
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2">
+            {ACTIVE_PROJECTS.map(project => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 };

@@ -3,6 +3,10 @@ import { ArrowRight, ArrowUpRight, Calendar, Users, FileText, Mail } from 'lucid
 import { Link } from 'react-router-dom';
 import { LAB_DESCRIPTION_CLAUSES, LAB_EMAIL, LAB_ESTABLISHED_YEAR, LAB_FULL_NAME, LAB_SHORT_NAME, RESEARCH_AREAS, NEWS, PUBLICATIONS, MEMBERS } from '../constants';
 import SEO from '../components/SEO';
+import AwardItem from '../components/AwardItem';
+import ProjectCard from '../components/ProjectCard';
+import { AWARDS_SORTED } from '../data/awards';
+import { ACTIVE_PROJECTS } from '../data/projects';
 
 const Home = () => {
   // 'Publications'가 무엇을 센 숫자인지 드러나도록: 수동 선별 목록 중 '게재된' 논문만 센다.
@@ -11,6 +15,7 @@ const Home = () => {
   const memberCount = MEMBERS.filter(m => !m.isAlumni).length;
   // 삽입 순서에 기대지 않고 항상 최신순으로 자른다 (감사 20번)
   const latestNews = [...NEWS].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 4);
+  const recentAwards = AWARDS_SORTED.slice(0, 3);
 
   return (
     <div className="pb-20 overflow-hidden">
@@ -135,6 +140,45 @@ const Home = () => {
                 <ArrowRight className="h-4 w-4 text-blue-600 group-hover:text-blue-900 transition-colors shrink-0" />
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3-1. Honors & Funding 하이라이트 — 최근 수상 3건과 진행 중 과제. 전체 목록은 /news#awards, /research#projects */}
+      <section aria-label="Honors and funded projects" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid lg:grid-cols-5 gap-8">
+          <div className="lg:col-span-3 bg-white rounded-2xl border border-slate-200 p-6 md:p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <h2 className="font-playfair text-2xl font-bold text-blue-900">Recent Honors</h2>
+              <div className="h-px bg-slate-200 flex-grow"></div>
+              <Link to="/news#awards" className="text-xs font-semibold text-slate-600 hover:text-blue-900 flex items-center gap-1 uppercase tracking-wider py-1">
+                All awards <ArrowRight className="h-3 w-3" aria-hidden="true" />
+              </Link>
+            </div>
+            <ul className="space-y-5 divide-y divide-slate-100">
+              {recentAwards.map((award, i) => (
+                <li key={award.id} className={i > 0 ? 'pt-5' : ''}>
+                  <AwardItem award={award} variant="compact" />
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="lg:col-span-2 bg-slate-900 text-white rounded-2xl p-6 md:p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <h2 className="font-playfair text-2xl font-bold">Funded Projects</h2>
+              <div className="h-px bg-white/15 flex-grow"></div>
+              <Link to="/research#projects" className="text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-1 uppercase tracking-wider py-1">
+                Details <ArrowRight className="h-3 w-3" aria-hidden="true" />
+              </Link>
+            </div>
+            <ul className="space-y-5">
+              {ACTIVE_PROJECTS.map(project => (
+                <li key={project.id}>
+                  <ProjectCard project={project} variant="compact" tone="dark" />
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>

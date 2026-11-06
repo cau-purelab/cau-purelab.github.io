@@ -48,14 +48,16 @@
 │   │   ├── Footer.tsx       # 하단 정보 (빌드일 표시)
 │   │   ├── Logo.tsx         # 브랜드 마크/락업 (LogoMark·LogoLockup — 내비와 푸터가 공유)
 │   │   ├── PageHeader.tsx   # 페이지 공용 헤더 (eyebrow/h1/설명/액션)
+│   │   ├── AwardItem.tsx    # 수상 항목 (News용 전체형 / Home용 요약형)
+│   │   ├── ProjectCard.tsx  # 과제 카드 (Research용 전체형 / Home용 요약형)
 │   │   └── SEO.tsx          # 메타태그 및 Open Graph 설정
 │   ├── pages/           # 각 라우트별 페이지
-│   │   ├── Home.tsx         # 메인 (통계, 최신 뉴스 4건, 채용 공고)
-│   │   ├── Research.tsx     # 연구 분야 소개 및 저장소 링크
+│   │   ├── Home.tsx         # 메인 (통계, 최근 수상·진행 과제, 최신 뉴스 4건, 채용 공고)
+│   │   ├── Research.tsx     # 연구 분야 소개 + 진행 중 과제(#projects)
 │   │   ├── People.tsx       # 구성원 소개 (직급별 분류)
 │   │   ├── Publications.tsx # 주요 논문 하이라이트
 │   │   ├── ScholarPublications.tsx # 전체 논문 아카이브, citation/JCR 표시
-│   │   ├── News.tsx         # 전체 뉴스 아카이브 (연도별 그룹화)
+│   │   ├── News.tsx         # 수상 내역(#awards) + 전체 뉴스 아카이브 (연도별 그룹화)
 │   │   └── NotFound.tsx     # 404 페이지 (noindex로 내보내 soft-404 색인 방지)
 │   ├── lib/
 │   │   ├── bibtex.ts        # BibTeX 파싱·저자 표기 유틸 (논문을 그리는 세 페이지가 공유)
@@ -64,7 +66,9 @@
 │   │   └── analytics.ts     # Google Analytics 4 — 정식 도메인에서만 로드, 경로 변경 시 page_view
 │   ├── data/
 │   │   ├── publications.json # 교수별 전체 논문, 진행 중 논문, citation/JCR 지표
-│   │   └── seo-routes.json   # 라우트별 <title>·description의 단일 출처 (SEO 컴포넌트·정적 HTML·sitemap이 공유)
+│   │   ├── seo-routes.json   # 라우트별 <title>·description의 단일 출처 (SEO 컴포넌트·정적 HTML·sitemap이 공유)
+│   │   ├── awards.ts         # 수상 내역 (Home 하이라이트, News #awards)
+│   │   └── projects.ts       # 진행 중 정부 과제 (Home 하이라이트, Research #projects)
 │   ├── constants.tsx    # ⚡ 핵심 데이터 파일 (멤버, 논문, 뉴스 등 데이터 관리)
 │   ├── types.ts         # TypeScript 인터페이스 정의
 │   ├── App.tsx          # 라우팅 설정 (라우터는 main.tsx·entry-server.tsx가 감쌈)

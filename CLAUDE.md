@@ -50,11 +50,11 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 | 경로 | 컴포넌트 | 데이터 소스 |
 |------|----------|------------|
 | `/` | `Home.tsx` | constants.tsx (통계는 PUBLICATIONS/MEMBERS 길이에서 자동 계산) |
-| `/research` | `Research.tsx` | constants.tsx `RESEARCH_AREAS` |
+| `/research` | `Research.tsx` | constants.tsx `RESEARCH_AREAS` + `src/data/projects.ts`(Funded Projects, `#projects`) |
 | `/people` | `People.tsx` | constants.tsx `MEMBERS` + publications.json (PI/Co-PI 논문 모달) |
 | `/publications` | `Publications.tsx` | constants.tsx `PUBLICATIONS` (수동 선별 하이라이트) |
 | `/scholar` | `ScholarPublications.tsx` | publications.json (전체 아카이브, 탭/검색/정렬/펀딩 필터) |
-| `/news` | `News.tsx` | constants.tsx `NEWS` |
+| `/news` | `News.tsx` | constants.tsx `NEWS` + `src/data/awards.ts`(Honors & Awards, `#awards`) |
 
 - Home 외 라우트는 `React.lazy`로 분리 — publications.json(~340KB)은 People/Scholar 방문 시에만 로드됨. 이 구조를 깨지 말 것.
 - **본문 프리렌더(SSG, 2026-11-06~)**: `build:pages`가 `vite build --ssr src/entry-server.tsx`(→ `dist-ssr/`, 비배포)를 만들고, `scripts/prerender.cjs`가 라우트마다 렌더한 HTML을 `dist/<route>.html`의 `#root`에 넣는다. `main.tsx`는 `#root`에 내용이 있으면 `hydrateRoot`, 비어 있으면(개발 서버·404.html) `createRoot`.
@@ -71,6 +71,10 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 **`src/data/publications.json`** (스크립트+수동 혼합): 키는 교수 이름(`"Seungmin Rho"`, `"Mi Young Lee"`). 항목 형태 2종 —
 - 출판: `{ title, url, bibtex, funding_tags, citations?, jcr?, jcr_source? }`
 - 진행 중: `{ title, author, journal, status, funding_tags, year, is_progress: true }`
+
+**`src/data/awards.ts`** (수동 관리): 수상 내역. Home 하이라이트(최근 3건)와 News `#awards`에 나온다. 화면이 날짜 내림차순으로 정렬한다. `people`의 이름이 `MEMBERS[].name`과 글자 단위로 같아야 멤버로 굵게 표시된다. **날짜·저자·영문 제목을 모르면 지어내지 말고 사용자에게 받는다** — CISC-W'26 우수논문상은 공식 영문 제목·전체 저자를 받지 못해 원제와 수상자(김현옥)만 있다.
+
+**`src/data/projects.ts`** (수동 관리): 진행 중 정부 과제. 출처는 노승민 교수 개인 홈페이지 Projects 페이지(https://seungminrho.vercel.app/projects) — 과제가 바뀌면 그 페이지와 대조해 고친다. 진행 중 여부·진행 막대·"Year N of M"은 `__BUILD_DATE__` 기준이라(hydrate 일치) 종료일이 지난 과제는 다음 빌드에서 저절로 빠진다(이틀마다 sync 배포가 있으니 사실상 자동). 연구비·과제번호·연구실 역할은 출처에 없어 적지 않았다. 설립(2024.03) 전에 끝난 교수 개인 과제 3건은 싣지 않았다. `fundingTags`는 publications.json 태그로 Scholar `?fund=` 필터 링크가 된다. `constants.tsx`의 `FUNDING_LEGEND`도 같은 출처로 일부 태그를 풀어 두었다.
 
 **`docs/archive-cleanup-2026-09.md`**: 2026-09-17 아카이브 1회성 정리 기록 — 무엇을 지웠고 무엇을 판단 보류했는지. `validate_data.cjs`가 경고 끝에 붙이는 "확인 대기" 항목의 근거가 여기 있다. 철회 논문 처리 이력(표시만 → 2026-10-01 삭제)과 그 근거도 4절에 있다.
 
@@ -165,4 +169,5 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
 | 2026-10-01 | Scholar 동기화 자동 머지 + 이틀 주기 — 주 1회 PR을 사람이 머지하던 방식(9/28 PR #6이 머지되지 않은 채 쌓임)을 바꿔, 변경이 있으면 배포 게이트(설정·데이터 검증 → 타입체크 → `build:pages`)를 sync 워크플로 안에서 통과시킨 뒤 PR을 만들고 스스로 squash 머지, `deploy.yml`을 workflow_dispatch로 호출(GITHUB_TOKEN 머지는 push 트리거를 깨우지 않음). cron `0 0 * * 1` → `17 0 */2 * *`, 실패 이슈에 빌드·머지·배포 호출 단계 원인 구분 추가, 워크플로·이슈 이름에서 Weekly 제거 |
 | 2026-11-06 | 검색 노출 — 라우트 본문 프리렌더(SSG: `entry-server.tsx` + `prerender.cjs`, 브라우저는 hydrate), 라우트 title·description을 `seo-routes.json`으로 단일화(이전에는 Helmet이 정적 메타보다 짧은 설명 "PURE lab at Chung-Ang University." 등으로 덮어써 JS 렌더링 크롤러가 다른 값을 봤다), 홈 제목·설명과 JSON-LD에 한국어 이름(중앙대학교 PURE 연구실·노승민·이미영·중앙대학교) 추가 |
 | 2026-11-06 | GA4 연결(`G-G6810EMH75`) — 정식 도메인에서만 로드, 경로 변경 시 수동 page_view(제목은 seo-routes.json), 푸터 사용 고지. 로컬 빌드를 pure.cau.ac.kr로 띄워 수집 요청을 가로채 확인(실제 GA로는 미전송): 경로마다 1건 + GA 자동 이벤트 1건(`_ee`)이 함께 나가 GA 화면의 기록 이벤트 옵션을 꺼야 함 |
+| 2026-11-06 | 수상·과제 강조 — 국내 연구실 14곳을 조사(대부분 수상은 뉴스에 한 줄, 과제는 미표기)한 뒤 News에 Honors & Awards 섹션(5건: CISC-W'26 우수논문상, CAU-Junior 우수상, 한국전자거래학회 2025 추계 아이디어 공모전 최우수상·우수논문상, DID 공모전 장려상), Research에 Funded Research Projects(진행 중 4건, 진행 막대·Scholar 펀딩 필터 링크), Home에 최근 수상 3건 + 과제 하이라이트. `FUNDING_LEGEND`의 ITRC-25/26·Convg_Security·SW_Copyright·KIAT-21을 교수 홈페이지 과제명으로 풀이 |
 | 2026-10-06 | Rho 교수 개인 홈페이지(https://seungminrho.vercel.app/)를 People 카드 Website 링크와 JSON-LD Person `url`에 반영(카드 링크는 원래 Google Sites — Google Sites는 sync 기준 소스로만 남음), `create-pages-404.cjs` 허용 origin에 추가 |

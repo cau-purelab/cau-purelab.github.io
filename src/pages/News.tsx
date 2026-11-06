@@ -3,6 +3,8 @@ import { NEWS } from '../constants';
 import { ArrowUpRight, Calendar } from 'lucide-react';
 import SEO from '../components/SEO';
 import PageHeader from '../components/PageHeader';
+import AwardItem from '../components/AwardItem';
+import { AWARDS_SORTED } from '../data/awards';
 
 const News = () => {
     // 배열의 삽입 순서를 신뢰하지 않고 렌더 시점에 날짜 내림차순으로 정렬한다 (감사 20번).
@@ -27,6 +29,23 @@ const News = () => {
                 title="Lab News"
                 description="Recent activities, achievements, and announcements"
             />
+
+            {/* 수상 내역 — 소식 타임라인과 따로 모은다. id는 홈 하이라이트의 앵커(/news#awards).
+                데이터·출처는 src/data/awards.ts */}
+            <section id="awards" aria-labelledby="awards-heading" className="scroll-mt-24 mb-20">
+                <div className="flex items-center gap-4 mb-8">
+                    <h2 id="awards-heading" className="text-3xl font-playfair font-bold text-blue-900">Honors &amp; Awards</h2>
+                    <div className="h-px bg-slate-200 flex-grow"></div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-500 tabular-nums">{AWARDS_SORTED.length} awards</span>
+                </div>
+                <ul className="grid gap-4">
+                    {AWARDS_SORTED.map(award => (
+                        <li key={award.id} id={award.id} className="scroll-mt-24 bg-white p-6 rounded-xl border border-slate-200">
+                            <AwardItem award={award} />
+                        </li>
+                    ))}
+                </ul>
+            </section>
 
             <div className="space-y-16">
                 {sortedYears.map((year) => (

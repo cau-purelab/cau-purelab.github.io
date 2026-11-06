@@ -6,7 +6,7 @@
     },
     "/research": {
       "title": "Research | PURE Lab, Chung-Ang University",
-      "description": "Research areas of PURE Lab, Chung-Ang University: privacy-preserving AI, machine unlearning, and robust AI engineering. 중앙대학교 PURE 연구실 연구 분야 — 프라이버시 보존 AI, 머신 언러닝, 강건한 AI."
+      "description": "Research areas and funded national R&D projects of PURE Lab, Chung-Ang University: privacy-preserving AI, machine unlearning, and robust AI engineering. 중앙대학교 PURE 연구실 연구 분야와 수행 과제."
     },
     "/people": {
       "title": "People | PURE Lab, Chung-Ang University",
@@ -22,7 +22,7 @@
     },
     "/news": {
       "title": "News | PURE Lab, Chung-Ang University",
-      "description": "News from PURE Lab at Chung-Ang University — conference participation, lab activities, and announcements. 중앙대학교 PURE 연구실 소식."
+      "description": "News and awards from PURE Lab at Chung-Ang University — best paper awards, conference participation, and announcements. 중앙대학교 PURE 연구실 소식과 수상."
     }
   },
   "notFound": {
