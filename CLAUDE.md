@@ -113,6 +113,7 @@ python scripts/patch_publications.py     # publications.json 일회성 수동 �
     - **GA4(`G-G6810EMH75`, 2026-11-06~)**: `src/lib/analytics.ts`가 `LAB_URL` 호스트에서만 gtag.js를 불러온다(개발 서버·localhost는 집계 안 함). 자동 page_view는 끄고(`send_page_view: false`) `App.tsx`의 `PageViewTracker`가 **pathname이 바뀔 때만** `seo-routes.json` 제목으로 보낸다 — Scholar는 필터·검색어를 쿼리에 계속 써서 쿼리까지 보면 타자마다 조회가 쌓인다.
     - 그래서 GA 관리 화면의 향상된 측정 → 페이지 조회 → 고급 설정의 "브라우저 방문 기록 이벤트 기반 페이지 변경"은 **꺼져 있어야** 한다(2026-11-06 끔, 실시간 보고서로 이동당 1건 확인). 다시 켜지면 이동마다 2건씩 집계된다(`_ee` 플래그가 붙은 쪽이 GA 자동 이벤트).
     - gtag 스니펫을 index.html에 직접 붙이지 말 것(이중 로드). 푸터의 GA 사용 고지 문구도 이 구성과 짝이다.
+14. **사이트 전체 디자인을 임의로 갈아엎지 말 것**(2026-11-06): 사용자가 "AI로 바이브코딩한 티"를 지워 달라고 해서 학술 편집형(Source Serif/Sans, 카드·알약 태그·아이콘·대문자 소제목 제거, 목록 조판)으로 전 페이지를 다시 짰으나, 미리보기를 본 뒤 "별로"라며 **현재 UI로 롤백**했다(커밋하지 않음). 디자인을 다시 손댈 일이 있으면 전면 교체 대신 한 페이지·한 요소씩 미리보기로 합의하며 진행한다. 미리보기는 `npm run dev`가 WSL의 `/mnt/c` 파일 감시 한도(EMFILE)로 죽으므로, `build:pages` 결과(`dist/`)를 정적 서버로 띄우고 Orca 탭은 `orca-ide tab create --url ...`로 연다(`cmd.exe start`는 Orca 밖의 Windows 브라우저를 연다).
 
 ---
 
