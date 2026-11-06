@@ -93,14 +93,15 @@ export default function ProjectCard({ project, variant = 'full', tone = 'light' 
         )}
       </dl>
 
-      {/* 이 과제를 사사한 논문 — Scholar 아카이브의 펀딩 필터로 바로 연다(태그별 링크) */}
+      {/* 이 과제를 사사한 논문 — Scholar 아카이브의 펀딩 필터로 바로 연다(태그별 링크).
+          show=all: 아카이브 기본 범위는 '게재'라, 투고 중 논문에만 붙은 태그(ITRC-26 4편 전부 투고 중)는 빈 목록이 된다 */}
       {project.fundingTags && project.fundingTags.length > 0 && (
         <div className="mt-auto pt-2 flex flex-wrap items-center gap-2 text-xs">
           <span className="text-slate-500">Acknowledged in publications:</span>
           {project.fundingTags.map(tag => (
             <Link
               key={tag}
-              to={`/scholar?fund=${encodeURIComponent(tag)}`}
+              to={`/scholar?fund=${encodeURIComponent(tag)}&show=all`}
               className="inline-flex items-center gap-1 font-semibold text-blue-700 hover:text-blue-900 underline underline-offset-4"
             >
               {tag}
