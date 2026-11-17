@@ -216,7 +216,7 @@
       "funding_tags": [
         "Convg_Security-26"
       ],
-      "citations": 0
+      "citations": 1
     },
     {
       "title": "A data analytics-driven approach to backorder prediction using federated machine learning in industrial supply chains",
@@ -248,21 +248,21 @@
         "Prof. MYLee",
         "NRF-SM-25"
       ],
-      "citations": 3
+      "citations": 4
     },
     {
       "title": "Urban planning and building smart cities based on the internet of things using big data analytics",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:zLWjf1WUPmwC",
       "bibtex": "@article{rathore2016urban,\n  title={Urban planning and building smart cities based on the internet of things using big data analytics},\n  author={Rathore, M Mazhar and Ahmad, Awais and Paul, Anand and Rho, Seungmin},\n  journal={Computer networks},\n  volume={101},\n  pages={63--80},\n  year={2016},\n  publisher={Elsevier}\n}",
       "funding_tags": [],
-      "citations": 1320
+      "citations": 1323
     },
     {
       "title": "Convolutional neural networks based fire detection in surveillance videos",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:IUKN3-7HHlwC",
       "bibtex": "@article{muhammad2018convolutional,\n  title={Convolutional neural networks based fire detection in surveillance videos},\n  author={Muhammad, Khan and Ahmad, Jamil and Mehmood, Irfan and Rho, Seungmin and Baik, Sung Wook},\n  journal={Ieee Access},\n  volume={6},\n  pages={18174--18183},\n  year={2018},\n  publisher={IEEE}\n}",
       "funding_tags": [],
-      "citations": 729
+      "citations": 731
     },
     {
       "title": "Deep learning based multi-channel intelligent attack detection for data security",
@@ -297,14 +297,14 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:AHdEip9mkN0C",
       "bibtex": "@article{ullah2019short,\n  title={Short-term prediction of residential power energy consumption via CNN and multi-layer bi-directional LSTM networks},\n  author={Ullah, Fath U Min and Ullah, Amin and Haq, Ijaz Ul and Rho, Seungmin and Baik, Sung Wook},\n  journal={IEEE Access},\n  volume={8},\n  pages={123369--123380},\n  year={2019},\n  publisher={IEEE}\n}",
       "funding_tags": [],
-      "citations": 287
+      "citations": 288
     },
     {
       "title": "Towards efficient electricity forecasting in residential and commercial buildings: A novel hybrid CNN with a LSTM-AE based framework",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:jL-93Qbq4QoC",
       "bibtex": "@article{khan2020towards,\n  title={Towards efficient electricity forecasting in residential and commercial buildings: A novel hybrid CNN with a LSTM-AE based framework},\n  author={Khan, Zulfiqar Ahmad and Hussain, Tanveer and Ullah, Amin and Rho, Seungmin and Lee, Miyoung and Baik, Sung Wook},\n  journal={Sensors},\n  volume={20},\n  number={5},\n  pages={1399},\n  year={2020},\n  publisher={MDPI}\n}",
       "funding_tags": [],
-      "citations": 280
+      "citations": 281
     },
     {
       "title": "Music emotion classification and context-based music recommendation",
@@ -325,7 +325,7 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:BzfGm06jWhQC",
       "bibtex": "@article{nawaz2021deep,\n  title={A deep feature-based real-time system for Alzheimer disease stage detection},\n  author={Nawaz, Hina and Maqsood, Muazzam and Afzal, Sitara and Aadil, Farhan and Mehmood, Irfan and Rho, Seungmin},\n  journal={Multimedia Tools and Applications},\n  volume={80},\n  number={28},\n  pages={35789--35807},\n  year={2021},\n  publisher={Springer}\n}",
       "funding_tags": [],
-      "citations": 207
+      "citations": 206
     },
     {
       "title": "Combination of short-term load forecasting models based on a stacking ensemble approach",
@@ -393,7 +393,7 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:Bg7qf7VwUHIC",
       "bibtex": "@article{khan2019cover,\n  title={Cover the violence: A novel Deep-Learning-Based approach towards violence-detection in movies},\n  author={Khan, Samee Ullah and Haq, Ijaz Ul and Rho, Seungmin and Baik, Sung Wook and Lee, Mi Young},\n  journal={Applied Sciences},\n  volume={9},\n  number={22},\n  pages={4963},\n  year={2019},\n  publisher={MDPI}\n}",
       "funding_tags": [],
-      "citations": 147
+      "citations": 148
     },
     {
       "title": "Leukocytes classification and segmentation in microscopic blood smear: a resource-aware healthcare service in smart cities",
@@ -414,7 +414,7 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:bz8QjSJIRt4C",
       "bibtex": "@inproceedings{han2009smers,\n  title={SMERS: Music Emotion Recognition Using Support Vector Regression.},\n  author={Han, Byeong-jun and Rho, Seungmin and Dannenberg, Roger B and Hwang, Eenjun},\n  booktitle={ISMIR},\n  pages={651--656},\n  year={2009}\n}",
       "funding_tags": [],
-      "citations": 138
+      "citations": 137
     },
     {
       "title": "Clustering algorithm for internet of vehicles (IoV) based on dragonfly optimizer (CAVDO)",
@@ -437,7 +437,7 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:HtEfBTGE9r8C",
       "bibtex": "@article{elmisery2019new,\n  title={A new computing environment for collective privacy protection from constrained healthcare devices to IoT cloud services},\n  author={Elmisery, Ahmed M and Rho, Seungmin and Aborizka, Mohamed},\n  journal={Cluster Computing},\n  volume={22},\n  number={Suppl 1},\n  pages={1611--1638},\n  year={2019},\n  publisher={Springer}\n}",
       "funding_tags": [],
-      "citations": 111
+      "citations": 112
     },
     {
       "title": "An improved authentication protocol for session initiation protocol using smart card",
@@ -458,7 +458,7 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:ubry08Y2EpUC",
       "bibtex": "@article{le2020multiple,\n  title={Multiple electric energy consumption forecasting using a cluster-based strategy for transfer learning in smart building},\n  author={Le, Tuong and Vo, Minh Thanh and Kieu, Tung and Hwang, Eenjun and Rho, Seungmin and Baik, Sung Wook},\n  journal={Sensors},\n  volume={20},\n  number={9},\n  pages={2668},\n  year={2020},\n  publisher={MDPI}\n}",
       "funding_tags": [],
-      "citations": 102
+      "citations": 103
     },
     {
       "title": "An improved anonymous authentication scheme for distributed mobile cloud computing services",
@@ -510,7 +510,7 @@
         "IITP-21",
         "KIAT-21"
       ],
-      "citations": 103
+      "citations": 102
     },
     {
       "title": "Bagging ensemble of multilayer perceptrons for missing electricity consumption data imputation",
@@ -524,7 +524,7 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:dBIO0h50nwkC",
       "bibtex": "@article{kalsoom2018dimensionality,\n  title={A dimensionality reduction-based efficient software fault prediction using Fisher linear discriminant analysis (FLDA)},\n  author={Kalsoom, Anum and Maqsood, Muazzam and Ghazanfar, Mustansar Ali and Aadil, Farhan and Rho, Seungmin},\n  journal={The Journal of Supercomputing},\n  volume={74},\n  number={9},\n  pages={4568--4602},\n  year={2018},\n  publisher={Springer}\n}",
       "funding_tags": [],
-      "citations": 85
+      "citations": 86
     },
     {
       "title": "A review on automated diagnosis of malaria parasite in microscopic blood smears images",
@@ -605,7 +605,7 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:ziOE8S1-AIUC",
       "bibtex": "@article{moon2022toward,\n  title={Toward explainable electrical load forecasting of buildings: A comparative study of tree-based ensemble methods with Shapley values},\n  author={Moon, Jihoon and Rho, Seungmin and Baik, Sung Wook},\n  journal={Sustainable Energy Technologies and Assessments},\n  volume={54},\n  pages={102888},\n  year={2022},\n  publisher={Elsevier}\n}",
       "funding_tags": [],
-      "citations": 91
+      "citations": 93
     },
     {
       "title": "An efficient gait recognition method for known and unknown covariate conditions",
@@ -696,7 +696,7 @@
         "CAU-22",
         "ITRC-22"
       ],
-      "citations": 75
+      "citations": 76
     },
     {
       "title": "An intelligent event-sentiment-based daily foreign exchange rate forecasting system",
@@ -724,7 +724,7 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:uVUOdF_882EC",
       "bibtex": "@article{rana2022intrusion,\n  title={Intrusion detection systems in cloud computing paradigm: analysis and overview},\n  author={Rana, Pooja and Batra, Isha and Malik, Arun and Imoize, Agbotiname Lucky and Kim, Yongsung and Pani, Subhendu Kumar and Goyal, Nitin and Kumar, Arun and Rho, Seungmin},\n  journal={Complexity},\n  volume={2022},\n  number={1},\n  pages={3999039},\n  year={2022},\n  publisher={Wiley Online Library}\n}",
       "funding_tags": [],
-      "citations": 64
+      "citations": 67
     },
     {
       "title": "Integrating salient colors with rotational invariant texture features for image representation in retrieval systems",
@@ -780,14 +780,14 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:pAkWuXOU-OoC",
       "bibtex": "@article{ullah2022cyber,\n  title={Cyber-threat detection system using a hybrid approach of transfer learning and multi-model image representation},\n  author={Ullah, Farhan and Ullah, Shamsher and Naeem, Muhammad Rashid and Mostarda, Leonardo and Rho, Seungmin and Cheng, Xiaochun},\n  journal={Sensors},\n  volume={22},\n  number={15},\n  pages={5883},\n  year={2022},\n  publisher={MDPI}\n}",
       "funding_tags": [],
-      "citations": 52
+      "citations": 53
     },
     {
       "title": "A hybrid deep learning‐based network for photovoltaic power forecasting",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:-nhnvRiOwuoC",
       "bibtex": "@article{hussain2022hybrid,\n  title={A hybrid deep learning-based network for photovoltaic power forecasting},\n  author={Hussain, Altaf and Khan, Zulfiqar Ahmad and Hussain, Tanveer and Ullah, Fath U Min and Rho, Seungmin and Baik, Sung Wook},\n  journal={Complexity},\n  volume={2022},\n  number={1},\n  pages={7040601},\n  year={2022},\n  publisher={Wiley Online Library}\n}",
       "funding_tags": [],
-      "citations": 52
+      "citations": 53
     },
     {
       "title": "A two-stage industrial load forecasting scheme for day-ahead combined cooling, heating and power scheduling",
@@ -829,7 +829,7 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:IjCSPb-OGe4C",
       "bibtex": "@inproceedings{jun2008fuzzy,\n  title={A fuzzy inference-based music emotion recognition system},\n  author={Jun, Sanghoon and Rho, Seungmin and Han, Byeong-jun and Hwang, Eenjun},\n  booktitle={5th International Conference on Visual Information Engineering (VIE 2008)},\n  pages={673--677},\n  year={2008},\n  organization={IET}\n}",
       "funding_tags": [],
-      "citations": 48
+      "citations": 47
     },
     {
       "title": "Cloud-assisted mobile crowd sensing for traffic congestion control",
@@ -941,7 +941,7 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:JTqpx9DYBaYC",
       "bibtex": "@article{so2023bigta,\n  title={BiGTA-Net: A hybrid deep learning-based electrical energy forecasting model for building energy management systems},\n  author={So, Dayeong and Oh, Jinyeong and Jeon, Insu and Moon, Jihoon and Lee, Miyoung and Rho, Seungmin},\n  journal={Systems},\n  volume={11},\n  number={9},\n  pages={456},\n  year={2023},\n  publisher={MDPI}\n}",
       "funding_tags": [],
-      "citations": 42
+      "citations": 43
     },
     {
       "title": "3-dimensional manifold and machine learning based localization algorithm for wireless sensor networks",
@@ -999,7 +999,7 @@
       "funding_tags": [
         "ITRC-21"
       ],
-      "citations": 34
+      "citations": 35
     },
     {
       "title": "Novel framework of GIS based automated monitoring process on environmental biodegradability and risk analysis using Internet of Things",
@@ -1078,7 +1078,7 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:YlPif8NxrbYC",
       "bibtex": "@article{moon2024advancing,\n  title={Advancing ensemble learning techniques for residential building electricity consumption forecasting: Insight from explainable artificial intelligence},\n  author={Moon, Jihoon and Maqsood, Muazzam and So, Dayeong and Baik, Sung Wook and Rho, Seungmin and Nam, Yunyoung},\n  journal={PloS one},\n  volume={19},\n  number={11},\n  pages={e0307654},\n  year={2024},\n  publisher={Public Library of Science San Francisco, CA USA}\n}",
       "funding_tags": [],
-      "citations": 64,
+      "citations": 67,
       "jcr": "SCIE-Q1 Top 22.8%",
       "jcr_source": "https://sites.google.com/view/seungminrho/home"
     },
@@ -1112,7 +1112,7 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=k5aAQxUAAAAJ:4X0JR2_MtJMC",
       "bibtex": "@article{chen2020autonomous,\n  title={Autonomous tactical deployment of the UAV array using self-organizing swarm intelligence},\n  author={Chen, Bo-Wei and Rho, Seungmin},\n  journal={IEEE Consumer Electronics Magazine},\n  volume={9},\n  number={2},\n  pages={52--56},\n  year={2020},\n  publisher={IEEE}\n}",
       "funding_tags": [],
-      "citations": 33
+      "citations": 34
     },
     {
       "title": "Optimized clustering for data dissemination using stochastic coalition game in vehicular cyber-physical systems",
@@ -1220,7 +1220,7 @@
         "ITRC-22",
         "KIAT-21"
       ],
-      "citations": 31
+      "citations": 32
     },
     {
       "title": "Verification of de-identification techniques for personal information using tree-based methods with Shapley values",
@@ -1266,7 +1266,7 @@
       "funding_tags": [
         "Convg_Security-25"
       ],
-      "citations": 45
+      "citations": 46
     },
     {
       "title": "Blockchain expansion to secure assets with fog node on special duty",
@@ -1370,7 +1370,7 @@
       "funding_tags": [
         "SW_Copyright-24"
       ],
-      "citations": 33
+      "citations": 34
     },
     {
       "title": "Tuberculosis detection in chest radiographs using spotted hyena algorithm optimized deep and handcrafted features",
@@ -2653,7 +2653,7 @@
       "funding_tags": [
         "Convg_Security-25"
       ],
-      "citations": 5,
+      "citations": 6,
       "jcr": "SCIE-Q1 Top 4.7%",
       "jcr_source": "https://sites.google.com/view/seungminrho/home"
     },
@@ -3226,7 +3226,7 @@
         "Prof. MYLee",
         "NRF-SM-25"
       ],
-      "citations": 3
+      "citations": 4
     },
     {
       "title": "A texture-guided adversarial defense framework against deepfake generation",
@@ -3247,21 +3247,21 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=bxWgGnoAAAAJ:D_sINldO8mEC",
       "bibtex": "@article{sajjad2020novel,\n  title={A novel CNN-GRU-based hybrid approach for short-term residential load forecasting},\n  author={Sajjad, Muhammad and Khan, Zulfiqar Ahmad and Ullah, Amin and Hussain, Tanveer and Ullah, Waseem and Lee, Mi Young and Baik, Sung Wook},\n  journal={Ieee Access},\n  volume={8},\n  pages={143759--143768},\n  year={2020},\n  publisher={IEEE}\n}",
       "funding_tags": [],
-      "citations": 665
+      "citations": 666
     },
     {
       "title": "AI-based smart prediction of clinical disease using random forest classifier and Naive Bayes",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=bxWgGnoAAAAJ:mvPsJ3kp5DgC",
       "bibtex": "@article{jackins2021ai,\n  title={AI-based smart prediction of clinical disease using random forest classifier and Naive Bayes},\n  author={Jackins, V and Vimal, S and Kaliappan, Madasamy and Lee, Mi Young},\n  journal={The Journal of Supercomputing},\n  volume={77},\n  number={5},\n  pages={5198--5219},\n  year={2021},\n  publisher={Springer}\n}",
       "funding_tags": [],
-      "citations": 482
+      "citations": 483
     },
     {
       "title": "Towards efficient electricity forecasting in residential and commercial buildings: A novel hybrid CNN with a LSTM-AE based framework",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=bxWgGnoAAAAJ:fQNAKQ3IYiAC",
       "bibtex": "@article{khan2020towards,\n  title={Towards efficient electricity forecasting in residential and commercial buildings: A novel hybrid CNN with a LSTM-AE based framework},\n  author={Khan, Zulfiqar Ahmad and Hussain, Tanveer and Ullah, Amin and Rho, Seungmin and Lee, Miyoung and Baik, Sung Wook},\n  journal={Sensors},\n  volume={20},\n  number={5},\n  pages={1399},\n  year={2020},\n  publisher={MDPI}\n}",
       "funding_tags": [],
-      "citations": 280
+      "citations": 281
     },
     {
       "title": "Deep features-based speech emotion recognition for smart affective services",
@@ -3275,14 +3275,14 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=bxWgGnoAAAAJ:ML0RJ9NH7IQC",
       "bibtex": "@article{khan2023towards,\n  title={Towards intelligent building energy management: AI-based framework for power consumption and generation forecasting},\n  author={Khan, Samee Ullah and Khan, Noman and Ullah, Fath U Min and Kim, Min Je and Lee, Mi Young and Baik, Sung Wook},\n  journal={Energy and buildings},\n  volume={279},\n  pages={112705},\n  year={2023},\n  publisher={Elsevier}\n}",
       "funding_tags": [],
-      "citations": 235
+      "citations": 239
     },
     {
       "title": "Cover the violence: A novel Deep-Learning-Based approach towards violence-detection in movies",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=bxWgGnoAAAAJ:B3FOqHPlNUQC",
       "bibtex": "@article{khan2019cover,\n  title={Cover the violence: A novel Deep-Learning-Based approach towards violence-detection in movies},\n  author={Khan, Samee Ullah and Haq, Ijaz Ul and Rho, Seungmin and Baik, Sung Wook and Lee, Mi Young},\n  journal={Applied Sciences},\n  volume={9},\n  number={22},\n  pages={4963},\n  year={2019},\n  publisher={MDPI}\n}",
       "funding_tags": [],
-      "citations": 147
+      "citations": 148
     },
     {
       "title": "TransCNN: Hybrid CNN and transformer mechanism for surveillance anomaly detection",
@@ -3361,14 +3361,14 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=bxWgGnoAAAAJ:PR6Y55bgFSsC",
       "bibtex": "@article{muhammad2021school,\n  title={School of the future: A comprehensive study on the effectiveness of augmented reality as a tool for primary school children’s education},\n  author={Muhammad, Khan and Khan, Noman and Lee, Mi-Young and Imran, Ali Shariq and Sajjad, Muhammad},\n  journal={Applied Sciences},\n  volume={11},\n  number={11},\n  pages={5277},\n  year={2021},\n  publisher={MDPI}\n}",
       "funding_tags": [],
-      "citations": 96
+      "citations": 97
     },
     {
       "title": "Randomly initialized CNN with densely connected stacked autoencoder for efficient fire detection",
       "url": "https://scholar.google.com/citations?view_op=view_citation&citation_for_view=bxWgGnoAAAAJ:zLWjf1WUPmwC",
       "bibtex": "@article{khan2022randomly,\n  title={Randomly initialized CNN with densely connected stacked autoencoder for efficient fire detection},\n  author={Khan, Zulfiqar Ahmad and Hussain, Tanveer and Ullah, Fath U Min and Gupta, Suneet Kumar and Lee, Mi Young and Baik, Sung Wook},\n  journal={Engineering Applications of Artificial Intelligence},\n  volume={116},\n  pages={105403},\n  year={2022},\n  publisher={Elsevier}\n}",
       "funding_tags": [],
-      "citations": 95
+      "citations": 96
     },
     {
       "title": "Efficient deepfake detection via layer-frozen assisted dual attention network for consumer imaging devices",
@@ -3459,7 +3459,7 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=bxWgGnoAAAAJ&pagesize=100&sortby=pubdate&citation_for_view=bxWgGnoAAAAJ:ruyezt5ZtCIC",
       "bibtex": "@article{Khan2024NanoBiosensor,\n  title={A deep dive into AI integration and advanced nanobiosensor technologies for enhanced bacterial infection monitoring},\n  author={Khan, H and Jan, Z and Ullah, I and Alwabli, A and Alharbi, F and Habib, S and Islam, M and Shin, BJ and Lee, Mi Young},\n  journal={Nanotechnology Reviews},\n  year={2024}\n}",
       "funding_tags": [],
-      "citations": 74
+      "citations": 75
     },
     {
       "title": "Towards real-world violence recognition via efficient deep features and sequential patterns analysis",
@@ -3480,7 +3480,7 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=bxWgGnoAAAAJ&pagesize=100&sortby=pubdate&citation_for_view=bxWgGnoAAAAJ:WZBGuue-350C",
       "bibtex": "@article{Ullah2024Chips,\n  title={Industrial defective chips detection using deep convolutional neural network with inverse feature matching mechanism},\n  author={Ullah, W and Khan, SU and Kim, MJ and Hussain, A and Munsif, M and Lee, Mi Young and Seo, D},\n  journal={Journal of Computational Design and Engineering},\n  year={2024}\n}",
       "funding_tags": [],
-      "citations": 22
+      "citations": 24
     },
     {
       "title": "Machine learning based missing data imputation in categorical datasets",
@@ -3494,7 +3494,7 @@
       "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=bxWgGnoAAAAJ&pagesize=100&sortby=pubdate&citation_for_view=bxWgGnoAAAAJ:lmc2jWPfTJgC",
       "bibtex": "@article{so2023bigta,\n  title={BiGTA-Net: A hybrid deep learning-based electrical energy forecasting model for building energy management systems},\n  author={So, Dayeong and Oh, Jinyeong and Jeon, Insu and Moon, Jihoon and Lee, Miyoung and Rho, Seungmin},\n  journal={Systems},\n  volume={11},\n  number={9},\n  pages={456},\n  year={2023},\n  publisher={MDPI}\n}",
       "funding_tags": [],
-      "citations": 42
+      "citations": 43
     },
     {
       "title": "eCubeLand: An Intelligent Multiview Video Data Modeling",
