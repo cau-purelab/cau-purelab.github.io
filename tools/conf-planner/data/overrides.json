@@ -1,0 +1,442 @@
+[
+ {
+  "type": "deadline",
+  "eid": "pakdd-2027",
+  "cycle": "Main",
+  "dl": "2026-12-04",
+  "tz": "AoE",
+  "note": "공식 페이지에 11/20과 12/04가 함께 표기(연장으로 보임), 23:59 AoE.",
+  "url": "https://pakdd2027.org/",
+  "ref": "https://pakdd2027.org/pages/calls/research",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "mobisys-2027",
+  "cycle": "Main",
+  "abs": "2026-11-27",
+  "dl": "2026-12-04",
+  "tz": "AoE",
+  "note": "초록 등록 11/27, 본문 12/04 (23:59 AoE, 연장 없음).",
+  "url": "https://www.sigmobile.org/mobisys/2027/",
+  "ref": "https://www.sigmobile.org/mobisys/2027/call_for_papers/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "icme-2027",
+  "cycle": "Main",
+  "dl": "2026-12-30",
+  "tz": null,
+  "note": "Regular paper 12/30 (공식 페이지에 시간대 미표기).",
+  "url": "https://2027.ieeeicme.org/",
+  "ref": "https://2027.ieeeicme.org/about/important-dates",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "wisec-2027",
+  "cycle": "Cycle 1",
+  "dl": "2026-11-30",
+  "tz": "AoE",
+  "url": "https://ntu-dtc.github.io/wisec2027/",
+  "ref": "https://ntu-dtc.github.io/wisec2027/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "wisec-2027",
+  "cycle": "Cycle 2",
+  "dl": "2027-02-15",
+  "tz": "AoE",
+  "ref": "https://ntu-dtc.github.io/wisec2027/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "wisec-2027",
+  "start": "2027-06-29",
+  "end": "2027-07-02",
+  "city": "Singapore",
+  "country": "Singapore",
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "ifipsec-2027",
+  "cycle": "Main",
+  "dl": "2026-12-15",
+  "tz": "AoE",
+  "url": "https://ifipsec.org/",
+  "ref": "https://ifipsec.org/dates.html",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "ifipsec-2027",
+  "start": "2027-06-14",
+  "end": "2027-06-16",
+  "city": null,
+  "country": null,
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "isca-2027",
+  "cycle": "Main",
+  "abs": "2026-11-09",
+  "dl": "2026-11-16",
+  "tz": "AoE",
+  "url": "https://iscaconf.org/isca2027/",
+  "ref": "https://iscaconf.org/isca2027/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "icdcs-2027",
+  "cycle": "Main",
+  "abs": "2027-01-06",
+  "dl": "2027-01-13",
+  "tz": "AoE",
+  "note": "초록은 \"abstract registration\", 연장 없음.",
+  "ref": "https://icdcs2027.icdcs.org/calls/call-for-research-papers/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "colt-2027",
+  "cycle": "Main",
+  "dl": "2027-01-29",
+  "tz": "AoE",
+  "ref": "https://learningtheory.org/colt2027/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "sigcomm-2027",
+  "cycle": "Main",
+  "dl": "2027-02-02",
+  "tz": null,
+  "note": "시간대 미표기, 연장 없음(hard deadline).",
+  "ref": "https://conferences.sigcomm.org/sigcomm/2027/submission/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "sacrypt-2027",
+  "cycle": "Cycle 1",
+  "dl": "2027-02-08",
+  "tz": null,
+  "note": "시간대 미표기.",
+  "ref": "https://sacworkshop.org/SAC27/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "sacrypt-2027",
+  "cycle": "Cycle 2",
+  "dl": "2027-05-17",
+  "tz": null,
+  "ref": "https://sacworkshop.org/SAC27/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "hpdc-2027",
+  "cycle": "Main",
+  "abs": "2027-01-11",
+  "dl": "2027-01-18",
+  "tz": "AoE",
+  "url": "https://hpdc.sci.utah.edu/2027/",
+  "ref": "https://hpdc.sci.utah.edu/2027/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "hpdc-2027",
+  "start": "2027-06-07",
+  "end": "2027-06-10",
+  "city": "Atlanta",
+  "country": "USA",
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "ase-2027",
+  "cycle": "Main",
+  "dl": "2027-03-10",
+  "tz": "AoE",
+  "url": "https://conf.researchr.org/home/ase-2027",
+  "ref": "https://conf.researchr.org/dates/ase-2027",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "ase-2027",
+  "start": "2027-10-24",
+  "end": "2027-10-28",
+  "city": "El Paso",
+  "country": "USA",
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "uist-2027",
+  "cycle": "Main",
+  "abs": "2027-03-31",
+  "dl": "2027-04-07",
+  "tz": null,
+  "note": "공식 페이지에 연도·시간대 미표기(2027로 해석).",
+  "url": "https://uist.acm.org/2027/",
+  "ref": "https://uist.acm.org/2027/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "uist-2027",
+  "start": "2027-10-26",
+  "end": "2027-10-29",
+  "city": "Vienna",
+  "country": "Austria",
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "imc-2027",
+  "cycle": "Cycle 1 (예상)",
+  "abs": "2026-11-10",
+  "dl": "2026-11-17",
+  "tz": null,
+  "name": "Cycle 1",
+  "url": "https://conferences.sigcomm.org/imc/2027/",
+  "ref": "https://conferences.sigcomm.org/imc/2027/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "imc-2027",
+  "cycle": "Cycle 2 (예상)",
+  "abs": "2027-03-31",
+  "dl": "2027-04-07",
+  "tz": null,
+  "name": "Cycle 2",
+  "note": "시간대 미표기.",
+  "ref": "https://conferences.sigcomm.org/imc/2027/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "imc-2027",
+  "start": "2027-10-25",
+  "end": "2027-10-29",
+  "city": "Atlanta",
+  "country": "USA",
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "icdm-2027",
+  "cycle": "Main",
+  "dl": "2027-06-06",
+  "tz": "AoE",
+  "conf": "Medium",
+  "note": "임시 호스팅 주소(onrender.com)의 공식 사이트 기준. 확정 여부는 재확인 필요.",
+  "url": "https://icdm2027-website.onrender.com/",
+  "ref": "https://icdm2027-website.onrender.com/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "icdm-2027",
+  "start": "2027-11-15",
+  "end": "2027-11-18",
+  "city": "Brisbane",
+  "country": "Australia",
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "icse-2028",
+  "cycle": "Cycle 2",
+  "abs": "2027-06-24",
+  "dl": "2027-07-01",
+  "tz": "AoE",
+  "name": "Single cycle",
+  "url": "https://conf.researchr.org/home/icse-2028",
+  "ref": "https://conf.researchr.org/track/icse-2028/icse-2028-papers",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "icse-2028",
+  "start": "2028-04-29",
+  "end": "2028-05-07",
+  "city": "Waikoloa, Hawaii",
+  "country": "USA",
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "pods-2027",
+  "start": "2027-06-13",
+  "end": "2027-06-18",
+  "city": null,
+  "country": null,
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "ecmlpkdd-2027",
+  "start": "2027-08-30",
+  "end": "2027-09-03",
+  "city": null,
+  "country": null,
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "cvpr-2027",
+  "start": "2027-06-20",
+  "end": "2027-06-24",
+  "city": null,
+  "country": null,
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "sp-2027",
+  "start": "2027-05-17",
+  "end": "2027-05-20",
+  "city": null,
+  "country": null,
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "sigir-2027",
+  "start": "2027-07-19",
+  "end": "2027-07-24",
+  "city": null,
+  "country": null,
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "iccv-2027",
+  "start": "2027-10-03",
+  "end": "2027-10-07",
+  "city": null,
+  "country": null,
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "mm-2027",
+  "start": "2027-11-08",
+  "end": "2027-11-12",
+  "city": "Hong Kong SAR",
+  "country": "China",
+  "url": "https://2027.acmmm.org/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "esorics-2027",
+  "start": "2027-09-13",
+  "end": "2027-09-17",
+  "city": "Vienna",
+  "country": "Austria",
+  "url": "https://www.esorics2027.org",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "asiacrypt-2027",
+  "start": "2027-12-13",
+  "end": "2027-12-17",
+  "city": "Nagoya",
+  "country": "Japan",
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "edition",
+  "eid": "soups-2027",
+  "set": {
+   "url": "https://www.usenix.org/conference/soups2027"
+  },
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "row",
+  "from": {
+   "eid": "rss-2027",
+   "cycle": "Extended Abstract (1단계)"
+  },
+  "cycle": "Final paper (2단계)",
+  "dl": "2027-04-16",
+  "tz": "AoE",
+  "notification": "2027-04-30",
+  "note": "RSS는 2단계 심사: Extended Abstract(12/4) → 1단계 결정 2/5 → 반박 2/5~2/12 → 2단계 결정(Extension Charter) 2/26 → 최종 논문 4/16 → 보충자료 4/19 → 합격 통보 4/30 → 최종본 5/14. 모두 23:59 AoE, 개최 7/6~11 아테네.",
+  "ref": "https://roboticsconference.org/information/cfp/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "edition",
+  "eid": "acl-2027",
+  "set": {},
+  "append_note": "[11/24] ARR 2027년 1월 사이클 1/4(AoE, ACL 2027 사이트 기준). ACL 커밋 마감과 합격 통보는 공식 TBA(미게시). ARR dates 페이지에는 1월 행의 날짜가 비어 있음.",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "edition",
+  "eid": "icml-2027",
+  "set": {
+   "cycles": [
+    {
+     "name": "Main",
+     "abstract_deadline": "2027-01-14",
+     "paper_deadline": "2027-01-22",
+     "notification": "2027-05-03"
+    }
+   ]
+  },
+  "append_note": "[11/24] 제출 시스템 오픈 1/8, 1단계 탈락 통보 2/23, 최종 통보 5/3 (공식 Dates 페이지).",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "edition",
+  "eid": "imc-2027",
+  "set": {},
+  "append_note": "[11/24] Cycle 1 재제출(one-shot revision, IMC'26 논문 대상) 12/2, Cycle 2 재제출 4/28, Replicability Track 의향서 1/13. 공식 페이지에 시간대 미표기.",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "edition",
+  "eid": "usenixsec-2027",
+  "set": {},
+  "append_note": "[11/24] Cycle 2 아티팩트 제출 1/29, 조기 탈락 통보 3/9, 최종 통보 5/6, 최종본 6/3.",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "edition",
+  "eid": "icdcs-2027",
+  "set": {},
+  "append_note": "[11/24] 조기 탈락 통보 2027-03-11, 합격 통보 4/18, 최종본 5/5. 초록·본문 모두 연장 없음.",
+  "checked": "2026-11-24"
+ }
+]

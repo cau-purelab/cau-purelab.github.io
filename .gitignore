@@ -44,3 +44,4 @@ scripts/patch_missing.cjs
 design/illustration-source/
 # 구성원 사진 원본(수 MB PNG). public/assets의 354×472 JPEG가 배포본이고 이쪽은 재변환용 보관본이다.
 design/photo-source/
+tools/conf-planner/check-report.md
