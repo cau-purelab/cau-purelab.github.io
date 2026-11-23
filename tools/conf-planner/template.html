@@ -465,9 +465,9 @@ function renderHero(){
   $('heroKV').innerHTML=`
    <div class="kvr"><dt>다음 마감</dt><dd>${next.map(nl).join('')||'확정된 마감이 없습니다'}<div class="sub2">연구실 관심 학회와 프라이버시·보안 전용 학회 기준, 최종 제출일</div></dd></div>
    <div class="kvr"><dt>30일 안에 마감</dt><dd><span class="big">${w30.length}곳</span><span class="sub2">연구실 관심 ${lab30.length}곳, 확정 일정 기준</span></dd></div>
-   <div class="kvr"><dt>학회 정보 업데이트</dt><dd><span class="big">${fmtD(M.updated)}</span><span class="sub2">공식 페이지와 대조한 ${cc.total}건</span>
+   <div class="kvr"><dt>학회 정보 업데이트</dt><dd><span class="big">${fmtD(M.updated)}</span><span class="sub2">공식 페이지와 대조한 항목 ${cc.total}건(사이클 단위)</span>
      <div style="margin-top:4px"><span class="st ok"><i></i>공식 확인 ${cc.ok}</span><span class="st unpub"><i></i>공식 미게시 ${cc.unpub}</span><span class="st none"><i></i>근거 못 찾음 ${cc.none}</span></div></dd></div>
-   <div class="kvr"><dt>대조하지 않은 일정</dt><dd><span class="st old"><i></i><b>${unchecked}건</b>&nbsp;${fmtD(M.report_date)} 자료 기준</span><span class="sub2">투고 전에 공식 CFP 확인</span></dd></div>`}
+   <div class="kvr"><dt>대조하지 않은 일정</dt><dd>${unchecked?`<span class="st old"><i></i><b>${unchecked}건</b>&nbsp;${fmtD(M.report_date)} 자료 기준</span>`:`<span class="big">없음</span><span class="sub2">진행 중인 모든 일정을 공식 페이지와 대조함</span>`}<div class="sub2" style="margin-top:3px">"공식 미게시"는 마감이 아직 공고되지 않았다는 뜻이라 예상 일정입니다. 투고 전에 공식 CFP를 확인하세요.</div></dd></div>`}
 
 // ---- drawer
 function toICS(title,date,url){const d=date.replace(/-/g,''),n=new Date(utc(date)+864e5).toISOString().slice(0,10).replace(/-/g,'');

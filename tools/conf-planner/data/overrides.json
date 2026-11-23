@@ -438,5 +438,167 @@
   "set": {},
   "append_note": "[11/24] 조기 탈락 통보 2027-03-11, 합격 통보 4/18, 최종본 5/5. 초록·본문 모두 연장 없음.",
   "checked": "2026-11-24"
+ },
+ {
+  "type": "edition",
+  "eid": "conext-2027",
+  "set": {
+   "url": "https://conferences.sigcomm.org/co-next/2027/",
+   "cfp": "https://conferences2.sigcomm.org/co-next/2027/partials/cfp.html"
+  },
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "conext-2027",
+  "cycle": "Cycle 1",
+  "abs": "2026-11-27",
+  "dl": "2026-12-04",
+  "tz": "AoE",
+  "note": "12월 사이클: 등록 11/27, 본문 12/04(23:59 AoE), 합격 통보 2027-03-31, 최종본 04-30, 1회 대폭 수정 제출 05-28. 개최일·개최지는 CFP에 없음.",
+  "ref": "https://conferences2.sigcomm.org/co-next/2027/partials/cfp.html",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "conext-2027",
+  "cycle": "Cycle 2",
+  "abs": "2027-05-28",
+  "dl": "2027-06-04",
+  "tz": "AoE",
+  "note": "6월 사이클: 등록 5/28, 본문 6/04, 합격 통보 2027-09-10, 최종본 10-11, 대폭 수정 제출 11-12.",
+  "ref": "https://conferences2.sigcomm.org/co-next/2027/partials/cfp.html",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "deadline",
+  "eid": "sc-2027",
+  "cycle": "Main",
+  "abs": "2027-03-25",
+  "dl": "2027-04-01",
+  "tz": null,
+  "note": "초록 제출이 필수(3/25), 본문 4/1(연장 없음), 반박 5/31~6/3, 통보 7/1, 최종본 8/30. 공식 페이지에 시간대 미표기. 개최일은 헤더(11/14~19)와 현장 안내(11/16~18)가 서로 다름.",
+  "ref": "https://sc27.supercomputing.org/program/papers/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "sc-2027",
+  "start": "2027-11-14",
+  "end": "2027-11-19",
+  "city": "Denver",
+  "country": "USA",
+  "url": "https://sc27.supercomputing.org/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "siggraph-2028",
+  "start": "2028-07-30",
+  "end": "2028-08-03",
+  "city": "Vancouver",
+  "country": "Canada",
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "nsdi-2028",
+  "start": "2028-05-09",
+  "end": "2028-05-11",
+  "city": "Santa Clara",
+  "country": "USA",
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "osdi-2028",
+  "start": "2028-07-10",
+  "end": "2028-07-12",
+  "city": "Seattle",
+  "country": "USA",
+  "url": null,
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "fast-2028",
+  "start": "2028-02-28",
+  "end": "2028-03-01",
+  "city": "Seattle",
+  "country": "USA",
+  "url": "https://www.usenix.org/conference/fast28",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "conf",
+  "eid": "mobicom-2027",
+  "start": "2027-10-18",
+  "end": "2027-10-22",
+  "city": "Athens",
+  "country": "Greece",
+  "url": "https://www.sigmobile.org/mobicom/2027/",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "edition",
+  "eid": "mobicom-2027",
+  "set": {},
+  "append_note": "Summer 사이클은 이미 마감(초록 2026-08-26, 본문 09-02 AoE, 반박 11/3~6, 통보 11/19). Winter 사이클 날짜는 공식 TBD.",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "edition",
+  "eid": "micro-2027",
+  "set": {
+   "url": null,
+   "cfp": null,
+   "src": []
+  },
+  "append_note": "기존 링크는 2025년 회차(MICRO-58) 페이지라 제거. 최신 회차는 MICRO-59(아테네, 2026-10-31~11-04). 2027 회차 공식 페이지는 아직 없음.",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "edition",
+  "eid": "aamas-2028",
+  "set": {},
+  "append_note": "[참고, 직전 회차 기준] AAMAS 2027 본 트랙은 사이클이 하나(초록 2026-10-01, 본문 10-08, 반박 11/20~24, AoE)라 2028도 이 구조일 수 있음. 현재 'Cycle 1/2' 구분은 근거 없는 예상.",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "edition",
+  "eid": "eacl-2028",
+  "set": {},
+  "append_note": "[참고, 직전 회차 기준] EACL 2027은 자체 제출 사이클이 아니라 ARR(8월 사이클)+커밋 마감으로 운영됨. 2028도 이 구조일 수 있음(검색 요약 기준).",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "edition",
+  "eid": "rss-2028",
+  "set": {},
+  "append_note": "[참고, 직전 회차 기준] RSS 2027은 2단계 심사(Extended Abstract 12/4 → 최종 논문 4/16). 2028도 같은 구조일 가능성이 높음.",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "edition",
+  "eid": "sigmetrics-2028",
+  "set": {},
+  "append_note": "[참고, 직전 회차 기준] SIGMETRICS 2027은 3라운드이고 각 라운드마다 초록 등록이 본문 마감 일주일 전(23:59 AoE).",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "edition",
+  "eid": "sensys-2028",
+  "set": {},
+  "append_note": "[참고, 직전 회차 기준] SenSys 2027은 초록+본문 2단계, 사이클 2개(초록이 본문 일주일 전, AoE). 컨퍼런스는 CPS-IoT Week와 병행.",
+  "checked": "2026-11-24"
+ },
+ {
+  "type": "edition",
+  "eid": "oopsla-2028",
+  "set": {},
+  "append_note": "[참고, 직전 회차 기준] OOPSLA 2027은 2라운드(저자 응답·수정 포함). 2028도 비슷할 것으로 추정(공식 미게시).",
+  "checked": "2026-11-24"
  }
 ]
