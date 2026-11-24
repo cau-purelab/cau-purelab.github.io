@@ -1,6 +1,6 @@
 # 투고 플래너 갱신 절차
 
-구성: `data/base.json`(2026-11-05 원본) + `data/overrides.json`(공식 페이지로 정정한 마감·개최일) + `data/checks.json`(공식 대조 이력) + `build.cjs`(합치기) + `template.html`(화면) → `public/conf-planner-b8feafcb/index.html`(배포 경로, 링크 공유 전용).
+구성: `data/base.json`(2026-11-05 원본) + `data/overrides.json`(공식 페이지로 정정한 마감·개최일) + `data/checks.json`(공식 대조 이력) + `build.cjs`(합치기) + `template.html`(화면) → `public/conf-planner/index.html`(배포 경로, 링크 공유 전용).
 
 ## 일정 값을 고칠 때
 1. 공식 페이지를 직접 읽고 원문을 확인한다. 검색 요약이나 에이전트 보고만으로 바꾸지 않는다(PODS 개최일이 그렇게 틀렸다).

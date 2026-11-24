@@ -93,6 +93,6 @@ D.history=(D.history||[]).filter(h=>!/xlsx/.test(JSON.stringify(h)));
 D.meta.title='Top-tier 학회 투고 플래너';delete D.meta.seed_workbook;
 const SCAN=JSON.stringify(D);if(/xlsx|워크북|workbook/i.test(SCAN))throw new Error('내부 표식이 남아 있음: '+(SCAN.match(/.{30}(xlsx|워크북|workbook).{30}/i)||[])[0]);
 const out=fs.readFileSync(path.join(__dirname,'template.html'),'utf8').replace('/*DATA*/null',()=>JSON.stringify(D));
-const OUT_FILE=path.join(__dirname,'..','..','public','conf-planner-b8feafcb','index.html');
+const OUT_FILE=path.join(__dirname,'..','..','public','conf-planner','index.html');
 fs.mkdirSync(path.dirname(OUT_FILE),{recursive:true});fs.writeFileSync(OUT_FILE,out);
 console.log('ok',(out.length/1024|0)+'KB',n);
