@@ -27,8 +27,8 @@
     {
       "title": "TRUST-SDT: A Transparent and Reliable Framework for Selective Machine Unlearning via Soft Decision Tree Distillation",
       "author": "SM Kim, BC Lee, SW Park, M. Maqsood, MY Lee, S Rho",
-      "journal": "Journal of Engineering Research",
-      "status": "Under Review, Sept. 2026",
+      "journal": "IEEE Access",
+      "status": "Submitted, Nov. 2026",
       "funding_tags": [
         "ITRC-26",
         "Prof. MYLee"
@@ -62,16 +62,14 @@
     {
       "title": "SHAP-Guided Leaf-Value Adjustment for Efficient Unlearning in LightGBM",
       "author": "S.W. Park, S. Kim, B. Lee, M. Maqsood, MY Lee, S Rho",
-      "journal": "Future Generation Computer Systems",
-      "status": "Submitted, April 2026",
+      "journal": "CMC",
+      "status": "Under Review, Nov. 2026",
       "funding_tags": [
         "NRF-SM-25",
         "Prof. MYLee"
       ],
       "year": "2026",
-      "is_progress": true,
-      "jcr": "SCIE-Q1 Top 9.9%",
-      "jcr_source": "https://sites.google.com/view/seungminrho/home"
+      "is_progress": true
     },
     {
       "title": "Voice Phishing Detection Using Deep Learning-based NLP and Knowledge Distillation Techniques",
