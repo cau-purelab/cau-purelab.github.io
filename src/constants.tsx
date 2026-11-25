@@ -23,7 +23,7 @@ export const LAB_ESTABLISHED_YEAR = 2024;
 // index.html의 og:site_name과 같은 값이어야 한다.
 export const LAB_BRAND_NAME = "PURE Lab";
 // publications.json 갱신 시(scripts/sync_scholar.cjs --apply / scripts/update_scholar_metrics.cjs 실행 후) 함께 수정할 것
-export const PUBLICATIONS_UPDATED_AT = "2026-10-27";
+export const PUBLICATIONS_UPDATED_AT = "2026-11-25";
 
 // Google Scholar 프로필 ID — scripts/lib.cjs의 PROFILES와 항상 같은 값을 유지할 것.
 // (지표·배지의 출처를 화면에서 바로 열어볼 수 있도록 프런트엔드에도 공유한다)
