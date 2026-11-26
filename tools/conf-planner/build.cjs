@@ -75,6 +75,16 @@ E['rtss-2026'].url='https://2026.rtss.org/';
 for(const r of D.rows){const e=E[r.eid];if(e&&e.tz&&!r.tz&&r.exact)r.tz=e.tz;}
 for(const v of V2)D._v2=(D._v2||[]).concat(v);
 
+// --- 결과 발표일: 트래커 값은 믿지 않고 모두 지운 뒤, 공식 페이지에서 읽은 값(data/notifications.json)만 채운다
+for(const r of D.rows){r.notif=null}
+for(const e of Object.values(E))for(const c of e.cycles||[]){c.notification=null}
+{const N=JSON.parse(fs.readFileSync(path.join(__dirname,'data','notifications.json'),'utf8'));let miss=[];const cnt={date:0,text:0,unpub:0,unread:0};
+ for(const n of N){const rs=row(n.eid,n.cycle);const e=E[n.eid];const cs=((e&&e.cycles)||[]).filter(c=>c.name===n.cycle||(c.name||'').replace(/\s*\(예상\)/,'')===n.cycle.replace(/\s*\(예상\)/,''));
+  if(!rs.length){miss.push(n.eid+'|'+n.cycle);continue}
+  for(const r of rs){r.notif=n.date||null;r.notifText=n.text||null;r.notifState=n.date||n.text?'ok':n.state;r.notifNote=n.note||null;r.notifSrc=n.ref?{url:n.ref,d:n.checked}:null}
+  for(const c of cs){c.notification=n.date||null;c.notification_text=n.text||null;c.notification_note=n.note||null;c.notification_state=n.date||n.text?'ok':n.state}
+  cnt[n.date?'date':n.text?'text':n.state]++}
+ if(miss.length)throw new Error('결과 발표 항목의 행을 찾지 못함: '+miss.join(', '));D.meta.notif_counts=cnt;console.log('결과 발표',cnt)}
 // --- 검증 결과 부착 (행 단위)
 const Vm=new Map();for(const v of [...JSON.parse(fs.readFileSync(path.join(__dirname,'data','checks.json'),'utf8')),...(D._v2||[])])Vm.set(v.eid+'|'+v.cycle,v);delete D._v2;
 const V=[...Vm.values()];

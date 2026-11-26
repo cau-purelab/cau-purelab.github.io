@@ -118,6 +118,8 @@ button{font:inherit;color:inherit}
 .cc:hover{background:var(--line)}
 .cc svg{flex:none}
 .cc.past{opacity:.45;text-decoration:line-through}
+.cc.res{background:#e4f1ea;border-left:3px solid #2f7d5b;font-weight:600;color:#1f5c42}
+.cc.res.past{opacity:.45;text-decoration:none}
 .cc.abs{background:transparent;border:1px dashed #8a9bab;font-weight:500;color:var(--calm)}
 .cc.u1{background:#fde4df}.cc.u2{background:#fbeccc}
 .mo{border:0;background:none;color:var(--teal);font-size:12px;font-weight:600;cursor:pointer;text-align:left;padding:0 6px}
@@ -176,6 +178,7 @@ select{width:100%;border:1px solid var(--line);border-radius:10px;padding:7px 10
 .tags .pt{color:var(--sec)}
 .tags .pt.rc{font-weight:600}
 .c-when b{font-weight:600}
+.nt{font-size:12.5px;color:#1f5c42;font-weight:600}
 .sub{color:var(--mut);font-size:12.5px}
 .state{display:flex;align-items:center;gap:6px;font-size:13px}
 .state i{width:8px;height:8px;border-radius:50%;flex:none}
@@ -339,12 +342,13 @@ function cdH(r){
   return `<div class="cd ${urg(r.days)}">${r.days||'오늘'}<small>${r.days?'일 남음':'마감'}</small></div>`}
 const CHK={ok:'공식 페이지 확인',unpub:'공식 미게시 확인',none:'공식 근거 못 찾음'};
 const chkH=r=>r.chk?`<div class="chk2 ${r.chk.s}">${fmtD(r.chk.d||M.updated).slice(5)} ${CHK[r.chk.s]}</div>`:`<div class="chk2" style="color:var(--mut)">${fmtD(M.report_date).slice(5)} 자료 기준</div>`;
+const notH=r=>r.notif?`<div class="nt" title="${esc(r.notifNote||'')}">결과 발표 ${fmtK(r.notif)} (${wday(r.notif)})${r.notifNote?' *':''}</div>${r.notifNote?`<div class="sub">* ${esc(r.notifNote)}</div>`:''}`:r.notifText?`<div class="sub">결과 발표: ${esc(r.notifText)}</div>`:r.notifState==='unpub'?`<div class="sub">결과 발표 미공지</div>`:'';
 function itemH(r){const s=SER[r.sid],e=ED[r.eid]||{};
   return `<article class="item ${r.past?'past':''}" data-eid="${r.eid}" tabindex="0" role="button" aria-label="${esc(r.acr+' '+r.ed+' 상세 보기')}">
   <div>${cdH(r)}</div>
   <div class="c2"><div class="nm">${esc(r.acr)} ${r.ed}<span class="cy">${esc(r.cycle)}</span>${s.interest>=2?'<span class="star" title="연구실 관심">★</span>':''}${tierH(s)}${s.added?'<span class="new">NEW</span>':''}</div><div class="full">${esc(s.full)}</div>
     <div class="tags">${tagsH(s.tags)}${relH(s)}${topicsH(s,true)}</div></div>
-  <div class="c3 c-when">${r.exact?`${r.abs?`<div class="sub">초록 마감 ${fmtK(r.abs)} (${wday(r.abs)})</div>`:''}<b>${r.abs?'최종 제출':'제출 마감'} ${fmtK(r.dl)} (${wday(r.dl)})</b><div class="sub">${esc(r.tz||'시간대 미표기')}</div>`:`<span class="sub">마감 ${esc(r.dlText)}</span>`}
+  <div class="c3 c-when">${r.exact?`${r.abs?`<div class="sub">초록 마감 ${fmtK(r.abs)} (${wday(r.abs)})</div>`:''}<b>${r.abs?'최종 제출':'제출 마감'} ${fmtK(r.dl)} (${wday(r.dl)})</b><div class="sub">${esc(r.tz||'시간대 미표기')}</div>${notH(r)}`:`<span class="sub">마감 ${esc(r.dlText)}</span>`}
     <div style="margin-top:8px">${esc(confText(e))}</div><div class="sub">${esc(place(e)||'장소 미정')}</div></div>
   <div class="c4"><div class="state"><i class="${r.confidence}"></i>${ST[r.status]||''}</div><div class="sub">${CF[r.confidence]||''}${r.src==='tracker'?', 트래커 기준':''}</div>${chkH(r)}<div class="lnk" onclick="event.stopPropagation()">${linksH(e)}</div></div>
 </article>`}
@@ -355,6 +359,8 @@ function absChipH(r){const s=SER[r.sid],past=r.abs<TODAY;
   return `<button class="cc abs ${past?'past':''}" data-eid="${r.eid}" title="${esc(r.acr+' '+r.ed+' '+r.cycle+' 초록 마감, 최종 제출 '+fmtK(r.dl))}">${shape(s.tags[0],'#8a9bab',false,11)}${esc(r.acr)} 초록</button>`}
 function chipH(r){const s=SER[r.sid],c=r.past?'#8a9bab':r.days<=30?'var(--hot)':r.days<=60?'var(--warm)':'var(--calm)';
   return `<button class="cc ${r.past?'past':urg(r.days)}" data-eid="${r.eid}" title="${esc(r.acr+' '+r.ed+' '+r.cycle+(r.past?'':', '+r.days+'일 남음'))}">${shape(s.tags[0],c,true,11)}${esc(r.acr)}</button>`}
+function resChipH(r){const s=SER[r.sid],past=r.notif<TODAY;
+  return `<button class="cc res ${past?'past':''}" data-eid="${r.eid}" title="${esc(r.acr+' '+r.ed+' '+r.cycle+' 결과 발표, 제출 마감 '+fmtK(r.dl))}">${esc(r.acr)} 결과</button>`}
 function renderCal(){
   const m=F.m,[Y,Mo]=m.split('-').map(Number),dim=new Date(Date.UTC(Y,Mo,0)).getUTCDate(),dow0=new Date(Date.UTC(Y,Mo-1,1)).getUTCDay();
   const first=`${m}-01`,last=`${m}-${pad2(dim)}`;
@@ -363,13 +369,14 @@ function renderCal(){
   const byDay={};dl.forEach(r=>(byDay[r.dl]=byDay[r.dl]||[]).push(r));
   const absRows=[...LIVE,...PAST].filter(r=>r.exact&&r.abs&&r.abs.slice(0,7)===m&&matchSeries(r.sid)&&win(r)&&(r.abs>=TODAY||F.past||m===TODAY.slice(0,7)));
   const absBy={};absRows.forEach(r=>(absBy[r.abs]=absBy[r.abs]||[]).push(r));
+  const resRows=LIVE.filter(r=>r.notif&&r.notif.slice(0,7)===m&&matchSeries(r.sid)),resBy={};resRows.forEach(r=>(resBy[r.notif]=resBy[r.notif]||[]).push(r));
   const confs=DATA.confs.filter(c=>c.exact&&c.start&&matchSeries(c.sid)&&c.start<=last&&(c.end||c.start)>=first);
   const und=LIVE.filter(r=>!r.exact&&r.month===m&&matchRow(r));
   // month nav: 이번 달부터 12개월
   const ms=[];let[y,mm]=TODAY.split('-').map(Number);for(let i=0;i<12;i++){ms.push(`${y}-${pad2(mm)}`);if(++mm>12){mm=1;y++}}
   if(!ms.includes(m))ms.unshift(m);
   const cnt=k=>[...LIVE,...PAST].filter(r=>r.exact&&r.month===k&&matchSeries(r.sid)&&win(r)&&(!r.past||F.past)).length;
-  let h=`<div class="cal-h"><h2>${KOM(m)}</h2><span>확정 마감 ${dl.filter(r=>!r.past).length}건, 초록 마감 ${absRows.filter(r=>r.abs>=TODAY).length}건, 개최 ${confs.length}건, 날짜 미정 ${und.length}건</span></div>
+  let h=`<div class="cal-h"><h2>${KOM(m)}</h2><span>확정 마감 ${dl.filter(r=>!r.past).length}건, 초록 마감 ${absRows.filter(r=>r.abs>=TODAY).length}건, 결과 발표 ${resRows.length}건, 개최 ${confs.length}건, 날짜 미정 ${und.length}건</span></div>
    <div class="mnav" role="group" aria-label="월 선택">${ms.map(k=>`<button data-m="${k}" aria-pressed="${k===m}" title="확정 마감 ${cnt(k)}건">${+k.slice(5)}월<b>${cnt(k)}</b></button>`).join('')}</div>`;
   if(und.length)h+=`<div class="undated">날짜가 아직 없는 예상 마감:${und.map(r=>`<button data-eid="${r.eid}" title="${esc(r.dlText)}">${esc(r.acr)} ${esc(r.cycle.replace(/\s*\(예상\)/,''))}</button>`).join('')}</div>`;
   const nW=Math.ceil((dow0+dim)/7);let grid='<div class="wdh">'+['일','월','화','수','목','금','토'].map(d=>`<div>${d}</div>`).join('')+'</div>';
@@ -386,12 +393,12 @@ function renderCal(){
     wk+=cells.map((d,i)=>`<div class="dn ${d?'':'out'}" style="grid-row:1;grid-column:${i+1}">${d?(ds(d)===TODAY?`<span class="td">${d}</span>`:d):''}</div>`).join('');
     wk+=vis.map(sg=>`<button class="band ${sg.c.tags[0]}" data-eid="${sg.c.eid}" title="${esc(sg.c.acr+' '+sg.c.ed+' 개최 '+fmtR(sg.c.start,sg.c.end)+', '+place(sg.c))}" style="grid-row:${sg.l+2};grid-column:${sg.a+1}/${sg.b+2}">${esc(sg.c.acr)} 개최</button>`).join('');
     if(hid)wk+=`<div class="bandmore" style="grid-row:${MAXL+2};grid-column:1/8">개최 ${hid}건 더 있음</div>`;
-    wk+=cells.map((d,i)=>{const it=d?[...(byDay[ds(d)]||[]).sort((a,b)=>a.acr.localeCompare(b.acr)).map(chipH),...(absBy[ds(d)]||[]).sort((a,b)=>a.acr.localeCompare(b.acr)).map(absChipH)]:[],open=F.open===ds(d||0),shown=open?it:it.slice(0,3);
+    wk+=cells.map((d,i)=>{const it=d?[...(byDay[ds(d)]||[]).sort((a,b)=>a.acr.localeCompare(b.acr)).map(chipH),...(absBy[ds(d)]||[]).sort((a,b)=>a.acr.localeCompare(b.acr)).map(absChipH),...(resBy[ds(d)]||[]).sort((a,b)=>a.acr.localeCompare(b.acr)).map(resChipH)]:[],open=F.open===ds(d||0),shown=open?it:it.slice(0,3);
       return `<div class="dc" style="grid-row:${L+2};grid-column:${i+1}">${shown.join('')}${it.length>3?`<button class="mo" data-open="${ds(d)}">${open?'접기':`+${it.length-3}건 더`}</button>`:''}</div>`}).join('')+'</div>';
     grid+=wk}
   // 모바일: 날짜별 목록
-  const days=[...new Set([...Object.keys(byDay),...Object.keys(absBy),...confs.map(c=>c.start>=first?c.start:first)])].sort();
-  const ag=days.map(d=>`<div class="ag-d"><h4>${fmtK(d)}<small>${wday(d)}요일</small></h4><div>${(byDay[d]||[]).map(chipH).join('')}${(absBy[d]||[]).map(absChipH).join('')}${confs.filter(c=>(c.start>=first?c.start:first)===d).map(c=>`<button class="cc" data-eid="${c.eid}">${esc(c.acr)} 개최 ${esc(fmtR(c.start,c.end).replace(/^\d{4}\./,''))}</button>`).join('')}</div></div>`).join('')||'<div class="empty">이 달에는 표시할 일정이 없습니다.</div>';
+  const days=[...new Set([...Object.keys(byDay),...Object.keys(absBy),...Object.keys(resBy),...confs.map(c=>c.start>=first?c.start:first)])].sort();
+  const ag=days.map(d=>`<div class="ag-d"><h4>${fmtK(d)}<small>${wday(d)}요일</small></h4><div>${(byDay[d]||[]).map(chipH).join('')}${(absBy[d]||[]).map(absChipH).join('')}${(resBy[d]||[]).map(resChipH).join('')}${confs.filter(c=>(c.start>=first?c.start:first)===d).map(c=>`<button class="cc" data-eid="${c.eid}">${esc(c.acr)} 개최 ${esc(fmtR(c.start,c.end).replace(/^\d{4}\./,''))}</button>`).join('')}</div></div>`).join('')||'<div class="empty">이 달에는 표시할 일정이 없습니다.</div>';
   $('cal').innerHTML=h+`<div class="calgrid">${grid}</div><div class="agenda">${ag}</div>`}
 function renderTimeline(){renderCal();
   const rs=rows().sort((a,b)=>(!!a.past-!!b.past)||a.key.localeCompare(b.key)||a.acr.localeCompare(b.acr));
@@ -460,28 +467,30 @@ function renderHero(){
   const lab=LIVE.filter(r=>r.exact&&isLab(SER[r.sid])).sort((a,b)=>a.key.localeCompare(b.key)||a.acr.localeCompare(b.acr));
   const next=lab.slice(0,3);
   const w30=LIVE.filter(r=>r.exact&&r.days<=30),lab30=w30.filter(r=>isLab(SER[r.sid]));
+  const nres=LIVE.filter(r=>r.notif&&r.notif>=TODAY).sort((a,b)=>(isLab(SER[b.sid])-isLab(SER[a.sid]))||a.notif.localeCompare(b.notif)).slice(0,3).sort((a,b)=>a.notif.localeCompare(b.notif));
   const cc=M.check_counts,unchecked=LIVE.filter(r=>!r.chk).length;
   const nl=r=>`<div class="nl"><b data-eid="${r.eid}">${esc(r.acr)} ${r.ed} ${esc(r.cycle)}</b><span class="d">${fmtK(r.dl)} (${wday(r.dl)})${r.tz?' '+esc(r.tz):''}</span><span class="dd ${urg(r.days)}">${r.days?'D-'+r.days:'오늘 마감'}</span></div>`;
   $('heroKV').innerHTML=`
    <div class="kvr"><dt>다음 마감</dt><dd>${next.map(nl).join('')||'확정된 마감이 없습니다'}<div class="sub2">연구실 관심 학회와 프라이버시·보안 전용 학회 기준, 최종 제출일</div></dd></div>
+   <div class="kvr"><dt>다음 결과 발표</dt><dd>${nres.map(r=>`<div class="nl"><b data-eid="${r.eid}">${esc(r.acr)} ${r.ed} ${esc(r.cycle)}</b><span class="d">${fmtK(r.notif)} (${wday(r.notif)})</span><span class="dd">D-${diff(r.notif)}</span></div>`).join('')||'공식으로 공고된 결과 발표일이 없습니다'}<div class="sub2">공식 페이지에 날짜가 공고된 회차만 표시, 관심 학회 우선</div></dd></div>
    <div class="kvr"><dt>30일 안에 마감</dt><dd><span class="big">${w30.length}곳</span><span class="sub2">연구실 관심 ${lab30.length}곳, 확정 일정 기준</span></dd></div>
    <div class="kvr"><dt>학회 정보 업데이트</dt><dd><span class="big">${fmtD(M.updated)}</span><span class="sub2">공식 페이지와 대조한 항목 ${cc.total}건(사이클 단위)</span>
      <div style="margin-top:4px"><span class="st ok"><i></i>공식 확인 ${cc.ok}</span><span class="st unpub"><i></i>공식 미게시 ${cc.unpub}</span><span class="st none"><i></i>근거 못 찾음 ${cc.none}</span></div></dd></div>
    <div class="kvr"><dt>대조하지 않은 일정</dt><dd>${unchecked?`<span class="st old"><i></i><b>${unchecked}건</b>&nbsp;${fmtD(M.report_date)} 자료 기준</span>`:`<span class="big">없음</span><span class="sub2">진행 중인 모든 일정을 공식 페이지와 대조함</span>`}<div class="sub2" style="margin-top:3px">"공식 미게시"는 마감이 아직 공고되지 않았다는 뜻이라 예상 일정입니다. 투고 전에 공식 CFP를 확인하세요.</div></dd></div>`}
 
 // ---- drawer
-function toICS(title,date,url){const d=date.replace(/-/g,''),n=new Date(utc(date)+864e5).toISOString().slice(0,10).replace(/-/g,'');
+function toICS(title,date,url,kind='마감'){const d=date.replace(/-/g,''),n=new Date(utc(date)+864e5).toISOString().slice(0,10).replace(/-/g,'');
   const t=s=>String(s).replace(/[\\;,]/g,'\\$&').replace(/\n/g,'\\n');
-  return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//PURE Lab//Planner//KO','BEGIN:VEVENT',`UID:${d}-${t(title).replace(/\W/g,'')}@pure-planner`,`DTSTAMP:${TODAY.replace(/-/g,'')}T000000Z`,`DTSTART;VALUE=DATE:${d}`,`DTEND;VALUE=DATE:${n}`,`SUMMARY:${t(title)} 마감`,url?`URL:${url}`:'','BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:7일 전','TRIGGER:-P7D','END:VALARM','END:VEVENT','END:VCALENDAR'].filter(Boolean).join('\r\n')}
+  return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//PURE Lab//Planner//KO','BEGIN:VEVENT',`UID:${d}-${t(title).replace(/\W/g,'')}@pure-planner`,`DTSTAMP:${TODAY.replace(/-/g,'')}T000000Z`,`DTSTART;VALUE=DATE:${d}`,`DTEND;VALUE=DATE:${n}`,`SUMMARY:${t(title)} ${kind}`,url?`URL:${url}`:'','BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:7일 전','TRIGGER:-P7D','END:VALARM','END:VEVENT','END:VCALENDAR'].filter(Boolean).join('\r\n')}
 function download(name,text){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/calendar'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
 let lastFocus=null;
 function openDrawer(eid){const e=ED[eid];if(!e)return;const sid=eid.replace(/-\d{4}$/,''),s=SER[sid];lastFocus=document.activeElement;
-  const cyc=(e.cycles||[]).map((c,i)=>{const dd=c.paper_deadline?diff(c.paper_deadline):null;return `<tr><td>${esc(c.name||'')}</td><td>${c.abstract_deadline?fmtD(c.abstract_deadline):'-'}</td><td>${c.paper_deadline?`<b>${fmtD(c.paper_deadline)}</b> <span class="sub">${dd<0?'지남':dd+'일 남음'}</span>`:`<span class="sub">${esc(c.expected_text||'미정')}</span>`}</td><td>${c.notification?fmtD(c.notification):'-'}</td><td>${dd!==null&&dd>=0?`<button class="ics" data-ics="${eid}|${i}">캘린더에 추가</button>`:''}</td></tr>`}).join('');
+  const cyc=(e.cycles||[]).map((c,i)=>{const dd=c.paper_deadline?diff(c.paper_deadline):null;return `<tr><td>${esc(c.name||'')}</td><td>${c.abstract_deadline?fmtD(c.abstract_deadline):'-'}</td><td>${c.paper_deadline?`<b>${fmtD(c.paper_deadline)}</b> <span class="sub">${dd<0?'지남':dd+'일 남음'}</span>`:`<span class="sub">${esc(c.expected_text||'미정')}</span>`}</td><td>${c.notification?`<b>${fmtD(c.notification)}</b> <span class="sub">${diff(c.notification)<0?'지남':diff(c.notification)+'일 남음'}</span>${c.notification_note?`<div class="sub">${esc(c.notification_note)}</div>`:''}`:c.notification_text?`<span class="sub">${esc(c.notification_text)}</span>`:`<span class="sub">${dd!==null&&dd<0?'-':c.notification_state==='unpub'?'미공지':'확인 못 함'}</span>`}</td><td>${dd!==null&&dd>=0?`<button class="ics" data-ics="${eid}|${i}">마감 추가</button>`:''}${c.notification&&diff(c.notification)>=0?` <button class="ics" data-k="n" data-ics="${eid}|${i}">결과 발표 추가</button>`:''}</td></tr>`}).join('');
   const others=Object.entries(ED).filter(([k])=>k.startsWith(sid+'-')&&k!==eid).map(([k,x])=>`<a href="#" data-eid="${k}">${esc(x.label||k)}</a>`).join(', ');
   const L=[e.url&&['공식 홈페이지',e.url],e.cfp&&['CFP',e.cfp],e.sub&&['제출 시스템',e.sub],s.dblp&&['DBLP',s.dblp]].filter(Boolean).map(([t,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t}</a>`).join('  ');
   $('dbody').innerHTML=`<h2>${esc(e.label||eid)}${s.interest>=2?'<span class="star">★</span>':''}</h2><div class="full">${esc(s.full)}</div><div class="tags" style="margin-top:10px">${tagsH(s.tags)}${tierH(s)}${s.added?'<span class="new">NEW</span>':''}</div>
   <div class="kv"><div>개최</div><div>${esc(confText(e)||'미정')}</div><div>장소</div><div>${esc(place(e)||'미정')}</div><div>타임존</div><div>${esc(e.tz||'-')}</div><div>상태</div><div>${ST[e.status]||''}, ${CF[e.conf]||''}</div><div>주요 분야</div><div>${esc(s.fields)}</div><div>프라이버시·보안</div><div>${relH(s)||'일반 분야'} ${topicsH(s)}</div><div>등급 근거</div><div>${esc(evText(s))}</div><div>연례 주기</div><div>${esc(s.typCycle||'')}${s.typSub?`, 투고는 보통 ${esc(s.typSub)}`:''}${s.typConf?`, 개최는 보통 ${esc(s.typConf)}`:''}</div><div>출처</div><div>${esc(e.srcType||'')}, 확인일 ${esc(e.verified||'')}</div>${(e.checks||[]).length?`<div>공식 대조</div><div>${e.checks.map(c=>`${esc(c.cycle)}: ${CHK[c.s]}${c.url?` (<a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">근거</a>)`:''}`).join('<br>')}</div>`:''}${e.staleLinkRemoved?'<div>링크</div><div>이전 회차 링크라 제거함. 공식 페이지 게시 전.</div>':''}</div>
-  <h4>투고 사이클</h4><table><thead><tr><th>사이클</th><th>초록</th><th>논문 마감</th><th>통보</th><th></th></tr></thead><tbody>${cyc||'<tr><td colspan=5 class="sub">정보 없음</td></tr>'}</tbody></table>
+  <h4>투고 사이클</h4><table><thead><tr><th>사이클</th><th>초록</th><th>논문 마감</th><th>결과 발표</th><th></th></tr></thead><tbody>${cyc||'<tr><td colspan=5 class="sub">정보 없음</td></tr>'}</tbody></table>
   ${e.basis?`<p class="sub">추정 근거: ${esc(e.basis)}</p>`:''}
   <h4>투고 전략</h4><div>${esc(s.strategy)}</div>
   ${e.notes?`<h4>메모</h4><div class="sub" style="font-size:13px">${esc(e.notes)}</div>`:''}
@@ -502,7 +511,7 @@ function render(){sync();if(F.tab==='timeline'){renderRunway();renderTimeline()}
 
 document.addEventListener('click',ev=>{const t=ev.target;
   if(t.closest('a[href]:not([href="#"])'))return;
-  const ic=t.closest('[data-ics]');if(ic){const[eid,i]=ic.dataset.ics.split('|'),e=ED[eid],c=e.cycles[+i];download(`${eid}-${(c.name||'deadline').replace(/\W+/g,'_')}.ics`,toICS(`${e.label} ${c.name||''}`.trim(),c.paper_deadline,e.cfp||e.url));return}
+  const ic=t.closest('[data-ics]');if(ic){const[eid,i]=ic.dataset.ics.split('|'),e=ED[eid],c=e.cycles[+i];download(`${eid}-${(c.name||'deadline').replace(/\W+/g,'_')}${t.closest('[data-ics]').dataset.k==='n'?'-notification':''}.ics`,t.closest('[data-ics]').dataset.k==='n'?toICS(`${e.label} ${c.name||''}`.trim(),c.notification,e.cfp||e.url,'결과 발표'):toICS(`${e.label} ${c.name||''}`.trim(),c.paper_deadline,e.cfp||e.url));return}
   const d=t.closest('[data-eid]');if(d){ev.preventDefault();openDrawer(d.dataset.eid);return}
   const mb=t.closest('[data-m]');if(mb){F.m=mb.dataset.m;F.open='';render();return}
   const op=t.closest('[data-open]');if(op){F.open=F.open===op.dataset.open?'':op.dataset.open;render();return}

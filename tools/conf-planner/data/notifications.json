@@ -1,0 +1,1691 @@
+[
+ {
+  "eid": "ecmlpkdd-2027",
+  "cycle": "Cycle 1 (예상)",
+  "state": "unpub",
+  "ref": "https://ecmlpkdd.org/2027/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ecmlpkdd-2027",
+  "cycle": "Cycle 2 (예상)",
+  "state": "unpub",
+  "ref": "https://ecmlpkdd.org/2027/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ecmlpkdd-2027",
+  "cycle": "Cycle 3 (예상)",
+  "state": "unpub",
+  "ref": "https://ecmlpkdd.org/2027/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "rss-2027",
+  "cycle": "Extended Abstract (1단계)",
+  "date": "2027-02-26",
+  "ref": "https://roboticsconference.org/information/cfp/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "rss-2027",
+  "cycle": "Final paper (2단계)",
+  "date": "2027-04-30",
+  "ref": "https://roboticsconference.org/information/cfp/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ijcai-2027",
+  "cycle": "Main",
+  "date": "2027-04-21",
+  "ref": "https://2027.ijcai.org/",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "lics-2027",
+  "cycle": "Main",
+  "date": "2027-04-15",
+  "ref": "https://lics.siglog.org/lics27/cfp.php",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "spaa-2027",
+  "cycle": "Cycle 2",
+  "date": "2027-04-10",
+  "ref": "https://spaa.acm.org/spaa-2027-call-for-papers/",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "miccai-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://miccai.org/upcoming-conferences",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "fast-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://www.usenix.org/conference/fast28",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "fast-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://www.usenix.org/conference/fast28",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "focs-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://focs.computer.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sc-2027",
+  "cycle": "Main",
+  "date": "2027-07-01",
+  "ref": "https://sc27.supercomputing.org/program/papers/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "cikm-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://cikm2026.diag.uniroma1.it/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "emnlp-2027",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://www.aclweb.org/portal/content/joint-call-workshops-proposals-2027",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "emnlp-2027",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://www.aclweb.org/portal/content/joint-call-workshops-proposals-2027",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sensys-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://sensys.acm.org/2027/cfp.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sensys-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://sensys.acm.org/2027/cfp.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "kdd-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://kdd.org/conferences",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "fse-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://conf.researchr.org/series/fse",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "spaa-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "spaa-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "oopsla-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://conf.researchr.org/track/splash-2027/splashoopsla2027",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "isca-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://iscaconf.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "dsn-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://dsn2027-berlin.github.io/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icml-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://icml.cc/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sigir-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://sigir.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ctrsa-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://www.myhuiban.com/conference/588.md",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "srds-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://srds-conference.org/index.php/call-for-papers/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "issre-2027",
+  "cycle": "Research",
+  "date": "2027-07-09",
+  "ref": "https://conf.researchr.org/track/issre-2027/issre-2027-papers",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "isca-2027",
+  "cycle": "Industry Track",
+  "date": "2027-03-26",
+  "ref": "https://iscaconf.org/isca2027/",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "wisec-2027",
+  "cycle": "Cycle 1",
+  "date": "2027-01-11",
+  "ref": "https://ntu-dtc.github.io/wisec2027/",
+  "checked": "2026-11-26",
+  "tz": "AoE (submission)"
+ },
+ {
+  "eid": "wisec-2027",
+  "cycle": "Cycle 2",
+  "date": "2027-04-12",
+  "ref": "https://ntu-dtc.github.io/wisec2027/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "osdi-2027",
+  "cycle": "Main",
+  "date": "2027-03-16",
+  "ref": "https://www.usenix.org/conference/osdi27/call-for-papers",
+  "checked": "2026-11-26",
+  "tz": "EST/UTC deadlines noted"
+ },
+ {
+  "eid": "issta-2027",
+  "cycle": "Research Papers",
+  "date": "2027-04-20",
+  "ref": "https://conf.researchr.org/track/issta-2027/issta-2027-research-papers",
+  "checked": "2026-11-26",
+  "tz": "AoE (UTC-12h)"
+ },
+ {
+  "eid": "siggraph-2027",
+  "cycle": "Technical Papers",
+  "state": "unpub",
+  "ref": "https://s2027.siggraph.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icmr-2027",
+  "cycle": "Regular Papers",
+  "date": "2027-04-01",
+  "ref": "https://www.icmr2027.org/date",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "podc-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://www.podc.org/podc2027/call-for-papers/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "iccv-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://iccv.thecvf.com/Conferences/2027/Dates",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "iccad-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://iccad.com/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sosp-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://www.sigops.org/newsletter-issue/3952/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "corl-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://www.corl.org",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icde-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://icde2027.github.io/cf-research-papers.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icde-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://icde2027.github.io/cf-research-papers.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sigmetrics-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://sigmetrics.org/sigmetrics2027/pages/cfp.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sigmetrics-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://sigmetrics.org/sigmetrics2027/pages/cfp.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sigmetrics-2028",
+  "cycle": "Cycle 3",
+  "state": "unpub",
+  "ref": "https://sigmetrics.org/sigmetrics2027/pages/cfp.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "mmm-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icassp-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://2028.ieeeicassp.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "aamas-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://warwick.ac.uk/fac/sci/dcs/aamas2027/calls/call-for-main-track/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "aamas-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://warwick.ac.uk/fac/sci/dcs/aamas2027/calls/call-for-main-track/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "www-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://www2027.thewebconf.org/?p=296",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "pakdd-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://easychair.org/cfp/PAKDD2027",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icme-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://2027.ieeeicme.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ifipsec-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://ifipsec.org/index.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ches-2027",
+  "cycle": "TCHES 2027/3",
+  "date": "2027-03-15",
+  "ref": "https://ches.iacr.org/2027/papersubmission.php",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "ches-2027",
+  "cycle": "TCHES 2027/4",
+  "date": "2027-06-15",
+  "ref": "https://ches.iacr.org/2027/papersubmission.php",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "dimva-2027",
+  "cycle": "Cycle 1",
+  "date": "2027-01-28",
+  "ref": "https://dimva.org/dimva2027/",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "dimva-2027",
+  "cycle": "Cycle 2",
+  "date": "2027-04-08",
+  "ref": "https://dimva.org/dimva2027/",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "safecomp-2027",
+  "cycle": "Main",
+  "state": "unread"
+ },
+ {
+  "eid": "edbt-2028",
+  "cycle": "Cycle 1",
+  "state": "unread"
+ },
+ {
+  "eid": "edbt-2028",
+  "cycle": "Cycle 2",
+  "state": "unread"
+ },
+ {
+  "eid": "edbt-2028",
+  "cycle": "Cycle 3",
+  "state": "unread"
+ },
+ {
+  "eid": "pakdd-2027",
+  "cycle": "Main",
+  "date": "2027-02-26",
+  "ref": "https://pakdd2027.org/pages/dates",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "pods-2027",
+  "cycle": "Cycle 2",
+  "date": "2027-03-01",
+  "ref": "https://2027.sigmod.org/calls_papers_important_dates.shtml",
+  "checked": "2026-11-26",
+  "tz": "AoE",
+  "note": "최종 통보. 1차 통보는 2027-02-08"
+ },
+ {
+  "eid": "sigmetrics-2027",
+  "cycle": "Winter",
+  "date": "2027-03-10",
+  "ref": "https://www.sigmetrics.org/sigmetrics2027/pages/cfp.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sigmod-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://2027.sigmodconf.hosting.acm.org/calls_papers_important_dates.shtml",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sigmod-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://2027.sigmodconf.hosting.acm.org/calls_papers_important_dates.shtml",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sigmod-2028",
+  "cycle": "Cycle 3",
+  "state": "unpub",
+  "ref": "https://2027.sigmodconf.hosting.acm.org/calls_papers_important_dates.shtml",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sigmod-2028",
+  "cycle": "Cycle 4",
+  "state": "unpub",
+  "ref": "https://2027.sigmodconf.hosting.acm.org/calls_papers_important_dates.shtml",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ijcnn-2027",
+  "cycle": "Regular Papers",
+  "date": "2027-03-15",
+  "ref": "https://ijcnn.org/2027/authors/call-for-papers",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sigcomm-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://conferences.sigcomm.org/sigcomm/2027/cfp/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "vis-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://ieeevis.org/year/2026/welcome",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "micro-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://microarch.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "uist-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://uist.acm.org/2027/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "eurosys-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://www.eurosys.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "eurosys-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://www.eurosys.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icdm-2027",
+  "cycle": "Main",
+  "date": "2027-08-16",
+  "ref": "https://icdm2027-website.onrender.com/",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "soda-2028",
+  "cycle": "Main",
+  "state": "unread"
+ },
+ {
+  "eid": "ppopp-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://ppopp27.sigplan.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icissp-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://icissp.scitevents.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "acl-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://2027.aclweb.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "acl-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://2027.aclweb.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "cvpr-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://cvpr.thecvf.com/Conferences/FutureMeetings",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "pldi-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://sigplan.org/Conferences/PLDI",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "mobisys-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://www.sigmobile.org/mobisys/2027/call_for_papers/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ijcai-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://ijcai.org/future_conferences/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ches-2028",
+  "cycle": "TCHES 2028/1",
+  "state": "unpub",
+  "ref": "https://ches.iacr.org/2027/papersubmission.php",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ches-2028",
+  "cycle": "TCHES 2028/2",
+  "state": "unpub",
+  "ref": "https://ches.iacr.org/2027/papersubmission.php",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ches-2028",
+  "cycle": "TCHES 2028/3",
+  "state": "unpub",
+  "ref": "https://ches.iacr.org/2027/papersubmission.php",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "acisp-2027",
+  "cycle": "Round 1",
+  "state": "unpub",
+  "ref": "https://acisp.org/cfp.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "acisp-2027",
+  "cycle": "Round 2",
+  "state": "unpub",
+  "ref": "https://acisp.org/cfp.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "recsys-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://recsys.acm.org/recsys27/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "bigdata-2027",
+  "cycle": "Regular",
+  "state": "unpub",
+  "ref": "https://bigdataieee.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "codaspy-2027",
+  "cycle": "Main",
+  "date": "2027-01-25",
+  "ref": "https://www.codaspy.org/2027/cfp.html",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "asiaccs-2027",
+  "cycle": "Cycle 2",
+  "date": "2027-03-31",
+  "ref": "https://asiaccs2027.cityu.edu.mo/call-for-papers/",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "ccs-2027",
+  "cycle": "Cycle 1 (예상)",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ccs-2027",
+  "cycle": "Cycle 2 (예상)",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "cav-2027",
+  "cycle": "Main",
+  "date": "2027-04-23",
+  "ref": "https://conferences.i-cav.org/2027/cfp/",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "interspeech-2027",
+  "cycle": "Main",
+  "date": "2027-06-02",
+  "ref": "https://interspeech2027.org/for_authors/key_dates/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "soups-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "mobicom-2027",
+  "cycle": "Winter",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "mobihoc-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "vldb-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "vldb-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "vldb-2028",
+  "cycle": "Cycle 3",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "vldb-2028",
+  "cycle": "Cycle 4",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "vldb-2028",
+  "cycle": "Cycle 5",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "vldb-2028",
+  "cycle": "Cycle 6",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "vldb-2028",
+  "cycle": "Cycle 7",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "vldb-2028",
+  "cycle": "Cycle 8",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "vldb-2028",
+  "cycle": "Cycle 9",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "vldb-2028",
+  "cycle": "Cycle 10",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "imc-2027",
+  "cycle": "Cycle 2",
+  "date": "2027-07-22",
+  "ref": "https://conferences.sigcomm.org/imc/2027/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sp-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sp-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "wacv-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "wacv-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "usenixsec-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "usenixsec-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "iclr-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sac-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "dac-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "rtas-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "osdi-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ijcnn-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "tcc-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "trustcom-2027",
+  "cycle": "Main",
+  "state": "unread"
+ },
+ {
+  "eid": "sdm-2027",
+  "cycle": "Main",
+  "state": "unread"
+ },
+ {
+  "eid": "ijcb-2027",
+  "cycle": "Full paper",
+  "state": "unread"
+ },
+ {
+  "eid": "pets-2027",
+  "cycle": "Issue 3",
+  "date": "2027-02-01",
+  "ref": "https://petsymposium.org/cfp27.php",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "pets-2027",
+  "cycle": "Issue 4",
+  "date": "2027-05-01",
+  "ref": "https://petsymposium.org/cfp27.php",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "conext-2027",
+  "cycle": "Cycle 1",
+  "date": "2027-03-31",
+  "ref": "https://conferences2.sigcomm.org/co-next/2027/partials/cfp.html",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "conext-2027",
+  "cycle": "Cycle 2",
+  "date": "2027-09-10",
+  "ref": "https://conferences2.sigcomm.org/co-next/2027/partials/cfp.html",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "esorics-2027",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://www.esorics2027.org",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "esorics-2027",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://www.esorics2027.org",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "acns-2027",
+  "cycle": "Cycle 2",
+  "date": "2027-03-25",
+  "ref": "https://acns2027.isg.rhul.ac.uk/",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "colt-2027",
+  "cycle": "Main",
+  "date": "2027-05-03",
+  "ref": "https://learningtheory.org/colt2027/",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "uai-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://www.auai.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "colm-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://colm.cc/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ndss-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://www.ndss-symposium.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ndss-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://www.ndss-symposium.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "acsac-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://www.acsac.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "neurips-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "pods-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://databasetheory.org/node/155",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "pods-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://databasetheory.org/node/155",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "aaai-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://aaai.org/conference/aaai/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "wsdm-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://www.wsdm-conference.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icra-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://2027.ieee-icra.org/announcements/call-for-technical-papers/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "aistats-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://aistats.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ecmlpkdd-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://ecmlpkdd.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "stoc-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://acm-stoc.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ccs-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://www.sigsac.org/ccs.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "issta-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://conf.researchr.org/series/issta",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "pkc-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://pkc.iacr.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ares-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://www.ares-conference.eu/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ecir-2028",
+  "cycle": "Full paper",
+  "state": "unpub",
+  "ref": "https://ecir2027.co.uk/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "fg-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://fg2027.ieee-biometrics.org/dates",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "vldb-2027",
+  "cycle": "PVLDB monthly",
+  "text": "리뷰 공개는 보통 마감 다음 달 15일",
+  "ref": "https://www.vldb.org/pvldb/volumes/20/submission",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icme-2027",
+  "cycle": "Main",
+  "date": "2027-03-24",
+  "ref": "https://2027.ieeeicme.org/about/important-dates",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icdcs-2027",
+  "cycle": "Main",
+  "date": "2027-04-18",
+  "ref": "https://icdcs2027.icdcs.org/calls/call-for-research-papers/",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "sigir-2027",
+  "cycle": "Full Papers",
+  "date": "2027-04-05",
+  "ref": "https://sigir2027.org/pages/submit-tracks.html",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "crypto-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://crypto.iacr.org/2027/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icfp-2027",
+  "cycle": "Main",
+  "date": "2027-05-07",
+  "ref": "https://icfp27.sigplan.org/track/icfp-2027-icfp-papers",
+  "checked": "2026-11-26",
+  "tz": "AoE",
+  "note": "조건부 합격 통보"
+ },
+ {
+  "eid": "oopsla-2027",
+  "cycle": "Round 2",
+  "date": "2027-07-02",
+  "ref": "https://2027.splashcon.org/track/splashoopsla2027",
+  "checked": "2026-11-26",
+  "tz": "AoE",
+  "note": "첫 통보. 수정 후 최종 통보는 2027-08-13"
+ },
+ {
+  "eid": "nsdi-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://www.usenix.org/conferences/upcoming",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "nsdi-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://www.usenix.org/conferences/upcoming",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ase-2027",
+  "cycle": "Main",
+  "date": "2027-06-10",
+  "ref": "https://conf.researchr.org/dates/ase-2027",
+  "checked": "2026-11-26",
+  "note": "초기 통보. 수정 논문 최종 통보는 2027-07-27"
+ },
+ {
+  "eid": "pets-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://petsymposium.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "pets-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://petsymposium.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "pets-2028",
+  "cycle": "Cycle 3",
+  "state": "unpub",
+  "ref": "https://petsymposium.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "csf-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://www.ieee-security.org/TC/CSF2027/cfp.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "csf-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://www.ieee-security.org/TC/CSF2027/cfp.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "csf-2028",
+  "cycle": "Cycle 3",
+  "state": "unpub",
+  "ref": "https://www.ieee-security.org/TC/CSF2027/cfp.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "asiaccs-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://asiaccs2027.cityu.edu.mo/call-for-papers/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "asiaccs-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://asiaccs2027.cityu.edu.mo/call-for-papers/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "acns-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://acns2027.isg.rhul.ac.uk/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "acns-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://acns2027.isg.rhul.ac.uk/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "mmsys-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://acmmmsys.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "mmsys-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://acmmmsys.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "eacl-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://2027.eacl.org/calls/papers/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "eacl-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://2027.eacl.org/calls/papers/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "eurosp-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://www.ieee-security.org/Calendar/cfps/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "wisec-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://wisec26.events.cispa.de/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "cav-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://conferences.i-cav.org/2027/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "lics-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://lics.siglog.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "tosc-2027",
+  "cycle": "ToSC 2027/1",
+  "date": "2027-02-01",
+  "ref": "https://fse.iacr.org/2027/callforpapers.php",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "cans-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://uow-ic2.github.io/cans2026/cfp.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icwsm-2027",
+  "cycle": "Round 3",
+  "state": "unread"
+ },
+ {
+  "eid": "icip-2027",
+  "cycle": "Main",
+  "date": "2027-08-06",
+  "ref": "https://2027.ieeeicip.org/important-dates/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "dsn-2027",
+  "cycle": "Main",
+  "date": "2027-03-18",
+  "ref": "https://dsn2027-berlin.github.io/call-for-contributions/",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "mobisys-2027",
+  "cycle": "Main",
+  "date": "2027-03-06",
+  "ref": "https://www.sigmobile.org/mobisys/2027/call_for_papers/",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "icml-2027",
+  "cycle": "Main",
+  "date": "2027-05-03",
+  "ref": "https://icml.cc/Conferences/2027/Dates",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "usenixsec-2027",
+  "cycle": "Cycle 2",
+  "date": "2027-05-06",
+  "ref": "https://www.usenix.org/conference/usenixsecurity27/call-for-papers",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "hpdc-2027",
+  "cycle": "Main",
+  "date": "2027-03-30",
+  "ref": "https://hpdc.sci.utah.edu/2027/",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "iros-2027",
+  "cycle": "Paper Submission",
+  "state": "unpub",
+  "ref": "https://www.ieee-ras.org/events/category/important-dates/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ecai-2027",
+  "cycle": "Main",
+  "date": "2027-07-15",
+  "ref": "https://ecai2027.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "pact-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://pact2026.github.io/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "asiacrypt-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://iacr.org/events/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "rtss-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://2026.rtss.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "infocom-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://www.comsoc.org/conferences-events/ieee-international-conference-computer-communications-2027",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "hpca-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://www.hpca-conf.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "chi-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://chi2027.acm.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "mobicom-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://www.sigmobile.org/mobicom/2027",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "eurocrypt-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://eurocrypt.iacr.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "facct-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://facctconference.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "codaspy-2028",
+  "cycle": "Main",
+  "state": "unread"
+ },
+ {
+  "eid": "esorics-2028",
+  "cycle": "Cycle 1",
+  "state": "unread"
+ },
+ {
+  "eid": "rss-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://roboticsconference.org/information/cfp/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "tosc-2028",
+  "cycle": "ToSC 2027/2",
+  "state": "unpub",
+  "ref": "https://fse.iacr.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "tosc-2028",
+  "cycle": "ToSC 2027/3",
+  "state": "unpub",
+  "ref": "https://fse.iacr.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "tosc-2028",
+  "cycle": "ToSC 2027/4",
+  "state": "unpub",
+  "ref": "https://fse.iacr.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "dbsec-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://dbsec2026.gmu.edu/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icwsm-2028",
+  "cycle": "Round 1",
+  "state": "unpub",
+  "ref": "https://www.icwsm.org/2027/submit",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icwsm-2028",
+  "cycle": "Round 2",
+  "state": "unpub",
+  "ref": "https://www.icwsm.org/2027/submit",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icwsm-2028",
+  "cycle": "Round 3",
+  "state": "unpub",
+  "ref": "https://www.icwsm.org/2027/submit",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "globecom-2027",
+  "cycle": "Symposium",
+  "state": "unpub",
+  "ref": "https://globecom2027.ieee-globecom.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "eurosp-2027",
+  "cycle": "Main",
+  "date": "2027-03-18",
+  "ref": "https://eurosp2027.ieee-security.org/cfp.html",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "acl-2027",
+  "cycle": "ARR Jan 2027",
+  "state": "unpub",
+  "ref": "https://2027.aclweb.org/calls/main/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "ifipsec-2027",
+  "cycle": "Main",
+  "date": "2027-02-18",
+  "ref": "https://ifipsec.org/dates.html",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "csf-2027",
+  "cycle": "Winter",
+  "date": "2027-04-05",
+  "ref": "https://www.ieee-security.org/TC/CSF2027/cfp.html",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "kdd-2027",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://kdd2027.kdd.org/research-track-call-for-papers/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "asplos-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://www.asplos-conference.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "asplos-2028",
+  "cycle": "Cycle 2",
+  "state": "unpub",
+  "ref": "https://www.asplos-conference.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "asplos-2028",
+  "cycle": "Cycle 3",
+  "state": "unpub",
+  "ref": "https://www.asplos-conference.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "mm-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://2027.acmmm.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "raid-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://raid2026.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "bmvc-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://www.bmva.org/bmvc",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "siggraphasia-2027",
+  "cycle": "Technical Papers",
+  "state": "unpub",
+  "ref": "https://asia.siggraph.org/2027/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "popl-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://sigplan.org/Conferences/POPL/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icse-2028",
+  "cycle": "Single cycle",
+  "date": "2027-10-21",
+  "ref": "https://conf.researchr.org/track/icse-2028/icse-2028-papers",
+  "checked": "2026-11-26",
+  "tz": "AoE"
+ },
+ {
+  "eid": "fc-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://fc27.ifca.ai/cfp.html",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "satml-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://satml.org",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "mlsys-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://mlsys.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "imc-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://conferences.sigcomm.org/imc/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "conext-2028",
+  "cycle": "Cycle 1",
+  "state": "unpub",
+  "ref": "https://conferences.sigcomm.org/co-next/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "icdcs-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://icdcs2027.icdcs.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "siggraph-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://blog.siggraph.org/?p=20203",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sacrypt-2027",
+  "cycle": "Cycle 1",
+  "date": "2027-03-24",
+  "ref": "https://sacworkshop.org/SAC27/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sacrypt-2027",
+  "cycle": "Cycle 2",
+  "date": "2027-06-30",
+  "ref": "https://sacworkshop.org/SAC27/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "nss-2027",
+  "cycle": "Main",
+  "state": "unpub",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "sigspatial-2027",
+  "cycle": "Research",
+  "state": "unpub",
+  "ref": "https://sigspatial.org/",
+  "checked": "2026-11-26"
+ },
+ {
+  "eid": "percom-2028",
+  "cycle": "Main",
+  "state": "unpub",
+  "ref": "https://percom.org/dates",
+  "checked": "2026-11-26"
+ }
+]
