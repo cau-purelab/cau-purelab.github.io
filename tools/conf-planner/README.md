@@ -8,6 +8,9 @@
 3. 시간대가 페이지에 없으면 `tz`를 비운다. 날짜표가 아니라 규칙으로 계산한 값은 edition 메모에 "규칙에서 계산"을 적는다(변경 감지에서 제외됨).
 4. `node build.cjs` 로 `index.html`을 다시 만든다.
 
+## 결과 발표일
+`data/notifications.json`에 회차별로 `date`(ISO) 또는 `text`와 `ref`(근거 URL), `checked`를 적는다. 아직 공고되지 않았으면 `state:"unpub"`, 페이지를 읽지 못했으면 `state:"unread"`. 날짜가 라벨 앞에 오는 표는 텍스트만 보지 말고 원본 HTML 구조로 짝을 확인한다.
+
 ## 주간 변경 감지 (자동, 월요일 09:41 KST)
 `.github/workflows/conf-planner-check.yml`이 `check-changes.cjs`를 돌려 ①기록한 마감 날짜가 사라졌는지 ②공식 페이지에 새 날짜가 나타났는지(`data/page-baseline.json` 대비)를 찾고, 있으면 `conf-planner` 라벨 이슈로 알린다.
 - 자동 반영·배포는 없다. 알림을 받으면 공식 페이지를 직접 읽고 `overrides.json`을 고친 뒤 `node build.cjs` 결과와 함께 커밋한다.
